@@ -42,8 +42,8 @@ export const App = (): any => {
             fetch(`https://api.pexels.com/v1/search?query=${word}&per_page=1`, {
                 "headers": {
                     "Authorization": "563492ad6f91700001000001173c2e1310614e4c9a6b3f0fe56afc68",
-                    // "Host": "https://andreypost.github.io/google-search/"
-                    "Host": "http://127.0.0.1:5500/index.html"
+                    "Host": "https://andreypost.github.io/35-fit/"
+                    // "Host": "http://127.0.0.1:5500/index.html"
                 }
             })
                 .then(response => response.json())
