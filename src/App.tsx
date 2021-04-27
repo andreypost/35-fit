@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import png from './img/header_main.png'
 // import svg from './img/inlineSvg/main_header_back.svg'
 // import { Buttom } from './components/Button'
@@ -19,72 +19,67 @@ export const App = (): any => {
     // function sum(a: number, b: number, c: number) {
     //     return a + b + c
     // }
-    const [title, setTitle] = useState(''),
-        [srcImage, setSrcImage] = useState(''),
+    const [title, setTitle] = useState({ src: '', word: '', lang: '' }),
         [initialValue, setInitialValue] = useState(''),
         [pointerEvents, setPointerEvents] = useState(''),
-        lung = [{ 'code': 'fr', 'lung': 'French' },
-        { 'code': 'it', 'lung': 'Italian' },
-        { 'code': 'de', 'lung': 'Dutch' },
-        { 'code': 'ja', 'lung': 'Japanese' },
-        { 'code': 'ru', 'lung': 'Russian' },
-        { 'code': 'uk', 'lung': 'Ukrainian' },
-        { 'code': 'ar', 'lung': 'Arabic' },
-        { 'code': 'zh', 'lung': 'Chinese' }],
-        codeSet = new Set(),
-        wordSet = new Set()
+        languages = [{ 'code': 'fr', 'lang': 'French' },
+        { 'code': 'it', 'lang': 'Italian' },
+        { 'code': 'de', 'lang': 'Dutch' },
+        { 'code': 'ja', 'lang': 'Japanese' },
+        { 'code': 'ru', 'lang': 'Russian' },
+        { 'code': 'uk', 'lang': 'Ukrainian' },
+        { 'code': 'ar', 'lang': 'Arabic' },
+        { 'code': 'zh', 'lang': 'Chinese' }],
+        languageSet: Set<{ code: string; lang: string; }> = new Set(),
+        translationSet: Set<{ word: any; lang: string; }> = new Set([{ word: initialValue, lang: 'English' }])
 
     let initialCode = 'en'
 
-    const getImages = async (wordResults) => {
-        for await (const word of wordResults) {
-            await new Promise(resolve => setTimeout(resolve, 2000))
-            fetch(`https://api.pexels.com/v1/search?query=${word}&per_page=1`, {
+    const getImages = async (wordResults: Set<{ word: any; lang: string; }>) => {
+        for await (const item of wordResults) {
+            fetch(`https://api.pexels.com/v1/search?query=${item.word}&per_page=1`, {
                 "headers": {
                     "Authorization": "563492ad6f91700001000001173c2e1310614e4c9a6b3f0fe56afc68",
-                    "Host": "https://andreypost.github.io/35-fit/"
-                    // "Host": "http://127.0.0.1:5500/index.html"
+                    // "Host": "https://andreypost.github.io/35-fit/"
+                    "Host": "http://localhost:8080/"
                 }
             })
                 .then(response => response.json())
                 .then(items => {
-                    setSrcImage(items.photos[0].src.medium)
-                    setTitle(word)
+                    setTitle({ src: items.photos[0].src.medium, word: item.word, lang: item.lang })
                 })
                 .catch(err => console.log(err))
+            await new Promise(resolve => setTimeout(resolve, 2000))
         }
         setPointerEvents('')
-        console.log(wordResults)
     }
 
     const getTranslation = async () => {
-        // const getTranslation = async (set: Set<{ code: string; lung: string; }>) => {
-        wordSet.add(initialValue)
-        for await (const item of codeSet) {
-            const job = fetch(`https://api.mymemory.translated.net/get?q=${initialValue}&langpair=${initialCode}|${item.code}`)
+        for await (const item of languageSet) {
+            await fetch(`https://api.mymemory.translated.net/get?q=${initialValue}&langpair=${initialCode}|${item.code}`)
                 .then(response => response.json())
                 .then(result => {
-                    const translatedWord = result.responseData.translatedText
-                    setInitialValue(translatedWord)
+                    setInitialValue(result.responseData.translatedText)
+                    translationSet.add({ word: result.responseData.translatedText, lang: item.lang })
                     initialCode = item.code
-                    return translatedWord
                 })
                 .catch(() => getTranslation())
-            wordSet.add(job)
         }
-        const results = await Promise.all(wordSet)
-        console.log(results)
-        await getImages(results)
+        // const results = await Promise.all(wordSet)
+        console.log(translationSet)
+        getImages(translationSet)
+        setInitialValue('')
     }
 
     const haldleSubmit = (e: { preventDefault: () => void; }) => {
         e.preventDefault()
         setPointerEvents('active')
-        while (codeSet.size < lung.length) {
-            codeSet.add(lung[Math.floor(Math.random() * lung.length)])
+        while (languageSet.size < languages.length - 1) {
+            languageSet.add(languages[Math.floor(Math.random() * languages.length)])
         }
         getTranslation()
     }
+
 
     return (
         <>
@@ -93,8 +88,8 @@ export const App = (): any => {
                 <button type="submit" className={pointerEvents}>submit</button>
             </form>
             <div>
-                <h2 className="title">Title: {title}</h2>
-                Image: <img src={srcImage} alt="" className="image" />
+                <h2 className="title">{title.lang + '  ' + title.word}</h2>
+                Image: <img src={title.src} alt="" className="image" />
             </div>
         </>
     )
