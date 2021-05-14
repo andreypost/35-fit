@@ -1,0 +1,21 @@
+{
+    "nav": {
+        "Training": "Training",
+        "Personal_training": "Personal training",
+        "Pricing": "Pricing",
+        "Schedule": "Schedule",
+        "Team": "The Team",
+        "Club": "Club",
+        "Faq": "FAQ",
+        "Login": "Login",
+        "Buy": "Buy a class"
+    },
+    "header_banner": {
+        "text_main": "New standard"
+    },
+    "footer": {
+        "Careers": "Careers",
+        "Privacy": "Privacy policy",
+        "Terms": "Terms and conditions"
+    }
+}

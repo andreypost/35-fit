@@ -1,0 +1,31 @@
+// $blue_color       : #000044;
+$dark_color: #000044;
+$grey_color: #737373;
+$green_color: #59b894;
+$border_color: #e8e8e8;
+
+@mixin header_h1_size {
+  font-weight: 900;
+
+  @media (max-width: 991px) {
+    font-size: 30px;
+    line-height: 54px;
+  }
+
+  @media (min-width: 992px) {
+    font-size: 64px;
+    line-height: 72px;
+  }
+}
+
+@mixin logo {
+  @media (max-width: 991px) {
+    width: 70px;
+    height: 20px;
+  }
+
+  @media (min-width: 992px) {
+    width: 130px;
+    height: 37px;
+  }
+}

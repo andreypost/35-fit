@@ -72,7 +72,7 @@ module.exports = {
 }
 
 /*
-recommented
+recommended
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {

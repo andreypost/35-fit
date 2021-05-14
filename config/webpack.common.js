@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 // const SpriteLoaderPlugin = require('svg-sprite-loader/plugin')
 
 module.exports = {
-  entry: path.resolve(__dirname, '..', './src/index.tsx'),
+  entry: path.resolve(__dirname, '../src/index.tsx'),
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
@@ -27,12 +25,12 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        include: [path.resolve(__dirname, '..', './src/img/inlineSvg')],
+        include: [path.resolve(__dirname, '../src/img/inlineSvg')],
         type: 'asset/inline',
       },
       {
         test: /\.svg$/,
-        include: [path.resolve(__dirname, '..', './src/img/spriteSvg')],
+        include: [path.resolve(__dirname, '../src/img/spriteSvg')],
         loader: 'svg-sprite-loader',
         // options: {
         //   extract: true,
@@ -44,15 +42,17 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'webpack-react-template',
-      template: path.resolve(__dirname, '..', './src/index.html'),
-      //   filename: "index.html",
+      template: path.resolve(__dirname, '../public/template.html'),
+      favicon: path.resolve(__dirname, '../public/favicon.ico'),
+      // filename: 'template.html',
+      // cache: false,
     }),
-    new CleanWebpackPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
   ],
   output: {
-    path: path.resolve(__dirname, '..', './build'),
-    filename: 'bundle.js',
+    clean: true,
+    path: path.resolve(__dirname, '../build'),
+    filename: '[name].bundle.js',
+    // publicPath: '/',  // makes it impossible to load index.html directly from build folder
   },
   stats: 'errors-only',
 }

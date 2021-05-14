@@ -12,6 +12,7 @@ module.exports = {
         test: /\.(scss|css)$/,
         use: [
           MiniCssExtractPlugin.loader,
+          // 'style-loader', // style-loader is for development, MiniCssExtractPlugin is for production
           'css-loader',
           'postcss-loader',
           'sass-loader',
@@ -23,8 +24,10 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.name': JSON.stringify('production_mode'),
     }),
-    //  style-loader is for development, MiniCssExtractPlugin is for production
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
   ],
   optimization: {
     splitChunks: {

@@ -1,0 +1,18 @@
+{
+    "nav": {
+        "Training": "Übung",
+        "Personal_training": "Persönlich ausbildung",
+        "Pricing": "Preisbildung",
+        "Schedule": "Zeitplan",
+        "The Team": "Die Mannschaft",
+        "Club": "Verein",
+        "Faq": "FAQ",
+        "Login": "Anmeldung",
+        "Buy": "Kaufen Sie eine Klasse"
+    },
+    "footer": {
+        "Careers": "Karriere",
+        "Privacy": "Datenschutz-Bestimmungen",
+        "Terms": "Geschäftsbedingungen"
+    }
+}
