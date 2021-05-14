@@ -101,8 +101,6 @@ const Flower = (): any => {
 
   /* useEffect(() => {
     // first variant with generators, native js;
-     <!-- AIzaSyBK9greYLr9S6vxVCocdhrMLGJ1SO66HN8 google keys -->
-    <!-- 563492ad6f91700001000001173c2e1310614e4c9a6b3f0fe56afc68 pexels keys -->
     let form = document.getElementById('wordForm'),
     title = document.querySelector('.title'),
     image = document.querySelector('.image'),
