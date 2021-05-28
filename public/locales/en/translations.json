@@ -1,13 +1,14 @@
 {
     "nav": {
         "Training": "Training",
-        "Personal_training": "Personal training",
+        "Personal training": "Personal training",
         "Pricing": "Pricing",
         "Schedule": "Schedule",
         "Team": "The Team",
         "Club": "Club",
         "Faq": "FAQ",
         "Login": "Login",
+        "Sign out": "Sign out",
         "Buy": "Buy a class"
     },
     "header_banner": {

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import './pricing.scss'
 // import { Link } from "react-router-dom";
 // import i18n from "../i18n";
 import Header from '../components/Header'
@@ -16,7 +17,7 @@ const Pricing = (): any => {
         </>
       </Header>
       <main className="section">
-        <h1>Pricing</h1>
+        <h1>price</h1>
       </main>
     </>
   )

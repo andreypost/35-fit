@@ -1,13 +1,14 @@
 {
     "nav": {
         "Training": "Koolitus",
-        "Personal_training": "Personali koolitus",
+        "Personal training": "Personali koolitus",
         "Pricing": "Hinnakujundus",
         "Schedule": "Ajakava",
         "The Team": "Meeskond",
         "Club": "Klubi",
         "Faq": "FAQ",
         "Login": "Logi sisse",
+        "Sign out": "Logi välja",
         "Buy": "Osta klass"
     },
     "footer": {

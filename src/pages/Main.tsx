@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import './main.scss'
 // import redux from 'redux'
 // import { createStore, combineReducers } from 'redux'
 import Header from '../components/Header'
@@ -9,14 +10,17 @@ import { useTranslation } from 'react-i18next'
 
 const Main = (): any => {
   const { t } = useTranslation()
+
   // useEffect(() => {
+
+
 
   // }, [])
   return (
     <>
       <Header>
         <>
-          <h1>{t('nav.Personal_training')}</h1>
+          <h1>{t('nav.Personal training')}</h1>
           <div>
             <svg className="tie">
               <use xlinkHref="#tie_fit"></use>
@@ -24,8 +28,8 @@ const Main = (): any => {
           </div>
         </>
       </Header>
+      <h1>main</h1>
 
-      <h1>Main</h1>
     </>
   )
 }

@@ -9,11 +9,13 @@ const Training = (): any => {
     <>
       <Header>
         <>
-          <h1>{t('nav.Personal_training')}</h1>
+          <h1>{t('nav.Personal training')}</h1>
           <h3></h3>
         </>
       </Header>
-      <main className="section"></main>
+      <main className="section">
+        <h1>training</h1>
+      </main>
     </>
   )
 }

@@ -1,8 +1,85 @@
 import React, { useEffect, useState } from 'react'
-// import redux from 'redux'
-// import { createStore, combineReducers } from 'redux'
-import Nav from '../components/Nav'
+import { createStore, applyMiddleware } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
+import thunk from 'redux-thunk'
+import axios from 'axios'
 import empty from '../img/empty_img.png'
+
+
+const initialState = {
+  loading: false,
+  users: [],
+  error: ''
+}
+
+const FETCH_USERS_REQUEST = 'FETCH_USERS_REQUEST'
+const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS'
+const FETCH_USERS_FAILURE = 'FETCH_USERS_FAILURE'
+
+const fetchUsersRequest = () => {
+  return {
+    type: FETCH_USERS_REQUEST
+  }
+}
+
+const fetchUsersSuccess = (users: any) => {
+  return {
+    type: FETCH_USERS_SUCCESS,
+    payload: users
+  }
+}
+
+const fetchUsersFailure = (error: any) => {
+  return {
+    type: FETCH_USERS_FAILURE,
+    payload: error
+  }
+}
+
+const reducer = (state = initialState, action: { type: any; payload: any }) => {
+  switch (action.type) {
+    case FETCH_USERS_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+    case FETCH_USERS_SUCCESS:
+      return {
+        loading: false,
+        users: action.payload,
+        error: ''
+      }
+    case FETCH_USERS_FAILURE:
+      return {
+        loading: false,
+        users: [],
+        error: action.payload
+      }
+  }
+}
+
+const fetchUsers = () => {
+  return function (dispatch: (arg0: { type: string; payload?: any }) => void) {
+    dispatch(fetchUsersRequest())
+    axios.get('https://jsonplaceholder.typicode.com/users')
+      .then(response => {
+        const users = response.data.map(user => user.name)
+        dispatch(fetchUsersSuccess(users))
+      })
+      .catch(error => {
+        dispatch(fetchUsersFailure(error.message))
+      })
+  }
+}
+
+// const store = configureStore({
+//   reducer: {
+//   }
+// })
+
+// const store = createStore(reducer, applyMiddleware(thunk))
+// store.subscribe(() => console.log(store.getState()))
+// store.dispatch(fetchUsers())
 
 const Flower = (): any => {
   // function curry(f: { (a: any, b: any, c: any): any; length?: any; apply?: any }) {
@@ -46,8 +123,8 @@ const Flower = (): any => {
         headers: {
           Authorization:
             '563492ad6f91700001000001173c2e1310614e4c9a6b3f0fe56afc68',
-          "Host": "https://andreypost.github.io/35-fit/"
-          // Host: 'http://localhost:8080/',
+          // "Host": "https://andreypost.github.io/35-fit/"
+          Host: 'http://localhost:8080/',
         },
       })
         .then((response) => response.json())
@@ -163,7 +240,6 @@ form.onsubmit = (e) => {
 
   return (
     <>
-      <Nav />
       <form action="get" id="wordForm" onSubmit={haldleSubmit}>
         <input
           type="text"

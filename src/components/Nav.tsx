@@ -1,28 +1,40 @@
-import React from 'react'
-import './Nav.scss'
+import React, { useContext, useState } from 'react'
+import './nav.scss'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { TRAINING_ROUTE, PRICING_ROUTE, MAIN_ROUTE, FLOWER_ROUTE, CHAT_ROUTE } from '../utils/consts'
+import { FirebaseAuthContext } from '..'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 // const Locale = localStorage['locale'] ? localStorage['locale'] : 'en';
 
-const Nav = (): any => {
+const Nav: React.FC = (): any => {
   const { t, i18n } = useTranslation()
+  const { firebase, auth } = useContext(FirebaseAuthContext)
+  const [user] = useAuthState(auth)
+
+  const login = async () => {
+    const provider = new firebase.auth.GoogleAuthProvider()
+    await auth.signInWithPopup(provider)
+  }
   return (
     <nav className="section">
       <p>{t('nav.Training')}</p>
-      <Link to="/">
+      <Link to={MAIN_ROUTE}>
         <svg className="logo">
           <use xlinkHref="#logo"></use>
         </svg>
       </Link>
       <ul>
+        {user ? <li><Link to={FLOWER_ROUTE}>flower</Link></li> : null}
+        {user ? <li><Link to={CHAT_ROUTE}>chat</Link></li> : null}
         <li>
-          <Link to="/training">{t('nav.Training')}</Link>
+          <Link to={TRAINING_ROUTE}>{t('nav.Training')}</Link>
         </li>
         <li>
-          <Link to="/pricing">{t('nav.Pricing')}</Link>
+          <Link to={PRICING_ROUTE}>{t('nav.Pricing')}</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/schedule">{t('nav.Schedule')}</Link>
         </li>
         <li>
@@ -33,11 +45,13 @@ const Nav = (): any => {
         </li>
         <li>
           <Link to="/faq">{t('nav.Faq')}</Link>
-        </li>
-        <li>{t('nav.Login')}</li>
+        </li> */}
         <li>
-          <Link to="/">{t('nav.Buy')}</Link>
+          {user ? <button onClick={() => auth.signOut()}>{t('nav.Sign out')}</button> : <button onClick={login}>{t('nav.Login')}</button>}
         </li>
+        {/* <li>
+          <Link to={MAIN_ROUTE}>{t('nav.Buy')}</Link>
+        </li> */}
       </ul>
       <ul>
         <li onClick={() => i18n.changeLanguage('en')}>EN</li>
@@ -45,13 +59,15 @@ const Nav = (): any => {
         <li onClick={() => i18n.changeLanguage('de')}>DEU</li>
       </ul>
       <div>
-        <p>{t('nav.Login')}</p>
+        {user ?
+          <img src={user.photoURL} alt="" /> :
+          <p>{t('nav.Login')}</p>
+        }
       </div>
-      <Link to="/">{t('nav.Buy')}</Link>
+      <Link to={MAIN_ROUTE}>{t('nav.Buy')}</Link>
       <button className="burger">
         <span></span>
       </button>
-      <Link to="/flower">Flower</Link>
     </nav>
   )
 }
