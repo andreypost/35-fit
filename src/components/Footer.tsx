@@ -1,9 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
+// import { Link } from 'react-router-dom'
+// import { useTranslation } from 'react-i18next'
 
-const Footer = (): any => {
-  const { t } = useTranslation()
+const Footer: React.FC = (): any => {
+  // const { t } = useTranslation()
   return (
     <footer>
       <div className="section">

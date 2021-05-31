@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react'
-import { HashRouter, BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 
 // import { ConnectedRouter } from 'connected-react-router';
 // import { Provider } from 'react-redux';
@@ -10,7 +10,7 @@ const Nav = lazy(() => import('./components/Nav'))
 const AppRouter = lazy(() => import('./AppRouter'))
 const Footer = lazy(() => import('./components/Footer'))
 
-const App = (): any => (
+const App: React.FC = (): any => (
     <HashRouter>
         {/* <BrowserRouter basename="/"> */}
         <Suspense fallback>

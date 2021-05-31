@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import './main.scss'
 // import redux from 'redux'
 // import { createStore, combineReducers } from 'redux'
@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 // import png from './img/header_main.png'
 // import svg from './img/inlineSvg/main_header_back.svg'
 
-const Main = (): any => {
+const Main: React.FC = (): any => {
   const { t } = useTranslation()
 
   // useEffect(() => {
@@ -19,14 +19,12 @@ const Main = (): any => {
   return (
     <>
       <Header>
-        <>
-          <h1>{t('nav.Personal training')}</h1>
-          <div>
-            <svg className="tie">
-              <use xlinkHref="#tie_fit"></use>
-            </svg>
-          </div>
-        </>
+        <h1>{t('nav.Personal training')}</h1>
+        <div>
+          <svg className="tie">
+            <use xlinkHref="#tie_fit"></use>
+          </svg>
+        </div>
       </Header>
       <h1>main</h1>
 

@@ -10,7 +10,7 @@ import { privatRoutes, publicRoutes } from './routes'
 import { MAIN_ROUTE } from './utils/consts'
 import Loader from './components/Loader'
 
-const AppRouter = (): any => {
+const AppRouter: React.FC = (): any => {
     const { auth } = useContext(FirebaseAuthContext)
     const [user] = useAuthState(auth)
     return (

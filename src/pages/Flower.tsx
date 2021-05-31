@@ -81,7 +81,7 @@ const fetchUsers = () => {
 // store.subscribe(() => console.log(store.getState()))
 // store.dispatch(fetchUsers())
 
-const Flower = (): any => {
+const Flower: React.FC = (): any => {
   // function curry(f: { (a: any, b: any, c: any): any; length?: any; apply?: any }) {
   //     return function curried(this: any, ...args: any[]) {
   //         if (args.length >= f.length) {
