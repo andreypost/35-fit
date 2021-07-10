@@ -1,2 +1,0 @@
-(self.webpackChunk_35fit=self.webpackChunk_35fit||[]).push([[118],{4118:(s,e,i)=>{"use strict";i.r(e),i.d(e,{default:()=>c}),i(7294);var l=i(5893);const c=function(){return(0,l.jsx)("footer",{children:(0,l.jsx)("div",{className:"section",children:(0,l.jsxs)("ul",{children:[(0,l.jsx)("li",{}),(0,l.jsx)("li",{}),(0,l.jsx)("li",{})]})})})}}}]);
-//# sourceMappingURL=118.bundle.js.map

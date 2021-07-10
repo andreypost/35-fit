@@ -1,0 +1,20 @@
+@import 'mixins';
+
+.price {
+
+
+  li {
+    color     : blue;
+    background: url(svg/main_header_back.svg) no-repeat center center;
+  }
+
+  h1 {
+    color: yellow;
+  }
+
+  #wordForm button {
+    &.active {
+      pointer-events: none;
+    }
+  }
+}

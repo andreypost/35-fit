@@ -17,6 +17,22 @@
     "noFallthroughCasesInSwitch": true,
     "module": "esnext" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */,
     "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */ /* Type declaration files to be included in compilation. */,
+    "baseUrl": "src",
+      "paths": {
+        "components": ["components"],
+        "modals": ["modals"],
+        "Spiner": ["components/Spiner"],
+        "Header": ["components/Header"],
+        "Footer": ["components/Footer"],
+        "Nav": ["components/Nav"],
+        "img": ["img"],
+        "svg": ["svg"],
+        "utils": ["utils"],
+        "views": ["views"],
+        // "store": ["store/root.store"],
+        // "reducer": ["store/root.reducer"],
+        //   "@/*": ["*"]
+    },
     "resolveJsonModule": true,
     "isolatedModules": true /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */,
     "noEmit": true /* Do not emit outputs. */,
@@ -24,5 +40,5 @@
     "noImplicitAny": false,
     "strictNullChecks": true,
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "src/utils"]
 }

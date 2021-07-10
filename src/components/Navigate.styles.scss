@@ -1,0 +1,179 @@
+@import 'mixins';
+
+.navigate {
+  @include flex_center_bet;
+
+  a {
+    white-space: nowrap;
+  }
+
+  &_logo svg {
+    display: block;
+    fill   : $blue_color;
+  }
+
+  &_lang {
+    margin-left: auto;
+  }
+
+  &_login {
+    @include flex_center_center;
+    @include grey_button;
+    padding: 12px;
+  }
+
+  @media (max-width: 991px) {
+    // mobile styles
+
+    &_logo svg {
+      width : 104px;
+      height: 44px;
+    }
+
+    &_desk_menu,
+    &_buy {
+      display: none;
+    }
+
+    &_burger {
+      @include flex_center_center;
+      background-color: transparent;
+
+      span,
+      span::before,
+      span::after {
+        content         : '';
+        width           : 40px;
+        height          : 4px;
+        position        : absolute;
+        top             : 0;
+        left            : 0;
+        border-radius   : 2px;
+        transform-origin: 50% 50%;
+        transition      : all .45s cubic-bezier(.45, .45, .37, 1.36);
+        background      : #7FCBAE;
+      }
+
+      span {
+        display : inline-block;
+        position: relative;
+
+        &::before {
+          transform: translateY(-.75rem);
+        }
+
+        &::after {
+          transform: translateY(.75rem);
+        }
+      }
+
+      &.active {
+        span {
+          transform       : translate(1rem);
+          background-color: transparent;
+
+          &::before {
+            transform   : translate(-1rem) rotate(135deg);
+            // height   : 5px;
+          }
+
+          &::after {
+            transform   : translate(-1rem) rotate(-135deg);
+            // height   : 5px;
+          }
+        }
+      }
+
+
+    }
+  }
+
+  @media (min-width: 992px) {
+    // monitor styles
+
+    &_burger {
+      display: none;
+    }
+
+    &_logo svg {
+      width     : 118px;
+      height    : 50px;
+      transition: fill .2s;
+
+      &:hover {
+        fill: $green_color;
+      }
+    }
+
+    &_desk_menu {
+      display       : grid;
+      grid-auto-flow: column;
+      gap           : 10px;
+      align-items   : center;
+      margin-right  : 10px;
+      margin-left   : 10px;
+
+      a {
+        font-size  : 14px;
+        font-weight: 600;
+        padding    : 0 10px;
+        color      : $grey_color;
+        transition : color .2s;
+
+        &:hover {
+          color: $red_color;
+        }
+      }
+    }
+
+    &_buy {
+      @include flex_center_center;
+      @include green_button;
+      padding   : 20px;
+      color     : white;
+      transition: background-color .2s;
+
+      &:hover {
+        background-color: $blue_color;
+      }
+
+      &:active {
+        color: $red_color;
+      }
+    }
+
+  }
+
+  @media (max-width: 1359px) {
+
+    &_lang,
+    &_login {
+      margin-right: 20px;
+    }
+  }
+
+  @media (min-width: 1360px) {
+    &_desk_menu {
+      gap        : 40px;
+      margin-left: 40px;
+    }
+
+    &_desk_menu,
+    &_lang,
+    &_login {
+      margin-right: 40px;
+    }
+  }
+
+  // @media (orientation: landscape) {
+  //   &_desk {
+  //     display: flex;
+  //   }
+  // }
+
+  // @media (orientation: portrait) {
+  //   &_desk {
+  //     display: block;
+  //   }
+  // }
+}

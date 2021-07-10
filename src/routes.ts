@@ -1,10 +1,16 @@
 import { lazy } from 'react'
-const Main = lazy(() => import('./pages/Main'))
-const Training = lazy(() => import('./pages/Training'))
-const Pricing = lazy(() => import('./pages/Pricing'))
-const Flower = lazy(() => import('./pages/Flower'))
-const Chat = lazy(() => import('./pages/Chat'))
-import { MAIN_ROUTE, TRAINING_ROUTE, PRICING_ROUTE, FLOWER_ROUTE, CHAT_ROUTE } from './utils/consts';
+const Main = lazy(() => import('views/Main'))
+const Training = lazy(() => import('views/Train'))
+const Pricing = lazy(() => import('views/Price'))
+const Schedule =  lazy(() =>  import('views/Schedule'))
+const Team =  lazy(() =>  import('views/Team'))
+const Club =  lazy(() =>  import('views/Club'))
+const Faq =  lazy(() =>  import('views/Faq'))
+const Reserve = lazy(() => import('views/Reserve'))
+const Flower = lazy(() => import('views/Flower'))
+const Chat = lazy(() => import('views/Chat'))
+
+import { MAIN_ROUTE, TRAIN_ROUTE, PRICE_ROUTE, SCHEDULE_ROUTE, TEAM_ROUTE, CLUB_ROUTE, FAQ_ROUTE, RESERVE_ROUTE, FLOWER_ROUTE, CHAT_ROUTE } from 'utils/routes.constants';
 
 export const publicRoutes = [
     {
@@ -12,12 +18,32 @@ export const publicRoutes = [
         Component: Main
     },
     {
-        path: TRAINING_ROUTE,
+        path: TRAIN_ROUTE,
         Component: Training
     },
     {
-        path: PRICING_ROUTE,
+        path: PRICE_ROUTE,
         Component: Pricing
+    },
+    {
+        path: SCHEDULE_ROUTE,
+        Component: Schedule
+    },
+    {
+        path: TEAM_ROUTE,
+        Component: Team
+    },
+    {
+        path: CLUB_ROUTE,
+        Component: Club
+    },
+    {
+        path: FAQ_ROUTE,
+        Component: Faq
+    },
+    {
+        path: RESERVE_ROUTE,
+        Component: Reserve
     },
 ]
 

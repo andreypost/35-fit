@@ -1,31 +1,131 @@
-// $blue_color       : #000044;
-$dark_color: #000044;
-$grey_color: #737373;
-$green_color: #59b894;
-$border_color: #e8e8e8;
+// @font-face {
+//     font-family: 'Merriweather';
+//     src        : url(../fonts/Merriweather-Regular.ttf);
+// } 
+// @font-face type of connetion fonts is much more slower.
 
-@mixin header_h1_size {
-  font-weight: 900;
+$montserrat-font-family: 'Montserrat',
+sans-serif;
 
-  @media (max-width: 991px) {
-    font-size: 30px;
-    line-height: 54px;
-  }
+$blue_color       : #000044;
+$green_color      : #59B894;
+$grey_color       : #737373;
+$light_grey_color : #E8E8E8;
+$red_color        : #FF6376;
+
+@mixin flex {
+  display: flex;
+}
+
+@mixin flex_center {
+  @include flex;
+  align-items: center;
+}
+
+@mixin flex_start {
+  @include flex;
+  align-items: flex-start;
+}
+
+@mixin flex_start_bet {
+  @include flex_start;
+  justify-content: space-between;
+}
+
+@mixin flex_start_end_col {
+  @include flex_start;
+  justify-content: flex-end;
+  flex-flow      : column;
+}
+
+@mixin flex_center_bet {
+  @include flex_center;
+  justify-content: space-between;
+}
+
+@mixin flex_center_center {
+  @include flex_center;
+  justify-content: center;
+}
+
+@mixin flex_center_bet_col {
+  @include flex_center_bet;
+  flex-flow: column;
+}
+
+
+@mixin border_radius {
+  box-sizing   : border-box;
+  border       : none;
+  height       : 42px;
+  border-radius: 32px;
+}
+
+@mixin grey_button {
+  @include border_radius;
+  border          : 2px solid #E8E8E8;
+  background-color: white;
+}
+
+@mixin green_button {
+  @include border_radius;
+  background-color: $green_color;
+}
+
+
+
+
+
+
+
+
+
+
+@mixin hover_active {
+  transition: transform .4s;
 
   @media (min-width: 992px) {
-    font-size: 64px;
-    line-height: 72px;
+    &:hover {
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5), inset 0px -4px 0px rgba(0, 0, 0, 0.25);
+      transform : translateY(-5px);
+    }
+  }
+
+  &:active {
+    box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.25%);
   }
 }
 
-@mixin logo {
+
+
+@mixin input_inset {
+  @include button;
+  box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.25);
+  background: #FFFFFF;
+}
+
+@mixin input_outset {
+  @include input_inset;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@mixin grid_state {
+  display        : grid;
+  grid-gap       : 30px;
+  justify-content: space-between;
+}
+
+
+
+
+@mixin h5_styles {
   @media (max-width: 991px) {
-    width: 70px;
-    height: 20px;
+    font-size    : 14px;
+    margin-bottom: 24px;
   }
 
   @media (min-width: 992px) {
-    width: 130px;
-    height: 37px;
+    font-size    : 14px;
+    margin-bottom: 24px;
   }
 }

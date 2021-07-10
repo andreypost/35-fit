@@ -1,17 +1,180 @@
-@import 'variables-mixins';
+@import 'mixins';
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: $montserrat-font-family;
   user-select: none;
+  color      : #000000;
 }
 
-h1 {
-  color: blue;
-  background: url(../img/inlineSvg/main_header_back.svg) no-repeat center center;
-}
+.fallback {
+  opacity: 0;
 
-#wordForm button {
   &.active {
-    pointer-events: none;
+    opacity   : 1;
+    transition: opacity .5s;
   }
 }
+
+* {
+  scrollbar-width: thin;
+}
+
+.section {
+  max-width       : 1440px;
+  padding-left    : 20px;
+  padding-right   : 20px;
+  margin-left     : auto;
+  margin-right    : auto;
+  // box-sizing   : border-box;
+}
+
+ul,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+ul {
+  list-style-type     : none;
+  padding-inline-start: none;
+  padding             : 0;
+}
+
+img {
+  // width : 100%;
+  // height: auto;
+}
+
+a,
+a:hover {
+  text-decoration: none;
+}
+
+a,
+button {
+  cursor: none;
+}
+
+textarea {
+  resize: none;
+}
+
+a:focus,
+button:focus,
+label:focus,
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width : 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background   : #F1F1F1;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background   : #C1C1C1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+
+.trainpage .train>a,
+.pricepage .price>a,
+.schedulepage .schedule>a,
+.teampage .team>a,
+.clubpage .club>a,
+.faqpage .faq>a {
+  color: $blue_color;
+}
+
+
+
+
+.footer {}
+
+// .modal {
+//   opacity         : 0;
+//   position        : fixed;
+//   z-index         : -99;
+//   left            : 0;
+//   top             : 0;
+//   width           : 100%;
+//   height          : 200%;
+//   overflow        : auto;
+//   background-color: rgba(0, 0, 0, 0.2);
+//   transition      : opacity .4s, z-index .1s .4s;
+
+//   &.active {
+//     z-index   : 99;
+//     opacity   : 1;
+//     transition: z-index .1s, opacity .4s .1s;
+
+//     &.info {
+//       z-index: 999;
+//     }
+
+//     &.info>article,
+//     &.orginfo>div,
+//     #individualStartForm,
+//     #individualSubmitForm {
+//       transform: scale(1);
+
+//     }
+//   }
+
+// }
+
+// .info>article,
+// .orginfo>div,
+// #individualStartForm,
+// #individualSubmitForm {
+//   box-sizing   : border-box;
+//   width        : 90%;
+//   margin       : 15vh auto 0;
+//   padding      : 92px 48px 30px;
+//   border-radius: 30px;
+//   box-shadow   : 0px 16px 16px rgba(0, 0, 0, 0.25);
+//   background   : $light_peach_color;
+//   transform    : scale(0);
+//   transition   : transform .6s;
+// }
+
+// @media (min-width: 576px) {
+//     .section {
+//         max-width: 540px;
+//     }
+// }
+
+// @media (min-width: 768px) {
+//     .section {
+//         max-width: 720px;
+//     }
+// }
+
+
+@media (min-width: 992px) {
+
+  //     .section {
+  //         max-width: 960px;
+  //     }
+  a,
+  button {
+    cursor: pointer;
+  }
+}
+
+@media (min-width: 1200px) {}

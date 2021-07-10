@@ -7,6 +7,22 @@ module.exports = {
   entry: path.resolve(__dirname, '../src/index.tsx'),
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      components: path.resolve(__dirname, '../src/components'),
+      modals: path.resolve(__dirname, '../src/modals'),
+      Spiner$: path.resolve(__dirname, '../src/components/Spiner.tsx'), // $ - added to signify an exact match
+      Header$: path.resolve(__dirname, '../src/components/Header.tsx'),
+      Footer$: path.resolve(__dirname, '../src/components/Footer.tsx'),
+      Nav$: path.resolve(__dirname, '../src/components/Nav.tsx'),
+      img: path.resolve(__dirname, '../src/img'),
+      svg: path.resolve(__dirname, '../src/img/svg'),
+      mixins$: path.resolve(__dirname, '../src/styles/variables-mixins.scss'),
+      utils: path.resolve(__dirname, '../src/utils'),
+      views: path.resolve(__dirname, '../src/views'),
+      // store$: path.resolve(__dirname, '../src/store/root.store.ts'),
+      // reducer$: path.resolve(__dirname, '../src/store/root.reducer.ts'),
+      // '@': path.resolve(__dirname, 'src'),
+    },
   },
   module: {
     rules: [
@@ -16,32 +32,28 @@ module.exports = {
         use: [{ loader: 'babel-loader' }],
       },
       {
-        test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+        test: /\.(?:svg|ico|gif|png|jpg|jpeg)$/i,
         type: 'asset/resource',
       },
-      {
-        test: /\.(woff(2)?|eot|ttf|otf)$/,
-        type: 'asset/inline',
-      },
-      {
-        test: /\.svg$/,
-        include: [path.resolve(__dirname, '../src/img/inlineSvg')],
-        type: 'asset/inline',
-      },
-      {
-        test: /\.svg$/,
-        include: [path.resolve(__dirname, '../src/img/spriteSvg')],
-        loader: 'svg-sprite-loader',
-        // options: {
-        //   extract: true,
-        //   publicPath: "/",
-        // },
-      },
+      // { // @font-face type of connetion fonts is much more slower.
+      //   test: /\.(woff(2)?|eot|ttf|otf)$/,
+      //   type: 'asset/inline',
+      // },
+      // { // rules for svg to load as inline, and as sprites in index.html and use them in components -> <svg><use xlinkHref={arrow}></use></svg>
+      //   test: /\.svg$/,
+      //   include: [path.resolve(__dirname, '../src/img/inlineSvg')],
+      //   type: 'asset/inline',
+      // },
+      // {
+      //   test: /\.svg$/,
+      //   include: [path.resolve(__dirname, '../src/img/spriteSvg')],
+      //   loader: 'svg-sprite-loader',
+      // },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'webpack-react-template',
+      title: '35 fit',
       template: path.resolve(__dirname, '../public/template.html'),
       favicon: path.resolve(__dirname, '../public/favicon.ico'),
       // filename: 'template.html',

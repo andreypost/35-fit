@@ -1,5 +1,0 @@
-export const MAIN_ROUTE = '/main'
-export const TRAINING_ROUTE = '/training'
-export const PRICING_ROUTE = '/pricing'
-export const FLOWER_ROUTE = '/flower'
-export const CHAT_ROUTE = '/chat'

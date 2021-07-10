@@ -1,25 +1,20 @@
 import React, { Suspense, lazy } from 'react'
-import { HashRouter } from 'react-router-dom'
-
+import { Provider } from 'react-redux'
+import store from './store/root.store'
+import Spiner from 'Spiner'
 // import { ConnectedRouter } from 'connected-react-router';
 // import { Provider } from 'react-redux';
 // import { PersistGate } from 'redux-persist/integration/react';
 // import { store, persistor, history } from 'app/store';
 
-const Nav = lazy(() => import('./components/Nav'))
 const AppRouter = lazy(() => import('./AppRouter'))
-const Footer = lazy(() => import('./components/Footer'))
 
 const App: React.FC = (): any => (
-    <HashRouter>
-        {/* <BrowserRouter basename="/"> */}
-        <Suspense fallback>
-            <Nav />
+    <Provider store={store}>
+        <Suspense fallback={<Spiner />}>
             <AppRouter />
-            <Footer />
         </Suspense>
-        {/* </BrowserRouter> */}
-    </HashRouter>
+    </Provider>
 )
 
 export default App
@@ -35,6 +30,7 @@ export default App
 //                 <Route exact path="/">
 //                     <Main />
 //                     {/* <Footer /> */}
+
 //                 </Route>
 //                 <Route path="/pricing">
 //                     <Pricing />

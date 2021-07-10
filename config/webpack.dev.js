@@ -24,10 +24,10 @@ module.exports = {
     ],
   },
   plugins: [
-    new ReactRefreshWebpackPlugin(),
     new webpack.DefinePlugin({
       'process.env.name': JSON.stringify('development_mode'),
     }),
     new webpack.HotModuleReplacementPlugin(), // HMR should never be used in production
-  ],
+    new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
 }
