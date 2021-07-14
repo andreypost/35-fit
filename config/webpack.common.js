@@ -8,9 +8,9 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
+      Spinner$: path.resolve(__dirname, '../src/components/Spinner.tsx'), // $ - added to signify an exact match
       components: path.resolve(__dirname, '../src/components'),
       modals: path.resolve(__dirname, '../src/modals'),
-      Spiner$: path.resolve(__dirname, '../src/components/Spiner.tsx'), // $ - added to signify an exact match
       Header$: path.resolve(__dirname, '../src/components/Header.tsx'),
       Footer$: path.resolve(__dirname, '../src/components/Footer.tsx'),
       Nav$: path.resolve(__dirname, '../src/components/Nav.tsx'),

@@ -6,17 +6,15 @@ import {
     Switch,
     Redirect
 } from 'react-router-dom'
-// import { createBrowserHistory } from 'history'
-import { FirebaseAuthContext } from '.'
-import { useAuthState } from 'react-firebase-hooks/auth'
+import { FirebaseAuthContext } from './index'
 import { privatRoutes, publicRoutes } from './routes'
 import { MAIN_ROUTE } from 'utils/routes.constants'
+// import { createBrowserHistory } from 'history'
 // const history = createBrowserHistory()
 // console.log(history.location.pathname)
 
-const AppRouter: React.FC = (): any => {
-    const { auth } = useContext(FirebaseAuthContext)
-    const [user] = useAuthState(auth)
+const AppRouter: React.FC = () => {
+    const { user } = useContext(FirebaseAuthContext)
     return (
         <HashRouter basename='/'>
             {/* <BrowserRouter basename="/"> */}

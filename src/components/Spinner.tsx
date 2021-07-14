@@ -110,7 +110,7 @@ const Div = styled.div`
 }`
 
 
-const Spiner: React.FC = () => (
+const Spinner: React.FC = () => (
   <Div>
     <div></div>
     <div></div>
@@ -122,5 +122,5 @@ const Spiner: React.FC = () => (
     <div></div>
   </Div>
 )
-export default Spiner
+export default Spinner
 

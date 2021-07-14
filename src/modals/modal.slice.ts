@@ -2,42 +2,24 @@ import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store/root.reducer'
 
 export interface ModalState {
-  style: string
-  value: string
+  active: string
   burger: string
-}
-
-const initialState: ModalState = {
-  style: '',
-  value: '',
-  burger: ''
 }
 
 export const modalSlice = createSlice({
   name: 'modal',
-  initialState,
+  initialState:{ active: '', burger: ''},
   reducers: {
-    menuModal: (state) => {
-      state.style = 'menuActive'
+    menuModal: state => {
+      state.active = 'menuActive'
       state.burger = 'active'
     },
-    loginModal: (state) => {
-      state.style = 'loginActive'
+    loginModal: state => {
+      state.active = 'loginActive'
       state.burger = 'active'
     },
-    messageSuccessModal: (state) => {
-      state.style = 'messageActive',
-      state.value = 'You have successfully subscribed!.'
-      state.burger = 'active'
-    },
-    messageErrorModal: (state) => {
-      state.style = 'messageActive',
-      state.value = 'Sorry, but it is not possible to retrieve data at this time. Try later!'
-      state.burger = 'active'
-    },
-    unsetModal: (state) => {
-      state.style = ''
-      state.value = ''
+    unsetModal: state => {
+      state.active = ''
       state.burger = ''
     },
   },
@@ -46,14 +28,11 @@ export const modalSlice = createSlice({
 export const {
   menuModal,
   loginModal,
-  messageSuccessModal,
-  messageErrorModal,
   unsetModal,
 } = modalSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectModalActive = (state: RootState) => state.modal.style
+export const selectModalActive = (state: RootState) => state.modal.active
 export const selectBurgerValue = (state: RootState) => state.modal.burger
-export const selectModalValue = (state: RootState) => state.modal.value
 
 export default modalSlice.reducer

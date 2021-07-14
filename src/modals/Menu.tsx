@@ -5,8 +5,7 @@ import { TRAIN_ROUTE, PRICE_ROUTE, TEAM_ROUTE, SCHEDULE_ROUTE, CLUB_ROUTE, FAQ_R
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectModalActive, unsetModal, loginModal } from './modal.slice'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { FirebaseAuthContext } from '..'
+import { FirebaseAuthContext } from '../index'
 
 const Div = styled.div`
   opacity         : 0;
@@ -71,16 +70,11 @@ const Div = styled.div`
   }`
 
 const Menu = () => {
-  const { t } = useTranslation()
-  const modalState = useAppSelector(selectModalActive)
-  const dispatch = useAppDispatch()
-  const { firebase, auth } = useContext(FirebaseAuthContext)
-  const [user] = useAuthState(auth)
+  const { t } = useTranslation(),
+    modalState = useAppSelector(selectModalActive),
+    dispatch = useAppDispatch(),
+    { user, login, firebaseAuth } = useContext(FirebaseAuthContext)
 
-  const login = async () => {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    await auth.signInWithPopup(provider)
-  }
   return (
     <Div className={modalState} onClick={e => { if (e.target === e.currentTarget) dispatch(unsetModal()) }}>
       <ul>
@@ -103,7 +97,7 @@ const Menu = () => {
           <Link to={FAQ_ROUTE}>{t('nav.Faq')}</Link>
         </li>
         <li>
-          {user ? <div className="signout" onClick={() => auth.signOut()}>{t('nav.Sign out')}</div> : <div className="login" onClick={() => dispatch(loginModal())}>{t('nav.Login')}</div>}
+          {user ? <div className="signout" onClick={() => firebaseAuth.signOut()}>{t('nav.Sign out')}</div> : <div className="login" onClick={() => dispatch(loginModal())}>{t('nav.Login')}</div>}
           {/* {user ? <div className="signout" onClick={() => auth.signOut()}>{t('nav.Sign out')}</div> : <div className="login" onClick={login}>{t('nav.Login')}</div>} */}
         </li>
         <li>

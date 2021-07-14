@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useAppSelector, useAppDispatch } from 'utils/hooks'
-import { selectModalActive, unsetModal, messageSuccessModal } from './modal.slice'
+import { selectModalActive, unsetModal } from './modal.slice'
+import { messageSuccessModal, messageErrorModal } from './message.modal.slice'
 
 const Div = styled.div`
   opacity         : 0;
@@ -66,11 +67,12 @@ const Div = styled.div`
   }`
 
 const Login: React.FC = () => {
-  const dispatch = useAppDispatch()
-  const modalState = useAppSelector(selectModalActive)
+  const dispatch = useAppDispatch(),
+    modalState = useAppSelector(selectModalActive)
   return (
     <Div className={modalState} onClick={e => { if (e.target === e.currentTarget) dispatch(unsetModal()) }}>
       <p onClick={() => dispatch(messageSuccessModal())}>notificationSuccessModal</p>
+      <h1 onClick={() => dispatch(messageErrorModal())}>notificationSuccessModal</h1>
     </Div>
   )
 }

@@ -48,6 +48,11 @@ $red_color        : #FF6376;
   justify-content: center;
 }
 
+@mixin flex_center_center_col {
+  @include flex_center;
+  flex-flow: column;
+}
+
 @mixin flex_center_bet_col {
   @include flex_center_bet;
   flex-flow: column;
@@ -57,8 +62,15 @@ $red_color        : #FF6376;
 @mixin border_radius {
   box-sizing   : border-box;
   border       : none;
-  height       : 42px;
   border-radius: 32px;
+
+  @media (max-width:991px) {
+    height: 38px;
+  }
+
+  @media (min-width:992px) {
+    height: 42px;
+  }
 }
 
 @mixin grey_button {

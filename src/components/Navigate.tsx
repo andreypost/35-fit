@@ -1,33 +1,24 @@
 import React, { useContext, useState } from 'react'
 import './Navigate.styles.scss'
+import Language from './Language'
+import User from './User'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { TRAIN_ROUTE, PRICE_ROUTE, MAIN_ROUTE, TEAM_ROUTE, SCHEDULE_ROUTE, CLUB_ROUTE, FAQ_ROUTE, RESERVE_ROUTE } from 'utils/routes.constants'
-import { FirebaseAuthContext } from '..'
-import { useAuthState } from 'react-firebase-hooks/auth'
-// import logo from 'svg/logo.svg'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectBurgerValue, menuModal, loginModal } from 'modals/modal.slice'
 
 
 const Navigate: React.FC = () => {
-  const { t, i18n } = useTranslation()
-  const { firebase, auth } = useContext(FirebaseAuthContext)
-  const [user] = useAuthState(auth)
-
-  const dispatch = useAppDispatch()
-  const burgetState = useAppSelector(selectBurgerValue)
-
-  const login = async () => {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    await auth.signInWithPopup(provider)
-  }
+  const { t } = useTranslation(),
+    dispatch = useAppDispatch(),
+    burgerState = useAppSelector(selectBurgerValue)
 
   return (
     <>
       <nav className="navigate">
         <Link to={MAIN_ROUTE} className="navigate_logo">
-          <svg width="118" height="50" viewBox="0 0 118 50" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 118 50" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" clipRule="evenodd"
               d="M76.0192 50H59H41.9803H24.9612C21.5292 50 18.253 49.2971 15.2692 48.0273C12.2858 46.7575 9.59476 44.9218 7.33229 42.6564C5.07034 40.3904 3.23701 37.6952 1.96969 34.7067C0.701842 31.7183 0 28.4376 0 24.9997C0 21.5624 0.701842 18.2812 1.96969 15.2928C3.23701 12.3048 5.07034 9.60906 7.33229 7.34362C9.59476 5.07818 12.2858 3.24201 15.2692 1.97221C18.253 0.702926 21.5292 0 24.9612 0H41.9803H59H76.0192H93.0383C96.4703 0 99.747 0.702926 102.73 1.97221C105.714 3.24201 108.405 5.07818 110.668 7.34362C112.93 9.60906 114.763 12.3048 116.03 15.2928C117.298 18.2812 118 21.5624 118 24.9997C118 28.4376 117.298 31.7183 116.03 34.7067C114.763 37.6952 112.93 40.3904 110.668 42.6564C108.405 44.9218 105.714 46.7575 102.73 48.0273C99.747 49.2971 96.4703 50 93.0383 50H76.0192Z" />
             <path fillRule="evenodd" clipRule="evenodd"
@@ -35,7 +26,7 @@ const Navigate: React.FC = () => {
               fill="white" />
           </svg>
         </Link>
-        <ul className="navigate_desk_menu">
+        <ul className="navigate_routes">
           {/* {user ? <li><Link to={FLOWER_ROUTE}>flower</Link></li> : null} */}
           {/* {user ? <li><Link to={CHAT_ROUTE}>chat</Link></li> : null} */}
           <li className="train">
@@ -57,20 +48,13 @@ const Navigate: React.FC = () => {
             <Link to={FAQ_ROUTE}>{t('nav.Faq')}</Link>
           </li>
         </ul>
-        <ul className="navigate_lang">
-          <li onClick={() => i18n.changeLanguage('en')}>EN</li>
-          <li onClick={() => i18n.changeLanguage('ee')}>EST</li>
-          <li onClick={() => i18n.changeLanguage('de')}>DEU</li>
-        </ul>
-        <div className="navigate_login" onClick={() => dispatch(loginModal())}>
-          {user ?
-            <img src={user.photoURL || undefined} alt="" /> :
-            <p>{t('nav.Login')}</p>
-          }
-        </div>
-        <Link to={RESERVE_ROUTE} className="navigate_buy">{t('nav.Buy')}</Link>
-        <div className={`navigate_burger ` + burgetState} onClick={() => dispatch(menuModal())}>
-          <span></span>
+        <div className="navigate_menu">
+          <Language />
+          <User />
+          <Link to={RESERVE_ROUTE} className="navigate_buy">{t('nav.Buy')}</Link>
+          <div className={`navigate_burger ` + burgerState} onClick={() => dispatch(menuModal())}>
+            <span></span>
+          </div>
         </div>
       </nav>
     </>

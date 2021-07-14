@@ -7,20 +7,63 @@
     white-space: nowrap;
   }
 
-  &_logo svg {
-    display: block;
-    fill   : $blue_color;
+  &_logo {
+    margin-right: 10px;
+
+    svg {
+      display: block;
+      fill   : $blue_color;
+    }
   }
 
-  &_lang {
-    margin-left: auto;
+  &_menu {
+    display       : grid;
+    grid-auto-flow: column;
+    gap           : 10px;
+    margin-left   : auto;
   }
+
+
+
 
   &_login {
-    @include flex_center_center;
     @include grey_button;
-    padding: 12px;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    padding        : 0 12px;
+
+    @media (max-width: 991px) {
+      width: 112px;
+
+      p {
+        font-size: 14px;
+      }
+
+    }
+
+    @media (min-width: 992px) {
+      width: 125px;
+    }
+
+    .login_name {
+      width        : 80px;
+      white-space  : nowrap;
+      text-overflow: ellipsis;
+      overflow     : hidden;
+    }
+
+    .login_face {
+      width        : 38px;
+      height       : 38px;
+      border-radius: 50%;
+    }
+
+
+
+
   }
+
 
   @media (max-width: 991px) {
     // mobile styles
@@ -30,7 +73,7 @@
       height: 44px;
     }
 
-    &_desk_menu,
+    &_routes,
     &_buy {
       display: none;
     }
@@ -73,19 +116,18 @@
           background-color: transparent;
 
           &::before {
-            transform   : translate(-1rem) rotate(135deg);
-            // height   : 5px;
+            transform: translate(-1rem) rotate(135deg);
           }
 
           &::after {
-            transform   : translate(-1rem) rotate(-135deg);
-            // height   : 5px;
+            transform: translate(-1rem) rotate(-135deg);
           }
         }
       }
 
 
     }
+
   }
 
   @media (min-width: 992px) {
@@ -105,18 +147,15 @@
       }
     }
 
-    &_desk_menu {
+    &_routes {
       display       : grid;
       grid-auto-flow: column;
       gap           : 10px;
       align-items   : center;
-      margin-right  : 10px;
-      margin-left   : 10px;
 
       a {
         font-size  : 14px;
         font-weight: 600;
-        padding    : 0 10px;
         color      : $grey_color;
         transition : color .2s;
 
@@ -129,7 +168,8 @@
     &_buy {
       @include flex_center_center;
       @include green_button;
-      padding   : 20px;
+      width     : 188px;
+      padding   : 0 12px;
       color     : white;
       transition: background-color .2s;
 
@@ -144,24 +184,28 @@
 
   }
 
-  @media (max-width: 1359px) {
+  @media (min-width: 1080px) and (max-width: 1279px) {
 
-    &_lang,
-    &_login {
+    &_logo {
       margin-right: 20px;
+    }
+
+    &_routes,
+    &_menu {
+      gap: 20px;
     }
   }
 
-  @media (min-width: 1360px) {
-    &_desk_menu {
-      gap        : 40px;
-      margin-left: 40px;
+
+  @media (min-width: 1280px) {
+
+    &_logo {
+      margin-right: 40px;
     }
 
-    &_desk_menu,
-    &_lang,
-    &_login {
-      margin-right: 40px;
+    &_routes,
+    &_menu {
+      gap: 40px;
     }
   }
 

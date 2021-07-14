@@ -1,10 +1,9 @@
 import React, { Fragment, useContext, useEffect, useState, useRef } from 'react'
 // import { useTranslation } from 'react-i18next'
 import Header from 'Header'
-import { FirebaseAuthContext } from '..'
-import { useAuthState } from 'react-firebase-hooks/auth'
+import Spinner from 'Spinner'
+import { FirebaseAuthContext } from '../index'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-import Spiner from 'Spiner'
 
 interface canvasProps {
   width: string
@@ -42,8 +41,7 @@ const Canvas: React.FC<canvasProps> = ({ width, height, border }: canvasProps) =
 
 const Chat: React.FC = () => {
   // const { t } = useTranslation()
-  const { firebase, auth, firestore } = useContext(FirebaseAuthContext)
-  const [user] = useAuthState(auth)
+  const { firebase, user, firestore } = useContext(FirebaseAuthContext)
   const [chatMessage, setChatMessage] = useState('')
   const [messages, loading] = useCollectionData(
     firestore.collection('messages').orderBy('createdAt')
@@ -61,7 +59,7 @@ const Chat: React.FC = () => {
     })
     setChatMessage('')
   }
-  if (loading) <Spiner />
+  if (loading) <Spinner />
 
 
   useEffect(() => {

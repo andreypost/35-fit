@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
-import { selectModalActive, selectModalValue, unsetModal } from './modal.slice'
+import { selectMessageActive, selectMessageValue, unsetMessageModal } from './message.modal.slice'
 
 const Div = styled.div`
   opacity         : 0;
@@ -23,17 +23,16 @@ const Div = styled.div`
     ul {
       transform: scale(1);
     }
-  }
-  `
+  }`
 
 const Message: React.FC = () => {
-  const dispatch = useAppDispatch()
-  const modalState = useAppSelector(selectModalActive)
-  const value = useAppSelector(selectModalValue)
+  const dispatch = useAppDispatch(),
+    messageState = useAppSelector(selectMessageActive),
+    messageValue = useAppSelector(selectMessageValue)
 
   return (
-    <Div className={modalState} onClick={e => { if (e.target === e.currentTarget) dispatch(unsetModal()) }}>
-      <p>{value}</p>
+    <Div className={messageState} onClick={e => { if (e.target === e.currentTarget) dispatch(unsetMessageModal()) }}>
+      <p>{messageValue}</p>
     </Div>
   )
 }
