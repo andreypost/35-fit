@@ -9,7 +9,12 @@
         "Faq": "FAQ",
         "Login": "Anmeldung",
         "Sign out": "Ausloggen",
-        "Buy": "Probestunde kaufen"
+        "Buy": "Probestunde kaufen",
+        "Dashboard": "Instrumententafel",
+        "Classes": "Klassen",
+        "Progress": "Fortschritt",
+        "Contract": "Vertrag",
+        "Profile": "Profil"
     },
     "footer": {
         "Careers": "Karriere",

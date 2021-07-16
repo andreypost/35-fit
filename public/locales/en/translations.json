@@ -9,7 +9,12 @@
         "Faq": "FAQ",
         "Login": "Login",
         "Sign out": "Sign out",
-        "Buy": "Buy a class"
+        "Buy": "Buy a class",
+        "Dashboard": "Dashboard",
+        "Classes": "Classes",
+        "Progress": "Progress",
+        "Contract": "Contract",
+        "Profile": "Profile"
     },
     "header_banner": {
         "text_main": "New standard"

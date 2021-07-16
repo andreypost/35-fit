@@ -2,6 +2,7 @@ import React, { createContext, Suspense, lazy } from 'react'
 import ReactDom from 'react-dom'
 import './styles/normalize.css'
 import './styles/common.scss'
+import './i18n'
 import Spinner from 'Spinner'
 import { Provider } from 'react-redux'
 import store from './store/root.store'
@@ -9,7 +10,6 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import './i18n'
 
 firebase.initializeApp({
     apiKey: "AIzaSyBfmTEsaMI_rX_G0ZbgrIqUdQghinW2eKs",

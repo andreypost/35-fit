@@ -9,7 +9,12 @@
         "Faq": "FAQ",
         "Login": "Logi sisse",
         "Sign out": "Logi välja",
-        "Buy": "Osta klass"
+        "Buy": "Osta klass",
+        "Dashboard": "Armatuurlaud",
+        "Classes": "Klassid",
+        "Progress": "Edusammud",
+        "Contract": "Leping",
+        "Profile": "Profiil"
     },
     "footer": {
         "Careers": "Karjäär",

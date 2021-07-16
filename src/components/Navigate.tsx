@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react'
-import './Navigate.styles.scss'
+import React from 'react'
+import './Navigate.scss'
 import Language from './Language'
 import User from './User'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { TRAIN_ROUTE, PRICE_ROUTE, MAIN_ROUTE, TEAM_ROUTE, SCHEDULE_ROUTE, CLUB_ROUTE, FAQ_ROUTE, RESERVE_ROUTE } from 'utils/routes.constants'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
-import { selectBurgerValue, menuModal, loginModal } from 'modals/modal.slice'
+import { selectBurgerValue, menuModal } from 'modals/modal.slice'
 
 
 const Navigate: React.FC = () => {
@@ -27,8 +27,6 @@ const Navigate: React.FC = () => {
           </svg>
         </Link>
         <ul className="navigate_routes">
-          {/* {user ? <li><Link to={FLOWER_ROUTE}>flower</Link></li> : null} */}
-          {/* {user ? <li><Link to={CHAT_ROUTE}>chat</Link></li> : null} */}
           <li className="train">
             <Link to={TRAIN_ROUTE}>{t('nav.Training')}</Link>
           </li>
@@ -52,7 +50,7 @@ const Navigate: React.FC = () => {
           <Language />
           <User />
           <Link to={RESERVE_ROUTE} className="navigate_buy">{t('nav.Buy')}</Link>
-          <div className={`navigate_burger ` + burgerState} onClick={() => dispatch(menuModal())}>
+          <div className={'navigate_burger ' + burgerState} onClick={() => dispatch(menuModal())}>
             <span></span>
           </div>
         </div>
@@ -60,6 +58,4 @@ const Navigate: React.FC = () => {
     </>
   )
 }
-
-// export default withNamespaces()(Navigate);
 export default Navigate

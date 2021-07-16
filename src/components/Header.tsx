@@ -4,6 +4,7 @@ import Navigate from 'components/Navigate'
 import Login from 'modals/Login'
 import Menu from 'modals/Menu'
 import Message from 'modals/Message'
+import Dashboard from 'modals/Dashboard'
 
 interface Props {
   // children: [ReactElement, ReactElement]
@@ -21,6 +22,7 @@ const Header: React.FC<Props> = ({ children }: Props) => {
       <Menu />
       <Login />
       <Message />
+      <Dashboard />
     </header>
   )
 }

@@ -18,6 +18,10 @@ export const modalSlice = createSlice({
       state.active = 'loginActive'
       state.burger = 'active'
     },
+    dashboardModal: state => {
+      state.active = 'dashboarActive'
+      state.burger = 'active'
+    },
     unsetModal: state => {
       state.active = ''
       state.burger = ''
@@ -28,6 +32,7 @@ export const modalSlice = createSlice({
 export const {
   menuModal,
   loginModal,
+  dashboardModal,
   unsetModal,
 } = modalSlice.actions
 
