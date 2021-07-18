@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
-import { selectMessageActive, selectMessageValue, unsetMessageModal } from './message.modal.slice'
+import { selectMessageModalActive, selectMessageModalValue, unsetMessageModal } from './modal.slice'
 
 const Div = styled.div`
   opacity         : 0;
@@ -15,6 +15,10 @@ const Div = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
   transition      : opacity .4s, z-index .1s .4s;
 
+  @media (orientation: landscape) {
+    height          : 100%;
+  }
+
   &.messageActive {
     z-index   : 99;
     opacity   : 1;
@@ -25,10 +29,10 @@ const Div = styled.div`
     }
   }`
 
-const Message: React.FC = () => {
+const MessageModal: React.FC = () => {
   const dispatch = useAppDispatch(),
-    messageState = useAppSelector(selectMessageActive),
-    messageValue = useAppSelector(selectMessageValue)
+    messageState = useAppSelector(selectMessageModalActive),
+    messageValue = useAppSelector(selectMessageModalValue)
 
   return (
     <Div className={messageState} onClick={e => { if (e.target === e.currentTarget) dispatch(unsetMessageModal()) }}>
@@ -36,4 +40,4 @@ const Message: React.FC = () => {
     </Div>
   )
 }
-export default Message
+export default MessageModal

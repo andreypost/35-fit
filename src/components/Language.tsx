@@ -12,6 +12,10 @@ const Ul = styled.ul`
   font-weight    : 600;
   color          : #737373;
 
+  .lang_base {
+    width: 24px;
+  }
+
   .lang_list {
     visibility : hidden;
     opacity    : 0;
@@ -48,19 +52,8 @@ const Ul = styled.ul`
       transform: rotate(180deg);
     }
   }
-  @media (max-width: 991px) {
-    font-size: 14px;
-    .lang_arrow svg {
-      width : 12px;
-      height: 8px;
-    }
-  }
 
   @media (min-width: 992px) {
-    .lang_arrow svg {
-      width : 16px;
-      height: 11px;
-    }
     &:hover {
       cursor: pointer;
     }

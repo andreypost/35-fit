@@ -19,6 +19,10 @@ const Div = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
   transition      : opacity .4s, z-index .1s .4s;
 
+  @media (orientation: landscape) {
+    height          : 100%;
+  }
+
   &.dashboarActive {
     z-index   : 99;
     opacity   : 1;
@@ -28,8 +32,9 @@ const Div = styled.div`
       transform: scale(1);
     }
   }
-
+  
   ul {
+    transform    : scale(0);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -45,7 +50,6 @@ const Div = styled.div`
     border-radius: 30px;
     box-shadow   : 0px 16px 16px rgba(0, 0, 0, 0.25);
     background   : white;
-    transform    : scale(0);
     transition   : transform .6s;
     
     li {
@@ -68,7 +72,7 @@ const Div = styled.div`
     }
   }`
 
-const Dashboard = () => {
+const DashboardModal = () => {
   const { t } = useTranslation(),
     modalState = useAppSelector(selectModalActive),
     dispatch = useAppDispatch(),
@@ -93,10 +97,10 @@ const Dashboard = () => {
         <li className="club">
           <Link to={MAIN_ROUTE}>{t('nav.Profile')}</Link>
         </li>
-        <li className="signout" onClick={() => firebaseAuth.signOut()}>{t('nav.Sign out')}</li>
+        <li className="signout" onClick={() => (firebaseAuth.signOut(), dispatch(unsetModal()))}>{t('nav.Sign out')}</li>
       </ul>
     </Div>
   )
 }
 
-export default Dashboard
+export default DashboardModal

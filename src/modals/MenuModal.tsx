@@ -1,11 +1,12 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { TRAIN_ROUTE, PRICE_ROUTE, TEAM_ROUTE, SCHEDULE_ROUTE, CLUB_ROUTE, FAQ_ROUTE, RESERVE_ROUTE } from 'utils/routes.constants'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
-import { selectModalActive, unsetModal, loginModal } from './modal.slice'
+import { selectModalActive, unsetModal } from './modal.slice'
 import { FirebaseAuthContext } from '../index'
+import User from 'components/User'
 
 const Div = styled.div`
   opacity         : 0;
@@ -19,6 +20,10 @@ const Div = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
   transition      : opacity .4s, z-index .1s .4s;
 
+  @media (orientation: landscape) {
+    height: 100%;
+  }
+
   &.menuActive {
     z-index   : 99;
     opacity   : 1;
@@ -30,50 +35,81 @@ const Div = styled.div`
   }
 
   ul {
-    display: flex;
-    align-items: center;
+    transform      : scale(0);
+    box-sizing     : border-box;
+    width          : 90%;
+    display        : flex;
+    align-items    : center;
     justify-content: space-between;
-    flex-flow: column;
-    min-height: 105px;
-    margin-top: 30vh;
-    padding: 20px 20px 10px;
-    background: #fedeff;
-    text-align: center;
-    box-sizing   : border-box;
-    width        : 90%;
-    margin       : 15vh auto 0;
-    padding      : 92px 48px 30px;
-    border-radius: 30px;
-    box-shadow   : 0px 16px 16px rgba(0, 0, 0, 0.25);
-    background   : $light_peach_color;
-    transform    : scale(0);
-    transition   : transform .6s;
-    
+    flex-flow      : column;
+    margin         : 15vh auto 0;
+    padding        : 40px;
+    border-radius  : 6px;
+    text-align     : center;
+    box-shadow     : 0 8px 24px rgb(0 0 0 / 15%);
+    background     : #fff;
+    transition     : transform .6s;
+
     li {
+      width    : 100%;
+      max-width: 260px;
 
       a {
-
+        font-size  : 18px;
+        line-height: 48px;
+        font-weight: 900;
+        color      : #737373;
       }
+    }
 
-      font-size: 18px;
-      line-height: 21px;
-      margin-bottom: 10px;
+    .user {
+      margin: 40px auto 20px;
 
-      .signout {
+      >div {
+        width  : 100%;
+        height : 42px;
+        padding: 0 20px;
 
+        .user_name {
+          display: inline;
+        }
       }
-      .login {
+    }
 
+    .signOut {
+      >div {
+        justify-content: space-between;
+        .user_face {
+          width: 36px;
+          height: 36px;
+          margin-right: -20px;
+        }
       }
-      
+    }
+
+    .login {
+      p {
+        font-weight: 700;
+        color      : #737373;
+      }
+    }
+
+    .buyСlass a {
+      display         : flex;
+      align-items     : center;
+      justify-content : center;
+      padding         : 0 20px;
+      border-radius   : 32px;
+      background-color: #59B894;
+      color           : white;
     }
   }`
 
-const Menu = () => {
+const LoginModal = () => {
   const { t } = useTranslation(),
     modalState = useAppSelector(selectModalActive),
     dispatch = useAppDispatch(),
-    { user, login, firebaseAuth } = useContext(FirebaseAuthContext)
+    { user } = useContext(FirebaseAuthContext)
 
   return (
     <Div className={modalState} onClick={e => { if (e.target === e.currentTarget) dispatch(unsetModal()) }}>
@@ -96,11 +132,12 @@ const Menu = () => {
         <li className="faq">
           <Link to={FAQ_ROUTE}>{t('nav.Faq')}</Link>
         </li>
-        <li>
-          {user ? <div className="signout" onClick={() => firebaseAuth.signOut()}>{t('nav.Sign out')}</div> : <div className="login" onClick={() => dispatch(loginModal())}>{t('nav.Login')}</div>}
+        <li className={'user ' + (user ? 'signOut' : 'login')}>
+          <User />
+          {/* {user ? <div className="signOut" onClick={() => firebaseAuth.signOut()}>{t('nav.Sign out')}</div> : <div className="login" onClick={() => dispatch(loginModal())}>{t('nav.Login')}</div>} */}
           {/* {user ? <div className="signout" onClick={() => auth.signOut()}>{t('nav.Sign out')}</div> : <div className="login" onClick={login}>{t('nav.Login')}</div>} */}
         </li>
-        <li>
+        <li className="buyСlass">
           <Link to={RESERVE_ROUTE}>{t('nav.Buy')}</Link>
         </li>
       </ul>
@@ -108,4 +145,4 @@ const Menu = () => {
   )
 }
 
-export default Menu
+export default LoginModal

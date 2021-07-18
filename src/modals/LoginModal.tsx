@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { FirebaseAuthContext } from '../index'
 import { useAppSelector, useAppDispatch } from 'utils/hooks'
-import { selectModalActive, unsetModal } from './modal.slice'
-import { messageSuccessModal, messageErrorModal } from './message.modal.slice'
+import { selectModalActive, unsetModal, messageSuccessModal } from './modal.slice'
 
 const Div = styled.div`
   opacity         : 0;
@@ -16,6 +16,10 @@ const Div = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
   transition      : opacity .4s, z-index .1s .4s;
 
+  @media (orientation: landscape) {
+    height          : 100%;
+  }
+
   &.loginActive {
     z-index   : 99;
     opacity   : 1;
@@ -27,6 +31,7 @@ const Div = styled.div`
   }
 
   ul {
+    transform    : scale(0);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -43,7 +48,6 @@ const Div = styled.div`
     border-radius: 30px;
     box-shadow   : 0px 16px 16px rgba(0, 0, 0, 0.25);
     background   : $light_peach_color;
-    transform    : scale(0);
     transition   : transform .6s;
     
     li {
@@ -66,14 +70,16 @@ const Div = styled.div`
     }
   }`
 
-const Login: React.FC = () => {
-  const dispatch = useAppDispatch(),
+const LoginModal: React.FC = () => {
+  const { user, login } = useContext(FirebaseAuthContext),
+    dispatch = useAppDispatch(),
     modalState = useAppSelector(selectModalActive)
   return (
     <Div className={modalState} onClick={e => { if (e.target === e.currentTarget) dispatch(unsetModal()) }}>
+
       <p onClick={() => dispatch(messageSuccessModal())}>notificationSuccessModal</p>
-      <h1 onClick={() => dispatch(messageErrorModal())}>notificationSuccessModal</h1>
+      <h1 onClick={() => login()}>notificationSuccessModal</h1>
     </Div>
   )
 }
-export default Login
+export default LoginModal

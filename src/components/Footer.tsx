@@ -1,27 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 // import { Link } from 'react-router-dom'
 // import { useTranslation } from 'react-i18next'
-import Login from 'modals/Login'
-import Menu from 'modals/Menu'
-import Message from 'modals/Message'
-import Dashboard from 'modals/Dashboard'
+import MenuModal from 'modals/MenuModal'
+import LoginModal from 'modals/LoginModal'
+import MessageModal from 'modals/MessageModal'
+import DashboardModal from 'modals/DashboardModal'
 import { useAppDispatch } from 'utils/hooks'
-import { unsetModal } from 'modals/modal.slice'
-import { unsetMessageModal } from 'modals/message.modal.slice'
+import { unsetModal, unsetMessageModal } from 'modals/modal.slice'
 
 const Footer: React.FC = () => {
   // const { t } = useTranslation()
-  const [opacity, setOpacity] = useState(''),
-    dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    setOpacity('active')
+    window.scrollTo(0, 0)
     const unsetModalState = (e: { key: string }) => {
       if (e.key === 'Escape') dispatch(unsetModal()), dispatch(unsetMessageModal())
     }
     document.addEventListener('keydown', e => unsetModalState(e))
     return (
       dispatch(unsetModal()),
+      dispatch(unsetMessageModal()),
       document.removeEventListener('keydown', unsetModalState)
     )
   }, [dispatch])
@@ -34,10 +33,10 @@ const Footer: React.FC = () => {
           <li>{/* <Link to="/">{t('footer.Terms')}</Link> */}</li>
         </ul>
       </div>
-      <Dashboard />
-      <Login />
-      <Menu />
-      <Message />
+      <MenuModal />
+      <LoginModal />
+      <MessageModal />
+      <DashboardModal />
     </footer>
   )
 }

@@ -1,12 +1,12 @@
 import React from 'react'
 import './Navigate.scss'
-import Language from './Language'
-import User from './User'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { TRAIN_ROUTE, PRICE_ROUTE, MAIN_ROUTE, TEAM_ROUTE, SCHEDULE_ROUTE, CLUB_ROUTE, FAQ_ROUTE, RESERVE_ROUTE } from 'utils/routes.constants'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectBurgerValue, menuModal } from 'modals/modal.slice'
+import { TRAIN_ROUTE, PRICE_ROUTE, MAIN_ROUTE, TEAM_ROUTE, SCHEDULE_ROUTE, CLUB_ROUTE, FAQ_ROUTE, RESERVE_ROUTE } from 'utils/routes.constants'
+import Language from './Language'
+import User from './User'
 
 
 const Navigate: React.FC = () => {
