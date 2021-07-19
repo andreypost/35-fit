@@ -43,7 +43,7 @@ const Div = styled.div`
     text-align: center;
     box-sizing   : border-box;
     width        : 90%;
-    margin       : 15vh auto 0;
+    margin       : 15vh auto;
     padding      : 92px 48px 30px;
     border-radius: 30px;
     box-shadow   : 0px 16px 16px rgba(0, 0, 0, 0.25);

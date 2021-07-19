@@ -14,11 +14,13 @@ const Div = styled.div`
     border-radius   : 32px;
     border          : 2px solid #E8E8E8;
     background-color: white;
-    transition      : background-color .2s, color .2s;
+    transition      : background-color .2s;
 
     &:hover {
       background-color: #59B894;
-      color           : white;
+      p {
+        color           : white;
+      }
     }
 
     p {
@@ -26,12 +28,15 @@ const Div = styled.div`
       text-overflow: ellipsis;
       overflow     : hidden;
       text-align   : center;
+      font-size    : 14px;
+      color        : #737373;
+      transition      : color .2s;
     }
 
     .user_face {
       border-radius: 50%;
       border       : 2px solid white;
-      margin-right : -12px;
+      margin-right : -13px;
     }
 
     @media (max-width: 991px) {
@@ -39,7 +44,7 @@ const Div = styled.div`
       width : 80px;
       height: 36px;
 
-      &.logged {
+      &.loggedOut {
         width: 36px;
 
         .user_face {
@@ -47,10 +52,6 @@ const Div = styled.div`
           height      : 30px;
           margin-right: unset;
         }
-      }
-
-      p {
-        font-size: 14px;
       }
 
       .user_name {
@@ -80,16 +81,14 @@ const User: React.FC = () => {
     { t } = useTranslation()
 
   return (
-    <Div className={user ? 'logged' : undefined} onClick={() => user ? dispatch(dashboardModal()) : dispatch(loginModal())}>
+    <Div className={'user ' + (user ? 'loggedOut' : 'loggedIn')} onClick={() => user ? dispatch(dashboardModal()) : dispatch(loginModal())}>
       {user ?
         <>
           <p className="user_name">{user.displayName || null}</p>
           <img className="user_face" src={user.photoURL || null} alt="" />
         </>
         :
-        <>
-          <p>{t('nav.Login')}</p>
-        </>
+        <p>{t('nav.Login')}</p>
       }
     </Div>
 

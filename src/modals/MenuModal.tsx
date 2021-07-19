@@ -42,7 +42,7 @@ const Div = styled.div`
     align-items    : center;
     justify-content: space-between;
     flex-flow      : column;
-    margin         : 15vh auto 0;
+    margin         : 15vh auto;
     padding        : 40px;
     border-radius  : 6px;
     text-align     : center;
@@ -62,35 +62,34 @@ const Div = styled.div`
       }
     }
 
-    .user {
+    .login {
       margin: 40px auto 20px;
 
-      >div {
+      .user {
         width  : 100%;
         height : 42px;
         padding: 0 20px;
+      }
+    }
 
-        .user_name {
-          display: inline;
-        }
+    .signIn {
+      p {
+        font-weight: 700;
+        color      : #59B894;
+      }
+      &:hover p {
+        color      : white;
       }
     }
 
     .signOut {
-      >div {
+      .user {
         justify-content: space-between;
         .user_face {
           width: 36px;
           height: 36px;
           margin-right: -20px;
         }
-      }
-    }
-
-    .login {
-      p {
-        font-weight: 700;
-        color      : #737373;
       }
     }
 
@@ -132,7 +131,7 @@ const LoginModal = () => {
         <li className="faq">
           <Link to={FAQ_ROUTE}>{t('nav.Faq')}</Link>
         </li>
-        <li className={'user ' + (user ? 'signOut' : 'login')}>
+        <li className={'login ' + (user ? 'signOut' : 'signIn')}>
           <User />
           {/* {user ? <div className="signOut" onClick={() => firebaseAuth.signOut()}>{t('nav.Sign out')}</div> : <div className="login" onClick={() => dispatch(loginModal())}>{t('nav.Login')}</div>} */}
           {/* {user ? <div className="signout" onClick={() => auth.signOut()}>{t('nav.Sign out')}</div> : <div className="login" onClick={login}>{t('nav.Login')}</div>} */}
