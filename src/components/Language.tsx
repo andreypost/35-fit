@@ -72,13 +72,12 @@ const Language: React.FC = () => {
       <li className="lang_base">{language.toLocaleUpperCase()}</li>
       <li className="lang_list">
         <ul>
-          {versions.map(item => (
-            item !== language ?
+          {versions.splice(versions.indexOf(language), 1) &&
+            versions.map(item => (
               <li key={item} onClick={() => (i18n.changeLanguage(item), getLanguage(i18n.language))}>
                 {item.toLocaleUpperCase()}
               </li>
-              : null
-          ))}
+            ))}
         </ul>
       </li>
       <li className="lang_arrow">

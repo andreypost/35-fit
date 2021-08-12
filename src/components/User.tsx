@@ -53,10 +53,6 @@ const Div = styled.div`
           margin-right: unset;
         }
       }
-
-      .user_name {
-        display: none;
-      }
     }
 
     @media (min-width: 992px) {
