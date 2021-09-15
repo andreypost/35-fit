@@ -1,7 +1,15 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { TRAIN_ROUTE, PRICE_ROUTE, TEAM_ROUTE, SCHEDULE_ROUTE, CLUB_ROUTE, FAQ_ROUTE, RESERVE_ROUTE } from 'utils/routes.constants'
+import {
+  TRAIN_ROUTE,
+  PRICE_ROUTE,
+  TEAM_ROUTE,
+  SCHEDULE_ROUTE,
+  CLUB_ROUTE,
+  FAQ_ROUTE,
+  RESERVE_ROUTE,
+} from 'utils/routes.constants'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectModalActive, unsetModal } from './modal.slice'
@@ -9,25 +17,25 @@ import { FirebaseAuthContext } from '../index'
 import User from 'components/User'
 
 const Div = styled.div`
-  opacity         : 0;
-  position        : fixed;
-  z-index         : -99;
-  left            : 0;
-  top             : 0;
-  width           : 100%;
-  height          : 200%;
-  overflow        : auto;
+  opacity: 0;
+  position: fixed;
+  z-index: -99;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 200%;
+  overflow: auto;
   background-color: rgba(0, 0, 0, 0.2);
-  transition      : opacity .4s, z-index .1s .4s;
+  transition: opacity 0.4s, z-index 0.1s 0.4s;
 
   @media (orientation: landscape) {
     height: 100%;
   }
 
   &.menuActive {
-    z-index   : 99;
-    opacity   : 1;
-    transition: z-index .1s, opacity .4s .1s;
+    z-index: 99;
+    opacity: 1;
+    transition: z-index 0.1s, opacity 0.4s 0.1s;
 
     ul {
       transform: scale(1);
@@ -35,30 +43,30 @@ const Div = styled.div`
   }
 
   ul {
-    transform      : scale(0);
-    box-sizing     : border-box;
-    width          : 90%;
-    display        : flex;
-    align-items    : center;
+    transform: scale(0);
+    box-sizing: border-box;
+    width: 90%;
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    flex-flow      : column;
-    margin         : 15vh auto;
-    padding        : 40px;
-    border-radius  : 6px;
-    text-align     : center;
-    box-shadow     : 0 8px 24px rgb(0 0 0 / 15%);
-    background     : #fff;
-    transition     : transform .6s;
+    flex-flow: column;
+    margin: 15vh auto;
+    padding: 40px;
+    border-radius: 6px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
+    background: #fff;
+    transition: transform 0.6s;
 
     li {
-      width    : 100%;
+      width: 100%;
       max-width: 260px;
 
       a {
-        font-size  : 18px;
+        font-size: 18px;
         line-height: 48px;
         font-weight: 900;
-        color      : #737373;
+        color: #737373;
       }
     }
 
@@ -66,8 +74,8 @@ const Div = styled.div`
       margin: 40px auto 20px;
 
       .user {
-        width  : 100%;
-        height : 42px;
+        width: 100%;
+        height: 42px;
         padding: 0 20px;
       }
     }
@@ -75,10 +83,10 @@ const Div = styled.div`
     .signIn {
       p {
         font-weight: 700;
-        color      : #59B894;
+        color: #59b894;
       }
       &:hover p {
-        color      : white;
+        color: white;
       }
     }
 
@@ -94,15 +102,16 @@ const Div = styled.div`
     }
 
     .buyСlass a {
-      display         : flex;
-      align-items     : center;
-      justify-content : center;
-      padding         : 0 20px;
-      border-radius   : 32px;
-      background-color: #59B894;
-      color           : white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      border-radius: 32px;
+      background-color: #59b894;
+      color: white;
     }
-  }`
+  }
+`
 
 const LoginModal = () => {
   const { t } = useTranslation(),
@@ -111,7 +120,12 @@ const LoginModal = () => {
     { user } = useContext(FirebaseAuthContext)
 
   return (
-    <Div className={modalState} onClick={e => { if (e.target === e.currentTarget) dispatch(unsetModal()) }}>
+    <Div
+      className={modalState}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) dispatch(unsetModal())
+      }}
+    >
       <ul>
         <li className="train">
           <Link to={TRAIN_ROUTE}>{t('nav.Training')}</Link>
