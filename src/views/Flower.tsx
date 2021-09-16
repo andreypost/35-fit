@@ -115,15 +115,15 @@ const Flower: React.FC = () => {
         </button>
       </form>
       <div>
-        <h2 className="title">language: {title.lang + ', title: ' + title.word}</h2>
+        <h2 className="title">
+          language: {title.lang + ', title: ' + title.word}
+        </h2>
         Image: <img src={title.src} alt="" className="image" />
       </div>
     </>
   )
 }
 export default Flower
-
-
 
 /* useEffect(() => {
   // first variant with generators, native js;

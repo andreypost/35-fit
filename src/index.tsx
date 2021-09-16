@@ -12,24 +12,24 @@ import 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 firebase.initializeApp({
-    apiKey: "AIzaSyBfmTEsaMI_rX_G0ZbgrIqUdQghinW2eKs",
-    authDomain: "fit-48bac.firebaseapp.com",
-    projectId: "fit-48bac",
-    storageBucket: "fit-48bac.appspot.com",
-    messagingSenderId: "440877798570",
-    appId: "1:440877798570:web:efe70e438944b894ce2cd3",
-    measurementId: "G-5227123YVS"
+  apiKey: 'AIzaSyBfmTEsaMI_rX_G0ZbgrIqUdQghinW2eKs',
+  authDomain: 'fit-48bac.firebaseapp.com',
+  projectId: 'fit-48bac',
+  storageBucket: 'fit-48bac.appspot.com',
+  messagingSenderId: '440877798570',
+  appId: '1:440877798570:web:efe70e438944b894ce2cd3',
+  measurementId: 'G-5227123YVS',
 })
 
 const firebaseAuth = firebase.auth()
 const firestore = firebase.firestore()
 
 interface FACProps {
-    firebase?: any
-    firebaseAuth: any
-    firestore: any
-    user: any
-    login: () => void
+  firebase?: any
+  firebaseAuth: any
+  firestore: any
+  user: any
+  login: () => void
 }
 
 export const FirebaseAuthContext = createContext({} as FACProps)
@@ -37,20 +37,27 @@ export const FirebaseAuthContext = createContext({} as FACProps)
 const AppRouter = lazy(() => import('./AppRouter'))
 
 const App: React.FC = () => {
-    const [user] = useAuthState(firebaseAuth)
-    const login = async () => {
-        const provider = new firebase.auth.GoogleAuthProvider()
-        await firebaseAuth.signInWithPopup(provider)
-    }
-    return (
-        <Suspense fallback={<Spinner />}>
-            <FirebaseAuthContext.Provider value={{ firebaseAuth: firebaseAuth, firestore: firestore, user: user, login: login }}>
-                <Provider store={store}>
-                    <AppRouter />
-                </Provider>
-            </FirebaseAuthContext.Provider>
-        </Suspense>
-    )
+  const [user] = useAuthState(firebaseAuth)
+  const login = async () => {
+    const provider = new firebase.auth.GoogleAuthProvider()
+    await firebaseAuth.signInWithPopup(provider)
+  }
+  return (
+    <Suspense fallback={<Spinner />}>
+      <FirebaseAuthContext.Provider
+        value={{
+          firebaseAuth: firebaseAuth,
+          firestore: firestore,
+          user: user,
+          login: login,
+        }}
+      >
+        <Provider store={store}>
+          <AppRouter />
+        </Provider>
+      </FirebaseAuthContext.Provider>
+    </Suspense>
+  )
 }
 
 //func for svg to load as sprites in index.html and use them in components -> <svg><use xlinkHref={arrow}></use></svg>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import {
@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectModalActive, unsetModal } from './modal.slice'
 import { FirebaseAuthContext } from '../index'
-import User from 'components/User'
+import { User } from 'components/User'
 
 const Div = styled.div`
   opacity: 0;
@@ -113,7 +113,7 @@ const Div = styled.div`
   }
 `
 
-const LoginModal = () => {
+export const MenuModal: React.FC = () => {
   const { t } = useTranslation(),
     modalState = useAppSelector(selectModalActive),
     dispatch = useAppDispatch(),
@@ -146,7 +146,12 @@ const LoginModal = () => {
           <Link to={FAQ_ROUTE}>{t('nav.Faq')}</Link>
         </li>
         <li className={'login ' + (user ? 'signOut' : 'signIn')}>
-          <User />
+          {useMemo(
+            () => (
+              <User user={user} />
+            ),
+            [user],
+          )}
           {/* {user ? <div className="signOut" onClick={() => firebaseAuth.signOut()}>{t('nav.Sign out')}</div> : <div className="login" onClick={() => dispatch(loginModal())}>{t('nav.Login')}</div>} */}
           {/* {user ? <div className="signout" onClick={() => auth.signOut()}>{t('nav.Sign out')}</div> : <div className="login" onClick={login}>{t('nav.Login')}</div>} */}
         </li>
@@ -157,5 +162,3 @@ const LoginModal = () => {
     </Div>
   )
 }
-
-export default LoginModal

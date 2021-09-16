@@ -59,7 +59,7 @@ const Ul = styled.ul`
   }
 `
 
-const Language: React.FC = () => {
+export const Language: React.FC = () => {
   const { i18n } = useTranslation(),
     [language, getLanguage] = useState(i18n.language),
     versions = ['en', 'ee', 'de']
@@ -67,6 +67,7 @@ const Language: React.FC = () => {
   // const handleShowList = () => {
   //   if (lungRef.current) lungRef.current.style.opacity = '1'
   // }
+  console.log('Language: ')
   return (
     <Ul>
       <li className="lang_base">{language.toLocaleUpperCase()}</li>
@@ -97,5 +98,3 @@ const Language: React.FC = () => {
     </Ul>
   )
 }
-
-export default Language

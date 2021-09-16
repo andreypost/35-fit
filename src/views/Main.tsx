@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './Main.scss'
-import Header from 'Header'
-import Footer from 'Footer'
+import { Header } from 'Header'
+import { Footer } from 'Footer'
 import { useTranslation } from 'react-i18next'
 import tie_fit from 'svg/tie_fit.svg'
 

@@ -1,6 +1,6 @@
 import i18n from 'i18next'
 // import Backend from 'i18next-http-backend' // if detected country language is not presented on project - you should/must turn off this option
-// import LanguageDetector from 'i18next-browser-languagedetector'// if detected country language is not presented on project - you should/must turn off this option
+import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
 import translationDE from '../public/locales/de/translations.json'
@@ -13,7 +13,7 @@ i18n
   // .use(Backend) // if detected country language is not presented on project - you should/must turn off this option
   // detect user language
   // learn more: https://github.com/i18next/i18next-browser-languageDetector
-  // .use(LanguageDetector)// if detected country language is not presented on project - you should/must turn off this option
+  .use(LanguageDetector)
   // pass the i18n instance to react-i18next.
   .use(initReactI18next)
   // init i18next

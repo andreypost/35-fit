@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import './Schedule.scss'
 // import { Link } from 'react-router-dom'
-import Header from 'Header'
-import Footer from 'Footer'
+import { Header } from 'Header'
+import { Footer } from 'Footer'
 import { useTranslation } from 'react-i18next'
 
 const Schedule: React.FC = () => {

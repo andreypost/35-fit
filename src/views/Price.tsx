@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import './Price.scss'
 // import i18n from "../i18n";
-import Header from 'Header'
-import Footer from 'Footer'
+import { Header } from 'Header'
+import { Footer } from 'Footer'
 import { useTranslation } from 'react-i18next'
 
 const Price: React.FC = () => {

@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState, useRef } from 'react'
 // import { useTranslation } from 'react-i18next'
-import Header from 'Header'
+import { Header } from 'Header'
 import Spinner from 'Spinner'
 import { FirebaseAuthContext } from '../index'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
@@ -11,7 +11,11 @@ interface canvasProps {
   border: string
 }
 
-const Canvas: React.FC<canvasProps> = ({ width, height, border }: canvasProps) => {
+const Canvas: React.FC<canvasProps> = ({
+  width,
+  height,
+  border,
+}: canvasProps) => {
   const contexRef = useRef<HTMLCanvasElement | null>(null)
   const handleContexLine = (e: any) => {
     const canvas = contexRef.current
@@ -24,7 +28,9 @@ const Canvas: React.FC<canvasProps> = ({ width, height, border }: canvasProps) =
   }
   const submitBlobData = async () => {
     const canvas = contexRef.current
-    const imageBlob: any = await new Promise(resolve => canvas?.toBlob(resolve, 'image/png'))
+    const imageBlob: any = await new Promise((resolve) =>
+      canvas?.toBlob(resolve, 'image/png'),
+    )
     const formData = new FormData()
     formData.append('image', imageBlob, 'image.png')
     for (const d of formData) {
@@ -33,7 +39,13 @@ const Canvas: React.FC<canvasProps> = ({ width, height, border }: canvasProps) =
   }
   return (
     <>
-      <canvas width={width} height={height} style={{ border }} ref={contexRef} onMouseMove={handleContexLine} />
+      <canvas
+        width={width}
+        height={height}
+        style={{ border }}
+        ref={contexRef}
+        onMouseMove={handleContexLine}
+      />
       <input type="button" value="send blob data" onClick={submitBlobData} />
     </>
   )
@@ -44,7 +56,7 @@ const Chat: React.FC = () => {
   const { firebase, user, firestore } = useContext(FirebaseAuthContext)
   const [chatMessage, setChatMessage] = useState('')
   const [messages, loading] = useCollectionData(
-    firestore.collection('messages').orderBy('createdAt')
+    firestore.collection('messages').orderBy('createdAt'),
   )
 
   const handleSendChatMessage = async (e: { preventDefault: () => void }) => {
@@ -55,12 +67,11 @@ const Chat: React.FC = () => {
       displayName: user?.displayName,
       photoUrl: user?.photoURL,
       text: chatMessage,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     })
     setChatMessage('')
   }
   if (loading) <Spinner />
-
 
   useEffect(() => {
     const sum = (a: number) => {
@@ -75,8 +86,6 @@ const Chat: React.FC = () => {
       return f
     }
     console.log(sum(2)(3)(-2)(26))
-
-
   }, [])
   return (
     <>
@@ -86,15 +95,23 @@ const Chat: React.FC = () => {
       </Header>
       <h1>Chat</h1>
       <div>
-        {messages?.map(item =>
+        {messages?.map((item) => (
           <Fragment key={item.text}>
-            <img src={item.photoUrl} alt="" style={{ borderRadius: "50%" }} />
-            <p>{item.text} - {item.displayName}</p>
+            <img src={item.photoUrl} alt="" style={{ borderRadius: '50%' }} />
+            <p>
+              {item.text} - {item.displayName}
+            </p>
           </Fragment>
-        )}
+        ))}
       </div>
       <form action="" id="chatForm" onSubmit={handleSendChatMessage}>
-        <textarea name="" id="" onChange={e => setChatMessage(e.target.value)} value={chatMessage} required />
+        <textarea
+          name=""
+          id=""
+          onChange={(e) => setChatMessage(e.target.value)}
+          value={chatMessage}
+          required
+        />
         <button type="submit">send</button>
       </form>
     </>
