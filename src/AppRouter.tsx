@@ -37,7 +37,7 @@ const AppRouter: React.FC = () => {
           : null}
         <Redirect to={MAIN_ROUTE} />
       </Switch>
-      {/* <Footer /> */}
+      <Footer />
       <MenuModal />
       <LoginModal />
       {/* </BrowserRouter> */}
