@@ -1,9 +1,10 @@
 import React, { useContext, useMemo } from 'react'
-import './Navigate.scss'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectBurgerValue, menuModal } from 'modals/modal.slice'
+import { FirebaseAuthContext } from '../index'
+import './Navigate.scss'
 import {
   TRAIN_ROUTE,
   PRICE_ROUTE,
@@ -16,17 +17,20 @@ import {
 } from 'utils/routes.constants'
 import { Language } from './Language'
 import { User } from './User'
-import { FirebaseAuthContext } from '../index'
 
-export const Navigate: React.FC = () => {
+interface Props {
+  user: any
+}
+
+export const HeaderNavigate: React.FC<Props> = ({ user }: Props) => {
   const { t } = useTranslation(),
     dispatch = useAppDispatch(),
-    burgerState = useAppSelector(selectBurgerValue),
-    { user } = useContext(FirebaseAuthContext)
-  console.log('Navigate: ')
+    burgerState = useAppSelector(selectBurgerValue)
+  // { user } = useContext(FirebaseAuthContext)
+  console.log('HeaderNavigate: ')
 
   return (
-    <>
+    <header>
       <nav className="navigate">
         <Link to={MAIN_ROUTE} className="navigate_logo">
           <svg viewBox="0 0 118 50" xmlns="http://www.w3.org/2000/svg">
@@ -70,12 +74,12 @@ export const Navigate: React.FC = () => {
             ),
             [],
           )}
-          {useMemo(
+          {/* {useMemo(
             () => (
               <User user={user} />
             ),
             [user],
-          )}
+          )} */}
           <Link to={RESERVE_ROUTE} className="navigate_buy">
             {t('nav.Buy')}
           </Link>
@@ -87,6 +91,6 @@ export const Navigate: React.FC = () => {
           </div>
         </div>
       </nav>
-    </>
+    </header>
   )
 }

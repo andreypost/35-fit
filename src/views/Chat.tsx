@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState, useRef } from 'react'
 // import { useTranslation } from 'react-i18next'
-import { Header } from 'Header'
+import { HeaderBanner } from 'HeaderBanner'
 import Spinner from 'Spinner'
 import { FirebaseAuthContext } from '../index'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
@@ -89,10 +89,10 @@ const Chat: React.FC = () => {
   }, [])
   return (
     <>
-      <Header>
+      <HeaderBanner>
         <Canvas width="100%" height="250px" border="1px solid red" />
         <></>
-      </Header>
+      </HeaderBanner>
       <h1>Chat</h1>
       <div>
         {messages?.map((item) => (

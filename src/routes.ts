@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 const Main = lazy(() => import('views/Main'))
 const Training = lazy(() => import('views/Train'))
-const Pricing = lazy(() => import('views/Price'))
+const Pricing = lazy(() => import('views/Pricing'))
 const Schedule =  lazy(() =>  import('views/Schedule'))
 const Team =  lazy(() =>  import('views/Team'))
 const Club =  lazy(() =>  import('views/Club'))

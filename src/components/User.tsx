@@ -76,7 +76,7 @@ interface Props {
 export const User: React.FC<Props> = ({ user }: Props) => {
   const dispatch = useAppDispatch(),
     { t } = useTranslation()
-  console.log('user: ')
+  console.log('user: ', user)
 
   return (
     <Div

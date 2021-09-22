@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import './Team.scss'
 // import { Link } from "react-router-dom";
 // import i18n from "../i18n";
-import { Header } from 'Header'
-import { Footer } from 'Footer'
+import { HeaderBanner } from 'HeaderBanner'
 import { useTranslation } from 'react-i18next'
 
 const Team: React.FC = () => {
@@ -15,14 +13,13 @@ const Team: React.FC = () => {
   }, [])
   return (
     <div className={'fallback teampage ' + opacity}>
-      <Header>
-        <h1>{t('nav.Pricing')}</h1>
-        <h3></h3>
-      </Header>
       <main className="section">
+        <HeaderBanner>
+          <h1>{t('nav.Pricing')}</h1>
+          <h3></h3>
+        </HeaderBanner>
         <h1>Team</h1>
       </main>
-      <Footer />
     </div>
   )
 }

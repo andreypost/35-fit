@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import './Faq.scss'
 // import { Link } from "react-router-dom";
 // import i18n from "../i18n";
-import { Header } from 'Header'
-import { Footer } from 'Footer'
+import { HeaderBanner } from 'HeaderBanner'
 import { useTranslation } from 'react-i18next'
 
 const Faq: React.FC = () => {
@@ -15,14 +13,13 @@ const Faq: React.FC = () => {
   }, [])
   return (
     <div className={'fallback faqpage ' + opacity}>
-      <Header>
+      <HeaderBanner>
         <h1>{t('nav.Pricing')}</h1>
         <h3></h3>
-      </Header>
+      </HeaderBanner>
       <main className="section">
         <h1>Faq</h1>
       </main>
-      <Footer />
     </div>
   )
 }

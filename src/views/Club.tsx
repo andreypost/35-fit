@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import './Club.scss'
 // import { Link } from "react-router-dom";
 // import i18n from "../i18n";
-import { Header } from 'Header'
-import { Footer } from 'Footer'
+import { HeaderBanner } from 'HeaderBanner'
 import { useTranslation } from 'react-i18next'
 
 const Club: React.FC = () => {
@@ -14,14 +12,13 @@ const Club: React.FC = () => {
   }, [])
   return (
     <div className={'fallback clubpage ' + opacity}>
-      <Header>
+      <HeaderBanner>
         <h1>{t('nav.Pricing')}</h1>
         <h3></h3>
-      </Header>
+      </HeaderBanner>
       <main className="section">
         <h1>Club</h1>
       </main>
-      <Footer />
     </div>
   )
 }

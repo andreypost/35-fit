@@ -11,9 +11,12 @@ module.exports = {
       Spinner$: path.resolve(__dirname, '../src/components/Spinner.tsx'), // $ - added to signify an exact match
       components: path.resolve(__dirname, '../src/components'),
       modals: path.resolve(__dirname, '../src/modals'),
-      Header$: path.resolve(__dirname, '../src/components/Header.tsx'),
-      Footer$: path.resolve(__dirname, '../src/components/Footer.tsx'),
-      Nav$: path.resolve(__dirname, '../src/components/Nav.tsx'),
+      HeaderBanner$: path.resolve(
+        __dirname,
+        '../src/components/HeaderBanner.tsx',
+      ),
+      // Footer$: path.resolve(__dirname, '../src/components/Footer.tsx'),
+      // Nav$: path.resolve(__dirname, '../src/components/Nav.tsx'),
       img: path.resolve(__dirname, '../src/img'),
       svg: path.resolve(__dirname, '../src/img/svg'),
       mixins$: path.resolve(__dirname, '../src/styles/variables-mixins.scss'),

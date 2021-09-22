@@ -113,11 +113,16 @@ const Div = styled.div`
   }
 `
 
-export const MenuModal: React.FC = () => {
+interface Props {
+  user: any
+}
+
+export const MenuModal: React.FC<Props> = ({ user }: Props) => {
   const { t } = useTranslation(),
     modalState = useAppSelector(selectModalActive),
-    dispatch = useAppDispatch(),
-    { user } = useContext(FirebaseAuthContext)
+    dispatch = useAppDispatch()
+  // { user } = useContext(FirebaseAuthContext)
+  console.log('MenuModal: ')
 
   return (
     <Div

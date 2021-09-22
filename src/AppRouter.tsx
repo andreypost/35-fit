@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import {
   HashRouter,
   // BrowserRouter,
@@ -9,9 +9,12 @@ import {
 import { FirebaseAuthContext } from './index'
 import { privatRoutes, publicRoutes } from './routes'
 import { MAIN_ROUTE } from 'utils/routes.constants'
-import { Footer } from 'Footer'
+import { Footer } from 'components/Footer'
 import LoginModal from 'modals/LoginModal'
 import { MenuModal } from 'modals/MenuModal'
+import MessageModal from 'modals/MessageModal'
+import DashboardModal from 'modals/DashboardModal'
+import { HeaderNavigate } from 'components/HeaderNavigate'
 // import { createBrowserHistory } from 'history'
 // const history = createBrowserHistory()
 // console.log(history.location.pathname)
@@ -21,6 +24,12 @@ const AppRouter: React.FC = () => {
   return (
     <HashRouter basename="/">
       {/* <BrowserRouter basename="/"> */}
+      {useMemo(
+        () => (
+          <HeaderNavigate user={user} />
+        ),
+        [user],
+      )}
       <Switch>
         {publicRoutes.map(({ path, Component }) => (
           <Route key={path} path={path} component={Component} exact={true} />
@@ -37,9 +46,22 @@ const AppRouter: React.FC = () => {
           : null}
         <Redirect to={MAIN_ROUTE} />
       </Switch>
-      <Footer />
-      <MenuModal />
+      {useMemo(
+        () => (
+          <Footer />
+        ),
+        [],
+      )}
+      {useMemo(
+        () => (
+          <MenuModal user={user} />
+        ),
+        [user],
+      )}
+
       <LoginModal />
+      <MessageModal />
+      <DashboardModal />
       {/* </BrowserRouter> */}
     </HashRouter>
   )

@@ -1,6 +1,6 @@
 export const MAIN_ROUTE = '/'
 export const TRAIN_ROUTE = '/train'
-export const PRICE_ROUTE = '/price'
+export const PRICE_ROUTE = '/pricing'
 export const SCHEDULE_ROUTE = '/schedule'
 export const TEAM_ROUTE = '/team'
 export const CLUB_ROUTE = '/club'
