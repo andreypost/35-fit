@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 // import { Link } from "react-router-dom";
 import { useAppDispatch } from 'utils/hooks'
-import { unsetMessageModal, unsetModal } from 'modals/modal.slice'
+import { unsetAllModal } from 'modals/modal.slice'
 
 interface Props {
   // children: [ReactElement, ReactElement]
@@ -11,19 +11,15 @@ interface Props {
 export const HeaderBanner: React.FC<Props> = ({ children }: Props) => {
   const dispatch = useAppDispatch()
 
-  const unsetModalState = () => {
-    dispatch(unsetModal())
-    dispatch(unsetMessageModal())
-  }
   const keyDownHandler = (e: { key: string }) => {
-    if (e.key === 'Escape') unsetModalState()
+    if (e.key === 'Escape') dispatch(unsetAllModal())
   }
   useEffect(() => {
     window.scrollTo(0, 0)
     document.addEventListener('keydown', (e) => keyDownHandler(e))
     return () => {
       document.removeEventListener('keydown', keyDownHandler)
-      unsetModalState()
+      dispatch(unsetAllModal())
     }
   })
   return (

@@ -9,18 +9,18 @@ import {
 import { FirebaseAuthContext } from './index'
 import { privatRoutes, publicRoutes } from './routes'
 import { MAIN_ROUTE } from 'utils/routes.constants'
-import { Footer } from 'components/Footer'
-import LoginModal from 'modals/LoginModal'
-import { MenuModal } from 'modals/MenuModal'
-import MessageModal from 'modals/MessageModal'
-import DashboardModal from 'modals/DashboardModal'
 import { HeaderNavigate } from 'components/HeaderNavigate'
+import { Footer } from 'components/Footer'
+import { MenuModal } from 'modals/MenuModal'
+import { LoginModal } from 'modals/LoginModal'
+import { MessageModal } from 'modals/MessageModal'
+import { DashboardModal } from 'modals/DashboardModal'
 // import { createBrowserHistory } from 'history'
 // const history = createBrowserHistory()
 // console.log(history.location.pathname)
 
 const AppRouter: React.FC = () => {
-  const { user } = useContext(FirebaseAuthContext)
+  const { user, login, firebaseAuth } = useContext(FirebaseAuthContext)
   return (
     <HashRouter basename="/">
       {/* <BrowserRouter basename="/"> */}
@@ -58,10 +58,28 @@ const AppRouter: React.FC = () => {
         ),
         [user],
       )}
-
-      <LoginModal />
-      <MessageModal />
-      <DashboardModal />
+      {useMemo(
+        () => (
+          <LoginModal user={user} login={login} />
+        ),
+        [user],
+      )}
+      {useMemo(
+        () => (
+          <MessageModal />
+        ),
+        [],
+      )}
+      {useMemo(
+        () => (
+          <DashboardModal
+            user={user}
+            login={login}
+            firebaseAuth={firebaseAuth}
+          />
+        ),
+        [user],
+      )}
       {/* </BrowserRouter> */}
     </HashRouter>
   )

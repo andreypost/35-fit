@@ -12,7 +12,7 @@ const Reserve: React.FC = () => {
     setOpacity('active')
   }, [])
   return (
-    <div className={'fallback reserve ' + opacity}>
+    <div className={'fallback ' + opacity}>
       <HeaderBanner>
         <h1>{t('nav.Personal training')}</h1>
         <h3></h3>

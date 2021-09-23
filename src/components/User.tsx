@@ -1,8 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
-import { dashboardModal, loginModal } from 'modals/modal.slice'
+import { loginModal, dashModal } from 'modals/modal.slice'
 
 const Div = styled.div`
   display: flex;
@@ -68,22 +68,16 @@ const Div = styled.div`
     cursor: pointer;
   }
 `
-
-interface Props {
-  user: any
-}
-
-export const User: React.FC<Props> = ({ user }: Props) => {
+export const User = (props: { user: any }) => {
   const dispatch = useAppDispatch(),
-    { t } = useTranslation()
+    { t } = useTranslation(),
+    user = props.user
   console.log('user: ', user)
 
   return (
     <Div
       className={'user ' + (user ? 'loggedOut' : 'loggedIn')}
-      onClick={() =>
-        user ? dispatch(dashboardModal()) : dispatch(loginModal())
-      }
+      onClick={() => (user ? dispatch(dashModal()) : dispatch(loginModal()))}
     >
       {user ? (
         <>

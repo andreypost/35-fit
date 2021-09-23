@@ -1,31 +1,34 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store/root.reducer'
 
-export interface ModalState {
-  active: string
-  burger: string
-  messageActive: string
-  messageValue: string
-}
-
 export const modalSlice = createSlice({
   name: 'modal',
-  initialState:{ active: '', burger: '',  messageActive: '', messageValue: ''},
+  initialState:{ burger: '', menuActive: '', dashActive: '', loginActive:'',  messageActive: '', messageValue: ''},
   reducers: {
     menuModal: state => {
-      state.active = 'menuActive'
+      state.menuActive = 'menuActive'
       state.burger = 'active'
+    },
+    unsetMenuModal: state => {
+      state.menuActive = ''
+      state.burger = ''
     },
     loginModal: state => {
-      state.active = 'loginActive'
+      state.menuActive = ''
+      state.loginActive = 'loginActive'
       state.burger = 'active'
     },
-    dashboardModal: state => {
-      state.active = 'dashboarActive'
+    unsetLoginModal: state => {
+      state.loginActive = ''
+      state.burger = ''
+    },
+    dashModal: state => {
+      state.menuActive = ''
+      state.dashActive = 'dashboarActive'
       state.burger = 'active'
     },
-    unsetModal: state => {
-      state.active = ''
+    unsetDashModal: state => {
+      state.dashActive = ''
       state.burger = ''
     },
     messageSuccessModal: state => {
@@ -40,22 +43,34 @@ export const modalSlice = createSlice({
       state.messageActive = ''
       state.messageValue = ''
     },
+    unsetAllModal: state => {
+      state.menuActive = ''
+      state.loginActive = ''
+      state.dashActive = ''
+      state.messageActive = ''
+      state.burger = ''
+    },
   },
 })
 
 export const {
   menuModal,
+  unsetMenuModal,
   loginModal,
-  dashboardModal,
-  unsetModal,
+  unsetLoginModal,
+  dashModal,
+  unsetDashModal,
+  unsetAllModal,
   messageSuccessModal,
   messageErrorModal,
   unsetMessageModal,
 } = modalSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectModalActive = (state: RootState) => state.modal.active
 export const selectBurgerValue = (state: RootState) => state.modal.burger
+export const selectMenuModalActive = (state: RootState) => state.modal.menuActive
+export const selectLoginModalActive = (state: RootState) => state.modal.loginActive
+export const selectDashModalActive = (state: RootState) => state.modal.dashActive
 export const selectMessageModalActive = (state: RootState) => state.modal.messageActive
 export const selectMessageModalValue = (state: RootState) => state.modal.messageValue
 

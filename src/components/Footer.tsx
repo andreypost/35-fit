@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-export const Footer: React.FC = () => {
+export const Footer = () => {
   const { t } = useTranslation()
   return (
     <footer>

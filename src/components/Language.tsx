@@ -59,7 +59,7 @@ const Ul = styled.ul`
   }
 `
 
-export const Language: React.FC = () => {
+export const Language = () => {
   const { i18n } = useTranslation(),
     [language, getLanguage] = useState(i18n.language),
     versions = ['en', 'ee', 'de']
@@ -67,7 +67,6 @@ export const Language: React.FC = () => {
   // const handleShowList = () => {
   //   if (lungRef.current) lungRef.current.style.opacity = '1'
   // }
-  console.log('Language: ')
   return (
     <Ul>
       <li className="lang_base">{language.toLocaleUpperCase()}</li>

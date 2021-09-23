@@ -92,19 +92,6 @@ textarea:focus {
   background: rgba(0, 0, 0, 0.25);
 }
 
-
-.trainpage .train>a,
-.pricepage .price>a,
-.schedulepage .schedule>a,
-.teampage .team>a,
-.clubpage .club>a,
-.faqpage .faq>a {
-  color: $blue_color;
-}
-
-
-
-
 .footer {}
 
 // .modal {
@@ -167,7 +154,7 @@ textarea:focus {
 // }
 
 
-@media (min-width: 992px) {
+@media (hover: hover) {
 
   //     .section {
   //         max-width: 960px;

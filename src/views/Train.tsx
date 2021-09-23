@@ -10,7 +10,7 @@ const Train: React.FC = () => {
     setOpacity('active')
   }, [])
   return (
-    <div className={'fallback trainpage ' + opacity}>
+    <div className={'fallback ' + opacity}>
       <main className="section">
         <HeaderBanner>
           <h1>{t('nav.Personal training')}</h1>

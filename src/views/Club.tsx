@@ -11,7 +11,7 @@ const Club: React.FC = () => {
     setOpacity('active')
   }, [])
   return (
-    <div className={'fallback clubpage ' + opacity}>
+    <div className={'fallback ' + opacity}>
       <HeaderBanner>
         <h1>{t('nav.Pricing')}</h1>
         <h3></h3>

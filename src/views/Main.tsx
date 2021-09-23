@@ -6,13 +6,13 @@ import tie_fit from 'svg/tie_fit.svg'
 const Main: React.FC = () => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState('')
-  console.log('main')
+  // console.log('main')
 
   useEffect(() => {
     setOpacity('active')
   }, [])
   return (
-    <div className={'fallback mainpage ' + opacity}>
+    <div className={'fallback ' + opacity}>
       <main className="section">
         <HeaderBanner>
           <h1>{t('nav.Personal training')}</h1>

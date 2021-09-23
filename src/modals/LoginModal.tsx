@@ -1,29 +1,34 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { FirebaseAuthContext } from '../index'
+// import { FirebaseAuthContext } from '../index'
 import { useAppSelector, useAppDispatch } from 'utils/hooks'
-import { selectModalActive, unsetModal, messageSuccessModal } from './modal.slice'
+import {
+  selectLoginModalActive,
+  unsetLoginModal,
+  unsetMenuModal,
+  messageSuccessModal,
+} from './modal.slice'
 
 const Div = styled.div`
-  opacity         : 0;
-  position        : fixed;
-  z-index         : -99;
-  left            : 0;
-  top             : 0;
-  width           : 100%;
-  height          : 200%;
-  overflow        : auto;
+  opacity: 0;
+  position: fixed;
+  z-index: -99;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 200%;
+  overflow: auto;
   background-color: rgba(0, 0, 0, 0.2);
-  transition      : opacity .4s, z-index .1s .4s;
+  transition: opacity 0.4s, z-index 0.1s 0.4s;
 
   @media (orientation: landscape) {
-    height          : 100%;
+    height: 100%;
   }
 
   &.loginActive {
-    z-index   : 99;
-    opacity   : 1;
-    transition: z-index .1s, opacity .4s .1s;
+    z-index: 99;
+    opacity: 1;
+    transition: z-index 0.1s, opacity 0.4s 0.1s;
 
     ul {
       transform: scale(1);
@@ -31,7 +36,7 @@ const Div = styled.div`
   }
 
   ul {
-    transform    : scale(0);
+    transform: scale(0);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -41,19 +46,17 @@ const Div = styled.div`
     padding: 20px 20px 10px;
     background: #fedeff;
     text-align: center;
-    box-sizing   : border-box;
-    width        : 90%;
-    margin       : 15vh auto;
-    padding      : 92px 48px 30px;
+    box-sizing: border-box;
+    width: 90%;
+    margin: 15vh auto;
+    padding: 92px 48px 30px;
     border-radius: 30px;
-    box-shadow   : 0px 16px 16px rgba(0, 0, 0, 0.25);
-    background   : $light_peach_color;
-    transition   : transform .6s;
-    
+    box-shadow: 0px 16px 16px rgba(0, 0, 0, 0.25);
+    background: $light_peach_color;
+    transition: transform 0.6s;
+
     li {
-
       a {
-
       }
 
       font-size: 18px;
@@ -61,25 +64,33 @@ const Div = styled.div`
       margin-bottom: 10px;
 
       .signout {
-
       }
       .login {
-
       }
-      
     }
-  }`
+  }
+`
+interface Props {
+  user: any
+  login: () => void
+}
 
-const LoginModal: React.FC = () => {
-  const { user, login } = useContext(FirebaseAuthContext),
-    dispatch = useAppDispatch(),
-    modalState = useAppSelector(selectModalActive)
+export const LoginModal: React.FC<Props> = ({ user, login }: Props) => {
+  // const { user, login } = useContext(FirebaseAuthContext),
+  const dispatch = useAppDispatch(),
+    modalState = useAppSelector(selectLoginModalActive)
+  // console.log('LoginModal: ')
   return (
-    <Div className={modalState} onClick={e => { if (e.target === e.currentTarget) dispatch(unsetModal()) }}>
-
-      <p onClick={() => dispatch(messageSuccessModal())}>notificationSuccessModal</p>
+    <Div
+      className={modalState}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) dispatch(unsetLoginModal())
+      }}
+    >
+      <p onClick={() => dispatch(messageSuccessModal())}>
+        notificationSuccessModal
+      </p>
       <h1 onClick={() => login()}>notificationSuccessModal</h1>
     </Div>
   )
 }
-export default LoginModal

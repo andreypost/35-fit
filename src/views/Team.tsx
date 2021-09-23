@@ -12,7 +12,7 @@ const Team: React.FC = () => {
     setOpacity('active')
   }, [])
   return (
-    <div className={'fallback teampage ' + opacity}>
+    <div className={'fallback ' + opacity}>
       <main className="section">
         <HeaderBanner>
           <h1>{t('nav.Pricing')}</h1>
