@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
@@ -22,6 +22,7 @@ const Header = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-top: 20px;
 
     a {
       white-space: nowrap;
@@ -131,7 +132,7 @@ const Header = styled.header`
           transition: color 0.2s;
 
           &:hover {
-            color: #ff6376;
+            color: #ff6376 !important;
           }
         }
       }
@@ -195,18 +196,6 @@ const Header = styled.header`
         fill: #59b894;
       }
     }
-
-    // @media (orientation: landscape) {
-    //   &_desk {
-    //     display: flex;
-    //   }
-    // }
-
-    // @media (orientation: portrait) {
-    //   &_desk {
-    //     display: block;
-    //   }
-    // }
   }
 `
 
@@ -216,7 +205,7 @@ export const HeaderNavigate = (props: { user: any }) => {
     burgerState = useAppSelector(selectBurgerValue),
     user = props.user
 
-  console.log('HeaderNavigate: ', useLocation().pathname)
+  // console.log('HeaderNavigate: ', 'storage')
 
   return (
     <Header>

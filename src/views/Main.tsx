@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { HeaderBanner } from 'HeaderBanner'
 import { useTranslation } from 'react-i18next'
 import tie_fit from 'svg/tie_fit.svg'
 
-const Main: React.FC = () => {
+const Main = () => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState('')
   // console.log('main')

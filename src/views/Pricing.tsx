@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 // import i18n from "../i18n";
 import { HeaderBanner } from 'HeaderBanner'
 import { useTranslation } from 'react-i18next'
 
-const Pricing: React.FC = () => {
+const Pricing = () => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState('')
 

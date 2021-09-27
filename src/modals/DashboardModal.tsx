@@ -1,4 +1,3 @@
-import React, { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { MAIN_ROUTE } from 'utils/routes.constants'
@@ -25,37 +24,47 @@ const Div = styled.div`
 
   nav {
     transform: scale(0);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-flow: column;
-    min-height: 105px;
-    margin-top: 30vh;
-    padding: 20px 20px 10px;
-    text-align: center;
     box-sizing: border-box;
     width: 90%;
-    margin: 15vh auto;
-    padding: 92px 48px 30px;
-    border-radius: 30px;
-    box-shadow: 0px 16px 16px rgba(0, 0, 0, 0.25);
-    background: white;
+    margin: 10vh auto;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
+    background: #fff;
     transition: transform 0.6s;
+    position: relative;
 
-    li {
-      a {
-      }
+    .cross_icon {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      width: 24px;
+      height: 24px;
+    }
 
-      font-size: 18px;
-      line-height: 21px;
-      margin-bottom: 10px;
+    ul {
+      ddisplay: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-flow: column;
+      padding: 40px;
+      text-align: center;
 
-      .signout {
-      }
-      .login {
+      li {
+        a {
+        }
+
+        font-size: 18px;
+        line-height: 21px;
+        margin-bottom: 10px;
+
+        .signout {
+        }
+        .login {
+        }
       }
     }
   }
+
   &.dashboarActive {
     z-index: 99;
     opacity: 1;
@@ -73,11 +82,7 @@ interface Props {
   firebaseAuth: any
 }
 
-export const DashboardModal: React.FC<Props> = ({
-  user,
-  login,
-  firebaseAuth,
-}: Props) => {
+export const DashboardModal = ({ user, login, firebaseAuth }: Props) => {
   const { t } = useTranslation(),
     modalState = useAppSelector(selectDashModalActive),
     dispatch = useAppDispatch()
@@ -91,7 +96,12 @@ export const DashboardModal: React.FC<Props> = ({
       }}
     >
       <nav>
-        <img src={cross_red} alt="cross_red" className="cross_icon" />
+        <img
+          src={cross_red}
+          className="cross_icon"
+          alt="cross_red"
+          onClick={() => dispatch(unsetDashModal())}
+        />
         <ul>
           <li>
             <Link

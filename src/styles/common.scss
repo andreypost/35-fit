@@ -3,7 +3,6 @@
 body {
   font-family: $montserrat-font-family;
   user-select: none;
-  color      : #000000;
   height: 3000px;
 }
 
@@ -16,10 +15,6 @@ body {
   }
 }
 
-* {
-  scrollbar-width: thin;
-}
-
 .section {
   max-width       : 1440px;
   padding-left    : 20px;
@@ -30,6 +25,8 @@ body {
 }
 
 ul,
+li,
+ol,
 h1,
 h2,
 h3,
@@ -41,14 +38,20 @@ p {
 }
 
 ul {
-  list-style-type     : none;
-  padding-inline-start: none;
-  padding             : 0;
+  list-style-type: none;
+  padding-inline-start: unset;
+  padding: 0;
 }
 
 img {
-  // width : 100%;
-  // height: auto;
+  width : 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea {
+  border: none;
 }
 
 a,
@@ -73,6 +76,10 @@ textarea:focus {
   outline: none;
 }
 
+* {
+  scrollbar-width: thin;
+}
+
 ::-webkit-scrollbar {
   width : 6px;
   height: 6px;
@@ -94,65 +101,7 @@ textarea:focus {
 
 .footer {}
 
-// .modal {
-//   opacity         : 0;
-//   position        : fixed;
-//   z-index         : -99;
-//   left            : 0;
-//   top             : 0;
-//   width           : 100%;
-//   height          : 200%;
-//   overflow        : auto;
-//   background-color: rgba(0, 0, 0, 0.2);
-//   transition      : opacity .4s, z-index .1s .4s;
-
-//   &.active {
-//     z-index   : 99;
-//     opacity   : 1;
-//     transition: z-index .1s, opacity .4s .1s;
-
-//     &.info {
-//       z-index: 999;
-//     }
-
-//     &.info>article,
-//     &.orginfo>div,
-//     #individualStartForm,
-//     #individualSubmitForm {
-//       transform: scale(1);
-
-//     }
-//   }
-
-// }
-
-// .info>article,
-// .orginfo>div,
-// #individualStartForm,
-// #individualSubmitForm {
-//   box-sizing   : border-box;
-//   width        : 90%;
-//   margin       : 15vh auto 0;
-//   padding      : 92px 48px 30px;
-//   border-radius: 30px;
-//   box-shadow   : 0px 16px 16px rgba(0, 0, 0, 0.25);
-//   background   : $light_peach_color;
-//   transform    : scale(0);
-//   transition   : transform .6s;
-// }
-
-// @media (min-width: 576px) {
-//     .section {
-//         max-width: 540px;
-//     }
-// }
-
-// @media (min-width: 768px) {
-//     .section {
-//         max-width: 720px;
-//     }
-// }
-
+@media (min-width: 1200px) {}
 
 @media (hover: hover) {
 
@@ -165,4 +114,14 @@ textarea:focus {
   }
 }
 
-@media (min-width: 1200px) {}
+    // @media (orientation: landscape) {
+    //   &_desk {
+    //     display: flex;
+    //   }
+    // }
+
+    // @media (orientation: portrait) {
+    //   &_desk {
+    //     display: block;
+    //   }
+    // }

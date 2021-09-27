@@ -1,7 +1,7 @@
-import React, { Fragment, useContext, useEffect, useState, useRef } from 'react'
+import { Fragment, useContext, useEffect, useState, useRef } from 'react'
 // import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
-import Spinner from 'Spinner'
+import { Spinner } from 'Spinner'
 import { FirebaseAuthContext } from '../index'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 
@@ -11,11 +11,7 @@ interface canvasProps {
   border: string
 }
 
-const Canvas: React.FC<canvasProps> = ({
-  width,
-  height,
-  border,
-}: canvasProps) => {
+const Canvas = ({ width, height, border }: canvasProps) => {
   const contexRef = useRef<HTMLCanvasElement | null>(null)
   const handleContexLine = (e: any) => {
     const canvas = contexRef.current
@@ -51,7 +47,7 @@ const Canvas: React.FC<canvasProps> = ({
   )
 }
 
-const Chat: React.FC = () => {
+const Chat = () => {
   // const { t } = useTranslation()
   const { firebase, user, firestore } = useContext(FirebaseAuthContext)
   const [chatMessage, setChatMessage] = useState('')

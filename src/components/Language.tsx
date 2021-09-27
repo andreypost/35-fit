@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import { AppContext } from '../AppRouter'
+// import { Spinner } from 'Spinner'
 
 const Ul = styled.ul`
   display: flex;
@@ -61,12 +63,13 @@ const Ul = styled.ul`
 
 export const Language = () => {
   const { i18n } = useTranslation(),
-    [language, getLanguage] = useState(i18n.language),
+    { language, setLanguage } = useContext(AppContext),
     versions = ['en', 'ee', 'de']
   // const lungRef = createRef<HTMLLIElement>()
   // const handleShowList = () => {
   //   if (lungRef.current) lungRef.current.style.opacity = '1'
   // }
+  // if (!language) return <Spinner />
   return (
     <Ul>
       <li className="lang_base">{language.toLocaleUpperCase()}</li>
@@ -77,7 +80,7 @@ export const Language = () => {
               <li
                 key={item}
                 onClick={() => (
-                  i18n.changeLanguage(item), getLanguage(i18n.language)
+                  i18n.changeLanguage(item), setLanguage(i18n.language)
                 )}
               >
                 {item.toLocaleUpperCase()}

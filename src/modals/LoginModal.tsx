@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 // import { FirebaseAuthContext } from '../index'
 import { useAppSelector, useAppDispatch } from 'utils/hooks'
@@ -75,7 +74,7 @@ interface Props {
   login: () => void
 }
 
-export const LoginModal: React.FC<Props> = ({ user, login }: Props) => {
+export const LoginModal = ({ user, login }: Props) => {
   // const { user, login } = useContext(FirebaseAuthContext),
   const dispatch = useAppDispatch(),
     modalState = useAppSelector(selectLoginModalActive)

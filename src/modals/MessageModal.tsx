@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import {
@@ -34,7 +33,7 @@ const Div = styled.div`
   }
 `
 
-export const MessageModal: React.FC = () => {
+export const MessageModal = () => {
   const dispatch = useAppDispatch(),
     messageState = useAppSelector(selectMessageModalActive),
     messageValue = useAppSelector(selectMessageModalValue)

@@ -48,6 +48,7 @@ export const modalSlice = createSlice({
       state.loginActive = ''
       state.dashActive = ''
       state.messageActive = ''
+      state.messageValue = ''
       state.burger = ''
     },
   },

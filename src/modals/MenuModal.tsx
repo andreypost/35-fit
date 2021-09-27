@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import {
@@ -49,8 +49,8 @@ const Div = styled.div`
 
     .cross_icon {
       position: absolute;
-      right: 32px;
-      top: 32px;
+      right: 15px;
+      top: 15px;
       width: 24px;
       height: 24px;
     }
@@ -126,14 +126,11 @@ const Div = styled.div`
   }
 `
 
-interface Props {
-  user: any
-}
-
-export const MenuModal: React.FC<Props> = ({ user }: Props) => {
+export const MenuModal = (props: { user: any }) => {
   const { t } = useTranslation(),
     modalState = useAppSelector(selectMenuModalActive),
-    dispatch = useAppDispatch()
+    dispatch = useAppDispatch(),
+    user = props.user
   // console.log('MenuModal: ')
   return (
     <Div
@@ -143,7 +140,12 @@ export const MenuModal: React.FC<Props> = ({ user }: Props) => {
       }}
     >
       <nav>
-        <img src={cross_red} alt="cross_red" className="cross_icon" />
+        <img
+          src={cross_red}
+          className="cross_icon"
+          alt="cross_red"
+          onClick={() => dispatch(unsetMenuModal())}
+        />
         <ul>
           <li>
             <Link

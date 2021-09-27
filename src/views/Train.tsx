@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { HeaderBanner } from 'HeaderBanner'
 import { useTranslation } from 'react-i18next'
 
-const Train: React.FC = () => {
+const Train = () => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState('')
 

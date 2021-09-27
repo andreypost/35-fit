@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 // import './Training.scss'
 // import { Link } from 'react-router-dom'
 import { HeaderBanner } from 'HeaderBanner'
 import { useTranslation } from 'react-i18next'
 
-const Reserve: React.FC = () => {
+const Reserve = () => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState('')
 

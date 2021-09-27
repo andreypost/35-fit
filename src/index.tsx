@@ -36,7 +36,7 @@ export const FirebaseAuthContext = createContext({} as FACProps)
 
 const AppRouter = lazy(() => import('./AppRouter'))
 
-const App: React.FC = () => {
+const App = () => {
   const [user] = useAuthState(firebaseAuth)
   const login = async () => {
     const provider = new firebase.auth.GoogleAuthProvider()
@@ -53,7 +53,9 @@ const App: React.FC = () => {
         }}
       >
         <Provider store={store}>
-          <AppRouter />
+          <React.StrictMode>
+            <AppRouter />
+          </React.StrictMode>
         </Provider>
       </FirebaseAuthContext.Provider>
     </Suspense>

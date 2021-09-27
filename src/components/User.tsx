@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
@@ -72,7 +71,6 @@ export const User = (props: { user: any }) => {
   const dispatch = useAppDispatch(),
     { t } = useTranslation(),
     user = props.user
-  console.log('user: ', user)
 
   return (
     <Div
