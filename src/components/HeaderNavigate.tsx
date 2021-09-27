@@ -230,10 +230,9 @@ export const HeaderNavigate = (props: { user: any }) => {
             <Link
               to={TRAIN_ROUTE}
               style={{
-                color:
-                  useLocation().pathname === TRAIN_ROUTE
-                    ? '#000044'
-                    : '#737373',
+                color: useLocation().pathname.includes(TRAIN_ROUTE)
+                  ? '#000044'
+                  : '#737373',
               }}
             >
               {t('nav.Training')}
@@ -243,10 +242,9 @@ export const HeaderNavigate = (props: { user: any }) => {
             <Link
               to={PRICE_ROUTE}
               style={{
-                color:
-                  useLocation().pathname === PRICE_ROUTE
-                    ? '#000044'
-                    : '#737373',
+                color: useLocation().pathname.includes(PRICE_ROUTE)
+                  ? '#000044'
+                  : '#737373',
               }}
             >
               {t('nav.Pricing')}
@@ -256,10 +254,9 @@ export const HeaderNavigate = (props: { user: any }) => {
             <Link
               to={SCHEDULE_ROUTE}
               style={{
-                color:
-                  useLocation().pathname === SCHEDULE_ROUTE
-                    ? '#000044'
-                    : '#737373',
+                color: useLocation().pathname.includes(SCHEDULE_ROUTE)
+                  ? '#000044'
+                  : '#737373',
               }}
             >
               {t('nav.Schedule')}
@@ -269,8 +266,9 @@ export const HeaderNavigate = (props: { user: any }) => {
             <Link
               to={TEAM_ROUTE}
               style={{
-                color:
-                  useLocation().pathname === TEAM_ROUTE ? '#000044' : '#737373',
+                color: useLocation().pathname.includes(TEAM_ROUTE)
+                  ? '#000044'
+                  : '#737373',
               }}
             >
               {t('nav.Team')}
@@ -280,8 +278,9 @@ export const HeaderNavigate = (props: { user: any }) => {
             <Link
               to={CLUB_ROUTE}
               style={{
-                color:
-                  useLocation().pathname === CLUB_ROUTE ? '#000044' : '#737373',
+                color: useLocation().pathname.includes(CLUB_ROUTE)
+                  ? '#000044'
+                  : '#737373',
               }}
             >
               {t('nav.Club')}
@@ -291,8 +290,9 @@ export const HeaderNavigate = (props: { user: any }) => {
             <Link
               to={FAQ_ROUTE}
               style={{
-                color:
-                  useLocation().pathname === FAQ_ROUTE ? '#000044' : '#737373',
+                color: useLocation().pathname.includes(FAQ_ROUTE)
+                  ? '#000044'
+                  : '#737373',
               }}
             >
               {t('nav.Faq')}

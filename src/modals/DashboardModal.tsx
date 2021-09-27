@@ -107,8 +107,9 @@ export const DashboardModal = ({ user, login, firebaseAuth }: Props) => {
             <Link
               to={MAIN_ROUTE}
               style={{
-                color:
-                  useLocation().pathname === MAIN_ROUTE ? '#000044' : '#737373',
+                color: useLocation().pathname.includes(MAIN_ROUTE)
+                  ? '#000044'
+                  : '#737373',
               }}
             >
               {t('nav.Dashboard')}
@@ -118,8 +119,9 @@ export const DashboardModal = ({ user, login, firebaseAuth }: Props) => {
             <Link
               to={MAIN_ROUTE}
               style={{
-                color:
-                  useLocation().pathname === MAIN_ROUTE ? '#000044' : '#737373',
+                color: useLocation().pathname.includes(MAIN_ROUTE)
+                  ? '#000044'
+                  : '#737373',
               }}
             >
               {t('nav.Classes')}
@@ -129,8 +131,9 @@ export const DashboardModal = ({ user, login, firebaseAuth }: Props) => {
             <Link
               to={MAIN_ROUTE}
               style={{
-                color:
-                  useLocation().pathname === MAIN_ROUTE ? '#000044' : '#737373',
+                color: useLocation().pathname.includes(MAIN_ROUTE)
+                  ? '#000044'
+                  : '#737373',
               }}
             >
               {t('nav.Progress')}
@@ -140,8 +143,9 @@ export const DashboardModal = ({ user, login, firebaseAuth }: Props) => {
             <Link
               to={MAIN_ROUTE}
               style={{
-                color:
-                  useLocation().pathname === MAIN_ROUTE ? '#000044' : '#737373',
+                color: useLocation().pathname.includes(MAIN_ROUTE)
+                  ? '#000044'
+                  : '#737373',
               }}
             >
               {t('nav.Contract')}
@@ -151,8 +155,9 @@ export const DashboardModal = ({ user, login, firebaseAuth }: Props) => {
             <Link
               to={MAIN_ROUTE}
               style={{
-                color:
-                  useLocation().pathname === MAIN_ROUTE ? '#000044' : '#737373',
+                color: useLocation().pathname.includes(MAIN_ROUTE)
+                  ? '#000044'
+                  : '#737373',
               }}
             >
               {t('nav.Profile')}

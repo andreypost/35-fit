@@ -6,12 +6,17 @@ import './i18n'
 import { Spinner } from 'Spinner'
 import { Provider } from 'react-redux'
 import store from './store/root.store'
-import firebase from 'firebase/app'
-import 'firebase/firestore'
-import 'firebase/auth'
+import { initializeApp } from 'firebase/app'
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  // createUserWithEmailAndPassword,
+} from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-firebase.initializeApp({
+initializeApp({
   apiKey: 'AIzaSyBfmTEsaMI_rX_G0ZbgrIqUdQghinW2eKs',
   authDomain: 'fit-48bac.firebaseapp.com',
   projectId: 'fit-48bac',
@@ -21,8 +26,8 @@ firebase.initializeApp({
   measurementId: 'G-5227123YVS',
 })
 
-const firebaseAuth = firebase.auth()
-const firestore = firebase.firestore()
+const firebaseAuth = getAuth()
+const firestore = getFirestore()
 
 interface FACProps {
   firebase?: any
@@ -39,8 +44,8 @@ const AppRouter = lazy(() => import('./AppRouter'))
 const App = () => {
   const [user] = useAuthState(firebaseAuth)
   const login = async () => {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    await firebaseAuth.signInWithPopup(provider)
+    const provider = new GoogleAuthProvider()
+    await signInWithPopup(firebaseAuth, provider)
   }
   return (
     <Suspense fallback={<Spinner />}>
