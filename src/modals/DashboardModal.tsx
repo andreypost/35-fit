@@ -4,7 +4,7 @@ import { MAIN_ROUTE } from 'utils/routes.constants'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectDashModalActive, unsetDashModal } from './modal.slice'
-import cross_red from 'svg/cross_red.svg'
+import { CrossRedSVG } from 'components/icons'
 
 const Div = styled.div`
   opacity: 0;
@@ -96,12 +96,7 @@ export const DashboardModal = ({ user, login, firebaseAuth }: Props) => {
       }}
     >
       <nav>
-        <img
-          src={cross_red}
-          className="cross_icon"
-          alt="cross_red"
-          onClick={() => dispatch(unsetDashModal())}
-        />
+        <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetDashModal())} />
         <ul>
           <li>
             <Link

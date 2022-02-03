@@ -8,7 +8,7 @@ interface Props {
   children: JSX.Element | JSX.Element[]
 }
 // const Banner = (props: { children: (string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactNodeArray | React.ReactPortal | null | undefined)[]; t: any; }): any => {
-export const HeaderBanner: React.FC<Props> = ({ children }: Props) => {
+export const HeaderBanner = ({ children }: Props) => {
   const dispatch = useAppDispatch()
 
   const keyDownHandler = (e: { key: string }) => {
@@ -23,7 +23,7 @@ export const HeaderBanner: React.FC<Props> = ({ children }: Props) => {
     }
   })
   return (
-    <div className="section">
+    <div className="section header_banner">
       {children[0]}
       {children[1]}
     </div>

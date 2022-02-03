@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { HeaderBanner } from 'HeaderBanner'
 import { useTranslation } from 'react-i18next'
+import { HeaderBanner } from 'HeaderBanner'
 
 const Train = () => {
   const { t } = useTranslation(),

@@ -8,7 +8,6 @@ const Div = styled.div`
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  padding: 0 12px;
   border-radius: 32px;
   border: 2px solid #e8e8e8;
   background-color: white;
@@ -39,7 +38,8 @@ const Div = styled.div`
 
   @media (max-width: 991px) {
     // mobile styles
-    width: 80px;
+    // width: 80px;
+    width: 108px;
     height: 36px;
 
     &.loggedOut {

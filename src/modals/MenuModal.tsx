@@ -13,8 +13,8 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectMenuModalActive, unsetMenuModal } from './modal.slice'
-import cross_red from 'svg/cross_red.svg'
 import { User } from 'components/User'
+import { CrossRedSVG } from 'components/icons'
 
 const Div = styled.div`
   opacity: 0;
@@ -140,12 +140,7 @@ export const MenuModal = (props: { user: any }) => {
       }}
     >
       <nav>
-        <img
-          src={cross_red}
-          className="cross_icon"
-          alt="cross_red"
-          onClick={() => dispatch(unsetMenuModal())}
-        />
+        <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetMenuModal())} />
         <ul>
           <li>
             <Link

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "35fit",
   "main": "index.js",
+  "node": "14.",
   "scripts": {
     "start": "webpack serve --config config/webpack.config.js --env env=dev",
     "build": "webpack --config config/webpack.config.js --env env=prod",

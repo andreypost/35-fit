@@ -17,8 +17,8 @@ body {
 
 .section {
   max-width       : 1440px;
-  padding-left    : 20px;
-  padding-right   : 20px;
+  padding-left    : 10px;
+  padding-right   : 10px;
   margin-left     : auto;
   margin-right    : auto;
   // box-sizing   : border-box;
@@ -61,7 +61,7 @@ a:hover {
 
 a,
 button {
-  cursor: none;
+  cursor: not-allowed;
 }
 
 textarea {
@@ -99,7 +99,12 @@ textarea:focus {
   background: rgba(0, 0, 0, 0.25);
 }
 
-.footer {}
+
+.header_banner {
+  background: url(../img/header_main.png) no-repeat center center;
+}
+
+// .footer {}
 
 @media (min-width: 1200px) {}
 

@@ -16,14 +16,10 @@ import { MenuModal } from 'modals/MenuModal'
 import { LoginModal } from 'modals/LoginModal'
 import { MessageModal } from 'modals/MessageModal'
 import { DashboardModal } from 'modals/DashboardModal'
+import { ACProps } from 'types/appTypes'
 // import { createBrowserHistory } from 'history'
 // const history = createBrowserHistory()
 // console.log(history.location.pathname)
-
-interface ACProps {
-  language: string
-  setLanguage: (language: string) => void
-}
 
 export const AppContext = createContext({} as ACProps)
 
@@ -42,7 +38,7 @@ const AppRouter = () => {
   }, [])
   return (
     <AppContext.Provider
-      value={{ language: language, setLanguage: setLanguage }}
+      value={{ language, setLanguage }}
     >
       <HashRouter basename="/">
         {/* <BrowserRouter basename="/"> */}

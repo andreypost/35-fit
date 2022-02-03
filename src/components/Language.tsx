@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { AppContext } from '../AppRouter'
+import { LangArrowSVG } from './icons'
 // import { Spinner } from 'Spinner'
 
 const Ul = styled.ul`
@@ -89,13 +90,7 @@ export const Language = () => {
         </ul>
       </li>
       <li className="lang_arrow">
-        <svg viewBox="0 0 12 8" xmlns="http://www.w3.org/2000/svg">
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M6 7.99991L0.292881 2.22679C-0.097627 1.83178 -0.097627 1.19126 0.292881 0.796256C0.683389 0.401248 1.3164 0.401248 1.70691 0.796256L6 5.13935L10.2931 0.796256C10.6836 0.401248 11.3166 0.401248 11.7071 0.796256C12.0976 1.19126 12.0976 1.83178 11.7071 2.22679L6 7.99991Z"
-          />
-        </svg>
+        <LangArrowSVG />
       </li>
     </Ul>
   )

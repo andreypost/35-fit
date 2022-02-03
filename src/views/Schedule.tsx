@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 // import { Link } from 'react-router-dom'
 import { HeaderBanner } from 'HeaderBanner'
-import { useTranslation } from 'react-i18next'
 
 const Schedule = () => {
   const { t } = useTranslation(),
