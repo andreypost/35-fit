@@ -15,29 +15,37 @@ import {
 } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { FBACProps } from 'types/appTypes'
 
 initializeApp({
-  apiKey: 'AIzaSyBfmTEsaMI_rX_G0ZbgrIqUdQghinW2eKs',
-  authDomain: 'fit-48bac.firebaseapp.com',
-  projectId: 'fit-48bac',
-  storageBucket: 'fit-48bac.appspot.com',
-  messagingSenderId: '440877798570',
-  appId: '1:440877798570:web:efe70e438944b894ce2cd3',
-  measurementId: 'G-5227123YVS',
+  apiKey: "AIzaSyAyT0D2bg_Jo3byFrOZ2_kIhpzTi3BBolU",
+  authDomain: "fit-35.firebaseapp.com",
+  projectId: "fit-35",
+  storageBucket: "fit-35.appspot.com",
+  messagingSenderId: "18584282293",
+  appId: "1:18584282293:web:151dcd0af8dbfe3bc9cafc",
+  // apiKey: 'AIzaSyBfmTEsaMI_rX_G0ZbgrIqUdQghinW2eKs',
+  // authDomain: 'fit-48bac.firebaseapp.com',
+  // projectId: 'fit-48bac',
+  // storageBucket: 'fit-48bac.appspot.com',
+  // messagingSenderId: '440877798570',
+  // appId: '1:440877798570:web:efe70e438944b894ce2cd3',
+  // measurementId: 'G-5227123YVS',
 })
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyAyT0D2bg_Jo3byFrOZ2_kIhpzTi3BBolU",
+//   authDomain: "fit-35.firebaseapp.com",
+//   projectId: "fit-35",
+//   storageBucket: "fit-35.appspot.com",
+//   messagingSenderId: "18584282293",
+//   appId: "1:18584282293:web:151dcd0af8dbfe3bc9cafc"
+// };
 
 const firebaseAuth = getAuth()
 const firestore = getFirestore()
 
-interface FACProps {
-  firebase?: any
-  firebaseAuth: any
-  firestore: any
-  user: any
-  login: () => void
-}
-
-export const FirebaseAuthContext = createContext({} as FACProps)
+export const FirebaseAuthContext = createContext({} as FBACProps)
 
 const AppRouter = lazy(() => import('./AppRouter'))
 

@@ -1,9 +1,9 @@
 {
-  "name": "35fit",
+  "name": "35-fit",
   "version": "1.0.0",
-  "description": "35fit",
+  "description": "35-fit",
   "main": "index.js",
-  "node": "14.",
+  "node": "14.19.0",
   "scripts": {
     "start": "webpack serve --config config/webpack.config.js --env env=dev",
     "build": "webpack --config config/webpack.config.js --env env=prod",
@@ -17,7 +17,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.0",
     "axios": "^0.21.1",
-    "firebase": "^9.1.0",
+    "firebase": "^9.6.5",
     "firebase-tools": "^9.18.0",
     "history": "^5.0.0",
     "i18next": "^20.3.3",
