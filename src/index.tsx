@@ -51,6 +51,7 @@ const AppRouter = lazy(() => import('./AppRouter'))
 
 const App = () => {
   const [user] = useAuthState(firebaseAuth)
+  console.log(user)
   const login = async () => {
     const provider = new GoogleAuthProvider()
     await signInWithPopup(firebaseAuth, provider)

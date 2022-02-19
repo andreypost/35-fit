@@ -18,7 +18,7 @@
     "@reduxjs/toolkit": "^1.6.0",
     "axios": "^0.21.1",
     "firebase": "^9.6.5",
-    "firebase-tools": "^9.18.0",
+    "firebase-tools": "^9.23.3",
     "history": "^5.0.0",
     "i18next": "^20.3.3",
     "i18next-browser-languagedetector": "^6.1.2",
