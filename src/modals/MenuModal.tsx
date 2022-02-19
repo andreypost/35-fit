@@ -1,22 +1,15 @@
 import { useMemo } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import {
-  TRAIN_ROUTE,
-  PRICE_ROUTE,
-  TEAM_ROUTE,
-  SCHEDULE_ROUTE,
-  CLUB_ROUTE,
-  FAQ_ROUTE,
-  RESERVE_ROUTE,
-} from 'utils/routes.constants'
+import { RESERVE_ROUTE, } from 'utils/routes.constants'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectMenuModalActive, unsetMenuModal } from './modal.slice'
 import { User } from 'components/User'
 import { CrossRedSVG } from 'components/icons'
+import { NavigationLinks } from 'components/NavigationLinks'
 
-const Div = styled.div`
+export const BaseDiv = styled.div`
   opacity: 0;
   position: fixed;
   z-index: -99;
@@ -54,7 +47,20 @@ const Div = styled.div`
       width: 24px;
       height: 24px;
     }
+  }
+  &.menuActive, &.dashboarActive, &.loginActive, &.messageActive {
+    z-index: 99;
+    opacity: 1;
+    transition: z-index 0.1s, opacity 0.4s 0.1s;
 
+    nav {
+      transform: scale(1);
+    }
+  }
+`
+
+export const BaseUl = styled(BaseDiv)`
+  nav {
     ul {
       display: flex;
       align-items: center;
@@ -62,6 +68,18 @@ const Div = styled.div`
       flex-flow: column;
       padding: 40px;
       text-align: center;
+    }
+`
+
+const Div = styled(BaseUl)`
+  nav {
+    ul {
+      // display: flex;
+      // align-items: center;
+      // justify-content: space-between;
+      // flex-flow: column;
+      // padding: 40px;
+      // text-align: center;
 
       li {
         width: 100%;
@@ -115,15 +133,6 @@ const Div = styled.div`
       }
     }
   }
-  &.menuActive {
-    z-index: 99;
-    opacity: 1;
-    transition: z-index 0.1s, opacity 0.4s 0.1s;
-
-    nav {
-      transform: scale(1);
-    }
-  }
 `
 
 export const MenuModal = (props: { user: any }) => {
@@ -132,88 +141,16 @@ export const MenuModal = (props: { user: any }) => {
     dispatch = useAppDispatch(),
     user = props.user
   // console.log('MenuModal: ')
+
   return (
     <Div
       className={modalState}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) dispatch(unsetMenuModal())
-      }}
+      onClick={e => e.target === e.currentTarget && dispatch(unsetMenuModal())}
     >
       <nav>
         <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetMenuModal())} />
         <ul>
-          <li>
-            <Link
-              to={TRAIN_ROUTE}
-              style={{
-                color: useLocation().pathname.includes(TRAIN_ROUTE)
-                  ? '#000044'
-                  : '#737373',
-              }}
-            >
-              {t('nav.Training')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={PRICE_ROUTE}
-              style={{
-                color: useLocation().pathname.includes(PRICE_ROUTE)
-                  ? '#000044'
-                  : '#737373',
-              }}
-            >
-              {t('nav.Pricing')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={SCHEDULE_ROUTE}
-              style={{
-                color: useLocation().pathname.includes(SCHEDULE_ROUTE)
-                  ? '#000044'
-                  : '#737373',
-              }}
-            >
-              {t('nav.Schedule')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={TEAM_ROUTE}
-              style={{
-                color: useLocation().pathname.includes(TEAM_ROUTE)
-                  ? '#000044'
-                  : '#737373',
-              }}
-            >
-              {t('nav.Team')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={CLUB_ROUTE}
-              style={{
-                color: useLocation().pathname.includes(CLUB_ROUTE)
-                  ? '#000044'
-                  : '#737373',
-              }}
-            >
-              {t('nav.Club')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={FAQ_ROUTE}
-              style={{
-                color: useLocation().pathname.includes(FAQ_ROUTE)
-                  ? '#000044'
-                  : '#737373',
-              }}
-            >
-              {t('nav.Faq')}
-            </Link>
-          </li>
+          <NavigationLinks />
           <li className={'login ' + (user ? 'signOut' : 'signIn')}>
             {useMemo(
               () => (

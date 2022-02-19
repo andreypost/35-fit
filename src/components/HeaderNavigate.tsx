@@ -1,22 +1,14 @@
 import { useMemo } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectBurgerValue, menuModal } from 'modals/modal.slice'
-import {
-  TRAIN_ROUTE,
-  PRICE_ROUTE,
-  MAIN_ROUTE,
-  TEAM_ROUTE,
-  SCHEDULE_ROUTE,
-  CLUB_ROUTE,
-  FAQ_ROUTE,
-  RESERVE_ROUTE,
-} from 'utils/routes.constants'
+import { MAIN_ROUTE, RESERVE_ROUTE, } from 'utils/routes.constants'
 import { Language } from './Language'
 import { User } from './User'
 import { LogoSVG } from './icons'
+import { NavigationLinks } from './NavigationLinks'
 
 const Header = styled.header`
   .navigate {
@@ -215,78 +207,7 @@ export const HeaderNavigate = (props: { user: any }) => {
           <LogoSVG />
         </Link>
         <ul className="navigate_routes">
-          <li>
-            <Link
-              to={TRAIN_ROUTE}
-              style={{
-                color: useLocation().pathname.includes(TRAIN_ROUTE)
-                  ? '#000044'
-                  : '#737373',
-              }}
-            >
-              {t('nav.Training')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={PRICE_ROUTE}
-              style={{
-                color: useLocation().pathname.includes(PRICE_ROUTE)
-                  ? '#000044'
-                  : '#737373',
-              }}
-            >
-              {t('nav.Pricing')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={SCHEDULE_ROUTE}
-              style={{
-                color: useLocation().pathname.includes(SCHEDULE_ROUTE)
-                  ? '#000044'
-                  : '#737373',
-              }}
-            >
-              {t('nav.Schedule')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={TEAM_ROUTE}
-              style={{
-                color: useLocation().pathname.includes(TEAM_ROUTE)
-                  ? '#000044'
-                  : '#737373',
-              }}
-            >
-              {t('nav.Team')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={CLUB_ROUTE}
-              style={{
-                color: useLocation().pathname.includes(CLUB_ROUTE)
-                  ? '#000044'
-                  : '#737373',
-              }}
-            >
-              {t('nav.Club')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={FAQ_ROUTE}
-              style={{
-                color: useLocation().pathname.includes(FAQ_ROUTE)
-                  ? '#000044'
-                  : '#737373',
-              }}
-            >
-              {t('nav.Faq')}
-            </Link>
-          </li>
+          <NavigationLinks />
         </ul>
         <div className="navigate_menu">
           {useMemo(
