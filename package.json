@@ -17,7 +17,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.0",
     "axios": "^0.21.1",
-    "firebase": "^9.6.5",
+    "firebase": "^9.6.8",
     "firebase-tools": "^9.23.3",
     "history": "^5.0.0",
     "i18next": "^20.3.3",
