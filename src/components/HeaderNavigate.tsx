@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectBurgerValue, menuModal } from 'modals/modal.slice'
-import { MAIN_ROUTE, RESERVE_ROUTE, } from 'utils/routes.constants'
+import { MAIN_ROUTE, publicLinks, RESERVE_ROUTE, } from 'utils/routes.constants'
 import { Language } from './Language'
 import { User } from './User'
 import { LogoSVG } from './icons'
@@ -207,7 +207,7 @@ export const HeaderNavigate = (props: { user: any }) => {
           <LogoSVG />
         </Link>
         <ul className="navigate_routes">
-          <NavigationLinks />
+          <NavigationLinks links={publicLinks} />
         </ul>
         <div className="navigate_menu">
           {useMemo(

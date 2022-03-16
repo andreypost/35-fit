@@ -5,8 +5,10 @@ import { selectDashModalActive, unsetDashModal } from './modal.slice'
 import { CrossRedSVG } from 'components/icons'
 import { BaseDiv } from './MenuModal'
 import { NavigationLinks } from 'components/NavigationLinks'
+import { profileLinks } from 'utils/routes.constants'
 
 const Div = styled(BaseDiv)`
+display: block;
   nav {
     ul {
       display: flex;
@@ -56,7 +58,7 @@ export const DashboardModal = ({ user, login, firebaseAuth }: Props) => {
       <nav>
         <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetDashModal())} />
         <ul>
-          <NavigationLinks />
+          <NavigationLinks links={profileLinks} />
           <li
             onClick={() => (firebaseAuth.signOut(), dispatch(unsetDashModal()))}
           >

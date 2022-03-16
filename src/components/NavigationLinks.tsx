@@ -1,23 +1,14 @@
 import { Link, useLocation } from 'react-router-dom'
-import { TRAIN_ROUTE, PRICE_ROUTE, TEAM_ROUTE, SCHEDULE_ROUTE, CLUB_ROUTE, FAQ_ROUTE, } from 'utils/routes.constants'
 import { useTranslation } from 'react-i18next'
 
-const links = [
-  { route: TRAIN_ROUTE, dictionary: 'nav.Training' },
-  { route: PRICE_ROUTE, dictionary: 'nav.Pricing' },
-  { route: SCHEDULE_ROUTE, dictionary: 'nav.Schedule' },
-  { route: TEAM_ROUTE, dictionary: 'nav.Team' },
-  { route: CLUB_ROUTE, dictionary: 'nav.Club' },
-  { route: FAQ_ROUTE, dictionary: 'nav.Faq' },
-]
 
-export const NavigationLinks = () => {
+
+export const NavigationLinks = ({ links }) => {
   const { t } = useTranslation()
-
   return (
     <>
       {links.map(({ route, dictionary }) =>
-        <li key={route}>
+        <li key={dictionary}>
           <Link
             to={route}
             style={{

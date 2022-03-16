@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { RESERVE_ROUTE, } from 'utils/routes.constants'
 import { useTranslation } from 'react-i18next'
+import { publicLinks, RESERVE_ROUTE, } from 'utils/routes.constants'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectMenuModalActive, unsetMenuModal } from './modal.slice'
 import { User } from 'components/User'
@@ -150,7 +150,7 @@ export const MenuModal = (props: { user: any }) => {
       <nav>
         <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetMenuModal())} />
         <ul>
-          <NavigationLinks />
+          <NavigationLinks links={publicLinks} />
           <li className={'login ' + (user ? 'signOut' : 'signIn')}>
             {useMemo(
               () => (
