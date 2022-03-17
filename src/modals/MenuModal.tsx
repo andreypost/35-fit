@@ -6,7 +6,7 @@ import { publicLinks, RESERVE_ROUTE, } from 'utils/routes.constants'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectMenuModalActive, unsetMenuModal } from './modal.slice'
 import { User } from 'components/User'
-import { CrossRedSVG } from 'components/icons'
+import { CrossRedSVG } from 'img/icons'
 import { NavigationLinks } from 'components/NavigationLinks'
 
 export const BaseDiv = styled.div`
@@ -25,7 +25,7 @@ export const BaseDiv = styled.div`
     height: 100%;
   }
 
-  @media (min-width: 992px) {
+  @media (min-width: 993px) {
     display: none;
   }
 
@@ -33,6 +33,7 @@ export const BaseDiv = styled.div`
     transform: scale(0);
     box-sizing: border-box;
     width: 90%;
+    max-width: 480px;
     margin: 10vh auto;
     border-radius: 6px;
     box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
@@ -46,8 +47,14 @@ export const BaseDiv = styled.div`
       top: 15px;
       width: 24px;
       height: 24px;
+      @media (hover: hover) {
+        &:hover {
+          cursor: pointer;
+        }
+      }
     }
   }
+
   &.menuActive, &.dashboarActive, &.loginActive, &.messageActive {
     z-index: 99;
     opacity: 1;
@@ -57,6 +64,7 @@ export const BaseDiv = styled.div`
       transform: scale(1);
     }
   }
+
 `
 
 export const BaseUl = styled(BaseDiv)`
@@ -69,27 +77,23 @@ export const BaseUl = styled(BaseDiv)`
       padding: 40px;
       text-align: center;
     }
+  }
 `
 
 const Div = styled(BaseUl)`
-  nav {
-    ul {
-      // display: flex;
-      // align-items: center;
-      // justify-content: space-between;
-      // flex-flow: column;
-      // padding: 40px;
-      // text-align: center;
-
+  // nav {
+    // ul {
       li {
         width: 100%;
         max-width: 280px;
 
         a {
-          font-size: 18px;
-          line-height: 48px;
+          display: inline-block;
+          font-size: 20px;
+          // line-height: 48px;
           font-weight: 900;
-          color: #737373;
+          padding-top: 9.5px;
+          padding-bottom: 9.5px;
         }
       }
 
@@ -126,13 +130,13 @@ const Div = styled(BaseUl)`
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0 20px;
+        // padding: 0 20px;
         border-radius: 32px;
         background-color: #59b894;
         color: white;
       }
-    }
-  }
+    // }
+  // }
 `
 
 export const MenuModal = (props: { user: any }) => {
@@ -150,7 +154,7 @@ export const MenuModal = (props: { user: any }) => {
       <nav>
         <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetMenuModal())} />
         <ul>
-          <NavigationLinks links={publicLinks} />
+          <NavigationLinks links={publicLinks} color='#737373' />
           <li className={'login ' + (user ? 'signOut' : 'signIn')}>
             {useMemo(
               () => (

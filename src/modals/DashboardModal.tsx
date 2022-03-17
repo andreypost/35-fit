@@ -2,36 +2,33 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectDashModalActive, unsetDashModal } from './modal.slice'
-import { CrossRedSVG } from 'components/icons'
+import { CrossRedSVG } from 'img/icons'
 import { BaseDiv } from './MenuModal'
 import { NavigationLinks } from 'components/NavigationLinks'
 import { profileLinks } from 'utils/routes.constants'
 
 const Div = styled(BaseDiv)`
-display: block;
-  nav {
-    ul {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-flow: column;
+  display: block;
+   ul {
+      // display: flex;
+      // align-items: center;
+      // justify-content: space-between;
+      // flex-flow: column;
       padding: 40px;
       text-align: center;
 
       li {
         a {
+          font-size: 18px;
+          line-height: 48px;
+          font-weight: 900;
         }
-
-        font-size: 18px;
-        line-height: 21px;
-        margin-bottom: 10px;
 
         .signout {
         }
         .login {
         }
       }
-    }
   }
 `
 
@@ -58,7 +55,7 @@ export const DashboardModal = ({ user, login, firebaseAuth }: Props) => {
       <nav>
         <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetDashModal())} />
         <ul>
-          <NavigationLinks links={profileLinks} />
+          <NavigationLinks links={profileLinks} color='#59b894' />
           <li
             onClick={() => (firebaseAuth.signOut(), dispatch(unsetDashModal()))}
           >

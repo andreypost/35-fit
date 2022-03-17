@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
 import { loginModal, dashModal } from 'modals/modal.slice'
+import empty_user from '../img/empty_user.png'
 
 const Div = styled.div`
   display: flex;
@@ -13,56 +14,64 @@ const Div = styled.div`
   background-color: white;
   transition: background-color 0.2s;
 
-  &:hover {
-    background-color: #59b894;
-    p {
-      color: white;
-    }
-  }
-
-  p {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    text-align: center;
-    font-size: 14px;
-    color: #737373;
-    transition: color 0.2s;
-  }
-
   .user_face {
     border-radius: 50%;
-    border: 2px solid white;
-    margin-right: -13px;
+    // border: 2px solid white;
   }
 
-  @media (max-width: 991px) {
-    // mobile styles
-    // width: 80px;
-    width: 108px;
-    height: 36px;
+  @media (max-width: 992px) {
+    width: 38px;
+    height: 38px;
+    // justify-content: center;
+
+    .user_name {
+      display: none;
+    }
 
     &.loggedOut {
-      width: 36px;
+      // width: 38px;
 
       .user_face {
         width: 30px;
         height: 30px;
-        margin-right: unset;
       }
     }
   }
 
-  @media (min-width: 992px) {
+  @media (min-width: 993px) {
     // monitor styles
-    width: 125px;
+    width: 140px;
     height: 42px;
+    padding-left: 4px;
+    padding-right: 2px;
+    
+    &.loggedOut {
+      justify-content: space-between;
+    }
+
+    .user_name {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      font-size: 14px;
+      color: #737373;
+      transition: color 0.2s;
+    }
 
     .user_face {
       width: 36px;
       height: 36px;
     }
+
+    &:hover {
+      background-color: #59b894;
+      p {
+        color: white;
+      }
+    }
+
   }
+
   @media (hover: hover) {
     cursor: pointer;
   }
@@ -77,14 +86,13 @@ export const User = (props: { user: any }) => {
       className={'user ' + (user ? 'loggedOut' : 'loggedIn')}
       onClick={() => (user ? dispatch(dashModal()) : dispatch(loginModal()))}
     >
-      {user ? (
-        <>
-          <p className="user_name">{user.displayName || null}</p>
-          <img className="user_face" src={user.photoURL || null} alt="" />
-        </>
-      ) : (
-        <p>{t('nav.Login')}</p>
-      )}
+      <p className="user_name">{(user && user.displayName) || t('nav.Login')}</p>
+      <img
+        src={(user && user.photoURL) || empty_user}
+        onError={(e: any) => { e.target.onerror = null; e.target.src = empty_user }}
+        className="user_face"
+        style={{ display: !user ? 'none' : 'block' }}
+        alt="user's face" />
     </Div>
   )
 }

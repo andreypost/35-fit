@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { AppContext } from '../AppRouter'
-import { LangArrowSVG } from './icons'
+import { LangArrowSVG } from '../img/icons'
 // import { Spinner } from 'Spinner'
 
 const Ul = styled.ul`

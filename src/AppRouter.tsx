@@ -36,6 +36,7 @@ const AppRouter = () => {
       }
     }
   }, [])
+  
   return (
     <AppContext.Provider
       value={{ language, setLanguage }}

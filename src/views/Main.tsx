@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { HeaderBanner } from 'HeaderBanner'
 import { useTranslation } from 'react-i18next'
-import { TieFitSVG } from 'components/icons'
+import { TieFitSVG } from 'img/icons'
 
 const Main = () => {
   const { t } = useTranslation(),
@@ -11,6 +11,7 @@ const Main = () => {
   useEffect(() => {
     setOpacity('active')
   }, [])
+  
   return (
     <div className={'fallback ' + opacity}>
       <main className="section">

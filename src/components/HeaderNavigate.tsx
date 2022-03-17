@@ -7,7 +7,7 @@ import { selectBurgerValue, menuModal } from 'modals/modal.slice'
 import { MAIN_ROUTE, publicLinks, RESERVE_ROUTE, } from 'utils/routes.constants'
 import { Language } from './Language'
 import { User } from './User'
-import { LogoSVG } from './icons'
+import { LogoSVG } from '../img/icons'
 import { NavigationLinks } from './NavigationLinks'
 
 const Header = styled.header`
@@ -34,7 +34,7 @@ const Header = styled.header`
       margin-left: auto;
     }
 
-    @media (max-width: 991px) {
+    @media (max-width: 992px) {
       // mobile styles
 
       &_logo svg {
@@ -100,7 +100,7 @@ const Header = styled.header`
       }
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 993px) {
       // monitor styles
 
       &_burger {
@@ -144,11 +144,11 @@ const Header = styled.header`
         color: white;
         transition: background-color 0.2s;
 
-        @media (max-width: 991px) {
+        @media (max-width: 992px) {
           height: 38px;
         }
 
-        @media (min-width: 992px) {
+        @media (min-width: 993px) {
           height: 42px;
         }
 
@@ -207,7 +207,7 @@ export const HeaderNavigate = (props: { user: any }) => {
           <LogoSVG />
         </Link>
         <ul className="navigate_routes">
-          <NavigationLinks links={publicLinks} />
+          <NavigationLinks links={publicLinks} color='#737373' />
         </ul>
         <div className="navigate_menu">
           {useMemo(
