@@ -12,27 +12,41 @@ import { User } from 'components/User'
 
 const Div = styled(BaseDiv)`
   display: block;
-   ul {
-      // display: flex;
-      // align-items: center;
-      // justify-content: space-between;
-      // flex-flow: column;
-      padding: 40px 20px;
+  nav {
+    max-width: 360px;
+    ul {
+      padding: 20px;
       text-align: center;
-      border-top: 1px solid #e8e8e8;
-
-      li {
-        a {
-          font-size: 18px;
-          line-height: 48px;
-          font-weight: 900;
-        }
-
-        .signout {
-        }
-        .login {
+      a {
+        display: inline-block;
+        font-size: 18px;
+        font-weight: 900;
+        margin: 10px 0;
+        color: #59b894;
+        transition: color 0.2s;
+        @media (hover: hover) {
+          cursor: pointer;
+          &:hover {
+            color: #000044 !important;
+          }
         }
       }
+      .signout {
+        font-size: 18px;
+        font-weight: 900;
+        margin-top: 10px;
+        padding-top: 20px;
+        border-top: 1px solid #e8e8e8;
+        color: #737373;
+        transition: color 0.2s;
+        @media (hover: hover) {
+          cursor: pointer;
+          &:hover {
+            color: #ff6376;
+          }
+        }
+      }
+    }
   }
 `
 
@@ -41,19 +55,16 @@ export const DashboardModal = ({ user, login, firebaseAuth }: FBUProps) => {
     modalState = useAppSelector(selectDashModalActive),
     dispatch = useAppDispatch()
 
-  // console.log('DashboardModal: ')
-
   return (
     <Div
-      className={'dashboarActive'}
+      className={modalState}
       onClick={e => e.target === e.currentTarget && dispatch(unsetDashModal())}
     >
       <nav>
-        {/* <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetDashModal())} /> */}
         <ul>
           {useMemo(() => <User user={user} styles='dashboard_modal' />, [user])}
           <NavigationLinks links={profileLinks} color='#59b894' />
-          <li onClick={() => (firebaseAuth.signOut(), dispatch(unsetDashModal()))}>
+          <li className='signout' onClick={() => (firebaseAuth.signOut(), dispatch(unsetDashModal()))}>
             {t('nav.Sign out')}
           </li>
         </ul>

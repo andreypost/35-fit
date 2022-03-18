@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
-import { loginModal, dashModal } from 'modals/modal.slice'
+import { loginModal, dashModal, unsetDashModal } from 'modals/modal.slice'
 import empty_user from '../img/empty_user.png'
 import { LangArrowSVG } from 'img/icons'
 
@@ -14,7 +14,6 @@ const Div = styled.div`
   border: 2px solid #e8e8e8;
   background-color: white;
   transition: background-color 0.2s;
-
   .user_name {
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -23,17 +22,14 @@ const Div = styled.div`
     color: #737373;
     transition: color 0.2s;
   }
-
   .user_face {
     width: 36px;
     height: 36px;
     border-radius: 50%;
   }
-
   .user_arrow {
     display: none;
   }
-
   &.header_nav {
     @media (max-width: 992px) {
       width: 42px;
@@ -60,13 +56,12 @@ const Div = styled.div`
       cursor: pointer;
       &:hover {
         background-color: #59b894;
-        p {
+        .user_name {
           color: white;
         }
       }
     }
   }
-
   &.menu_modal {
     @media (max-width: 992px) {
       padding-left: 4px;
@@ -85,23 +80,24 @@ const Div = styled.div`
       cursor: pointer;
       &:hover {
         background-color: #59b894;
-        p {
+        .user_name {
           color: white;
         }
       }
     }
   }
-
   &.dashboard_modal {
+    height: 100%;
     justify-content: space-between;
     border-radius: unset;
     border: unset;
-    padding: 0 20px 10px;
+    margin-bottom: 10px;
+    padding: 0 20px 16px;
     border-bottom: 2px solid #e8e8e8;
     .user_name {
       order: 2;
-      font-size: 18px;
-      font-weight: 500;
+      font-size: 14px;
+      font-weight: 600;
       color: #004;
     }
     .user_face {
@@ -113,18 +109,38 @@ const Div = styled.div`
       width: 16px;
       height: 11px;
       fill: #737373;
+      transition: transform 0.2s;
+    }
+    @media (hover: hover) {
+      cursor: pointer;
+      &:hover {
+        .user_name {
+          color: #ff6376;
+        }
+        .user_arrow {
+          fill: #ff6376;
+          transform: rotate(180deg);
+        }
+      }
     }
   }
-
 `
 export const User = ({ user, styles }) => {
   const dispatch = useAppDispatch(),
     { t } = useTranslation()
 
+  const handleModals = () => {
+    if (styles === 'dashboard_modal') {
+      dispatch(unsetDashModal())
+      return
+    }
+    user ? dispatch(dashModal()) : dispatch(loginModal())
+  }
+
   return (
     <Div
       className={styles + (user ? ' loggedOut' : ' loggedIn')}
-      onClick={() => user ? dispatch(dashModal()) : dispatch(loginModal())}
+      onClick={handleModals}
     >
       <p className="user_name">{(user && user.displayName) || t('nav.Login')}</p>
       <img
