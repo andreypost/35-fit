@@ -17,8 +17,9 @@ const Div = styled(BaseDiv)`
       // align-items: center;
       // justify-content: space-between;
       // flex-flow: column;
-      padding: 40px;
+      padding: 40px 20px;
       text-align: center;
+      border-top: 1px solid #e8e8e8;
 
       li {
         a {
@@ -44,13 +45,13 @@ export const DashboardModal = ({ user, login, firebaseAuth }: FBUProps) => {
 
   return (
     <Div
-      className={modalState}
+      className={'dashboarActive'}
       onClick={e => e.target === e.currentTarget && dispatch(unsetDashModal())}
     >
       <nav>
-        <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetDashModal())} />
+        {/* <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetDashModal())} /> */}
         <ul>
-          {useMemo(() => <User user={user} styles='dashboard' />, [user])}
+          {useMemo(() => <User user={user} styles='dashboard_modal' />, [user])}
           <NavigationLinks links={profileLinks} color='#59b894' />
           <li onClick={() => (firebaseAuth.signOut(), dispatch(unsetDashModal()))}>
             {t('nav.Sign out')}

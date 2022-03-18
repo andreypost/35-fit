@@ -17,8 +17,8 @@ export const LogoSVG = memo(() =>
     </svg>
 )
 
-export const LangArrowSVG = memo(() =>
-    <svg viewBox="0 0 12 8" xmlns="http://www.w3.org/2000/svg">
+export const LangArrowSVG = memo(({ className }: ISVGProp) =>
+    <svg className={className} viewBox="0 0 12 8" xmlns="http://www.w3.org/2000/svg">
         <path
             fillRule="evenodd"
             clipRule="evenodd"
