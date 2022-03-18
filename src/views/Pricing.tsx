@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 // import i18n from "../i18n";
 import { HeaderBanner } from 'HeaderBanner'
-import { useTranslation } from 'react-i18next'
 
 const Pricing = () => {
   const { t } = useTranslation(),
@@ -10,6 +10,7 @@ const Pricing = () => {
   useEffect(() => {
     setOpacity('active')
   }, [])
+
   return (
     <div className={'fallback ' + opacity}>
       <main className="section">
@@ -22,5 +23,4 @@ const Pricing = () => {
     </div>
   )
 }
-
 export default Pricing

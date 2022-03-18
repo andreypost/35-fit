@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectBurgerValue, menuModal } from 'modals/modal.slice'
 import { MAIN_ROUTE, publicLinks, RESERVE_ROUTE, } from 'utils/routes.constants'
@@ -134,7 +134,7 @@ const Header = styled.header`
         display: flex;
         align-items: center;
         justify-content: center;
-        @include green_button;
+        // @include green_button;
         box-sizing: border-box;
         width: 188px;
         padding: 0 12px;
@@ -192,11 +192,10 @@ const Header = styled.header`
   }
 `
 
-export const HeaderNavigate = (props: { user: any }) => {
+export const HeaderNavigate = ({ user }) => {
   const { t } = useTranslation(),
     dispatch = useAppDispatch(),
-    burgerState = useAppSelector(selectBurgerValue),
-    user = props.user
+    burgerState = useAppSelector(selectBurgerValue)
 
   // console.log('HeaderNavigate: ', 'storage')
 
@@ -210,18 +209,8 @@ export const HeaderNavigate = (props: { user: any }) => {
           <NavigationLinks links={publicLinks} color='#737373' />
         </ul>
         <div className="navigate_menu">
-          {useMemo(
-            () => (
-              <Language />
-            ),
-            [],
-          )}
-          {useMemo(
-            () => (
-              <User user={user} />
-            ),
-            [user],
-          )}
+          {useMemo(() => <Language />, [])}
+          {useMemo(() => <User user={user} styles='header_nav' />, [user])}
           <Link to={RESERVE_ROUTE} className="navigate_buy">
             {t('nav.Buy')}
           </Link>

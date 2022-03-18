@@ -76,20 +76,19 @@ const Div = styled.div`
     cursor: pointer;
   }
 `
-export const User = (props: { user: any }) => {
+export const User = ({ user, styles }) => {
   const dispatch = useAppDispatch(),
-    { t } = useTranslation(),
-    user = props.user
+    { t } = useTranslation()
 
   return (
     <Div
       className={'user ' + (user ? 'loggedOut' : 'loggedIn')}
-      onClick={() => (user ? dispatch(dashModal()) : dispatch(loginModal()))}
+      onClick={() => user ? dispatch(dashModal()) : dispatch(loginModal())}
     >
       <p className="user_name">{(user && user.displayName) || t('nav.Login')}</p>
       <img
         src={(user && user.photoURL) || empty_user}
-        onError={(e: any) => { e.target.onerror = null; e.target.src = empty_user }}
+        onError={(e: any) => (e.target.onerror = null, e.target.src = empty_user)}
         className="user_face"
         style={{ display: !user ? 'none' : 'block' }}
         alt="user's face" />

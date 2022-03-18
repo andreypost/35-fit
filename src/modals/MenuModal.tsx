@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import { publicLinks, RESERVE_ROUTE, } from 'utils/routes.constants'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectMenuModalActive, unsetMenuModal } from './modal.slice'
 import { User } from 'components/User'
-import { CrossRedSVG } from 'img/icons'
 import { NavigationLinks } from 'components/NavigationLinks'
+import { CrossRedSVG } from 'img/icons'
 
 export const BaseDiv = styled.div`
   opacity: 0;
@@ -68,21 +68,17 @@ export const BaseDiv = styled.div`
 `
 
 export const BaseUl = styled(BaseDiv)`
-  nav {
-    ul {
+  nav ul {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-flow: column;
       padding: 40px;
       text-align: center;
-    }
   }
 `
 
 const Div = styled(BaseUl)`
-  // nav {
-    // ul {
       li {
         width: 100%;
         max-width: 280px;
@@ -135,15 +131,12 @@ const Div = styled(BaseUl)`
         background-color: #59b894;
         color: white;
       }
-    // }
-  // }
 `
 
-export const MenuModal = (props: { user: any }) => {
+export const MenuModal = ({ user }) => {
   const { t } = useTranslation(),
     modalState = useAppSelector(selectMenuModalActive),
-    dispatch = useAppDispatch(),
-    user = props.user
+    dispatch = useAppDispatch()
   // console.log('MenuModal: ')
 
   return (
@@ -156,12 +149,7 @@ export const MenuModal = (props: { user: any }) => {
         <ul>
           <NavigationLinks links={publicLinks} color='#737373' />
           <li className={'login ' + (user ? 'signOut' : 'signIn')}>
-            {useMemo(
-              () => (
-                <User user={user} />
-              ),
-              [user],
-            )}
+            {useMemo(() => <User user={user} styles='menu_modal' />, [user])}
             {/* {user ? <div className="signOut" onClick={() => firebaseAuth.signOut()}>{t('nav.Sign out')}</div> : <div className="login" onClick={() => dispatch(loginModal())}>{t('nav.Login')}</div>} */}
             {/* {user ? <div className="signout" onClick={() => auth.signOut()}>{t('nav.Sign out')}</div> : <div className="login" onClick={login}>{t('nav.Login')}</div>} */}
           </li>

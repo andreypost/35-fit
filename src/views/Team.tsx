@@ -11,6 +11,7 @@ const Team = () => {
   useEffect(() => {
     setOpacity('active')
   }, [])
+
   return (
     <div className={'fallback ' + opacity}>
       <main className="section">
@@ -23,5 +24,4 @@ const Team = () => {
     </div>
   )
 }
-
 export default Team

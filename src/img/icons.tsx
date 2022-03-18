@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { ISVGProp } from 'types/appTypes';
+import { ISVGProp } from 'types/interface';
 
 export const LogoSVG = memo(() =>
     <svg viewBox="0 0 118 50" xmlns="http://www.w3.org/2000/svg">

@@ -16,7 +16,7 @@ import { MenuModal } from 'modals/MenuModal'
 import { LoginModal } from 'modals/LoginModal'
 import { MessageModal } from 'modals/MessageModal'
 import { DashboardModal } from 'modals/DashboardModal'
-import { ACProps } from 'types/appTypes'
+import { ACProps } from 'types/interface'
 // import { createBrowserHistory } from 'history'
 // const history = createBrowserHistory()
 // console.log(history.location.pathname)
@@ -36,69 +36,35 @@ const AppRouter = () => {
       }
     }
   }, [])
-  
+
   return (
-    <AppContext.Provider
-      value={{ language, setLanguage }}
-    >
+    <AppContext.Provider value={{ language, setLanguage }}>
       <HashRouter basename="/">
         {/* <BrowserRouter basename="/"> */}
-        {useMemo(
-          () => (
-            <HeaderNavigate user={user} />
-          ),
-          [user],
-        )}
+        {useMemo(() => <HeaderNavigate user={user} />, [user])}
         <Switch>
-          {publicRoutes.map(({ path, Component }) => (
-            <Route key={path} path={path} component={Component} exact={true} />
-          ))}
-          {user
-            ? privatRoutes.map(({ path, Component }) => (
-                <Route
-                  key={path}
-                  path={path}
-                  component={Component}
-                  exact={true}
-                />
-              ))
-            : null}
+          {publicRoutes.map(({ path, Component }) =>
+            <Route
+              key={path}
+              path={path}
+              component={Component}
+              exact={true} />
+          )}
+          {user && privatRoutes.map(({ path, Component }) =>
+            <Route
+              key={path}
+              path={path}
+              component={Component}
+              exact={true}
+            />
+          )}
           <Redirect to={MAIN_ROUTE} />
         </Switch>
-        {useMemo(
-          () => (
-            <Footer />
-          ),
-          [],
-        )}
-        {useMemo(
-          () => (
-            <MenuModal user={user} />
-          ),
-          [user],
-        )}
-        {useMemo(
-          () => (
-            <LoginModal user={user} login={login} />
-          ),
-          [user],
-        )}
-        {useMemo(
-          () => (
-            <MessageModal />
-          ),
-          [],
-        )}
-        {useMemo(
-          () => (
-            <DashboardModal
-              user={user}
-              login={login}
-              firebaseAuth={firebaseAuth}
-            />
-          ),
-          [user],
-        )}
+        {useMemo(() => <Footer />, [])}
+        {useMemo(() => <MenuModal user={user} />, [user])}
+        {useMemo(() => <LoginModal user={user} login={login} />, [user])}
+        {useMemo(() => <DashboardModal user={user} login={login} firebaseAuth={firebaseAuth} />, [user])}
+        {useMemo(() => <MessageModal />, [])}
         {/* </BrowserRouter> */}
       </HashRouter>
     </AppContext.Provider>

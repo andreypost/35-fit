@@ -11,6 +11,7 @@ const Reserve = () => {
   useEffect(() => {
     setOpacity('active')
   }, [])
+
   return (
     <div className={'fallback ' + opacity}>
       <HeaderBanner>
@@ -23,5 +24,4 @@ const Reserve = () => {
     </div>
   )
 }
-
 export default Reserve

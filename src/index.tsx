@@ -1,21 +1,19 @@
 import React, { createContext, Suspense, lazy } from 'react'
 import ReactDom from 'react-dom'
-import './styles/normalize.css'
-import './styles/common.scss'
-import './i18n'
-import { Spinner } from 'Spinner'
-import { Provider } from 'react-redux'
-import store from './store/root.store'
 import { initializeApp } from 'firebase/app'
 import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
+  getAuth, GoogleAuthProvider, signInWithPopup,
   // createUserWithEmailAndPassword,
 } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { FBACProps } from 'types/appTypes'
+import { Provider } from 'react-redux'
+import store from './store/root.store'
+import './styles/normalize.css'
+import './styles/common.scss'
+import './i18n'
+import { Spinner } from 'Spinner'
+import { FBUProps } from 'types/interface'
 
 initializeApp({
   apiKey: "AIzaSyAyT0D2bg_Jo3byFrOZ2_kIhpzTi3BBolU",
@@ -30,7 +28,7 @@ initializeApp({
 const firebaseAuth = getAuth()
 const firestore = getFirestore()
 
-export const FirebaseAuthContext = createContext({} as FBACProps)
+export const FirebaseAuthContext = createContext({} as FBUProps)
 
 const AppRouter = lazy(() => import('./AppRouter'))
 
@@ -40,6 +38,7 @@ const App = () => {
     const provider = new GoogleAuthProvider()
     await signInWithPopup(firebaseAuth, provider)
   }
+
   return (
     <Suspense fallback={<Spinner />}>
       <FirebaseAuthContext.Provider

@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import { AppContext } from '../AppRouter'
 import { LangArrowSVG } from '../img/icons'
 // import { Spinner } from 'Spinner'
@@ -81,7 +81,8 @@ export const Language = () => {
               <li
                 key={item}
                 onClick={() => (
-                  i18n.changeLanguage(item), setLanguage(i18n.language)
+                  i18n.changeLanguage(item),
+                  setLanguage(i18n.language)
                 )}
               >
                 {item.toLocaleUpperCase()}

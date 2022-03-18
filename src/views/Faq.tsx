@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 // import { Link } from "react-router-dom";
 // import i18n from "../i18n";
 import { HeaderBanner } from 'HeaderBanner'
-import { useTranslation } from 'react-i18next'
 
 const Faq = () => {
   const { t } = useTranslation(),
@@ -11,6 +11,7 @@ const Faq = () => {
   useEffect(() => {
     setOpacity('active')
   }, [])
+
   return (
     <div className={'fallback ' + opacity}>
       <HeaderBanner>
@@ -23,5 +24,4 @@ const Faq = () => {
     </div>
   )
 }
-
 export default Faq

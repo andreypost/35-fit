@@ -108,7 +108,7 @@ const Div = styled.div`
   }
 `
 
-export const Spinner = () => (
+export const Spinner = (() => 
   <Div>
     <div></div>
     <div></div>

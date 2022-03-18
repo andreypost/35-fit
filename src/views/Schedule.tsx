@@ -10,6 +10,7 @@ const Schedule = () => {
   useEffect(() => {
     setOpacity('active')
   }, [])
+  
   return (
     <div className={'fallback ' + opacity}>
       <main className="section">

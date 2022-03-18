@@ -5,9 +5,10 @@ import { BaseDiv } from './MenuModal'
 import {
   selectLoginModalActive,
   unsetLoginModal,
-  unsetMenuModal,
+  // unsetMenuModal,
   messageSuccessModal,
 } from './modal.slice'
+import { FBUProps } from 'types/interface'
 
 const Div = styled(BaseDiv)`
   nav {
@@ -35,27 +36,19 @@ const Div = styled(BaseDiv)`
     }
   }
 `
-interface Props {
-  user: any
-  login: () => void
-}
-
-export const LoginModal = ({ user, login }: Props) => {
-  // const { user, login } = useContext(FirebaseAuthContext),
+export const LoginModal = ({ user, login }: FBUProps) => {
   const dispatch = useAppDispatch(),
     modalState = useAppSelector(selectLoginModalActive)
   // console.log('LoginModal: ')
   return (
     <Div
       className={modalState}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) dispatch(unsetLoginModal())
-      }}
+      onClick={e => e.target === e.currentTarget && dispatch(unsetLoginModal())}
     >
       <p onClick={() => dispatch(messageSuccessModal())}>
         notificationSuccessModal
       </p>
-      <h1 onClick={() => login()}>notificationSuccessModal</h1>
+      <button onClick={() => login()}>notificationSuccessModal</button>
     </Div>
   )
 }
