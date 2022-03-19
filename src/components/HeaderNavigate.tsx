@@ -97,6 +97,11 @@ const Header = styled.header`
             }
           }
         }
+        @media (hover: hover) {
+          &:hover {
+            cursor: pointer;
+          }
+        }
       }
     }
 
@@ -121,7 +126,7 @@ const Header = styled.header`
 
         a {
           font-size: 14px;
-          font-weight: 600;
+          font-weight: 700;
           transition: color 0.2s;
 
           &:hover {
@@ -134,10 +139,11 @@ const Header = styled.header`
         display: flex;
         align-items: center;
         justify-content: center;
-        // @include green_button;
         box-sizing: border-box;
         width: 188px;
         padding: 0 12px;
+        font-size: 14px;
+        font-weight: 700;
         border: none;
         border-radius: 32px;
         background-color: #59b894;

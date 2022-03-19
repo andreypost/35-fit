@@ -60,7 +60,7 @@ export const BaseDiv = styled.div`
   }
 `
 
-export const BaseUl = styled(BaseDiv)`
+const Div = styled(BaseDiv)`
   nav ul {
     display: flex;
     align-items: center;
@@ -68,62 +68,38 @@ export const BaseUl = styled(BaseDiv)`
     flex-flow: column;
     padding: 40px;
     text-align: center;
-  }
-`
-
-const Div = styled(BaseUl)`
-      li {
-        width: 100%;
-        max-width: 280px;
-
-        a {
-          display: inline-block;
-          font-size: 20px;
-          // line-height: 48px;
-          font-weight: 900;
-          padding-top: 9.5px;
-          padding-bottom: 9.5px;
+    li {
+      width: 100%;
+      max-width: 280px;
+      a {
+        display: inline-block;
+        font-size: 20px;
+        font-weight: 900;
+        padding-top: 9.5px;
+        padding-bottom: 9.5px;
+        &:hover {
+          color: #ff6376 !important;
         }
       }
-
-      .login {
+      &.login {
         margin: 40px auto 20px;
-
-        .user {
-          width: 100%;
-          height: 42px;
-          padding: 0 20px;
-        }
       }
-
-      .signIn {
-        p {
-          font-weight: 700;
-          color: #59b894;
-        }
-        &:hover p {
-          color: white;
-        }
-      }
-
-      .signOut .user {
-        justify-content: space-between;
-        .user_face {
-          width: 36px;
-          height: 36px;
-          margin-right: -20px;
-        }
-      }
-
-      .buyСlass a {
+      &.buyСlass a {
         display: flex;
         align-items: center;
         justify-content: center;
-        // padding: 0 20px;
         border-radius: 32px;
+        font-size: 14px;
+        font-weight: 700;
         background-color: #59b894;
         color: white;
+        transition: background-color 0.2s;
+        &:hover {
+          background-color: #000044;
+        }
       }
+    }
+  }
 `
 
 export const MenuModal = ({ user }) => {
