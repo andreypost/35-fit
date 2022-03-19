@@ -19,6 +19,10 @@
     "header_banner": {
         "text_main": "New standard"
     },
+    "welcome_to_35": "Welcome to 35FIT.",
+    "not_member_yet": "Not a member yet?",
+    "book_your_training": "Book your first training",
+    "use_google_account_sign_in": "Use your Google Account to sign in",
     "footer": {
         "Careers": "Careers",
         "Privacy": "Privacy policy",

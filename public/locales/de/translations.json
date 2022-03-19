@@ -16,6 +16,13 @@
         "Contract": "Vertrag",
         "Profile": "Profil"
     },
+    "header_banner": {
+        "text_main": "Neuer Standard"
+    },
+    "welcome_to_35": "Willkommen zu 35FIT.",
+    "not_member_yet": "Noch kein Mitglied?",
+    "book_your_training": "Buchen Sie Ihr erstes Training",
+    "use_google_account_sign_in": "Verwenden Sie Ihr Google-Konto, um sich anzumelden",
     "footer": {
         "Careers": "Karriere",
         "Privacy": "Datenschutz-Bestimmungen",

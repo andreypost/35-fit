@@ -148,7 +148,7 @@ const Header = styled.header`
         border-radius: 32px;
         background-color: #59b894;
         color: white;
-        transition: background-color 0.2s;
+        transition: background-color .2s;
 
         @media (max-width: 992px) {
           height: 38px;

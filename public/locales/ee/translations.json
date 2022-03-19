@@ -16,6 +16,13 @@
         "Contract": "Leping",
         "Profile": "Profiil"
     },
+    "header_banner": {
+        "text_main": "Uus standard"
+    },
+    "welcome_to_35": "Tere tulemast 35FIT.",
+    "not_member_yet": "Mitte veel liige?",
+    "book_your_training": "Broneeri oma esimene koolitus",
+    "use_google_account_sign_in": "Kasutage oma Google'i kontot sisse logimiseks",
     "footer": {
         "Careers": "Karjäär",
         "Privacy": "Privaatsuspoliitika",
