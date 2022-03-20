@@ -19,10 +19,15 @@
     "header_banner": {
         "text_main": "Uus standard"
     },
-    "welcome_to_35": "Tere tulemast 35FIT.",
+    "welcome_to": "Tere tulemast",
     "not_member_yet": "Mitte veel liige?",
     "book_your_training": "Broneeri oma esimene koolitus",
     "use_google_account_sign_in": "Kasutage oma Google'i kontot sisse logimiseks",
+    "email_address": "E-posti aadress:",
+    "enter_email_address": "Sisesta e-posti aadress",
+    "password": "Parool:",
+    "enter_password": "Sisestage parool",
+    "keep_me_logged_in": "Hoia mind sisse logituna",
     "footer": {
         "Careers": "Karjäär",
         "Privacy": "Privaatsuspoliitika",
