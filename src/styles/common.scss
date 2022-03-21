@@ -105,13 +105,10 @@ textarea:focus {
 }
 
 .login_book {
-  // background-color: #7FCBAE;
-  // background-image: url(../img/lines_pattern_man.png);
-  // background-repeat: no-repeat;
-  // background-position: 100% 100%;
-  // background-size: cover;
-  background: url(../img/lines_pattern_man.png) no-repeat 100% 100% / cover #7FCBAE;
-
+  background: url(../img/lines_pattern_man.png) no-repeat 0 100% / contain #7FCBAE;
+  @media (min-width: 993px) {
+    background-position: 0% 0%;
+  }
 }
 
 // .footer {}

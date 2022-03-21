@@ -1,8 +1,8 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { RESERVE_ROUTE } from 'utils/routes.constants'
-// import { FirebaseAuthContext } from '../index'
 import { useAppSelector, useAppDispatch } from 'utils/hooks'
 import { BaseDiv } from './MenuModal'
 import { selectLoginModalActive, unsetLoginModal } from './modal.slice'
@@ -13,6 +13,14 @@ const Div = styled(BaseDiv)`
   display: block;
   nav {
     text-align: center;
+
+    label, input, button, .use_google, a {
+      font-size: 14px;
+      font-weight: 700;
+      &:not(label, .use_google), .checkmark {
+        height: 42px;
+      }
+    }
 
     #loginForm {
       display: flex;
@@ -26,8 +34,6 @@ const Div = styled(BaseDiv)`
       label {
         position: relative;
         width: fit-content;
-        font-size: 14px;
-        font-weight: 700;
         margin-bottom: -2px;
         margin-left: 26px;
         padding-left: 8px;
@@ -38,13 +44,9 @@ const Div = styled(BaseDiv)`
 
       input {
         box-sizing: border-box;
-        height: 42px;
-        font-size: 14px;
-        font-weight: 700;
         border: 2px solid #B2B2B2;
         border-radius: 26px;
         color: #004;
-        background: transparent;
       }
 
       input[type="email"], input[type="password"] {
@@ -69,9 +71,6 @@ const Div = styled(BaseDiv)`
         margin-bottom: unset;
         margin-left: unset;
         padding-left: unset;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
         user-select: none;
         
         input {
@@ -82,7 +81,9 @@ const Div = styled(BaseDiv)`
         .checkmark {
           box-sizing: border-box;
           width: 42px;
-          height: 42px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           margin-right: 15px;
           border: 2px solid #B2B2B2;
           border-radius: 50%;
@@ -94,7 +95,14 @@ const Div = styled(BaseDiv)`
         }
         
         input:checked ~ .checkmark {
-          background-color: #004;
+          background-color: white;
+          &::after {
+            content: '';
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #004;
+          }
         }
 
         @media (hover: hover) {
@@ -103,9 +111,6 @@ const Div = styled(BaseDiv)`
       }
 
       button {
-        height: 42px;
-        font-size: 14px;
-        font-weight: 700;
         margin-bottom: 30px;
         border-radius: 21px;
         color: #737373;
@@ -117,14 +122,15 @@ const Div = styled(BaseDiv)`
       }
 
       .use_google {
-        font-size: 14px;
-        font-weight: 700;
         color: #59B894;
+        transition: color .2s;
+        &:hover {
+          color: #ff6376;
+        }
         @media (hover: hover) {
           cursor: pointer;
         }
       }
-
     }
 
     .login_book {
@@ -138,18 +144,15 @@ const Div = styled(BaseDiv)`
       }
 
       a {
-        height: 42px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
-        font-weight: 700;
         border-radius: 32px;
         background: #000044;
         color: white;
         transition: color .2s;
         &:hover {
-          color: #ff6376;
+          color: #59B894;
         }
       }
     }
@@ -159,22 +162,21 @@ const Div = styled(BaseDiv)`
       #loginForm {
         padding: 40px;
 
-        h2 {
-          font-size: 28px;
-          margin-bottom: 20px;
-        }
-
-        .check_box {
+        h2, .check_box {
           margin-bottom: 30px;
         }
+
+        h2 {
+          font-size: 28px;
+        }
       }
+
       .login_book {
         height: 476px;
         order: 1;
-        padding: 60px 45px;
+        padding: 60px 40px;
         h3 {
           font-size: 20px;
-          
         }
       }
     }
@@ -188,18 +190,18 @@ const Div = styled(BaseDiv)`
         order: 2;
         padding: 60px 80px;
 
-        h2 {
-          font-size: 36px;
+        h2, .check_box {
           margin-bottom: 40px;
         }
         
-        .check_box {
-          margin-bottom: 40px;
+        h2 {
+          font-size: 36px;
         }
       }
+
       .login_book {
         order: 1;
-        padding: 73px;
+        padding: 70px;
         h3 {
           font-size: 24px;
           margin-top: auto;
@@ -213,10 +215,12 @@ export const LoginModal = ({ user, login }: FBUProps) => {
     modalState = useAppSelector(selectLoginModalActive),
     { t } = useTranslation()
   // console.log('LoginModal: ')
+  useEffect(() => {
+    user && dispatch(unsetLoginModal())
+  }, [user])
   return (
     <Div
-      // className={modalState}
-      className={'loginActive'}
+      className={modalState}
       onClick={e => e.target === e.currentTarget && dispatch(unsetLoginModal())}
     >
       <nav>
@@ -233,7 +237,7 @@ export const LoginModal = ({ user, login }: FBUProps) => {
             {t('keep_me_logged_in')}
           </label>
           <button type="submit">{t('nav.Login')}</button>
-          <p className="use_google" onClick={() => login()}>{t('use_google_account_sign_in')}</p>
+          <p className={'use_google ' + user ? 'inactive' : ''} onClick={() => login()}>{t('use_google_account_sign_in')}</p>
         </form>
         <div className='login_book'>
           <h3>{t('not_member_yet')}</h3>

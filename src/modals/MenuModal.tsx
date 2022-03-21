@@ -16,13 +16,14 @@ export const BaseDiv = styled.div`
   left: 0;
   top: 0;
   width: 100%;
-  height: 200%;
+  // height: 200%;
+  height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.2);
   transition: opacity 0.4s, z-index 0.1s 0.4s;
-  @media (orientation: landscape) {
-    height: 100%;
-  }
+  // @media (orientation: landscape) {
+  //   height: 100%;
+  // }
   @media (min-width: 993px) {
     display: none;
   }
