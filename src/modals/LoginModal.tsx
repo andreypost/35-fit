@@ -237,7 +237,7 @@ export const LoginModal = ({ user, login }: FBUProps) => {
             {t('keep_me_logged_in')}
           </label>
           <button type="submit">{t('nav.Login')}</button>
-          <p className={'use_google ' + user ? 'inactive' : ''} onClick={() => login()}>{t('use_google_account_sign_in')}</p>
+          <p className="use_google" onClick={() => login()}>{t('use_google_account_sign_in')}</p>
         </form>
         <div className='login_book'>
           <h3>{t('not_member_yet')}</h3>
