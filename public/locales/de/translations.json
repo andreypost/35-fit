@@ -29,6 +29,11 @@
     "enter_password": "Passwort eingeben",
     "keep_me_logged_in": "Eingeloggt bleiben",
     "footer": {
+        "stay_connected": "In Verbindung bleiben",
+        "get_in_touch": "In Kontakt kommen",
+        "newsletter": "NEWSLETTER",
+        "be_first_queue": "Seien Sie der Erste in der Warteschlange! Holen Sie sich unsere neuesten Nachrichten direkt in Ihren Posteingang.",
+
         "Careers": "Karriere",
         "Privacy": "Datenschutz-Bestimmungen",
         "Terms": "Geschäftsbedingungen"

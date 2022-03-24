@@ -29,6 +29,11 @@
     "enter_password": "Sisestage parool",
     "keep_me_logged_in": "Hoia mind sisse logituna",
     "footer": {
+        "stay_connected": "Püsi ühenduses",
+        "get_in_touch": "Ühendust võtma",
+        "newsletter": "UUDISKIRI",
+        "be_first_queue": "Ole järjekorras esimene! Hankige meie viimased uudised otse oma postkasti.",
+
         "Careers": "Karjäär",
         "Privacy": "Privaatsuspoliitika",
         "Terms": "Tingimused"

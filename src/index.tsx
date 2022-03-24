@@ -1,8 +1,7 @@
 import React, { createContext, Suspense, lazy } from 'react'
 import ReactDom from 'react-dom'
 import { initializeApp } from 'firebase/app'
-import {
-  getAuth, GoogleAuthProvider, signInWithPopup,
+import { getAuth, GoogleAuthProvider, signInWithPopup,
   // createUserWithEmailAndPassword,
 } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'

@@ -111,7 +111,12 @@ textarea:focus {
   }
 }
 
-// .footer {}
+.footer {
+  background: url(../img/lines_pattern_man.png) no-repeat 0 100% / contain #00003a;
+  @media (min-width: 993px) {
+    background-position: 0% 0%;
+  }
+}
 
 @media (min-width: 1200px) {}
 

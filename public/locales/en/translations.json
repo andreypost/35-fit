@@ -29,6 +29,11 @@
     "enter_password": "Enter password",
     "keep_me_logged_in": "Keep me logged in",
     "footer": {
+        "stay_connected": "Stay connected",
+        "get_in_touch": "Get in touch",
+        "newsletter": "NEWSLETTER",
+        "be_first_queue": "Be first in the queue! Get our latest news straight to your inbox.",
+
         "Careers": "Careers",
         "Privacy": "Privacy policy",
         "Terms": "Terms and conditions"
