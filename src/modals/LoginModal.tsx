@@ -23,8 +23,11 @@ const Div = styled(BaseDiv)`
     }
 
     #loginForm {
+      max-width: 330px;
       display: flex;
       flex-flow: column;
+      margin-left: auto;
+      margin-right: auto;
 
       h2 {
         font-weight: 900;
@@ -135,24 +138,29 @@ const Div = styled(BaseDiv)`
 
     .login_book {
       display: flex;
-      flex-flow: column;
-
-      h3 {
-        font-weight: 900;
-        margin-bottom: 30px;
-        color: white;
-      }
-
-      a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 32px;
-        background: #000044;
-        color: white;
-        transition: color .2s;
-        &:hover {
-          color: #59B894;
+      justify-content: center;
+      
+      article {
+        width: 100%;
+        max-width: 330px;
+        h3 {
+          font-weight: 900;
+          margin-bottom: 30px;
+          color: white;
+        }
+        
+        a {
+          width: 100%;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 32px;
+          background: #000044;
+          color: white;
+          transition: color .2s;
+          &:hover {
+            color: #59B894;
+          }
         }
       }
     }
@@ -160,7 +168,7 @@ const Div = styled(BaseDiv)`
     @media (max-width: 992px) {
       flex-flow: column;
       #loginForm {
-        padding: 40px;
+        padding: 40px 20px;
 
         h2, .check_box {
           margin-bottom: 30px;
@@ -173,10 +181,12 @@ const Div = styled(BaseDiv)`
 
       .login_book {
         height: 476px;
-        order: 1;
-        padding: 60px 40px;
-        h3 {
-          font-size: 20px;
+
+        article {
+          padding: 60px 20px;
+          h3 {
+            font-size: 20px;
+          }
         }
       }
     }
@@ -187,8 +197,10 @@ const Div = styled(BaseDiv)`
       grid-template-columns: 1fr 1fr;
 
       #loginForm {
+        width: 100%;
         order: 2;
-        padding: 60px 80px;
+        padding-top: 60px;
+        padding-bottom: 60px;
 
         h2, .check_box {
           margin-bottom: 40px;
@@ -201,10 +213,14 @@ const Div = styled(BaseDiv)`
 
       .login_book {
         order: 1;
-        padding: 70px;
-        h3 {
-          font-size: 24px;
+        
+        article {
           margin-top: auto;
+          padding-bottom: 70px;
+
+          h3 {
+            font-size: 24px;
+          }
         }
       }
     }
@@ -240,8 +256,10 @@ export const LoginModal = ({ user, login }: FBUProps) => {
           <p className="use_google" onClick={() => login()}>{t('use_google_account_sign_in')}</p>
         </form>
         <div className='login_book'>
-          <h3>{t('not_member_yet')}</h3>
-          <Link to={RESERVE_ROUTE}>{t('book_your_training')}</Link>
+          <article>
+            <h3>{t('not_member_yet')}</h3>
+            <Link to={RESERVE_ROUTE}>{t('book_your_training')}</Link>
+          </article>
         </div>
       </nav>
     </Div>

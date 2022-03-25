@@ -1,26 +1,26 @@
-@import 'mixins';
+@import "mixins";
 
 body {
   font-family: $montserrat-font-family;
   user-select: none;
-  height: 3000px;
+  // height: 3000px;
 }
 
 .fallback {
   opacity: 0;
 
   &.active {
-    opacity   : 1;
-    transition: opacity .5s;
+    opacity: 1;
+    transition: opacity 0.5s;
   }
 }
 
 .section {
-  max-width       : 1440px;
-  padding-left    : 10px;
-  padding-right   : 10px;
-  margin-left     : auto;
-  margin-right    : auto;
+  max-width: 1440px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: auto;
+  margin-right: auto;
   // box-sizing   : border-box;
 }
 
@@ -44,7 +44,7 @@ ul {
 }
 
 img {
-  width : 100%;
+  width: 100%;
   height: auto;
 }
 
@@ -81,47 +81,46 @@ textarea:focus {
 }
 
 ::-webkit-scrollbar {
-  width : 6px;
+  width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
   border-radius: 4px;
-  background   : #F1F1F1;
+  background-color: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
-  background   : #C1C1C1;
+  background-color: #c1c1c1;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.25);
 }
-
 
 .header_banner {
   background: url(../img/header_main.png) no-repeat center center;
 }
 
 .login_book {
-  background: url(../img/lines_pattern_man.png) no-repeat 0 100% / contain #7FCBAE;
+  background: url(../img/lines_pattern_man.png) no-repeat 0 100% / contain #7fcbae;
   @media (min-width: 993px) {
     background-position: 0% 0%;
   }
 }
 
-.footer {
-  background: url(../img/lines_pattern_man.png) no-repeat 0 100% / contain #00003a;
+.footer_touch {
+  background: url(../img/lines_pattern_footer.png) no-repeat 0 100% / contain #00003a;
   @media (min-width: 993px) {
     background-position: 0% 0%;
   }
 }
 
-@media (min-width: 1200px) {}
+@media (min-width: 1200px) {
+}
 
 @media (hover: hover) {
-
   //     .section {
   //         max-width: 960px;
   //     }
@@ -131,14 +130,14 @@ textarea:focus {
   }
 }
 
-    // @media (orientation: landscape) {
-    //   &_desk {
-    //     display: flex;
-    //   }
-    // }
+// @media (orientation: landscape) {
+//   &_desk {
+//     display: flex;
+//   }
+// }
 
-    // @media (orientation: portrait) {
-    //   &_desk {
-    //     display: block;
-    //   }
-    // }
+// @media (orientation: portrait) {
+//   &_desk {
+//     display: block;
+//   }
+// }
