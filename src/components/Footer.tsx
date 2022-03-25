@@ -6,11 +6,74 @@ const Foot = styled.footer`
   .footer_connected {
     background-color: #000044;
 
+    h3 {
+      color: white;
+    }
+
+    .connected {
+      padding-bottom: 60px;
+      
+      @media (max-width: 992px) {
+        display: grid;
+        
+        padding-top: 60px;
+
+      }
+
+      @media (min-width: 993px) {
+        padding-top: 120px;
+      }
+    }
   }
   .footer_touch {
+
+    .touch {
+      padding-top: 60px;
+      
+      @media (max-width: 992px) {
+        padding-bottom: 120px;
+        
+      }
+      
+      @media (min-width: 993px) {
+        padding-bottom: 50px;
+      }
+    }
     
   }
 
+`
+
+export const Footer = () => {
+  const { t } = useTranslation()
+  return (
+    <Foot>
+      <div className="footer_connected">
+        <div className="section connected">
+          <article className='stay'>
+              <h3>{t('footer.stay_connected')}</h3>
+          </article>
+          <article className='news'>
+
+          </article>
+          <article className='social'>
+
+          </article>
+        </div>
+      </div>
+      <div className="footer_touch">
+        <ul className="section touch">
+          <li><Link to="/Faq">{t('footer.Careers')}</Link></li>
+          <li><Link to="/">{t('footer.Privacy')}</Link></li>
+          <li><Link to="/">{t('footer.Terms')}</Link></li>
+        </ul>
+      </div>
+    </Foot>
+  )
+}
+
+
+const Footу = styled.footer`
   display: block;
   nav {
     max-width: 360px;
@@ -49,23 +112,3 @@ const Foot = styled.footer`
     }
   }
 `
-
-export const Footer = () => {
-  const { t } = useTranslation()
-  return (
-    <Foot>
-      <div className="footer_connected">
-        <div className="section">
-
-        </div>
-      </div>
-      <div className="footer_touch">
-        <ul className="section">
-          <li><Link to="/Faq">{t('footer.Careers')}</Link></li>
-          <li><Link to="/">{t('footer.Privacy')}</Link></li>
-          <li><Link to="/">{t('footer.Terms')}</Link></li>
-        </ul>
-      </div>
-    </Foot>
-  )
-}
