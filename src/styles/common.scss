@@ -99,6 +99,36 @@ textarea:focus {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
+.grey_label {
+  @include label_styles;
+  background-color: white;
+  color: #6E7071;
+}
+
+.white_label {
+  @include label_styles;
+  @include white_styles;
+}
+
+.grey_input {
+  @include input_styles;
+  border-color: #B2B2B2;
+  color: #004;
+}
+
+.white_input {
+  @include input_styles;
+  @include white_styles;
+  border-color: #E8E8E8;
+}
+
+.part_radius {
+  width: 95%;
+  border-radius: 21px 0 0 26px;
+  border-top: none;
+  border-right: none;
+}
+
 .header_banner {
   background: url(../img/header_main.png) no-repeat center center;
 }

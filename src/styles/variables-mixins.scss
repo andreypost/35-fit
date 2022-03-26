@@ -59,30 +59,38 @@ $red_color        : #FF6376;
 }
 
 
-@mixin border_radius {
-  box-sizing   : border-box;
-  border       : none;
-  border-radius: 32px;
-
-  @media (max-width:992px) {
-    height: 38px;
-  }
-
-  @media (min-width:993px) {
-    height: 42px;
-  }
+@mixin font_14 {
+  font-size: 14px;
+  font-weight: 700;
 }
 
-@mixin grey_button {
-  @include border_radius;
-  border          : 2px solid #E8E8E8;
-  background-color: white;
+@mixin label_styles {
+  @include font_14;
+  position: relative;
+  width: fit-content;
+  margin-bottom: -2px;
+  margin-left: 26px;
+  padding-left: 8px;
+  padding-right: 2px;
 }
 
-@mixin green_button {
-  @include border_radius;
-  background-color: $green_color;
+@mixin input_styles {
+  @include font_14;
+  box-sizing: border-box;
+  height: 42px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 26px;
 }
+
+@mixin white_styles {
+  background-color: #000044;
+  color: white;
+}
+
+
 
 
 

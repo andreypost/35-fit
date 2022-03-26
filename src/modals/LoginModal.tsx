@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -14,14 +14,15 @@ const Div = styled(BaseDiv)`
   nav {
     text-align: center;
 
-    label, input, button, .use_google, a {
+    .use_google, a {
       font-size: 14px;
       font-weight: 700;
-      &:not(label, .use_google), .checkmark {
-        height: 42px;
-      }
     }
-
+    
+    a, .checkmark {
+      height: 42px;
+    }
+    
     #loginForm {
       max-width: 330px;
       display: flex;
@@ -34,38 +35,12 @@ const Div = styled(BaseDiv)`
         color: #000044;
       }
 
-      label {
-        position: relative;
-        width: fit-content;
-        margin-bottom: -2px;
-        margin-left: 26px;
-        padding-left: 8px;
-        padding-right: 2px;
-        background-color: white;
-        color: #6E7071;
-      }
-
-      input {
-        box-sizing: border-box;
-        border: 2px solid #B2B2B2;
-        border-radius: 26px;
-        color: #004;
-      }
-
       input[type="email"], input[type="password"] {
         margin-bottom: 20px;
-        padding-left: 20px;
-        padding-right: 20px;
         &::placeholder {
           font-weight: 400;
+          color: #6E7071;
         }
-      }
-
-      input[type="password"] {
-        width: 95%;
-        border-radius: 26px 0 0 26px;
-        border-top: none;
-        border-right: none;
       }
 
       .check_box {
@@ -77,8 +52,12 @@ const Div = styled(BaseDiv)`
         user-select: none;
         
         input {
+          width: 100%;
           position: absolute;
           opacity: 0;
+          @media (hover: hover) {
+            cursor: pointer;
+          }
         }
         
         .checkmark {
@@ -107,15 +86,10 @@ const Div = styled(BaseDiv)`
             background-color: #004;
           }
         }
-
-        @media (hover: hover) {
-          cursor: pointer;
-        }
       }
 
       button {
         margin-bottom: 30px;
-        border-radius: 21px;
         color: #737373;
         background: #B2B2B2;
         transition: color .2s;
@@ -154,7 +128,7 @@ const Div = styled(BaseDiv)`
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          border-radius: 32px;
+          border-radius: 26px;
           background: #000044;
           color: white;
           transition: color .2s;
@@ -229,8 +203,9 @@ const Div = styled(BaseDiv)`
 export const LoginModal = ({ user, login }: FBUProps) => {
   const dispatch = useAppDispatch(),
     modalState = useAppSelector(selectLoginModalActive),
-    { t } = useTranslation()
-  // console.log('LoginModal: ')
+    { t } = useTranslation(),
+    [checkState, setCheckState] = useState(false)
+    // console.log('LoginModal: ', checkState)
   useEffect(() => {
     user && dispatch(unsetLoginModal())
   }, [user])
@@ -243,16 +218,20 @@ export const LoginModal = ({ user, login }: FBUProps) => {
         <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetLoginModal())} />
         <form action="" id="loginForm">
           <h2>{t('welcome_to')}<br />35 FIT</h2>
-          <label htmlFor="login">{t('email_address')}</label>
-          <input type="email" name="login" placeholder={t('enter_email_address')} required />
-          <label htmlFor="password">{t('password')}</label>
-          <input type="password" name="password" placeholder={t('enter_password')} required />
-          <label className="check_box">
-            <input type="radio" name="radio" defaultChecked={undefined} />
-            <span className="checkmark"></span>
+          <label htmlFor="login" className='grey_label'>{t('email_address')}</label>
+          <input type="email" name="login" className='grey_input' placeholder={t('enter_email_address')} required />
+          <label htmlFor="password" className='grey_label'>{t('password')}</label>
+          <input type="password" name="password" className='grey_input part_radius' placeholder={t('enter_password')} required />
+          <label htmlFor="radio" className="grey_label check_box">
+            <input type="radio" name="radio" className='grey_input'
+              checked={checkState}
+              readOnly
+              onClick={() => setCheckState(!checkState)}
+            />
+            <span className="checkmark" />
             {t('keep_me_logged_in')}
           </label>
-          <button type="submit">{t('nav.Login')}</button>
+          <button type="submit" className='grey_input'>{t('nav.Login')}</button>
           <p className="use_google" onClick={() => login()}>{t('use_google_account_sign_in')}</p>
         </form>
         <div className='login_book'>
