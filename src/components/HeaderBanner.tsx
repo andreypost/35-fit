@@ -5,7 +5,7 @@ import { unsetAllModal } from 'modals/modal.slice'
 import { RedRuporSVG } from 'img/icons'
 import { CHLProps } from 'types/interface'
 
-export const HeaderBanner = ({ children }: CHLProps) => {
+export const HeaderBanner = ({ children, class }: CHLProps) => {
   const dispatch = useAppDispatch()
 
   const keyDownHandler = (e: { key: string }) => {
@@ -22,10 +22,13 @@ export const HeaderBanner = ({ children }: CHLProps) => {
   }, [])
 
   return (
-    <div className="section header_banner">
+    <div>
+      {/* <div className={`header_banner ${class}`} ></div> */}
       {children[0]}
       {children[1]}
       <RedRuporSVG />
     </div>
   )
 }
+
+// <div className={`${class}__header`}>

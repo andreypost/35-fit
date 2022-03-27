@@ -11,19 +11,19 @@ const Main = () => {
   useEffect(() => {
     setOpacity('active')
   }, [])
-  
+
   return (
-    <div className={'fallback ' + opacity}>
-      <main className="section">
-        <HeaderBanner>
+    <main className={'fallback ' + opacity}>
+      <HeaderBanner class='main' >
+        <section className="section">
           <h1>{t('nav.Personal training')}</h1>
           <div>
             <TieFitSVG className="tie" />
           </div>
-        </HeaderBanner>
-        <h1>main</h1>
-      </main>
-    </div>
+        </section>
+      </HeaderBanner>
+      <h1>main</h1>
+    </main>
   )
 }
 export default Main

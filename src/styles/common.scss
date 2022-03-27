@@ -129,8 +129,8 @@ textarea:focus {
   border-right: none;
 }
 
-.header_banner {
-  background: url(../img/header_main.png) no-repeat center center;
+.header_banner.main {
+  background: url(../img/header_main.png) no-repeat center center / cover;
 }
 
 .login_book {
