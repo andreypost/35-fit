@@ -1,17 +1,19 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { FacebookSVG, InstaSVG, YoutubeSVG } from 'img/icons'
+import { FacebookSVG, InstaSVG, LangArrowSVG, YoutubeSVG } from 'img/icons'
 
 const Foot = styled.footer`
-  h3 {
+  h2 {
+    font-weight: 900;
     color: white;
   }
 
   h6 {
     font-size: 12px;
+    text-transform: uppercase;
     margin-bottom: 20px;
-    color: #7FCBAE;
+    color: #59B894;
   }
 
   p {
@@ -65,6 +67,7 @@ const Foot = styled.footer`
         svg {
           min-width: 24px;
         }
+
         span {
           width: 90%;
           height: 1px;
@@ -96,28 +99,97 @@ const Foot = styled.footer`
   }
 
   .footer_touch {
+    a {
+      font-size: 14px;
+      color: #59B894;
+    }
 
     .touch {
       display: grid;
+      margin-bottom: 160px;
       padding-top: 60px;
+
+      .contacts {
+        display: grid;
+        gap: 60px;
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        line-height: 24px;
+        svg {
+          width: 12px;
+          height: 18px;
+          fill: #59B894;
+          transform: rotate(-90deg);
+        }
+      }
+
+      .phone {
+        color: #F5F5F5;
+      }
+
+      .email {
+        margin-bottom: 20px;
+      }
       
       @media (max-width: 992px) {
         max-width: 480px;
-        gap: 40px;
-        justify-content: center;
-        padding-bottom: 120px;
-        
+
+        .get {
+          margin-bottom: 30px;
+        }
+
+        .contacts {
+          margin-bottom: 60px;
+        }
+
+        .partners {
+          p {
+            margin-bottom: 20px;
+          }
+        }
       }
       
       @media (min-width: 993px) {
-        justify-content: space-between;
         grid-template-columns: 15% 40% 20%;
-        padding-bottom: 50px;
+        justify-content: space-between;
+
+        .contacts {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .partners {
+          display: flex;
+          flex-flow: column;
+          a {
+            margin-top: auto;
+          }
+        }
       }
     }
     
+    .careers_terms {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 60px;
+      padding-bottom: 120px;
+      
+      a {
+        font-weight: 700;
+      }
+      
+      @media (min-width: 993px) {
+        flex-flow: unset;
+        gap: 38px;
+        padding-bottom: 50px;
+      }
+    }
   }
-
 `
 
 export const Footer = () => {
@@ -127,7 +199,7 @@ export const Footer = () => {
       <div className="footer_connected">
         <div className="section connected">
           <article className='stay'>
-            <h3>{t('footer.stay_connected')}</h3>
+            <h2>{t('footer.stay_connected')}</h2>
           </article>
           <article>
             <h6>{t('footer.newsletter')}</h6>
@@ -157,10 +229,38 @@ export const Footer = () => {
       <div className="footer_touch">
         <div className="section touch">
           <article className='get'>
-            <h3>{t('footer.get_in_touch')}</h3>
+            <h2>{t('footer.get_in_touch')}</h2>
+          </article>
+          <div className='contacts'>
+            <article>
+              <h6>{t('footer.general')}</h6>
+              <a href="tel:+3726669999" className='phone'>- 372 666 9999</a>
+              <a href="mailto:info@35fit.com" className='email'>- info@35fit.com</a>
+              <Link to="/Faq" className='white_input'>
+                {t('footer.Careers')}
+                <LangArrowSVG />
+              </Link>
+            </article>
+            <article>
+              <h6>{t('nav.club')}</h6>
+              <a href="tel:+3726669999" className='phone'>- 372 666 9999</a>
+              <a href="mailto:gonsiori@35fit.com" className='email'>- gonsiori@35fit.com</a>
+              <Link to="/Faq" className='white_input'>
+                {t('footer.contacts')}
+                <LangArrowSVG />
+              </Link>
+            </article>
+          </div>
+          <article className='partners'>
+            <h6>{t('footer.partners')}</h6>
+            <p>{t('footer.search_engine')}</p>
+            <Link to="/Faq" className='white_input'>
+              {t('footer.become_partner')}
+              <LangArrowSVG />
+            </Link>
           </article>
         </div>
-        <ul>
+        <ul className="section careers_terms">
           <li><Link to="/Faq">{t('footer.Careers')}</Link></li>
           <li><Link to="/">{t('footer.Privacy')}</Link></li>
           <li><Link to="/">{t('footer.Terms')}</Link></li>

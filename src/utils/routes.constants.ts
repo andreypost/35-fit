@@ -14,7 +14,7 @@ export const publicLinks = [
     { route: PRICE_ROUTE, dictionary: 'nav.Pricing' },
     { route: SCHEDULE_ROUTE, dictionary: 'nav.Schedule' },
     { route: TEAM_ROUTE, dictionary: 'nav.Team' },
-    { route: CLUB_ROUTE, dictionary: 'nav.Club' },
+    { route: CLUB_ROUTE, dictionary: 'nav.club' },
     { route: FAQ_ROUTE, dictionary: 'nav.Faq' },
 ]
 

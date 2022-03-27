@@ -30,7 +30,7 @@ const Div = styled(BaseDiv)`
       margin-left: auto;
       margin-right: auto;
 
-      h2 {
+      h1 {
         font-weight: 900;
         color: #000044;
       }
@@ -117,7 +117,8 @@ const Div = styled(BaseDiv)`
       article {
         width: 100%;
         max-width: 330px;
-        h3 {
+
+        h2 {
           font-weight: 900;
           margin-bottom: 30px;
           color: white;
@@ -144,11 +145,11 @@ const Div = styled(BaseDiv)`
       #loginForm {
         padding: 40px 20px;
 
-        h2, .check_box {
+        h1, .check_box {
           margin-bottom: 30px;
         }
 
-        h2 {
+        h1 {
           font-size: 28px;
         }
       }
@@ -158,7 +159,7 @@ const Div = styled(BaseDiv)`
 
         article {
           padding: 60px 20px;
-          h3 {
+          h2 {
             font-size: 20px;
           }
         }
@@ -176,11 +177,11 @@ const Div = styled(BaseDiv)`
         padding-top: 60px;
         padding-bottom: 60px;
 
-        h2, .check_box {
+        h1, .check_box {
           margin-bottom: 40px;
         }
         
-        h2 {
+        h1 {
           font-size: 36px;
         }
       }
@@ -191,10 +192,6 @@ const Div = styled(BaseDiv)`
         article {
           margin-top: auto;
           padding-bottom: 70px;
-
-          h3 {
-            font-size: 24px;
-          }
         }
       }
     }
@@ -217,7 +214,7 @@ export const LoginModal = ({ user, login }: FBUProps) => {
       <nav>
         <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetLoginModal())} />
         <form action="" id="loginForm">
-          <h2>{t('welcome_to')}<br />35 FIT</h2>
+          <h1>{t('welcome_to')}<br />35 FIT</h1>
           <label htmlFor="login" className='grey_label'>{t('email_address')}</label>
           <input type="email" name="login" className='grey_input' placeholder={t('enter_email_address')} required />
           <label htmlFor="password" className='grey_label'>{t('password')}</label>
@@ -236,7 +233,7 @@ export const LoginModal = ({ user, login }: FBUProps) => {
         </form>
         <div className='login_book'>
           <article>
-            <h3>{t('not_member_yet')}</h3>
+            <h2>{t('not_member_yet')}</h2>
             <Link to={RESERVE_ROUTE}>{t('book_your_training')}</Link>
           </article>
         </div>

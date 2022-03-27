@@ -134,16 +134,16 @@ textarea:focus {
 }
 
 .login_book {
-  background: url(../img/lines_pattern_man.png) no-repeat 0 100% / contain #7fcbae;
+  background: url(../img/patterns/lines_login_man.png) no-repeat 0 100% / contain #7fcbae;
   @media (min-width: 993px) {
     background-position: 0% 0%;
   }
 }
 
 .footer_touch {
-  background: url(../img/lines_pattern_footer.png) no-repeat 0 100% / contain #00003a;
-  @media (min-width: 993px) {
-    background-position: 0% 0%;
+  background: url(../img/patterns/lines_footer.png) no-repeat center 90% / contain #00003a;
+  @media (max-width: 992px) {
+    background-position-y: 70%;
   }
 }
 
