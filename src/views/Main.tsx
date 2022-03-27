@@ -14,7 +14,7 @@ const Main = () => {
 
   return (
     <main className={'fallback ' + opacity}>
-      <HeaderBanner class='main' >
+      <HeaderBanner className='main' >
         <section className="section">
           <h1>{t('nav.Personal training')}</h1>
           <div>
