@@ -10,17 +10,17 @@ const Schedule = () => {
   useEffect(() => {
     setOpacity('active')
   }, [])
-  
+
   return (
-    <div className={'fallback ' + opacity}>
-      <main className="section">
-        <HeaderBanner>
+    <main className={'fallback ' + opacity}>
+      <HeaderBanner className='schedule' title='nav.Personal training' descript=''>
+        <div className="section">
           <h1>{t('nav.Personal training')}</h1>
           <h3></h3>
-        </HeaderBanner>
+        </div>
         <h1>Schedule</h1>
-      </main>
-    </div>
+      </HeaderBanner>
+    </main>
   )
 }
 export default Schedule

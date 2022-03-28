@@ -47,9 +47,9 @@ const Canvas = ({ width, height, border }: canvasProps) => {
   )
 }
 
-const Chat = () => {
+const Chat = ({ user }) => {
   // const { t } = useTranslation()
-  const { firebase, user, firestore } = useContext(FirebaseAuthContext)
+  const { firebase, firestore } = useContext(FirebaseAuthContext)
   const [chatMessage, setChatMessage] = useState('')
   const [messages, loading] = useCollectionData(
     firestore.collection('messages').orderBy('createdAt'),

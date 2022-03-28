@@ -102,7 +102,7 @@ textarea:focus {
 .grey_label {
   @include label_styles;
   background-color: white;
-  color: #6E7071;
+  color: #6e7071;
 }
 
 .white_label {
@@ -112,14 +112,14 @@ textarea:focus {
 
 .grey_input {
   @include input_styles;
-  border-color: #B2B2B2;
+  border-color: #b2b2b2;
   color: #004;
 }
 
 .white_input {
   @include input_styles;
   @include white_styles;
-  border-color: #E8E8E8;
+  border-color: #e8e8e8;
 }
 
 .part_radius {
@@ -129,15 +129,40 @@ textarea:focus {
   border-right: none;
 }
 
-.header_banner.main {
-  background: url(../img/header_main.png) no-repeat center center / cover;
-}
-
 .login_book {
   background: url(../img/patterns/lines_login_man.png) no-repeat 0 100% / contain #7fcbae;
   @media (min-width: 993px) {
     background-position: 0% 0%;
   }
+}
+
+.header_banner.main {
+  // background: url(../img/header_main.png) no-repeat center center / cover;
+  background: url(../img/patterns/main_header.svg) no-repeat center center / cover;
+}
+
+.header_banner.train {
+  background: url(../img/banner/train.png) no-repeat center center / cover;
+}
+
+.header_banner.price {
+  background: url(../img/banner/price.png) no-repeat center center / cover;
+}
+
+.header_banner.schedule {
+  background: url(../img/banner/schedule.png) no-repeat center center / cover;
+}
+
+.header_banner.team {
+  background: url(../img/banner/team.png) no-repeat center center / cover;
+}
+
+.header_banner.club {
+  background: url(../img/banner/club.png) no-repeat center center / cover;
+}
+
+.header_banner.faq {
+  background: url(../img/banner/faq.png) no-repeat center center / cover;
 }
 
 .footer_touch {
@@ -171,3 +196,4 @@ textarea:focus {
 //     display: block;
 //   }
 // }
+

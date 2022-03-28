@@ -13,15 +13,15 @@ const Club = () => {
   }, [])
 
   return (
-    <div className={'fallback ' + opacity}>
-      <HeaderBanner>
-        <h1>{t('nav.Pricing')}</h1>
-        <h3></h3>
-      </HeaderBanner>
-      <main className="section">
+    <main className={'fallback ' + opacity}>
+      <HeaderBanner className='club' title='nav.Personal training' descript=''>
+        <div className="section">
+          <h1>{t('nav.Pricing')}</h1>
+          <h3></h3>
+        </div>
         <h1>Club</h1>
-      </main>
-    </div>
+      </HeaderBanner>
+    </main>
   )
 }
 export default Club

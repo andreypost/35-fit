@@ -20,7 +20,7 @@
     "baseUrl": "src",
       "paths": {
         "Spinner": ["components/Spinner"],
-        "components": ["components"],
+        // "components": ["components"],
         "modals": ["modals"],
         "HeaderBanner": ["components/HeaderBanner"],
         // "Footer": ["components/Footer"],

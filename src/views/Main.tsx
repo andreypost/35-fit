@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
 import { TieFitSVG } from 'img/icons'
 
-const Main = () => {
+const Main = ({ user }) => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState('')
   // console.log('main')
@@ -14,15 +14,9 @@ const Main = () => {
 
   return (
     <main className={'fallback ' + opacity}>
-      <HeaderBanner className='main' >
-        <section className="section">
-          <h1>{t('nav.Personal training')}</h1>
-          <div>
-            <TieFitSVG className="tie" />
-          </div>
-        </section>
-      </HeaderBanner>
+      <HeaderBanner className='main' title='nav.Personal_training' descript=''>
       <h1>main</h1>
+      </HeaderBanner>
     </main>
   )
 }

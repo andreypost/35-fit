@@ -12,7 +12,7 @@ const Div = styled.div`
   box-sizing: border-box;
   border-radius: 32px;
   border: 2px solid #e8e8e8;
-  background-color: white;
+  background-color: transparent;
   transition: background-color 0.2s;
   .user_name {
     white-space: nowrap;
@@ -119,18 +119,10 @@ export const User = ({ user, styles }) => {
   const dispatch = useAppDispatch(),
     { t } = useTranslation()
 
-  const handleModals = () => {
-    if (styles === 'dashboard_modal') {
-      dispatch(unsetDashModal())
-      return
-    }
-    user ? dispatch(dashModal()) : dispatch(loginModal())
-  }
-
   return (
     <Div
       className={styles + (user ? ' loggedOut' : ' loggedIn')}
-      onClick={handleModals}
+      onClick={() => styles === 'dashboard_modal' ? dispatch(unsetDashModal()) : user ? dispatch(dashModal()) : dispatch(loginModal())}
     >
       <p className="user_name">{(user && user.displayName) || t('nav.Login')}</p>
       <img

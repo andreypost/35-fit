@@ -12,15 +12,15 @@ const Pricing = () => {
   }, [])
 
   return (
-    <div className={'fallback ' + opacity}>
-      <main className="section">
-        <HeaderBanner>
+    <main className={'fallback ' + opacity}>
+      <HeaderBanner className='price' title='nav.Personal training' descript=''>
+        <div className="section">
           <h1>{t('nav.Pricing')}</h1>
           <h3></h3>
-        </HeaderBanner>
-        <h1>price</h1>
-      </main>
-    </div>
+        </div>
+          <h1>price</h1>
+      </HeaderBanner>
+    </main>
   )
 }
 export default Pricing

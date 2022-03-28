@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
 // import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from 'utils/hooks'
 import { unsetAllModal } from 'modals/modal.slice'
-import { RedRuporSVG } from 'img/icons'
 import { CHLProps } from 'types/interface'
 
-export const HeaderBanner = ({ children, className }: CHLProps) => {
-  const dispatch = useAppDispatch()
+export const HeaderBanner = ({ children, className, title, descript }: CHLProps) => {
+  const dispatch = useAppDispatch(),
+  { t } = useTranslation()
 
   const keyDownHandler = (e: { key: string }) => {
     (e.key === 'Escape') && dispatch(unsetAllModal())
@@ -23,9 +24,11 @@ export const HeaderBanner = ({ children, className }: CHLProps) => {
 
   return (
     <div className={`header_banner ${className}`}>
-      {children[0]}
-      {children[1]}
-      <RedRuporSVG />
+      <section className="section">
+          <h1>{t('title')}</h1>
+          <h3></h3>
+        </section>
+      {children}
     </div>
   )
 }

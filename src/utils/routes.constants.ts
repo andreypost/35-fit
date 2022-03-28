@@ -1,5 +1,5 @@
 export const MAIN_ROUTE = '/'
-export const TRAIN_ROUTE = '/train'
+export const TRAIN_ROUTE = '/training'
 export const PRICE_ROUTE = '/pricing'
 export const SCHEDULE_ROUTE = '/schedule'
 export const TEAM_ROUTE = '/team'

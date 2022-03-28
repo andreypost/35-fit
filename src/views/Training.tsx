@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
 
-const Train = () => {
+const Training = () => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState('')
 
@@ -11,15 +11,15 @@ const Train = () => {
   }, [])
 
   return (
-    <div className={'fallback ' + opacity}>
-      <main className="section">
-        <HeaderBanner>
+    <main className={'fallback ' + opacity}>
+      <HeaderBanner className='train'>
+        <div className="section">
           <h1>{t('nav.Personal training')}</h1>
           <h3></h3>
-        </HeaderBanner>
-        <h1>training</h1>
-      </main>
-    </div>
+        </div>
+          <h1>training</h1>
+      </HeaderBanner>
+    </main>
   )
 }
-export default Train
+export default Training

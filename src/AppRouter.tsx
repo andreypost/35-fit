@@ -47,16 +47,20 @@ const AppRouter = () => {
             <Route
               key={path}
               path={path}
-              component={Component}
-              exact={true} />
+              exact={true}
+            // component={Component}
+            >
+              <Component user={user} />
+            </Route>
           )}
           {user && privatRoutes.map(({ path, Component }) =>
             <Route
               key={path}
               path={path}
-              component={Component}
               exact={true}
-            />
+            >
+              <Component user={user} />
+            </Route>
           )}
           <Redirect to={MAIN_ROUTE} />
         </Switch>

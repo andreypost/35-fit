@@ -86,6 +86,8 @@ const Div = styled(BaseDiv)`
         margin: 40px auto 20px;
       }
       &.buyСlass a {
+        box-sizing: border-box;
+        height: 42px;
         display: flex;
         align-items: center;
         justify-content: center;

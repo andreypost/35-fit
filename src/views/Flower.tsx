@@ -5,7 +5,7 @@ import { useState } from 'react'
 // import axios from 'axios'
 import empty from 'img/empty_user.png'
 
-const Flower = () => {
+const Flower = ({ user }) => {
   // function curry(f: { (a: any, b: any, c: any): any; length?: any; apply?: any }) {
   //     return function curried(this: any, ...args: any[]) {
   //         if (args.length >= f.length) {
