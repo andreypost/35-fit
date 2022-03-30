@@ -14,13 +14,7 @@ const Club = () => {
 
   return (
     <main className={'fallback ' + opacity}>
-      <HeaderBanner className='club' title='nav.Personal training' descript=''>
-        <div className="section">
-          <h1>{t('nav.Pricing')}</h1>
-          <h3></h3>
-        </div>
-        <h1>Club</h1>
-      </HeaderBanner>
+      <HeaderBanner className='club' title='nav.club' descript='header_banner.training_becomes' />
     </main>
   )
 }

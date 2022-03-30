@@ -13,13 +13,7 @@ const Pricing = () => {
 
   return (
     <main className={'fallback ' + opacity}>
-      <HeaderBanner className='price' title='nav.Personal training' descript=''>
-        <div className="section">
-          <h1>{t('nav.Pricing')}</h1>
-          <h3></h3>
-        </div>
-          <h1>price</h1>
-      </HeaderBanner>
+      <HeaderBanner className='price' title='nav.pricing' descript='header_banner.training_becomes' />
     </main>
   )
 }

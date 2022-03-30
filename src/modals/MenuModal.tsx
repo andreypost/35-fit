@@ -124,7 +124,7 @@ export const MenuModal = ({ user }) => {
             {useMemo(() => <User user={user} styles='menu_modal' />, [user])}
           </li>
           <li className="buyСlass">
-            <Link to={RESERVE_ROUTE}>{t('nav.Buy')}</Link>
+            <Link to={RESERVE_ROUTE}>{t('nav.buy')}</Link>
           </li>
         </ul>
       </nav>

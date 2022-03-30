@@ -64,7 +64,7 @@ export const DashboardModal = ({ user, login, firebaseAuth }: FBUProps) => {
           {useMemo(() => <User user={user} styles='dashboard_modal' />, [user])}
           <NavigationLinks links={profileLinks} color='#59b894' />
           <li className='signout' onClick={() => (firebaseAuth.signOut(), dispatch(unsetDashModal()))}>
-            {t('nav.Sign out')}
+            {t('nav.sign_out')}
           </li>
         </ul>
       </nav>

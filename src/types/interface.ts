@@ -21,7 +21,7 @@ export interface ISVGProp {
 export interface CHLProps {
     children?: JSX.Element | JSX.Element[]
     className?: string
-    title?: string
+    title?: any
     descript?: any
     // children: [ReactElement, ReactElement]
     // children: (string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactNodeArray | React.ReactPortal | null | undefined)[]

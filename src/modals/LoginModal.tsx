@@ -228,7 +228,7 @@ export const LoginModal = ({ user, login }: FBUProps) => {
             <span className="checkmark" />
             {t('keep_me_logged_in')}
           </label>
-          <button type="submit" className='grey_input'>{t('nav.Login')}</button>
+          <button type="submit" className='grey_input'>{t('nav.login')}</button>
           <p className="use_google" onClick={() => login()}>{t('use_google_account_sign_in')}</p>
         </form>
         <div className='login_book'>

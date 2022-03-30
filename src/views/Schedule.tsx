@@ -13,13 +13,7 @@ const Schedule = () => {
 
   return (
     <main className={'fallback ' + opacity}>
-      <HeaderBanner className='schedule' title='nav.Personal training' descript=''>
-        <div className="section">
-          <h1>{t('nav.Personal training')}</h1>
-          <h3></h3>
-        </div>
-        <h1>Schedule</h1>
-      </HeaderBanner>
+      <HeaderBanner className='schedule' title='nav.schedule' descript='header_banner.training_becomes' />
     </main>
   )
 }

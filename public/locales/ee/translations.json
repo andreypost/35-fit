@@ -1,23 +1,26 @@
 {
     "nav": {
-        "Training": "Koolitus",
-        "Personal training": "Personali koolitus",
-        "Pricing": "Hinnakujundus",
-        "Schedule": "Ajakava",
-        "The Team": "Meeskond",
+        "training": "Koolitus",
+        "personal_training": "Personali koolitus",
+        "pricing": "Hinnakujundus",
+        "schedule": "Ajakava",
+        "team": "Meeskond",
         "club": "Klubi",
-        "Faq": "FAQ",
-        "Login": "Logi sisse",
-        "Sign out": "Logi välja",
-        "Buy": "Osta klass",
-        "Dashboard": "Armatuurlaud",
-        "Classes": "Klassid",
-        "Progress": "Edusammud",
-        "Contract": "Leping",
-        "Profile": "Profiil"
+        "faq": "FAQ",
+        "reservation": "Reserveerimine",
+        "login": "Logi sisse",
+        "sign_out": "Logi välja",
+        "buy": "Osta klass",
+        "dashboard": "Armatuurlaud",
+        "classes": "Klassid",
+        "progress": "Edusammud",
+        "contract": "Leping",
+        "profile": "Profiil"
     },
     "header_banner": {
-        "text_main": "Uus standard"
+        "text_main": "Uus standard",
+        "35_minute_high": "35-minutiline kõrge intensiivsusega intervalltreening Miloni seadmetel koos juhendatud juhendamisega.",
+        "training_becomes" : "Treening muutub efektiivseks tänu intensiivsusele. Klubi on kihlatud ja 3 korda nädalas ja 2 korda 10 päeva jooksul."
     },
     "welcome_to": "Tere tulemast",
     "not_member_yet": "Mitte veel liige?",

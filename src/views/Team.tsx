@@ -14,13 +14,7 @@ const Team = ({ user }) => {
 
   return (
     <main className={'fallback ' + opacity}>
-      <HeaderBanner className='team' title='nav.Personal training' descript=''>
-        <div className="section">
-          <h1>{t('nav.Pricing')}</h1>
-          <h3></h3>
-        </div>
-        <h1>Team</h1>
-      </HeaderBanner>
+      <HeaderBanner className='team' title='nav.team' descript='header_banner.training_becomes' />
     </main>
   )
 }

@@ -137,20 +137,19 @@ textarea:focus {
 }
 
 .header_banner.main {
-  // background: url(../img/header_main.png) no-repeat center center / cover;
   background: url(../img/patterns/main_header.svg) no-repeat center center / cover;
 }
 
 .header_banner.train {
-  background: url(../img/banner/train.png) no-repeat center center / cover;
+  background: url(../img/banner/train.png) no-repeat 90% center / cover;
 }
 
 .header_banner.price {
-  background: url(../img/banner/price.png) no-repeat center center / cover;
+  background: url(../img/banner/price.png) no-repeat 80% center / cover;
 }
 
 .header_banner.schedule {
-  background: url(../img/banner/schedule.png) no-repeat center center / cover;
+  background: url(../img/banner/schedule.png) no-repeat 80% center / cover;
 }
 
 .header_banner.team {
@@ -158,11 +157,15 @@ textarea:focus {
 }
 
 .header_banner.club {
-  background: url(../img/banner/club.png) no-repeat center center / cover;
+  background: url(../img/banner/club.png) no-repeat 30% center / cover;
 }
 
 .header_banner.faq {
-  background: url(../img/banner/faq.png) no-repeat center center / cover;
+  background: url(../img/banner/faq.png) no-repeat 70% center / cover;
+}
+
+.header_banner.reserve {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.0001) 0%, #F1F1F1 100%);
 }
 
 .footer_touch {

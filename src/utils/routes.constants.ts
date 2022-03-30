@@ -10,18 +10,18 @@ export const FLOWER_ROUTE = '/flower'
 export const CHAT_ROUTE = '/chat'
 
 export const publicLinks = [
-    { route: TRAIN_ROUTE, dictionary: 'nav.Training' },
-    { route: PRICE_ROUTE, dictionary: 'nav.Pricing' },
-    { route: SCHEDULE_ROUTE, dictionary: 'nav.Schedule' },
-    { route: TEAM_ROUTE, dictionary: 'nav.Team' },
+    { route: TRAIN_ROUTE, dictionary: 'nav.training' },
+    { route: PRICE_ROUTE, dictionary: 'nav.pricing' },
+    { route: SCHEDULE_ROUTE, dictionary: 'nav.schedule' },
+    { route: TEAM_ROUTE, dictionary: 'nav.team' },
     { route: CLUB_ROUTE, dictionary: 'nav.club' },
-    { route: FAQ_ROUTE, dictionary: 'nav.Faq' },
+    { route: FAQ_ROUTE, dictionary: 'nav.faq' },
 ]
 
 export const profileLinks = [
-    { route: MAIN_ROUTE, dictionary: 'nav.Dashboard' },
-    { route: MAIN_ROUTE, dictionary: 'nav.Classes' },
-    { route: MAIN_ROUTE, dictionary: 'nav.Progress' },
-    { route: MAIN_ROUTE, dictionary: 'nav.Contract' },
-    { route: MAIN_ROUTE, dictionary: 'nav.Profile' }
+    { route: MAIN_ROUTE, dictionary: 'nav.dashboard' },
+    { route: MAIN_ROUTE, dictionary: 'nav.classes' },
+    { route: MAIN_ROUTE, dictionary: 'nav.progress' },
+    { route: MAIN_ROUTE, dictionary: 'nav.contract' },
+    { route: MAIN_ROUTE, dictionary: 'nav.profile' }
 ]

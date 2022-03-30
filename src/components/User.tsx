@@ -124,7 +124,7 @@ export const User = ({ user, styles }) => {
       className={styles + (user ? ' loggedOut' : ' loggedIn')}
       onClick={() => styles === 'dashboard_modal' ? dispatch(unsetDashModal()) : user ? dispatch(dashModal()) : dispatch(loginModal())}
     >
-      <p className="user_name">{(user && user.displayName) || t('nav.Login')}</p>
+      <p className="user_name">{(user && user.displayName) || t('nav.login')}</p>
       <img
         src={(user && user.photoURL) || empty_user}
         onError={(e: any) => (e.target.onerror = null, e.target.src = empty_user)}

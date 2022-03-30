@@ -12,13 +12,7 @@ const Training = () => {
 
   return (
     <main className={'fallback ' + opacity}>
-      <HeaderBanner className='train'>
-        <div className="section">
-          <h1>{t('nav.Personal training')}</h1>
-          <h3></h3>
-        </div>
-          <h1>training</h1>
-      </HeaderBanner>
+      <HeaderBanner className='train' title='nav.personal_training' descript='header_banner.35_minute_high' />
     </main>
   )
 }

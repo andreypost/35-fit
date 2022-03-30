@@ -14,8 +14,8 @@ const Main = ({ user }) => {
 
   return (
     <main className={'fallback ' + opacity}>
-      <HeaderBanner className='main' title='nav.Personal_training' descript=''>
-      <h1>main</h1>
+      <HeaderBanner className='main' title='nav.personal_training'>
+        <TieFitSVG />
       </HeaderBanner>
     </main>
   )

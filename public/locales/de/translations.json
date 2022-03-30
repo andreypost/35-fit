@@ -1,23 +1,26 @@
 {
     "nav": {
-        "Training": "Übung",
-        "Personal training": "Persönlich ausbildung",
-        "Pricing": "Preisbildung",
-        "Schedule": "Zeitplan",
-        "The Team": "Die Mannschaft",
+        "training": "Übung",
+        "personal_training": "Persönlich ausbildung",
+        "pricing": "Preisbildung",
+        "schedule": "Zeitplan",
+        "team": "Die Mannschaft",
         "club": "Verein",
-        "Faq": "FAQ",
-        "Login": "Anmeldung",
-        "Sign out": "Ausloggen",
-        "Buy": "Probestunde kaufen",
-        "Dashboard": "Instrumententafel",
-        "Classes": "Klassen",
-        "Progress": "Fortschritt",
-        "Contract": "Vertrag",
-        "Profile": "Profil"
+        "faq": "FAQ",
+        "reservation": "Reservierung",
+        "login": "Anmeldung",
+        "sign_out": "Ausloggen",
+        "buy": "Probestunde kaufen",
+        "dashboard": "Instrumententafel",
+        "classes": "Klassen",
+        "progress": "Fortschritt",
+        "contract": "Vertrag",
+        "profile": "Profil"
     },
     "header_banner": {
-        "text_main": "Neuer Standard"
+        "text_main": "Neuer Standard",
+        "35_minute_high": "35-minütiges hochintensives Intervalltraining an Milon-Geräten mit angeleiteter Anleitung.",
+        "training_becomes" : "Durch die Intensität wird das Training effektiv. Der Club ist engagiert und 3 mal pro Woche und 2 mal in 10 Tagen."
     },
     "welcome_to": "Willkommen zu",
     "not_member_yet": "Noch kein Mitglied?",

@@ -1,13 +1,70 @@
 import { useEffect } from 'react'
 // import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
 import { unsetAllModal } from 'modals/modal.slice'
 import { CHLProps } from 'types/interface'
 
+const Div = styled.div`
+
+  section {
+    padding-top: 144px;
+  }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 900;
+    margin-bottom: 40px;
+    color: #000044;
+  }
+
+  h3 {
+    max-width: 400px;
+    font-weight: 400;
+    padding-bottom: 70px;
+    color: #737373;
+  }
+  
+  &.main h1 {
+    text-transform: uppercase;
+  }
+  
+  @media (max-width: 992px) {
+
+    section {
+      h3 {
+        font-size: 16px;
+      }
+    }
+    
+  }
+  
+  @media (min-width: 993px) {
+    section {
+      padding-top: 170px;
+      
+      h1 {
+        font-size: 48px;
+      }
+
+      h3 {
+        padding-bottom: 140px;
+      }
+
+    }
+   
+  }
+
+  @media (hover: hover) {
+    
+  }
+
+`
+
 export const HeaderBanner = ({ children, className, title, descript }: CHLProps) => {
   const dispatch = useAppDispatch(),
-  { t } = useTranslation()
+    { t } = useTranslation()
 
   const keyDownHandler = (e: { key: string }) => {
     (e.key === 'Escape') && dispatch(unsetAllModal())
@@ -23,12 +80,12 @@ export const HeaderBanner = ({ children, className, title, descript }: CHLProps)
   }, [])
 
   return (
-    <div className={`header_banner ${className}`}>
+    <Div className={`header_banner ${className}`}>
       <section className="section">
-          <h1>{t('title')}</h1>
-          <h3></h3>
-        </section>
-      {children}
-    </div>
+        <h1>{t(title)}</h1>
+        <h3>{t(descript)}</h3>
+        {children}
+      </section>
+    </Div>
   )
 }

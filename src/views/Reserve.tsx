@@ -13,15 +13,9 @@ const Reserve = () => {
   }, [])
 
   return (
-    <div className={'fallback ' + opacity}>
-      <HeaderBanner>
-        <h1>{t('nav.Personal training')}</h1>
-        <h3></h3>
-      </HeaderBanner>
-      <main className="section">
-        <h1>Reserve Time</h1>
-      </main>
-    </div>
+    <main className={'fallback ' + opacity}>
+      <HeaderBanner className='reserve' title='nav.reservation' />
+    </main>
   )
 }
 export default Reserve

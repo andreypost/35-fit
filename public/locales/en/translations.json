@@ -1,23 +1,26 @@
 {
     "nav": {
-        "Training": "Training",
-        "Personal training": "Personal training",
-        "Pricing": "Pricing",
-        "Schedule": "Schedule",
-        "Team": "The Team",
+        "training": "Training",
+        "personal_training": "Personal training",
+        "pricing": "Pricing",
+        "schedule": "Schedule",
+        "team": "The Team",
         "club": "Club",
-        "Faq": "FAQ",
-        "Login": "Login",
-        "Sign out": "Sign out",
-        "Buy": "Buy a class",
-        "Dashboard": "Dashboard",
-        "Classes": "Classes",
-        "Progress": "Progress",
-        "Contract": "Contract",
-        "Profile": "Profile"
+        "faq": "FAQ",
+        "reservation": "Reservation",
+        "login": "Login",
+        "sign_out": "Sign out",
+        "buy": "Buy a class",
+        "dashboard": "Dashboard",
+        "classes": "Classes",
+        "progress": "Progress",
+        "contract": "Contract",
+        "profile": "Profile"
     },
     "header_banner": {
-        "text_main": "New standard"
+        "text_main": "New standard",
+        "35_minute_high": "35-minute high intensity interval training workout done on Milon equipment with guided instruction.",
+        "training_becomes" : "Training becomes effective due to intensity. The club is engaged and 3 times a week, and 2 times in 10 days."
     },
     "welcome_to": "Welcome to",
     "not_member_yet": "Not a member yet?",

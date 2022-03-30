@@ -222,7 +222,7 @@ export const HeaderNavigate = ({ user }) => {
           {useMemo(() => <Language />, [])}
           {useMemo(() => <User user={user} styles='header_nav' />, [user])}
           <Link to={RESERVE_ROUTE} className="navigate_buy">
-            {t('nav.Buy')}
+            {t('nav.buy')}
           </Link>
           <div
             className={'navigate_burger ' + burgerState}
