@@ -18,7 +18,8 @@
         "profile": "Profiil"
     },
     "header_banner": {
-        "text_main": "Uus standard",
+        "new_standard": "Uus standard",
+        "month": "Kuu",
         "35_minute_high": "35-minutiline kõrge intensiivsusega intervalltreening Miloni seadmetel koos juhendatud juhendamisega.",
         "training_becomes" : "Treening muutub efektiivseks tänu intensiivsusele. Klubi on kihlatud ja 3 korda nädalas ja 2 korda 10 päeva jooksul."
     },

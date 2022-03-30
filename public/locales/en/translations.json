@@ -18,7 +18,8 @@
         "profile": "Profile"
     },
     "header_banner": {
-        "text_main": "New standard",
+        "new_standard": "New standard",
+        "month": "Month",
         "35_minute_high": "35-minute high intensity interval training workout done on Milon equipment with guided instruction.",
         "training_becomes" : "Training becomes effective due to intensity. The club is engaged and 3 times a week, and 2 times in 10 days."
     },

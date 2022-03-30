@@ -9,20 +9,21 @@ const Ul = styled.ul`
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   margin-left: auto;
+  font-size: 18px;
   font-weight: 600;
   color: #737373;
+  position: relative;
 
   .lang_base {
-    width: 24px;
+    width: 26px;
   }
 
   .lang_list {
     visibility: hidden;
     opacity: 0;
     position: absolute;
-    top: 30px;
+    top: 32px;
     left: 0;
     transition: visibility 0s, opacity 0.5s linear;
 
@@ -36,7 +37,8 @@ const Ul = styled.ul`
     height: 11px;
     fill: #737373;
     transition: transform 0.2s;
-    margin-left: 5px;
+    margin-left: 8px;
+    margin-bottom: 1px;
   }
 
   &:hover {

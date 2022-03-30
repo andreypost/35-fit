@@ -7,7 +7,6 @@ import { unsetAllModal } from 'modals/modal.slice'
 import { CHLProps } from 'types/interface'
 
 const Div = styled.div`
-
   section {
     padding-top: 144px;
   }
@@ -21,13 +20,16 @@ const Div = styled.div`
 
   h3 {
     max-width: 400px;
+    font-size: 18px;
     font-weight: 400;
     padding-bottom: 70px;
     color: #737373;
   }
   
   &.main h1 {
+    margin-bottom: 210px;
     text-transform: uppercase;
+    text-align: center;
   }
   
   @media (max-width: 992px) {
@@ -59,7 +61,6 @@ const Div = styled.div`
   @media (hover: hover) {
     
   }
-
 `
 
 export const HeaderBanner = ({ children, className, title, descript }: CHLProps) => {
@@ -83,7 +84,7 @@ export const HeaderBanner = ({ children, className, title, descript }: CHLProps)
     <Div className={`header_banner ${className}`}>
       <section className="section">
         <h1>{t(title)}</h1>
-        <h3>{t(descript)}</h3>
+        {descript && <h3>{t(descript)}</h3>}
         {children}
       </section>
     </Div>
