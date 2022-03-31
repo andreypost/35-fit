@@ -23,6 +23,14 @@
         "35_minute_high": "35-minütiges hochintensives Intervalltraining an Milon-Geräten mit angeleiteter Anleitung.",
         "training_becomes" : "Durch die Intensität wird das Training effektiv. Der Club ist engagiert und 3 mal pro Woche und 2 mal in 10 Tagen."
     },
+    "main": {
+        "classes": "Klassen",
+        "register_trial": "Registrieren Sie sich für eine Testversion",
+        "connected_results": "Verbunden mit Ergebnissen",
+        "book_class": "Buchen Sie die nächste Klasse",
+        "number_memberships": "Anzahl der Mitgliedschaften ist begrenzt!",
+        "sold": "verkauft"
+    },
     "welcome_to": "Willkommen zu",
     "not_member_yet": "Noch kein Mitglied?",
     "book_your_training": "Buchen Sie Ihr erstes Training",

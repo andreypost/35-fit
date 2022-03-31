@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState, useDebugValue} from 'react'
 import {
   HashRouter,
   // BrowserRouter,
@@ -36,6 +36,8 @@ const AppRouter = () => {
       }
     }
   }, [])
+  
+  useDebugValue(user)
 
   return (
     <AppContext.Provider value={{ language, setLanguage }}>
