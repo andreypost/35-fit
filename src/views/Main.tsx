@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 import { RESERVE_ROUTE, PRICE_ROUTE } from 'utils/routes.constants'
 
 const MainBlock = styled.main`
-
   .header_new {
     display: grid;
     justify-content: center;
@@ -47,7 +46,7 @@ const MainBlock = styled.main`
     color: white;
 
     .rupor_trial, .rupor_book {
-      padding: 37px 47px;
+      padding: 30px 20px;
       a {
         box-sizing: border-box;
         height: 64px;
@@ -56,9 +55,10 @@ const MainBlock = styled.main`
         justify-content: center;
         width: 100%;
         font-weight: 900;
-        font-size: 18px;
+        font-size: 15px;
         font-style: normal;
         border-radius: 32px;
+
       }
     }
     
@@ -69,8 +69,12 @@ const MainBlock = styled.main`
 
       svg {
         position: absolute;
-        top: -110px;
-        left: -40px;
+        top: -70px;
+        left: -30px;
+        @media (max-width: 992px) {
+          width: 120px;
+          height: 120px;
+        }
       }
 
       h6 {
@@ -88,22 +92,32 @@ const MainBlock = styled.main`
       a {
         background-color: #59B894;
         color: white;
+        transition: background-color .2s;
+        &:hover {
+          background-color: #ff6376;
+        }
       }
     }
+
     .rupor_book {
       display: flex;
       flex-flow: column;
       p {
         font-size: 32px;
         font-weight: 900;
+        margin-bottom: 76px;
         color: #737373;
       }
       a {
-        margin-top: auto;
         border: 2px solid #E8E8E8;
         border-radius: 32px;
         background-color: white;
         color: #59B894;
+        transition: background-color .2s;
+        &:hover {
+          background-color: #59B894;
+          color: white;
+        }
       }
     }
   }
@@ -114,8 +128,49 @@ const MainBlock = styled.main`
   }
   
   .rupor_member {
-    max-width: 772px;
+    box-sizing: border-box;
+    max-width: 765px;
     margin: 25px auto 120px;
+    padding: 28px 30px 13px;
+    text-align: center;
+
+    h6 {
+      font-size: 22px;
+      font-weight: 900;
+      color: #737373;
+    }
+
+    .grey_line {
+      height: 14px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      background-color: #e8e8e8;
+
+      @keyframes greeLineWidth {
+        0% {
+          width: 0%;
+        }
+        100% {
+          width: 76%;
+        }
+      }
+
+      .green_line {
+        height: 14px;
+        border-radius: 6px;
+        background-color: #59b894;
+        animation: greeLineWidth 2s infinite alternate;
+        // animation: greeLineWidth 2s;
+      }
+    }
+
+    p {
+      font-size: 16px;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #000044;
+    }
   }
   
   
@@ -127,14 +182,12 @@ const MainBlock = styled.main`
       }
     }
     
-    .rupor_trial, .rupor_book {
+    .rupor_trial, .rupor_book, .rupor_member {
       box-sizing: border-box;
       width: 100%;
-      max-width: 374px;
+      max-width: 330px;
       justify-self: center;
     }
-  
-    
   }
   
   @media (min-width: 993px) {
@@ -144,24 +197,23 @@ const MainBlock = styled.main`
         top: -91px;
       }
     }
-
     .rupor {
       grid-template-columns: 370px 370px;
       justify-content: center;
-      
+
+      .rupor_trial, .rupor_book {
+        padding: 37px 47px;
+        a {
+          font-size: 18px;
+        }
+      }
       .rupor_trial {
         svg {
           top: -100px;
           left: -100px;
         }
       }
-
     }
-  
-  }
-
-  @media (hover: hover) {
-    
   }
 `
 
@@ -199,12 +251,13 @@ const Main = ({ user }) => {
             <Link to={PRICE_ROUTE}>{t('main.book_class')}</Link>
           </div>
         </div>
+
         <div className='rupor_member'>
           <h6>{t('main.number_memberships')}</h6>
-          <div className="baseLine">
-            <div className="growLine"></div>
+          <div className="grey_line">
+            <div className="green_line" style={{width: '76%'}}></div>
           </div>
-          <p>{t('main.sold')}</p>
+          <p>76%{t('main.sold')}</p>
         </div>
 
       </div>

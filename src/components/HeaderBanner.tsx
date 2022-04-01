@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-// import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
@@ -27,39 +26,32 @@ const Div = styled.div`
   }
   
   &.main h1 {
-    margin-bottom: 210px;
+    margin-bottom: 120px;
     text-transform: uppercase;
     text-align: center;
+    @media (min-width: 993px) {
+      margin-bottom: 210px;
+    }
   }
   
   @media (max-width: 992px) {
-
     section {
       h3 {
         font-size: 16px;
       }
     }
-    
   }
   
   @media (min-width: 993px) {
     section {
       padding-top: 170px;
-      
       h1 {
         font-size: 48px;
       }
-
       h3 {
         padding-bottom: 140px;
       }
-
     }
-   
-  }
-
-  @media (hover: hover) {
-    
   }
 `
 
