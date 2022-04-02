@@ -128,7 +128,6 @@ const Header = styled.header`
 
       a {
         font-size: 14px;
-        font-weight: 700;
         transition: color 0.2s;
 
         &:hover {
@@ -145,11 +144,9 @@ const Header = styled.header`
       width: 188px;
       padding: 0 12px;
       font-size: 14px;
-      font-weight: 700;
       border: 2px solid transparent;
       border-radius: 32px;
       background-color: #59b894;
-      color: white;
       transition: background-color .2s, border-color .2s;
 
       @media (max-width: 992px) {
@@ -216,12 +213,12 @@ export const HeaderNavigate = ({ user }) => {
           <LogoSVG />
         </Link>
         <ul className="navigate_routes">
-          <NavigationLinks links={publicLinks} color='#737373' />
+          <NavigationLinks links={publicLinks} bold='b700' color='#737373' />
         </ul>
         <div className="navigate_menu">
           {useMemo(() => <Language />, [])}
           {useMemo(() => <User user={user} styles='header_nav' />, [user])}
-          <Link to={RESERVE_ROUTE} className="navigate_buy">
+          <Link to={RESERVE_ROUTE} className="navigate_buy b700 white">
             {t('nav.buy')}
           </Link>
           <div

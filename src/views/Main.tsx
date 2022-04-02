@@ -14,9 +14,7 @@ const MainBlock = styled.main`
     
     h4 {
       font-size: 18px;
-      font-weight: 900;
       text-transform: uppercase;
-      color: #000044;
       position: relative;
       svg {
         position: absolute;
@@ -27,8 +25,6 @@ const MainBlock = styled.main`
 
     p {
       font-size: 48px;
-      font-weight: 900;
-      color: #000044;
       span {
         font-size: 24px;
         text-transform: uppercase;
@@ -43,7 +39,6 @@ const MainBlock = styled.main`
     display: grid;
     gap: 25px;
     text-align: center;
-    color: white;
 
     .rupor_trial, .rupor_book {
       padding: 30px 20px;
@@ -54,17 +49,13 @@ const MainBlock = styled.main`
         align-items: center;
         justify-content: center;
         width: 100%;
-        font-weight: 900;
         font-size: 15px;
-        font-style: normal;
         border-radius: 32px;
-
       }
     }
     
     .rupor_trial {
       background: #000044;
-      color: white;
       position: relative;
 
       svg {
@@ -81,17 +72,14 @@ const MainBlock = styled.main`
         font-size: 86px;
         span {
           font-size: 64px;
-          font-weight: 900;
         }
       }
       p {
         font-size: 24px;
-        font-weight: 900;
         margin-bottom: 23px;
       }
       a {
         background-color: #59B894;
-        color: white;
         transition: background-color .2s;
         &:hover {
           background-color: #ff6376;
@@ -104,15 +92,12 @@ const MainBlock = styled.main`
       flex-flow: column;
       p {
         font-size: 32px;
-        font-weight: 900;
         margin-bottom: 76px;
-        color: #737373;
       }
       a {
         border: 2px solid #E8E8E8;
         border-radius: 32px;
         background-color: white;
-        color: #59B894;
         transition: background-color .2s;
         &:hover {
           background-color: #59B894;
@@ -136,8 +121,6 @@ const MainBlock = styled.main`
 
     h6 {
       font-size: 22px;
-      font-weight: 900;
-      color: #737373;
     }
 
     .grey_line {
@@ -167,9 +150,7 @@ const MainBlock = styled.main`
 
     p {
       font-size: 16px;
-      font-weight: 900;
       text-transform: uppercase;
-      color: #000044;
     }
   }
   
@@ -229,43 +210,36 @@ const Main = ({ user }) => {
   return (
     <MainBlock className={'fallback ' + opacity}>
       <HeaderBanner className='main' title='nav.personal_training'>
-        <div className='header_new'>
-          <h4>
+        <div className='header_new blue'>
+          <h4 className='b900'>
             <TieFitSVG />
             {t('header_banner.new_standard')}
           </h4>
-          <p>35<span>€</span><span className='header_month'>/{t('header_banner.month')}</span></p>
+          <p className='b900'>35<span>€</span><span className='header_month'>/{t('header_banner.month')}</span></p>
         </div>
       </HeaderBanner>
       <div className='section'>
-
-        <div className='rupor'>
+        <div className='rupor white'>
           <div className='rupor_trial'>
             <RedRuporSVG />
-            <h6>17<span>€</span></h6>
-            <p>3 {t('main.classes')}</p>
-            <Link to={RESERVE_ROUTE}>{t('main.register_trial')}</Link>
+            <h6>17<span className='b900'>€</span></h6>
+            <p className='b900'>3 {t('main.classes')}</p>
+            <Link className='b900 white' to={RESERVE_ROUTE}>{t('main.register_trial')}</Link>
           </div>
           <div className='rupor_book'>
-            <p>{t('main.connected_results')}</p>
-            <Link to={PRICE_ROUTE}>{t('main.book_class')}</Link>
+            <p className='b900 grey'>{t('main.connected_results')}</p>
+            <Link className='b900 green' to={PRICE_ROUTE}>{t('main.book_class')}</Link>
           </div>
         </div>
-
         <div className='rupor_member'>
-          <h6>{t('main.number_memberships')}</h6>
+          <h6 className='b900 grey'>{t('main.number_memberships')}</h6>
           <div className="grey_line">
-            <div className="green_line" style={{width: '76%'}}></div>
+            <div className="green_line"></div>
           </div>
-          <p>76%{t('main.sold')}</p>
+          <p className='b900 blue'>76%{t('main.sold')}</p>
         </div>
-
       </div>
     </MainBlock>
   )
 }
 export default Main
-
-
-// elem.querySelector('.growLine').style.width =
-// elem.previousElementSibling.querySelector('.rateLine').innerHTML + '%';

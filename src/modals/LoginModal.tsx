@@ -16,7 +16,6 @@ const Div = styled(BaseDiv)`
 
     .use_google, a {
       font-size: 14px;
-      font-weight: 700;
     }
     
     a, .checkmark {
@@ -29,11 +28,6 @@ const Div = styled(BaseDiv)`
       flex-flow: column;
       margin-left: auto;
       margin-right: auto;
-
-      h1 {
-        font-weight: 900;
-        color: #000044;
-      }
 
       input[type="email"], input[type="password"] {
         margin-bottom: 20px;
@@ -99,7 +93,6 @@ const Div = styled(BaseDiv)`
       }
 
       .use_google {
-        color: #59B894;
         transition: color .2s;
         &:hover {
           color: #ff6376;
@@ -117,21 +110,15 @@ const Div = styled(BaseDiv)`
       article {
         width: 100%;
         max-width: 330px;
-
-        h2 {
-          font-weight: 900;
-          margin-bottom: 30px;
-          color: white;
-        }
         
         a {
           width: 100%;
           display: inline-flex;
           align-items: center;
           justify-content: center;
+          margin-top: 30px;
           border-radius: 26px;
           background: #000044;
-          color: white;
           transition: color .2s;
           &:hover {
             color: #59B894;
@@ -214,7 +201,7 @@ export const LoginModal = ({ user, login }: FBUProps) => {
       <nav>
         <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetLoginModal())} />
         <form action="" id="loginForm">
-          <h1>{t('welcome_to')}<br />35 FIT</h1>
+          <h1 className='b900 blue'>{t('welcome_to')}<br />35 FIT</h1>
           <label htmlFor="login" className='grey_label'>{t('email_address')}</label>
           <input type="email" name="login" className='grey_input' placeholder={t('enter_email_address')} required />
           <label htmlFor="password" className='grey_label'>{t('password')}</label>
@@ -229,12 +216,12 @@ export const LoginModal = ({ user, login }: FBUProps) => {
             {t('keep_me_logged_in')}
           </label>
           <button type="submit" className='grey_input'>{t('nav.login')}</button>
-          <p className="use_google" onClick={() => login()}>{t('use_google_account_sign_in')}</p>
+          <p className="use_google b700 green" onClick={() => login()}>{t('use_google_account_sign_in')}</p>
         </form>
         <div className='login_book'>
           <article>
-            <h2>{t('not_member_yet')}</h2>
-            <Link to={RESERVE_ROUTE}>{t('book_your_training')}</Link>
+            <h2 className='b900 white'>{t('not_member_yet')}</h2>
+            <Link className='b700 white' to={RESERVE_ROUTE}>{t('book_your_training')}</Link>
           </article>
         </div>
       </nav>

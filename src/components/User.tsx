@@ -19,8 +19,6 @@ const Div = styled.div`
     text-overflow: ellipsis;
     overflow: hidden;
     font-size: 14px;
-    font-weight: 700;
-    color: #59b894;
     transition: color 0.2s;
   }
   .user_face {
@@ -89,7 +87,6 @@ const Div = styled.div`
     .user_name {
       order: 2;
       font-size: 16px;
-      font-weight: 700;
       color: #004;
     }
     .user_face {
@@ -124,7 +121,7 @@ export const User = ({ user, styles }) => {
       className={styles + (user ? ' loggedOut' : ' loggedIn')}
       onClick={() => styles === 'dashboard_modal' ? dispatch(unsetDashModal()) : user ? dispatch(dashModal()) : dispatch(loginModal())}
     >
-      <p className="user_name">{(user && user.displayName) || t('nav.login')}</p>
+      <p className="user_name b700 green">{(user && user.displayName) || t('nav.login')}</p>
       <img
         src={(user && user.photoURL) || empty_user}
         onError={(e: any) => (e.target.onerror = null, e.target.src = empty_user)}

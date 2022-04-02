@@ -4,16 +4,10 @@ import styled from 'styled-components'
 import { FacebookSVG, InstaSVG, LangArrowSVG, YoutubeSVG } from 'img/icons'
 
 const Foot = styled.footer`
-  h2 {
-    font-weight: 900;
-    color: white;
-  }
-
   h6 {
     font-size: 12px;
     text-transform: uppercase;
     margin-bottom: 20px;
-    color: #59B894;
   }
 
   p {
@@ -178,11 +172,7 @@ const Foot = styled.footer`
       justify-content: flex-end;
       gap: 60px;
       padding-bottom: 120px;
-      
-      a {
-        font-weight: 700;
-      }
-      
+           
       @media (min-width: 993px) {
         flex-flow: unset;
         gap: 38px;
@@ -199,10 +189,10 @@ export const Footer = () => {
       <div className="footer_connected">
         <div className="section connected">
           <article className='stay'>
-            <h2>{t('footer.stay_connected')}</h2>
+            <h2 className='b900 white'>{t('footer.stay_connected')}</h2>
           </article>
           <article>
-            <h6>{t('footer.newsletter')}</h6>
+            <h6 className='green'>{t('footer.newsletter')}</h6>
             <p>{t('footer.be_first_queue')}</p>
             <form action="" id="newsForm">
               <div className='input_box'>
@@ -213,7 +203,7 @@ export const Footer = () => {
             </form>
           </article>
           <article className='social'>
-            <h6>{t('footer.social')}</h6>
+            <h6 className='green'>{t('footer.social')}</h6>
             <a href="">
               <FacebookSVG /><span />
             </a>
@@ -229,11 +219,11 @@ export const Footer = () => {
       <div className="footer_touch">
         <div className="section touch">
           <article className='get'>
-            <h2>{t('footer.get_in_touch')}</h2>
+            <h2 className='b900 white'>{t('footer.get_in_touch')}</h2>
           </article>
           <div className='contacts'>
             <article>
-              <h6>{t('footer.general')}</h6>
+              <h6 className='green'>{t('footer.general')}</h6>
               <a href="tel:+3726669999" className='phone'>- 372 666 9999</a>
               <a href="mailto:info@35fit.com" className='email'>- info@35fit.com</a>
               <Link to="/Faq" className='white_input'>
@@ -242,7 +232,7 @@ export const Footer = () => {
               </Link>
             </article>
             <article>
-              <h6>{t('nav.club')}</h6>
+              <h6 className='green'>{t('nav.club')}</h6>
               <a href="tel:+3726669999" className='phone'>- 372 666 9999</a>
               <a href="mailto:gonsiori@35fit.com" className='email'>- gonsiori@35fit.com</a>
               <Link to="/Faq" className='white_input'>
@@ -252,7 +242,7 @@ export const Footer = () => {
             </article>
           </div>
           <article className='partners'>
-            <h6>{t('footer.partners')}</h6>
+            <h6 className='green'>{t('footer.partners')}</h6>
             <p>{t('footer.search_engine')}</p>
             <Link to="/Faq" className='white_input'>
               {t('footer.become_partner')}
@@ -260,7 +250,7 @@ export const Footer = () => {
             </Link>
           </article>
         </div>
-        <ul className="section careers_terms">
+        <ul className="section b700 careers_terms">
           <li><Link to="/Faq">{t('footer.Careers')}</Link></li>
           <li><Link to="/">{t('footer.Privacy')}</Link></li>
           <li><Link to="/">{t('footer.Terms')}</Link></li>

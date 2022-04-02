@@ -75,7 +75,6 @@ const Div = styled(BaseDiv)`
       a {
         display: inline-block;
         font-size: 20px;
-        font-weight: 900;
         padding-top: 9.5px;
         padding-bottom: 9.5px;
         &:hover {
@@ -93,9 +92,7 @@ const Div = styled(BaseDiv)`
         justify-content: center;
         border-radius: 32px;
         font-size: 14px;
-        font-weight: 700;
         background-color: #59b894;
-        color: white;
         transition: background-color 0.2s;
         &:hover {
           background-color: #000044;
@@ -119,12 +116,12 @@ export const MenuModal = ({ user }) => {
       <nav>
         <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetMenuModal())} />
         <ul>
-          <NavigationLinks links={publicLinks} color='#737373' />
+          <NavigationLinks links={publicLinks} bold='b900' color='#737373' />
           <li className={'login ' + (user ? 'signOut' : 'signIn')}>
             {useMemo(() => <User user={user} styles='menu_modal' />, [user])}
           </li>
           <li className="buyСlass">
-            <Link to={RESERVE_ROUTE}>{t('nav.buy')}</Link>
+            <Link to={RESERVE_ROUTE} className='b700 white'>{t('nav.buy')}</Link>
           </li>
         </ul>
       </nav>

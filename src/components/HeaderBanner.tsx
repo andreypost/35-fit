@@ -12,17 +12,13 @@ const Div = styled.div`
 
   h1 {
     font-size: 36px;
-    font-weight: 900;
     margin-bottom: 40px;
-    color: #000044;
   }
 
-  h3 {
+  p {
     max-width: 400px;
     font-size: 18px;
-    font-weight: 400;
     padding-bottom: 70px;
-    color: #737373;
   }
   
   &.main h1 {
@@ -75,8 +71,8 @@ export const HeaderBanner = ({ children, className, title, descript }: CHLProps)
   return (
     <Div className={`header_banner ${className}`}>
       <section className="section">
-        <h1>{t(title)}</h1>
-        {descript && <h3>{t(descript)}</h3>}
+        <h1 className='b900 blue'>{t(title)}</h1>
+        {descript && <p className='grey'>{t(descript)}</p>}
         {children}
       </section>
     </Div>

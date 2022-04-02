@@ -3,7 +3,6 @@
 body {
   font-family: $montserrat-font-family;
   user-select: none;
-  // height: 3000px;
 }
 
 .fallback {
@@ -21,7 +20,6 @@ body {
   padding-right: 10px;
   margin-left: auto;
   margin-right: auto;
-  // box-sizing   : border-box;
 }
 
 ul,
@@ -99,6 +97,30 @@ textarea:focus {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
+.b700 {
+  font-weight: 700;
+}
+
+.b900 {
+  font-weight: 900;
+}
+
+.white {
+  color: #fff;
+}
+
+.blue {
+  color: $blue_color;
+}
+
+.green {
+  color: $green_color;
+}
+
+.grey {
+  color: $grey_color;
+}
+
 .grey_label {
   @include label_styles;
   background-color: white;
@@ -113,13 +135,13 @@ textarea:focus {
 .grey_input {
   @include input_styles;
   border-color: #b2b2b2;
-  color: #004;
+  color: $blue_color;
 }
 
 .white_input {
   @include input_styles;
   @include white_styles;
-  border-color: #e8e8e8;
+  border-color: $light_grey_color;
 }
 
 .part_radius {

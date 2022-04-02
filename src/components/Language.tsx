@@ -11,8 +11,6 @@ const Ul = styled.ul`
   justify-content: center;
   margin-left: auto;
   font-size: 18px;
-  font-weight: 600;
-  color: #737373;
   position: relative;
 
   .lang_base {
@@ -74,7 +72,7 @@ export const Language = () => {
   // }
   // if (!language) return <Spinner />
   return (
-    <Ul>
+    <Ul className='b700 grey'>
       <li className="lang_base">{language.toLocaleUpperCase()}</li>
       <li className="lang_list">
         <ul>

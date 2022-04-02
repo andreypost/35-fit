@@ -19,9 +19,7 @@ const Div = styled(BaseDiv)`
       a {
         display: inline-block;
         font-size: 18px;
-        font-weight: 900;
         margin: 10px 0;
-        color: #59b894;
         transition: color 0.2s;
         @media (hover: hover) {
           cursor: pointer;
@@ -32,11 +30,9 @@ const Div = styled(BaseDiv)`
       }
       .signout {
         font-size: 18px;
-        font-weight: 900;
         margin-top: 10px;
         padding-top: 20px;
         border-top: 1px solid #e8e8e8;
-        color: #737373;
         transition: color 0.2s;
         @media (hover: hover) {
           cursor: pointer;
@@ -60,10 +56,10 @@ export const DashboardModal = ({ user, login, firebaseAuth }: FBUProps) => {
       onClick={e => e.target === e.currentTarget && dispatch(unsetDashModal())}
     >
       <nav>
-        <ul>
+        <ul className='b900'>
           {useMemo(() => <User user={user} styles='dashboard_modal' />, [user])}
-          <NavigationLinks links={profileLinks} color='#59b894' />
-          <li className='signout' onClick={() => (firebaseAuth.signOut(), dispatch(unsetDashModal()))}>
+          <NavigationLinks links={profileLinks} bold='b900' color='#59b894' />
+          <li className='signout grey' onClick={() => (firebaseAuth.signOut(), dispatch(unsetDashModal()))}>
             {t('nav.sign_out')}
           </li>
         </ul>
