@@ -35,10 +35,8 @@ const Foot = styled.footer`
         .input_box {
           display: grid;
           width: 100%;
-          label {
-            background-color: transparent;
-          }
           input {
+            background-color: #000044;
             &::placeholder {
               font-weight: 400;
               color: #E8E8E8;
@@ -47,7 +45,7 @@ const Foot = styled.footer`
         }
         button {
           width: 122px;
-          color: #59B894;
+          background-color: #000044;
         }
       }
 
@@ -196,10 +194,10 @@ export const Footer = () => {
             <p>{t('footer.be_first_queue')}</p>
             <form action="" id="newsForm">
               <div className='input_box'>
-                <label htmlFor="email" className='white_label'>{t('email_address')}</label>
-                <input type="email" name="email" className='white_input part_radius' placeholder={t('enter_email_address')} required />
+                <label htmlFor="email" className='label_styles white'>{t('email_address')}</label>
+                <input type="email" name="email" className='light_grey_button part_radius white' placeholder={t('enter_email_address')} required />
               </div>
-              <button type="submit" className='white_input'>{t('footer.subscribe')}</button>
+              <button type="submit" className='light_grey_button green'>{t('footer.subscribe')}</button>
             </form>
           </article>
           <article className='social'>
@@ -226,7 +224,7 @@ export const Footer = () => {
               <h6 className='green'>{t('footer.general')}</h6>
               <a href="tel:+3726669999" className='phone'>- 372 666 9999</a>
               <a href="mailto:info@35fit.com" className='email'>- info@35fit.com</a>
-              <Link to="/Faq" className='white_input'>
+              <Link to="/Faq" className='light_grey_button'>
                 {t('footer.Careers')}
                 <LangArrowSVG />
               </Link>
@@ -235,7 +233,7 @@ export const Footer = () => {
               <h6 className='green'>{t('nav.club')}</h6>
               <a href="tel:+3726669999" className='phone'>- 372 666 9999</a>
               <a href="mailto:gonsiori@35fit.com" className='email'>- gonsiori@35fit.com</a>
-              <Link to="/Faq" className='white_input'>
+              <Link to="/Faq" className='light_grey_button'>
                 {t('footer.contacts')}
                 <LangArrowSVG />
               </Link>
@@ -244,7 +242,7 @@ export const Footer = () => {
           <article className='partners'>
             <h6 className='green'>{t('footer.partners')}</h6>
             <p>{t('footer.search_engine')}</p>
-            <Link to="/Faq" className='white_input'>
+            <Link to="/Faq" className='light_grey_button'>
               {t('footer.become_partner')}
               <LangArrowSVG />
             </Link>

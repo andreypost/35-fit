@@ -11,6 +11,7 @@ $blue_color       : #004;
 $green_color      : #59B894;
 $grey_color       : #737373;
 $light_grey_color : #E8E8E8;
+$tes:#b2b2b2;
 $red_color        : #FF6376;
 
 @mixin flex {
@@ -32,11 +33,11 @@ $red_color        : #FF6376;
   justify-content: space-between;
 }
 
-@mixin flex_start_end_col {
-  @include flex_start;
-  justify-content: flex-end;
-  flex-flow      : column;
-}
+// @mixin flex_start_end_col {
+//   @include flex_start;
+//   justify-content: flex-end;
+//   flex-flow      : column;
+// }
 
 @mixin flex_center_bet {
   @include flex_center;
@@ -82,12 +83,7 @@ $red_color        : #FF6376;
   padding-right: 20px;
   border-width: 2px;
   border-style: solid;
-  border-radius: 26px;
-}
-
-@mixin white_styles {
-  background-color: #000044;
-  color: white;
+  border-radius: 32px;
 }
 
 

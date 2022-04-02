@@ -6,23 +6,32 @@ export interface FBUProps {
     login: () => void
 }
 
+export interface CLProp {
+    className?: string
+}
+
+export interface TDCLProps extends CLProp {
+    title?: any
+    descript?: any
+}
+
 export interface ACProps {
     language: string
     setLanguage: (language: string) => void
 }
 
-
-export interface ISVGProp {
-    className?: string
+export interface ISVGProp extends CLProp {
     color?: string
     onClick?: any
 }
 
-export interface CHLProps {
+export interface CHTDCLProps extends TDCLProps {
     children?: JSX.Element | JSX.Element[]
-    className?: string
-    title?: any
-    descript?: any
     // children: [ReactElement, ReactElement]
     // children: (string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactNodeArray | React.ReactPortal | null | undefined)[]
+}
+
+export interface ILTDCLProps extends TDCLProps {
+    imgSrc?: string
+    link? : string
 }

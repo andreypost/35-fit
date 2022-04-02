@@ -84,7 +84,6 @@ const Div = styled(BaseDiv)`
 
       button {
         margin-bottom: 30px;
-        color: #737373;
         background: #B2B2B2;
         transition: color .2s;
         &:hover {
@@ -203,11 +202,11 @@ export const LoginModal = ({ user, login }: FBUProps) => {
         <form action="" id="loginForm">
           <h1 className='b900 blue'>{t('welcome_to')}<br />35 FIT</h1>
           <label htmlFor="login" className='grey_label'>{t('email_address')}</label>
-          <input type="email" name="login" className='grey_input' placeholder={t('enter_email_address')} required />
+          <input type="email" name="login" className='grey_button blue' placeholder={t('enter_email_address')} required />
           <label htmlFor="password" className='grey_label'>{t('password')}</label>
-          <input type="password" name="password" className='grey_input part_radius' placeholder={t('enter_password')} required />
+          <input type="password" name="password" className='grey_button part_radius blue' placeholder={t('enter_password')} required />
           <label htmlFor="radio" className="grey_label check_box">
-            <input type="radio" name="radio" className='grey_input'
+            <input type="radio" name="radio" className='grey_button'
               checked={checkState}
               readOnly
               onClick={() => setCheckState(!checkState)}
@@ -215,7 +214,7 @@ export const LoginModal = ({ user, login }: FBUProps) => {
             <span className="checkmark" />
             {t('keep_me_logged_in')}
           </label>
-          <button type="submit" className='grey_input'>{t('nav.login')}</button>
+          <button type="submit" className='grey_button grey'>{t('nav.login')}</button>
           <p className="use_google b700 green" onClick={() => login()}>{t('use_google_account_sign_in')}</p>
         </form>
         <div className='login_book'>

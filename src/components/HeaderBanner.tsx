@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
 import { unsetAllModal } from 'modals/modal.slice'
-import { CHLProps } from 'types/interface'
+import { CHTDCLProps } from 'types/interface'
 
 const Div = styled.div`
   section {
@@ -51,7 +51,7 @@ const Div = styled.div`
   }
 `
 
-export const HeaderBanner = ({ children, className, title, descript }: CHLProps) => {
+export const HeaderBanner = ({ children, className, title, descript }: CHTDCLProps) => {
   const dispatch = useAppDispatch(),
     { t } = useTranslation()
 

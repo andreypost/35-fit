@@ -6,19 +6,13 @@ import empty_user from '../img/empty_user.png'
 import { LangArrowSVG } from 'img/icons'
 
 const Div = styled.div`
-  height: 42px;
   display: flex;
   align-items: center;
-  box-sizing: border-box;
-  border-radius: 32px;
-  border: 2px solid #e8e8e8;
-  background-color: transparent;
   transition: background-color 0.2s;
   .user_name {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    font-size: 14px;
     transition: color 0.2s;
   }
   .user_face {
@@ -48,7 +42,7 @@ const Div = styled.div`
     }
     @media (min-width: 993px) {
       width: 140px;
-      padding-left: 4px;
+      padding-left: 8px;
       padding-right: 2px;
       justify-content: space-between;
     }
@@ -63,7 +57,7 @@ const Div = styled.div`
   }
   &.menu_modal {
     @media (max-width: 992px) {
-      padding-left: 4px;
+      padding-left: 8px;
       padding-right: 2px;
       justify-content: space-between;
     }
@@ -118,7 +112,7 @@ export const User = ({ user, styles }) => {
 
   return (
     <Div
-      className={styles + (user ? ' loggedOut' : ' loggedIn')}
+      className={'light_grey_button ' + styles + (user ? ' loggedOut' : ' loggedIn')}
       onClick={() => styles === 'dashboard_modal' ? dispatch(unsetDashModal()) : user ? dispatch(dashModal()) : dispatch(loginModal())}
     >
       <p className="user_name b700 green">{(user && user.displayName) || t('nav.login')}</p>

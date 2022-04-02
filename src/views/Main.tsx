@@ -4,7 +4,12 @@ import styled from 'styled-components'
 import { HeaderBanner } from 'HeaderBanner'
 import { RedRuporSVG, TieFitSVG } from 'img/icons'
 import { Link } from 'react-router-dom'
-import { RESERVE_ROUTE, PRICE_ROUTE } from 'utils/routes.constants'
+import { RESERVE_ROUTE, PRICE_ROUTE, TRAIN_ROUTE } from 'utils/routes.constants'
+import { ImageDescription } from 'components/ImageDescription'
+
+import add_01 from '../img/adds/add_1_1.png'
+import add_02 from '../img/adds/add_1_2.png'
+import add_03 from '../img/adds/add_1_3.png'
 
 const MainBlock = styled.main`
   .header_new {
@@ -13,7 +18,7 @@ const MainBlock = styled.main`
     padding-bottom: 120px;
     
     h4 {
-      font-size: 18px;
+      font-size: 22px;
       text-transform: uppercase;
       position: relative;
       svg {
@@ -24,9 +29,9 @@ const MainBlock = styled.main`
     }
 
     p {
-      font-size: 48px;
+      font-size: 54px;
       span {
-        font-size: 24px;
+        font-size: 28px;
         text-transform: uppercase;
       }
       .header_month {
@@ -43,11 +48,7 @@ const MainBlock = styled.main`
     .rupor_trial, .rupor_book {
       padding: 30px 20px;
       a {
-        box-sizing: border-box;
-        height: 64px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+        height: 54px;
         width: 100%;
         font-size: 15px;
         border-radius: 32px;
@@ -95,9 +96,6 @@ const MainBlock = styled.main`
         margin-bottom: 76px;
       }
       a {
-        border: 2px solid #E8E8E8;
-        border-radius: 32px;
-        background-color: white;
         transition: background-color .2s;
         &:hover {
           background-color: #59B894;
@@ -185,6 +183,7 @@ const MainBlock = styled.main`
       .rupor_trial, .rupor_book {
         padding: 37px 47px;
         a {
+          height: 64px;
           font-size: 18px;
         }
       }
@@ -224,11 +223,11 @@ const Main = ({ user }) => {
             <RedRuporSVG />
             <h6>17<span className='b900'>€</span></h6>
             <p className='b900'>3 {t('main.classes')}</p>
-            <Link className='b900 white' to={RESERVE_ROUTE}>{t('main.register_trial')}</Link>
+            <Link className='flex_center_center b900 white' to={RESERVE_ROUTE}>{t('main.register_trial')}</Link>
           </div>
           <div className='rupor_book'>
             <p className='b900 grey'>{t('main.connected_results')}</p>
-            <Link className='b900 green' to={PRICE_ROUTE}>{t('main.book_class')}</Link>
+            <Link className='flex_center_center light_grey_button b900 green' to={PRICE_ROUTE}>{t('main.book_class')}</Link>
           </div>
         </div>
         <div className='rupor_member'>
@@ -239,6 +238,8 @@ const Main = ({ user }) => {
           <p className='b900 blue'>76%{t('main.sold')}</p>
         </div>
       </div>
+      
+      <ImageDescription className='left_img' imgSrc={add_01} title='nav.personal_training' descript='main.never_before_has_digital' link={TRAIN_ROUTE} />
     </MainBlock>
   )
 }

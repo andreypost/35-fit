@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { AppContext } from '../AppRouter'
 import { LangArrowSVG } from '../img/icons'
-// import { Spinner } from 'Spinner'
 
 const Ul = styled.ul`
   display: flex;
@@ -24,7 +23,6 @@ const Ul = styled.ul`
     top: 32px;
     left: 0;
     transition: visibility 0s, opacity 0.5s linear;
-
     li:hover {
       color: #ff6376;
     }
