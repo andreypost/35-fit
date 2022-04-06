@@ -239,7 +239,11 @@ const Main = ({ user }) => {
         </div>
       </div>
       
-      <ImageDescription className='left_img' imgSrc={add_01} title='nav.personal_training' descript='main.never_before_has_digital' link={TRAIN_ROUTE} />
+      <ImageDescription imgSrc={add_01} title='nav.personal_training' descript='header_banner.35_minute_high' link={TRAIN_ROUTE} />
+      <ImageDescription imgSrc={add_02} title='main.connected_training_system' descript='main.never_before_has_digital' link={TRAIN_ROUTE} />
+      <ImageDescription className='right_img' imgSrc={add_03} title='main.training_by_science' descript='main.the_milonizer_can_determine' link={TRAIN_ROUTE} />
+
+      
     </MainBlock>
   )
 }

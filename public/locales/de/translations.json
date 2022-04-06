@@ -31,7 +31,10 @@
         "number_memberships": "Anzahl der Mitgliedschaften ist begrenzt!",
         "sold": "verkauft",
         "discover_more": "Entdecke mehr",
-        "never_before_has_digital": "Noch nie war digitales Training so intelligent: Geräte bilden zusammen mit der Trainingssteuerungssoftware ein ausgeklügeltes Connected Training System Modul."
+        "never_before_has_digital": "Noch nie war digitales Training so intelligent: Geräte bilden zusammen mit der Trainingssteuerungssoftware ein ausgeklügeltes Connected Training System Modul.",
+        "connected_training_system": "Verbundenes Trainingssystem",
+        "training_by_science": "Ausbildung durch die Wissenschaft",
+        "the_milonizer_can_determine": "Der milonizer kann die Körpermaße des Nutzers ermitteln in Sekundenschnelle durch ein innovatives Scansystem auf Basis biometrischer Marker."
     },
     "welcome_to": "Willkommen zu",
     "not_member_yet": "Noch kein Mitglied?",

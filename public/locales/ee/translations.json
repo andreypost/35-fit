@@ -31,7 +31,10 @@
         "number_memberships": "Liikmete arv on piiratud!",
         "sold": "müüdud",
         "discover_more": "Avastage rohkem",
-        "never_before_has_digital": "Kunagi varem pole digitaalne koolitus olnud nii intelligentne: koos treeningujuhtimistarkvaraga esindavad seadmed keerukat ühendatud treeningsüsteemi moodulit."
+        "never_before_has_digital": "Kunagi varem pole digitaalne koolitus olnud nii intelligentne: koos treeningujuhtimistarkvaraga esindavad seadmed keerukat ühendatud treeningsüsteemi moodulit.",
+        "connected_training_system": "Ühendatud treeningsüsteem",
+        "training_by_science": "Koolitus teaduse järgi",
+        "the_milonizer_can_determine": "Milonisaator saab määrata kasutaja kehamõõtmised mõne sekundiga, kasutades biomeetrilistel markeritel põhinevat uuenduslikku skaneerimissüsteemi."
     },
     "welcome_to": "Tere tulemast",
     "not_member_yet": "Mitte veel liige?",
