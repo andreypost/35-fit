@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next'
 // import { Link } from "react-router-dom";
 // import i18n from "../i18n";
 import { HeaderBanner } from 'HeaderBanner'
+import { ImageDescription } from 'components/ImageDescription'
+
+import add_01 from '../img/adds/add_5_1.png'
 
 const Team = ({ user }) => {
   const { t } = useTranslation(),
@@ -15,6 +18,8 @@ const Team = ({ user }) => {
   return (
     <main className={'fallback ' + opacity}>
       <HeaderBanner className='team' title='nav.team' descript='header_banner.training_becomes' />
+
+      <ImageDescription className='right_img' imgSrc={add_01} title='team.we_do_have_coaches' descript='header_banner.training_becomes' />
     </main>
   )
 }

@@ -8,13 +8,12 @@ const Div = styled.div`
   align-items: center;
   gap: 35px;
   margin-bottom: 30px;
-
   img {
     border-radius: 6px;
     box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.148126);
   }
-
   article {
+    max-width: 480px;
     h3 {
       font-size: 28px;
       margin-bottom: 30px;
@@ -28,11 +27,6 @@ const Div = styled.div`
       max-width: 186px;
     }
   }
-
-  @media (max-width: 992px) {
-
-  }
-
   @media (min-width: 993px) {
     grid-template-columns: 1.4fr 1fr;
     &.right_img {
@@ -44,14 +38,12 @@ const Div = styled.div`
         order: 1;
       }
     }
-
     article {
       p {
         font-size: 21px;
         line-height: 32px;
       }
     }
-    
   }
 `
 

@@ -13,22 +13,18 @@ const Div = styled(BaseDiv)`
   display: block;
   nav {
     text-align: center;
-
     .use_google, a {
       font-size: 14px;
     }
-    
     a, .checkmark {
       height: 42px;
     }
-    
     #loginForm {
       max-width: 330px;
       display: flex;
       flex-flow: column;
       margin-left: auto;
       margin-right: auto;
-
       input[type="email"], input[type="password"] {
         margin-bottom: 20px;
         &::placeholder {
@@ -36,7 +32,6 @@ const Div = styled(BaseDiv)`
           color: #6E7071;
         }
       }
-
       .check_box {
         display: flex;
         align-items: center;
@@ -44,7 +39,6 @@ const Div = styled(BaseDiv)`
         margin-left: unset;
         padding-left: unset;
         user-select: none;
-        
         input {
           width: 100%;
           position: absolute;
@@ -53,7 +47,6 @@ const Div = styled(BaseDiv)`
             cursor: pointer;
           }
         }
-        
         .checkmark {
           box-sizing: border-box;
           width: 42px;
@@ -65,11 +58,9 @@ const Div = styled(BaseDiv)`
           border-radius: 50%;
           transition: background-color .2s;
         }
-        
         &:hover input ~ .checkmark {
           background-color: #B2B2B2;
         }
-        
         input:checked ~ .checkmark {
           background-color: white;
           &::after {
@@ -81,7 +72,6 @@ const Div = styled(BaseDiv)`
           }
         }
       }
-
       button {
         margin-bottom: 30px;
         background: #B2B2B2;
@@ -90,7 +80,6 @@ const Div = styled(BaseDiv)`
           color: white;
         }
       }
-
       .use_google {
         transition: color .2s;
         &:hover {
@@ -101,15 +90,12 @@ const Div = styled(BaseDiv)`
         }
       }
     }
-
     .login_book {
       display: flex;
       justify-content: center;
-      
       article {
         width: 100%;
         max-width: 330px;
-        
         a {
           width: 100%;
           display: inline-flex;
@@ -125,24 +111,19 @@ const Div = styled(BaseDiv)`
         }
       }
     }
-
     @media (max-width: 992px) {
       flex-flow: column;
       #loginForm {
         padding: 40px 20px;
-
         h1, .check_box {
           margin-bottom: 30px;
         }
-
         h1 {
           font-size: 28px;
         }
       }
-
       .login_book {
         height: 476px;
-
         article {
           padding: 60px 20px;
           h2 {
@@ -151,30 +132,24 @@ const Div = styled(BaseDiv)`
         }
       }
     }
-
     @media (min-width: 993px) {
       max-width: 980px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-
       #loginForm {
         width: 100%;
         order: 2;
         padding-top: 60px;
         padding-bottom: 60px;
-
         h1, .check_box {
           margin-bottom: 40px;
         }
-        
         h1 {
           font-size: 36px;
         }
       }
-
       .login_book {
         order: 1;
-        
         article {
           margin-top: auto;
           padding-bottom: 70px;

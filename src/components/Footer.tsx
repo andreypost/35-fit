@@ -9,29 +9,23 @@ const Foot = styled.footer`
     text-transform: uppercase;
     margin-bottom: 20px;
   }
-
   p {
     font-size: 14px;
     color: #F5F5F5;
   }
-  
   .footer_connected {
     background-color: #000044;
-
     .connected {
       display: grid;
       padding-bottom: 60px;
-
       p {
         margin-bottom: 40px;
       }
-
       #newsForm {
         display: flex;
         align-items: flex-end;
         justify-content: space-between;
         gap: 20px;
-
         .input_box {
           display: grid;
           width: 100%;
@@ -48,31 +42,26 @@ const Foot = styled.footer`
           background-color: #000044;
         }
       }
-
       .social a {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 20px;
         margin-top: 25px;
-        
         svg {
           min-width: 24px;
         }
-
         span {
           width: 90%;
           height: 1px;
           background-color: #1B385C;
         }
       }
-      
       @media (max-width: 992px) {
         max-width: 480px;
         gap: 40px;
         justify-content: center;
         padding-top: 60px;
-
         #newsForm {
           flex-flow: column;
           align-items: flex-start;
@@ -81,7 +70,6 @@ const Foot = styled.footer`
           }
         }
       }
-      
       @media (min-width: 993px) {
         justify-content: space-between;
         grid-template-columns: 15% 40% 20%;
@@ -89,23 +77,19 @@ const Foot = styled.footer`
       }
     }
   }
-
   .footer_touch {
     a {
       font-size: 14px;
       color: #59B894;
     }
-
     .touch {
       display: grid;
       margin-bottom: 160px;
       padding-top: 60px;
-
       .contacts {
         display: grid;
         gap: 60px;
       }
-
       a {
         display: flex;
         align-items: center;
@@ -118,41 +102,32 @@ const Foot = styled.footer`
           transform: rotate(-90deg);
         }
       }
-
       .phone {
         color: #F5F5F5;
       }
-
       .email {
         margin-bottom: 20px;
       }
-      
       @media (max-width: 992px) {
         max-width: 480px;
-
         .get {
           margin-bottom: 30px;
         }
-
         .contacts {
           margin-bottom: 60px;
         }
-
         .partners {
           p {
             margin-bottom: 20px;
           }
         }
       }
-      
       @media (min-width: 993px) {
         grid-template-columns: 15% 40% 20%;
         justify-content: space-between;
-
         .contacts {
           grid-template-columns: 1fr 1fr;
         }
-
         .partners {
           display: flex;
           flex-flow: column;
@@ -162,7 +137,6 @@ const Foot = styled.footer`
         }
       }
     }
-    
     .careers_terms {
       display: flex;
       flex-flow: column;

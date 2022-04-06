@@ -34,7 +34,16 @@
         "never_before_has_digital": "Noch nie war digitales Training so intelligent: Geräte bilden zusammen mit der Trainingssteuerungssoftware ein ausgeklügeltes Connected Training System Modul.",
         "connected_training_system": "Verbundenes Trainingssystem",
         "training_by_science": "Ausbildung durch die Wissenschaft",
-        "the_milonizer_can_determine": "Der milonizer kann die Körpermaße des Nutzers ermitteln in Sekundenschnelle durch ein innovatives Scansystem auf Basis biometrischer Marker."
+        "the_milonizer_can_determine": "Der milonizer kann die Körpermaße des Nutzers ermitteln in Sekundenschnelle durch ein innovatives Scansystem auf Basis biometrischer Marker.",
+        "more_time_for_personal": "Mehr Zeit für die persönliche Betreuung",
+        "35_minutes_to_better": "35 Minuten zum besseren Trainingserfolg",
+        "versatile_training_incentives": "Vielfältige Trainingsanreize für den Erfolg"
+    },
+    "schedule": {
+        "for_better_results": "Für bessere Ergebnisse halte dich an den Trainingsplan"
+    },
+    "team": {
+        "we_do_have_coaches": "Wir haben Trainer im Club"
     },
     "welcome_to": "Willkommen zu",
     "not_member_yet": "Noch kein Mitglied?",

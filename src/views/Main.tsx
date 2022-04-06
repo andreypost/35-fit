@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { HeaderBanner } from 'HeaderBanner'
-import { RedRuporSVG, TieFitSVG } from 'img/icons'
+import { MinutesSVG, RedRuporSVG, SuccessSVG, SupportSVG, TieFitSVG } from 'img/icons'
 import { Link } from 'react-router-dom'
 import { RESERVE_ROUTE, PRICE_ROUTE, TRAIN_ROUTE } from 'utils/routes.constants'
 import { ImageDescription } from 'components/ImageDescription'
@@ -238,8 +238,21 @@ const Main = ({ user }) => {
           <p className='b900 blue'>76%{t('main.sold')}</p>
         </div>
       </div>
-      
       <ImageDescription imgSrc={add_01} title='nav.personal_training' descript='header_banner.35_minute_high' link={TRAIN_ROUTE} />
+      <div className='section flex_center_bet'>
+        <div>
+          <SupportSVG />
+          <h3 className='b900 grey'>{t('main.more_time_for_personal')}</h3>
+        </div>
+        <div>
+          <MinutesSVG />
+          <h3 className='b900 grey'>{t('main.35_minutes_to_better')}</h3>
+        </div>
+        <div>
+          <SuccessSVG />
+          <h3 className='b900 grey'>{t('main.versatile_training_incentives')}</h3>
+        </div>
+      </div>
       <ImageDescription imgSrc={add_02} title='main.connected_training_system' descript='main.never_before_has_digital' link={TRAIN_ROUTE} />
       <ImageDescription className='right_img' imgSrc={add_03} title='main.training_by_science' descript='main.the_milonizer_can_determine' link={TRAIN_ROUTE} />
 
