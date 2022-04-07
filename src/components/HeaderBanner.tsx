@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
-import { unsetAllModal } from 'modals/modal.slice'
+import { unsetAllModal } from 'utils/modal.slice'
 import { CHTDCLProps } from 'types/interface'
 
 const Div = styled.div`

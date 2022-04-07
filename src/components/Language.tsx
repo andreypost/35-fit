@@ -10,16 +10,12 @@ const Ul = styled.ul`
   justify-content: center;
   margin-left: auto;
   font-size: 18px;
-  position: relative;
-
   .lang_base {
     width: 26px;
   }
-
   .lang_list {
     visibility: hidden;
     opacity: 0;
-    position: absolute;
     top: 32px;
     left: 0;
     transition: visibility 0s, opacity 0.5s linear;
@@ -70,9 +66,9 @@ export const Language = () => {
   // }
   // if (!language) return <Spinner />
   return (
-    <Ul className='b700 grey'>
+    <Ul className='b700 grey relative'>
       <li className="lang_base">{language.toLocaleUpperCase()}</li>
-      <li className="lang_list">
+      <li className="lang_list absolute">
         <ul>
           {versions.splice(versions.indexOf(language), 1) &&
             versions.map((item) => (

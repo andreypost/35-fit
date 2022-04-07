@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { RESERVE_ROUTE } from 'utils/routes.constants'
 import { useAppSelector, useAppDispatch } from 'utils/hooks'
 import { BaseDiv } from './MenuModal'
-import { selectLoginModalActive, unsetLoginModal } from './modal.slice'
+import { selectLoginModalActive, unsetLoginModal } from '../utils/modal.slice'
 import { FBUProps } from 'types/interface'
 import { CrossRedSVG } from 'img/icons'
 
@@ -41,7 +41,6 @@ const Div = styled(BaseDiv)`
         user-select: none;
         input {
           width: 100%;
-          position: absolute;
           opacity: 0;
           @media (hover: hover) {
             cursor: pointer;
@@ -173,7 +172,7 @@ export const LoginModal = ({ user, login }: FBUProps) => {
       onClick={e => e.target === e.currentTarget && dispatch(unsetLoginModal())}
     >
       <nav>
-        <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetLoginModal())} />
+        <CrossRedSVG className="cross_icon absolute" onClick={() => dispatch(unsetLoginModal())} />
         <form action="" id="loginForm">
           <h1 className='b900 blue'>{t('welcome_to')}<br />35 FIT</h1>
           <label htmlFor="login" className='grey_label'>{t('email_address')}</label>
@@ -181,7 +180,7 @@ export const LoginModal = ({ user, login }: FBUProps) => {
           <label htmlFor="password" className='grey_label'>{t('password')}</label>
           <input type="password" name="password" className='grey_button part_radius blue' placeholder={t('enter_password')} required />
           <label htmlFor="radio" className="grey_label check_box">
-            <input type="radio" name="radio" className='grey_button'
+            <input type="radio" name="radio" className='grey_button absolute'
               checked={checkState}
               readOnly
               onClick={() => setCheckState(!checkState)}

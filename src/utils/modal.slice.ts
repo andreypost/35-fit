@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { RootState } from '../store/root.reducer'
+import { RootState } from 'reducer'
 
 export const modalSlice = createSlice({
   name: 'modal',

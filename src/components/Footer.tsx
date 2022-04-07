@@ -6,7 +6,6 @@ import { FacebookSVG, InstaSVG, LangArrowSVG, YoutubeSVG } from 'img/icons'
 const Foot = styled.footer`
   h6 {
     font-size: 12px;
-    text-transform: uppercase;
     margin-bottom: 20px;
   }
   p {
@@ -164,7 +163,7 @@ export const Footer = () => {
             <h2 className='b900 white'>{t('footer.stay_connected')}</h2>
           </article>
           <article>
-            <h6 className='green'>{t('footer.newsletter')}</h6>
+            <h6 className='green uppercase'>{t('footer.newsletter')}</h6>
             <p>{t('footer.be_first_queue')}</p>
             <form action="" id="newsForm">
               <div className='input_box'>
@@ -175,7 +174,7 @@ export const Footer = () => {
             </form>
           </article>
           <article className='social'>
-            <h6 className='green'>{t('footer.social')}</h6>
+            <h6 className='green uppercase'>{t('footer.social')}</h6>
             <a href="">
               <FacebookSVG /><span />
             </a>
@@ -195,7 +194,7 @@ export const Footer = () => {
           </article>
           <div className='contacts'>
             <article>
-              <h6 className='green'>{t('footer.general')}</h6>
+              <h6 className='green uppercase'>{t('footer.general')}</h6>
               <a href="tel:+3726669999" className='phone'>- 372 666 9999</a>
               <a href="mailto:info@35fit.com" className='email'>- info@35fit.com</a>
               <Link to="/Faq" className='light_grey_button'>
@@ -204,7 +203,7 @@ export const Footer = () => {
               </Link>
             </article>
             <article>
-              <h6 className='green'>{t('nav.club')}</h6>
+              <h6 className='green uppercase'>{t('nav.club')}</h6>
               <a href="tel:+3726669999" className='phone'>- 372 666 9999</a>
               <a href="mailto:gonsiori@35fit.com" className='email'>- gonsiori@35fit.com</a>
               <Link to="/Faq" className='light_grey_button'>
@@ -214,7 +213,7 @@ export const Footer = () => {
             </article>
           </div>
           <article className='partners'>
-            <h6 className='green'>{t('footer.partners')}</h6>
+            <h6 className='green uppercase'>{t('footer.partners')}</h6>
             <p>{t('footer.search_engine')}</p>
             <Link to="/Faq" className='light_grey_button'>
               {t('footer.become_partner')}

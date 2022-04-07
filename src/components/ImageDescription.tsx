@@ -25,6 +25,11 @@ const Div = styled.div`
     }
     a {
       max-width: 186px;
+      transition: background-color .2s;
+      &:hover {
+        color: white;
+        background-color: #59b894;
+      }
     }
   }
   @media (min-width: 993px) {

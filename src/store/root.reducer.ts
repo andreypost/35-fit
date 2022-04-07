@@ -1,8 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit'
-import modalSlice from 'modals/modal.slice'
+import actionSlice from 'utils/action.slice'
+import modalSlice from 'utils/modal.slice'
 
 export const rootReducer = combineReducers({
-  modal: modalSlice
+  modal: modalSlice,
+  action: actionSlice
 })
 
 export type RootState = ReturnType<typeof rootReducer>

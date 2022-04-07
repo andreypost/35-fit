@@ -42,10 +42,10 @@ const App = () => {
     <Suspense fallback={<Spinner />}>
       <FirebaseAuthContext.Provider
         value={{
-          firebaseAuth: firebaseAuth,
-          firestore: firestore,
-          user: user,
-          login: login,
+          firebaseAuth,
+          firestore,
+          user,
+          login,
         }}
       >
         <Provider store={store}>

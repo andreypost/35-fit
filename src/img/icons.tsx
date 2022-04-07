@@ -158,7 +158,6 @@ export const SuccessSVG = memo(() =>
             </filter>
         </defs>
     </svg>
-
 )
 
 

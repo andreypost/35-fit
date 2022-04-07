@@ -105,7 +105,13 @@ textarea:focus {
   @include flex_center_bet;
 }
 
+.relative {
+  position: relative;
+}
 
+.absolute {
+  position: absolute;
+}
 
 .b700 {
   font-weight: 700!important;
@@ -113,6 +119,14 @@ textarea:focus {
 
 .b900 {
   font-weight: 900!important;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.center {
+  text-align: center;
 }
 
 .white {

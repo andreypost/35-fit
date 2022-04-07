@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { BaseDiv } from './MenuModal'
-import { selectMessageModalActive, selectMessageModalValue, unsetMessageModal } from './modal.slice'
+import { selectMessageModalActive, selectMessageModalValue, unsetMessageModal } from '../utils/modal.slice'
 
 const Div = styled(BaseDiv)`
   nav {

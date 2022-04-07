@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
-import { selectBurgerValue, menuModal } from 'modals/modal.slice'
+import { selectBurgerValue, menuModal } from 'utils/modal.slice'
 import { MAIN_ROUTE, publicLinks, RESERVE_ROUTE, } from 'utils/routes.constants'
 import { Language } from './Language'
 import { User } from './User'
@@ -11,7 +11,6 @@ import { LogoSVG } from '../img/icons'
 import { NavigationLinks } from './NavigationLinks'
 
 const Header = styled.header`
-  position: relative;
   margin-bottom: -64px;
   z-index: 99;
   display: flex;
@@ -137,14 +136,10 @@ const Header = styled.header`
     }
 
     .navigate_buy {
-      display: flex;
-      align-items: center;
-      justify-content: center;
       box-sizing: border-box;
       width: 188px;
       padding: 0 12px;
       font-size: 14px;
-      border: 2px solid transparent;
       border-radius: 32px;
       background-color: #59b894;
       transition: background-color .2s, border-color .2s;
@@ -208,7 +203,7 @@ export const HeaderNavigate = ({ user }) => {
   // console.log('HeaderNavigate: ', 'storage')
 
   return (
-      <Header className="section">
+      <Header className="section relative">
         <Link to={MAIN_ROUTE} className="navigate_logo">
           <LogoSVG />
         </Link>
@@ -218,7 +213,7 @@ export const HeaderNavigate = ({ user }) => {
         <div className="navigate_menu">
           {useMemo(() => <Language />, [])}
           {useMemo(() => <User user={user} styles='header_nav' />, [user])}
-          <Link to={RESERVE_ROUTE} className="navigate_buy b700 white">
+          <Link to={RESERVE_ROUTE} className="flex_center_center navigate_buy b700 white">
             {t('nav.buy')}
           </Link>
           <div

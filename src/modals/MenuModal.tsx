@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { publicLinks, RESERVE_ROUTE, } from 'utils/routes.constants'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
-import { selectMenuModalActive, unsetMenuModal } from './modal.slice'
+import { selectMenuModalActive, unsetMenuModal } from '../utils/modal.slice'
 import { User } from 'components/User'
 import { NavigationLinks } from 'components/NavigationLinks'
 import { CrossRedSVG } from 'img/icons'
@@ -37,9 +37,7 @@ export const BaseDiv = styled.div`
     box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
     background: #fff;
     transition: transform 0.6s;
-    position: relative;
     .cross_icon {
-      position: absolute;
       right: 15px;
       top: 15px;
       width: 24px;
@@ -113,8 +111,8 @@ export const MenuModal = ({ user }) => {
       className={modalState}
       onClick={e => e.target === e.currentTarget && dispatch(unsetMenuModal())}
     >
-      <nav>
-        <CrossRedSVG className="cross_icon" onClick={() => dispatch(unsetMenuModal())} />
+      <nav className='relative'>
+        <CrossRedSVG className="cross_icon absolute" onClick={() => dispatch(unsetMenuModal())} />
         <ul>
           <NavigationLinks links={publicLinks} bold='b900' color='#737373' />
           <li className={'login ' + (user ? 'signOut' : 'signIn')}>
