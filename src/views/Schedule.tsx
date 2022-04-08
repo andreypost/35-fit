@@ -19,8 +19,10 @@ const Schedule = () => {
     <main className={'fallback ' + opacity}>
       <HeaderBanner className='schedule' title='nav.schedule' descript='header_banner.training_becomes' />
 
+      <img src={require("../img/patterns/pattern_bg_7_1.png")} alt="" />
       <ImageDescription imgSrc={add_01} title='schedule.for_better_results' descript='header_banner.training_becomes' />
       <ImageDescription className='right_img' imgSrc={add_02} title='schedule.for_better_results' descript='header_banner.training_becomes' />
+      <img src={require("../img/patterns/pattern_bg_1_3.png")} alt="" />
     </main>
   )
 }

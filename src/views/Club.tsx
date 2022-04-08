@@ -15,6 +15,9 @@ const Club = () => {
   return (
     <main className={'fallback ' + opacity}>
       <HeaderBanner className='club' title='nav.club' descript='header_banner.training_becomes' />
+
+      <img src={require("../img/patterns/pattern_bg_7_1.png")} alt="" /> 
+      <img src={require("../img/patterns/pattern_bg_1_3.png")} alt="" />
     </main>
   )
 }

@@ -12,6 +12,7 @@ export interface CLProp {
 
 export interface TDCLProps extends CLProp {
     title?: any
+    subTitle?: any
     descript?: any
 }
 

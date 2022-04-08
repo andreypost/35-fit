@@ -11,6 +11,7 @@ import { RESERVE_ROUTE, PRICE_ROUTE, TRAIN_ROUTE } from 'utils/routes.constants'
 import add_01 from '../img/adds/add_1_1.png'
 import add_02 from '../img/adds/add_1_2.png'
 import add_03 from '../img/adds/add_1_3.png'
+import { CommunityArticle } from 'components/CommunityArticle'
 
 const MainBlock = styled.main`
   .header_new {
@@ -213,16 +214,16 @@ const Main = ({ user }) => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState(''),
     winScroll = getCurrentWindowScroll(),
-    [content, setContent] = useState({first: false, second: false, third: false})
+    [content, setContent] = useState({ first: false, second: false, third: false })
 
   useEffect(() => {
     setOpacity('active')
   }, [])
 
   useEffect(() => {
-    winScroll > 400 && setContent(prev => ({...prev, first: true}))
-    winScroll > 800 && setContent(prev => ({...prev, second: true}))
-    winScroll > 1200 && setContent(prev => ({...prev, third: true}))
+    winScroll > 400 && setContent(prev => ({ ...prev, first: true }))
+    winScroll > 800 && setContent(prev => ({ ...prev, second: true }))
+    winScroll > 1200 && setContent(prev => ({ ...prev, third: true }))
     // setContent({first: winScroll > 400, second: winScroll > 800, third: winScroll > 1200})
   }, [winScroll])
 
@@ -291,8 +292,12 @@ const Main = ({ user }) => {
         <ImageDescription className='right_img' imgSrc={add_03} title='main.training_by_science' descript='main.the_milonizer_can_determine' link={TRAIN_ROUTE} />
       </>}
 
+      <img src={require("../img/patterns/pattern_bg_1_3.png")} alt="" />
+
+      <CommunityArticle className='alignCenter' title='main.pick_a_day' descript='header_banner.training_becomes' />
+      <CommunityArticle title='35fit_community' subTitle={true} descript='header_banner.training_becomes' />
 
     </MainBlock>
   )
 }
-export default Main
+export default Main      

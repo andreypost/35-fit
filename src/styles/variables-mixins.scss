@@ -23,13 +23,8 @@ $red_color        : #FF6376;
   align-items: center;
 }
 
-@mixin flex_start {
-  @include flex;
-  align-items: flex-start;
-}
-
 @mixin flex_start_bet {
-  @include flex_start;
+  @include flex;
   justify-content: space-between;
 }
 

@@ -18,6 +18,7 @@ const Team = ({ user }) => {
   return (
     <main className={'fallback ' + opacity}>
       <HeaderBanner className='team' title='nav.team' descript='header_banner.training_becomes' />
+      <img src={require("../img/patterns/pattern_bg_7_1.png")} alt="" />
 
       <ImageDescription className='right_img' imgSrc={add_01} title='team.we_do_have_coaches' descript='header_banner.training_becomes' />
     </main>

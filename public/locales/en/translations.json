@@ -38,7 +38,12 @@
         "more_time_for_personal": "More time for personal support",
         "35_minutes_to_better": "35 minutes to better training success",
         "versatile_training_incentives": "Versatile training incentives for success",
-        "how_is_it_possible": "How is it possible now?"
+        "how_is_it_possible": "How is it possible now?",
+        "pick_a_day": "Pick a day and give it a try!"
+    },
+    "training": {
+        "built_for_everyone": "Built for everyone",
+        "using_predefined_training": "Using predefined training regimes, all training parameters adjust according to the individual training objective and style."
     },
     "schedule": {
         "for_better_results": "For better results stick to training plan"
@@ -55,6 +60,9 @@
     "password": "Password:",
     "enter_password": "Enter password",
     "keep_me_logged_in": "Keep me logged in",
+    "35fit_community": "35FIT Community",
+    "connected_to": "connectedto",
+    "results": "results",
     "footer": {
         "stay_connected": "Stay connected",
         "get_in_touch": "Get in touch",

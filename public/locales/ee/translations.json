@@ -38,7 +38,12 @@
         "more_time_for_personal": "Rohkem aega isiklikuks toeks",
         "35_minutes_to_better": "35 minutit parema treeningu edu saavutamiseks",
         "versatile_training_incentives": "Mitmekülgsed koolitusstiimulid edu saavutamiseks",
-        "how_is_it_possible": "Kuidas see nüüd võimalik on?"
+        "how_is_it_possible": "Kuidas see nüüd võimalik on?",
+        "pick_a_day": "Valige päev ja proovige!"
+    },
+    "training": {
+        "built_for_everyone": "Ehitatud kõigile",
+        "using_predefined_training": "Eelmääratletud treeningrežiimide abil kohandatakse kõiki treeningparameetreid vastavalt individuaalsele treeningueesmärgile ja -stiilile."
     },
     "schedule": {
         "for_better_results": "Paremate tulemuste saavutamiseks järgige treeningplaani"
@@ -55,6 +60,9 @@
     "password": "Parool:",
     "enter_password": "Sisestage parool",
     "keep_me_logged_in": "Hoia mind sisse logituna",
+    "35fit_community": "35FIT Kogukond",
+    "connected_to": "seotud",
+    "results": "tulemustega",
     "footer": {
         "stay_connected": "Püsi ühenduses",
         "get_in_touch": "Ühendust võtma",

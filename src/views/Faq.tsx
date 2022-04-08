@@ -15,6 +15,8 @@ const Faq = () => {
   return (
     <main className={'fallback ' + opacity}>
       <HeaderBanner className='faq' title='nav.faq' descript='header_banner.training_becomes' />
+
+      <img src={require("../img/patterns/pattern_bg_7_1.png")} alt="" /> 
     </main>
   )
 }

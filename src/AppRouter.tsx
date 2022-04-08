@@ -29,6 +29,11 @@ const AppRouter = () => {
     winScroll = getCurrentWindowScroll(),
     [footerContent, setFooterContent] = useState(false)
 
+  // console.log(
+  //   [54,64,60,59,57,67,62,60].reduce((sum, curr) => sum + curr,0),
+  //   [57,45,45,48,48,47,52,47].reduce((sum, curr) => sum + curr,0)
+  // )
+
   useEffect(() => {
     window.onstorage = (e: StorageEvent) => {
       if (e.key === 'i18nextLng' && e.newValue) {
@@ -83,8 +88,3 @@ const AppRouter = () => {
 }
 
 export default AppRouter
-
-
-// 54 64 60 59 57 67 62 60
-
-// 57 45 45 48 48 47 52 47
