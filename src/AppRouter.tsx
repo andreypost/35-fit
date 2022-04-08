@@ -1,10 +1,8 @@
-import { createContext, useContext, useEffect, useMemo, useState, useDebugValue} from 'react'
+import { createContext, useContext, useEffect, useMemo, useState, useDebugValue } from 'react'
 import {
   HashRouter,
   // BrowserRouter,
-  Route,
-  Switch,
-  Redirect,
+  Route, Switch, Redirect
 } from 'react-router-dom'
 import { FirebaseAuthContext } from './index'
 import { useTranslation } from 'react-i18next'
@@ -17,6 +15,7 @@ import { LoginModal } from 'modals/LoginModal'
 import { MessageModal } from 'modals/MessageModal'
 import { DashboardModal } from 'modals/DashboardModal'
 import { ACProps } from 'types/interface'
+import { getCurrentWindowScroll } from 'utils/hooks'
 // import { createBrowserHistory } from 'history'
 // const history = createBrowserHistory()
 // console.log(history.location.pathname)
@@ -26,7 +25,9 @@ export const AppContext = createContext({} as ACProps)
 const AppRouter = () => {
   const { user, login, firebaseAuth } = useContext(FirebaseAuthContext),
     { i18n } = useTranslation(),
-    [language, setLanguage] = useState(i18n.language)
+    [language, setLanguage] = useState(i18n.language),
+    winScroll = getCurrentWindowScroll(),
+    [footerContent, setFooterContent] = useState(false)
 
   useEffect(() => {
     window.onstorage = (e: StorageEvent) => {
@@ -36,7 +37,11 @@ const AppRouter = () => {
       }
     }
   }, [])
-  
+
+  useEffect(() => {
+    winScroll > 800 && setFooterContent(true)
+  }, [winScroll])
+
   useDebugValue(user)
 
   return (
@@ -66,7 +71,7 @@ const AppRouter = () => {
           )}
           <Redirect to={MAIN_ROUTE} />
         </Switch>
-        {useMemo(() => <Footer />, [])}
+        {useMemo(() => footerContent && <Footer />, [footerContent])}
         {useMemo(() => <MenuModal user={user} />, [user])}
         {useMemo(() => <LoginModal user={user} login={login} />, [user])}
         {useMemo(() => <DashboardModal user={user} login={login} firebaseAuth={firebaseAuth} />, [user])}

@@ -1,38 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'reducer'
 
 export const actionSlice = createSlice({
   name: 'action',
   initialState: { first: false, second: false, third: false },
   reducers: {
-    firstBlockTrue: state => {
-      state.first = true
+    firstBlockVisible: (state, action: PayloadAction<boolean>) => {  // --> dispatch = useAppDispatch() --> dispatch(firstBlockVisible(true))
+      state.first = action.payload
     },
-    firstBlockFalse: state => {
-      state.first = false
-    },
-    secondBlockTrue: state => {
+    secondBlockVisible: state => {
       state.second = true
     },
-    secondBlockFalse: state => {
-      state.second = false
-    },
-    thirdBlockTrue: state => {
+    thirdBlockVisible: state => {
       state.third = true
-    },
-    thirdBlockFalse: state => {
-      state.third = false
     },
   },
 })
 
 export const {
-  firstBlockTrue,
-  firstBlockFalse,
-  secondBlockTrue,
-  secondBlockFalse,
-  thirdBlockTrue,
-  thirdBlockFalse
+  firstBlockVisible,
+  secondBlockVisible,
+  thirdBlockVisible,
 } = actionSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
