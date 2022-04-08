@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { getCurrentWindowScroll } from 'utils/hooks'
+// import { getCurrentWindowScroll } from 'utils/hooks'
 import { HeaderBanner } from 'HeaderBanner'
 import { ImageDescription } from 'components/ImageDescription'
 import { MinutesSVG, RedRuporSVG, SuccessSVG, SupportSVG, TieFitSVG, TieWowSVG } from 'img/icons'
@@ -211,20 +211,20 @@ const MainBlock = styled.main`
 
 const Main = ({ user }) => {
   const { t } = useTranslation(),
-    [opacity, setOpacity] = useState(''),
-    winScroll = getCurrentWindowScroll(),
-    [content, setContent] = useState({first: false, second: false, third: false})
+    [opacity, setOpacity] = useState('')
+    // winScroll = getCurrentWindowScroll(),
+    // [content, setContent] = useState({first: false, second: false, third: false})
 
   useEffect(() => {
     setOpacity('active')
   }, [])
 
-  useEffect(() => {
-    winScroll > 400 && setContent(prev => ({...prev, first: true}))
-    winScroll > 800 && setContent(prev => ({...prev, second: true}))
-    winScroll > 1200 && setContent(prev => ({...prev, third: true}))
-    // setContent({first: winScroll > 400, second: winScroll > 800, third: winScroll > 1200})
-  }, [winScroll])
+  // useEffect(() => {
+  //   winScroll > 400 && setContent(prev => ({...prev, first: true}))
+  //   winScroll > 800 && setContent(prev => ({...prev, second: true}))
+  //   winScroll > 1200 && setContent(prev => ({...prev, third: true}))
+  //   // setContent({first: winScroll > 400, second: winScroll > 800, third: winScroll > 1200})
+  // }, [winScroll])
 
   return (
     <MainBlock className={'fallback ' + opacity}>
@@ -258,8 +258,8 @@ const Main = ({ user }) => {
           <p className='b900 blue uppercase'>76%{t('main.sold')}</p>
         </div>
       </div>
-      {content.first && <ImageDescription imgSrc={add_01} title='nav.personal_training' descript='header_banner.35_minute_high' link={TRAIN_ROUTE} />}
-      {content.second &&
+      {<ImageDescription imgSrc={add_01} title='nav.personal_training' descript='header_banner.35_minute_high' link={TRAIN_ROUTE} />}
+      {
         <>
           <div className='section flex_center_bet main_icons'>
             <div>
@@ -286,7 +286,7 @@ const Main = ({ user }) => {
             <h2 className='b900 blue'>{t('main.how_is_it_possible')}</h2>
           </div>
         </>}
-      {content.third && <>
+      { <>
         <ImageDescription imgSrc={add_02} title='main.connected_training_system' descript='main.never_before_has_digital' link={TRAIN_ROUTE} />
         <ImageDescription className='right_img' imgSrc={add_03} title='main.training_by_science' descript='main.the_milonizer_can_determine' link={TRAIN_ROUTE} />
       </>}

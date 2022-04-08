@@ -15,7 +15,7 @@ import { LoginModal } from 'modals/LoginModal'
 import { MessageModal } from 'modals/MessageModal'
 import { DashboardModal } from 'modals/DashboardModal'
 import { ACProps } from 'types/interface'
-import { getCurrentWindowScroll } from 'utils/hooks'
+// import { getCurrentWindowScroll } from 'utils/hooks'
 // import { createBrowserHistory } from 'history'
 // const history = createBrowserHistory()
 // console.log(history.location.pathname)
@@ -25,9 +25,9 @@ export const AppContext = createContext({} as ACProps)
 const AppRouter = () => {
   const { user, login, firebaseAuth } = useContext(FirebaseAuthContext),
     { i18n } = useTranslation(),
-    [language, setLanguage] = useState(i18n.language),
-    winScroll = getCurrentWindowScroll(),
-    [footerContent, setFooterContent] = useState(false)
+    [language, setLanguage] = useState(i18n.language)
+    // winScroll = getCurrentWindowScroll(),
+    // [footerContent, setFooterContent] = useState(false)
 
   useEffect(() => {
     window.onstorage = (e: StorageEvent) => {
@@ -38,9 +38,9 @@ const AppRouter = () => {
     }
   }, [])
 
-  useEffect(() => {
-    winScroll > 800 && setFooterContent(true)
-  }, [winScroll])
+  // useEffect(() => {
+  //   winScroll > 800 && setFooterContent(true)
+  // }, [winScroll])
 
   useDebugValue(user)
 
@@ -71,7 +71,8 @@ const AppRouter = () => {
           )}
           <Redirect to={MAIN_ROUTE} />
         </Switch>
-        {useMemo(() => footerContent && <Footer />, [footerContent])}
+        {/* {useMemo(() => footerContent && <Footer />, [footerContent])} */}
+        {useMemo(() => <Footer />, [])}
         {useMemo(() => <MenuModal user={user} />, [user])}
         {useMemo(() => <LoginModal user={user} login={login} />, [user])}
         {useMemo(() => <DashboardModal user={user} login={login} firebaseAuth={firebaseAuth} />, [user])}
@@ -83,3 +84,6 @@ const AppRouter = () => {
 }
 
 export default AppRouter
+
+
+// 54 64 60 59 57 67 62 60
