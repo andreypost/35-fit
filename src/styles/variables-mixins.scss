@@ -44,15 +44,25 @@ $red_color        : #FF6376;
   justify-content: center;
 }
 
-@mixin flex_center_center_col {
+@mixin flex_center_end_col {
   @include flex_center;
+  justify-content: flex-end;
   flex-flow: column;
 }
 
-@mixin flex_center_bet_col {
-  @include flex_center_bet;
-  flex-flow: column;
-}
+// @mixin flex_start_end_col {
+//   @include flex_start;
+//   justify-content: flex-end;
+//   flex-flow      : column;
+// }
+
+// @mixin flex_center_bet_col {
+//   @include flex_center_bet;
+//   flex-flow: column;
+// }
+
+
+
 
 
 @mixin font_14 {

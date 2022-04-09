@@ -21,9 +21,6 @@ const Foot = styled.footer`
         margin-bottom: 40px;
       }
       #newsForm {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
         gap: 20px;
         .input_box {
           display: grid;
@@ -42,9 +39,6 @@ const Foot = styled.footer`
         }
       }
       .social a {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
         gap: 20px;
         margin-top: 25px;
         svg {
@@ -90,9 +84,6 @@ const Foot = styled.footer`
         gap: 60px;
       }
       a {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
         line-height: 24px;
         svg {
           width: 12px;
@@ -137,10 +128,6 @@ const Foot = styled.footer`
       }
     }
     .careers_terms {
-      display: flex;
-      flex-flow: column;
-      align-items: center;
-      justify-content: flex-end;
       gap: 60px;
       padding-bottom: 120px;
            
@@ -165,7 +152,7 @@ export const Footer = () => {
           <article>
             <h6 className='green uppercase'>{t('footer.newsletter')}</h6>
             <p>{t('footer.be_first_queue')}</p>
-            <form action="" id="newsForm">
+            <form action="" id="newsForm" className='flex_center_bet'>
               <div className='input_box'>
                 <label htmlFor="email" className='label_styles white'>{t('email_address')}</label>
                 <input type="email" name="email" className='light_grey_button part_radius white' placeholder={t('enter_email_address')} required />
@@ -175,13 +162,13 @@ export const Footer = () => {
           </article>
           <article className='social'>
             <h6 className='green uppercase'>{t('footer.social')}</h6>
-            <a href="">
+            <a href="" className='flex_center_bet'>
               <FacebookSVG /><span />
             </a>
-            <a href="">
+            <a href="" className='flex_center_bet'>
               <InstaSVG /><span />
             </a>
-            <a href="">
+            <a href="" className='flex_center_bet'>
               <YoutubeSVG /><span />
             </a>
           </article>
@@ -195,18 +182,18 @@ export const Footer = () => {
           <div className='contacts'>
             <article>
               <h6 className='green uppercase'>{t('footer.general')}</h6>
-              <a href="tel:+3726669999" className='phone'>- 372 666 9999</a>
-              <a href="mailto:info@35fit.com" className='email'>- info@35fit.com</a>
-              <Link to="/Faq" className='light_grey_button'>
+              <a href="tel:+3726669999" className='flex_center_bet phone'>- 372 666 9999</a>
+              <a href="mailto:info@35fit.com" className='flex_center_bet email'>- info@35fit.com</a>
+              <Link to="/Faq" className='flex_center_bet light_grey_button'>
                 {t('footer.Careers')}
                 <LangArrowSVG />
               </Link>
             </article>
             <article>
               <h6 className='green uppercase'>{t('nav.club')}</h6>
-              <a href="tel:+3726669999" className='phone'>- 372 666 9999</a>
-              <a href="mailto:gonsiori@35fit.com" className='email'>- gonsiori@35fit.com</a>
-              <Link to="/Faq" className='light_grey_button'>
+              <a href="tel:+3726669999" className='flex_center_bet phone'>- 372 666 9999</a>
+              <a href="mailto:gonsiori@35fit.com" className='flex_center_bet email'>- gonsiori@35fit.com</a>
+              <Link to="/Faq" className='flex_center_bet light_grey_button'>
                 {t('footer.contacts')}
                 <LangArrowSVG />
               </Link>
@@ -215,13 +202,13 @@ export const Footer = () => {
           <article className='partners'>
             <h6 className='green uppercase'>{t('footer.partners')}</h6>
             <p>{t('footer.search_engine')}</p>
-            <Link to="/Faq" className='light_grey_button'>
+            <Link to="/Faq" className='flex_center_bet light_grey_button'>
               {t('footer.become_partner')}
               <LangArrowSVG />
             </Link>
           </article>
         </div>
-        <ul className="section b700 careers_terms">
+        <ul className="section flex_center_end_col b700 careers_terms">
           <li><Link to="/Faq">{t('footer.Careers')}</Link></li>
           <li><Link to="/">{t('footer.Privacy')}</Link></li>
           <li><Link to="/">{t('footer.Terms')}</Link></li>

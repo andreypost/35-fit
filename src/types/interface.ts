@@ -36,3 +36,7 @@ export interface ILTDCLProps extends TDCLProps {
     imgSrc?: string
     link? : string
 }
+
+export interface TDCLCHProps extends TDCLProps {
+    coach?: string
+}

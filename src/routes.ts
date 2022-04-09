@@ -7,10 +7,11 @@ const Team =  lazy(() =>  import('views/Team'))
 const Club =  lazy(() =>  import('views/Club'))
 const Faq =  lazy(() =>  import('views/Faq'))
 const Reserve = lazy(() => import('views/Reserve'))
+const Coach = lazy(() => import('views/Coach'))
 const Flower = lazy(() => import('views/Flower'))
 const Chat = lazy(() => import('views/Chat'))
 
-import { MAIN_ROUTE, TRAIN_ROUTE, PRICE_ROUTE, SCHEDULE_ROUTE, TEAM_ROUTE, CLUB_ROUTE, FAQ_ROUTE, RESERVE_ROUTE, FLOWER_ROUTE, CHAT_ROUTE } from 'utils/routes.constants';
+import { MAIN_ROUTE, TRAIN_ROUTE, PRICE_ROUTE, SCHEDULE_ROUTE, TEAM_ROUTE, CLUB_ROUTE, FAQ_ROUTE, RESERVE_ROUTE, FLOWER_ROUTE, CHAT_ROUTE, COACH_ROUTE } from 'utils/routes.constants';
 
 export const publicRoutes = [
     {
@@ -44,6 +45,10 @@ export const publicRoutes = [
     {
         path: RESERVE_ROUTE,
         Component: Reserve
+    },
+    {
+        path: COACH_ROUTE,
+        Component: Coach
     },
 ]
 

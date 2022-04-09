@@ -3,15 +3,15 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { getCurrentWindowScroll } from 'utils/hooks'
+import { RESERVE_ROUTE, PRICE_ROUTE, TRAIN_ROUTE } from 'utils/routes.constants'
 import { HeaderBanner } from 'HeaderBanner'
 import { ImageDescription } from 'components/ImageDescription'
-import { MinutesSVG, RedRuporSVG, SuccessSVG, SupportSVG, TieFitSVG, TieWowSVG } from 'img/icons'
-import { RESERVE_ROUTE, PRICE_ROUTE, TRAIN_ROUTE } from 'utils/routes.constants'
+import { CommunityArticle } from 'components/CommunityArticle'
 
+import { MinutesSVG, RedRuporSVG, SuccessSVG, SupportSVG, TieFitSVG, TieWowSVG } from 'img/icons'
 import add_01 from '../img/adds/add_1_1.png'
 import add_02 from '../img/adds/add_1_2.png'
 import add_03 from '../img/adds/add_1_3.png'
-import { CommunityArticle } from 'components/CommunityArticle'
 
 const MainBlock = styled.main`
   .header_new {
@@ -221,9 +221,9 @@ const Main = ({ user }) => {
   }, [])
 
   useEffect(() => {
-    winScroll > 400 && setContent(prev => ({ ...prev, first: true }))
-    winScroll > 800 && setContent(prev => ({ ...prev, second: true }))
-    winScroll > 1200 && setContent(prev => ({ ...prev, third: true }))
+    winScroll > 300 && setContent(prev => ({ ...prev, first: true }))
+    winScroll > 600 && setContent(prev => ({ ...prev, second: true }))
+    winScroll > 900 && setContent(prev => ({ ...prev, third: true }))
     // setContent({first: winScroll > 400, second: winScroll > 800, third: winScroll > 1200})
   }, [winScroll])
 

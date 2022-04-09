@@ -6,11 +6,12 @@ export const TEAM_ROUTE = '/team'
 export const CLUB_ROUTE = '/club'
 export const FAQ_ROUTE = '/faq'
 export const RESERVE_ROUTE = '/reserve'
+export const COACH_ROUTE = '/coach'
 export const FLOWER_ROUTE = '/flower'
 export const CHAT_ROUTE = '/chat'
 
 export const publicLinks = [
-    { route: TRAIN_ROUTE, dictionary: 'nav.training' },
+    { route: TRAIN_ROUTE, dictionary: 'nav.training' }, 
     { route: PRICE_ROUTE, dictionary: 'nav.pricing' },
     { route: SCHEDULE_ROUTE, dictionary: 'nav.schedule' },
     { route: TEAM_ROUTE, dictionary: 'nav.team' },

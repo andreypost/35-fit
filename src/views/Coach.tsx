@@ -5,7 +5,9 @@ import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
 import { CommunityArticle } from 'components/CommunityArticle'
 
-const Club = () => {
+import add_01 from '../img/adds/add_5_1.png'
+
+const Coach = ({ user }) => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState('')
 
@@ -15,13 +17,15 @@ const Club = () => {
 
   return (
     <main className={'fallback ' + opacity}>
-      <HeaderBanner className='club' title='nav.club' descript='header_banner.training_becomes' />
 
-      <img src={require("../img/patterns/pattern_bg_7_1.png")} alt="" /> 
+      <img src={require("../img/patterns/pattern_bg_7_1.png")} alt="" />
+
       <img src={require("../img/patterns/pattern_bg_1_3.png")} alt="" />
 
-      <CommunityArticle title='35fit_community' subTitle={true} descript='header_banner.training_becomes' />
+      <CommunityArticle title='35fit_community' descript='header_banner.training_becomes' coach="Joyce's" />
+      
     </main>
   )
 }
-export default Club
+export default Coach
+

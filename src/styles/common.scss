@@ -109,6 +109,10 @@ textarea:focus {
   @include flex_start_bet;
 }
 
+.flex_center_end_col {
+  @include flex_center_end_col;
+}
+
 .relative {
   position: relative;
 }

@@ -5,25 +5,21 @@ import { AppContext } from '../AppRouter'
 import { LangArrowSVG } from '../img/icons'
 
 const Ul = styled.ul`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-left: auto;
-  font-size: 18px;
+  font-size: 20px;
   .lang_base {
     width: 26px;
   }
   .lang_list {
     visibility: hidden;
     opacity: 0;
-    top: 32px;
+    top: 34px;
     left: 0;
     transition: visibility 0s, opacity 0.5s linear;
     li:hover {
       color: #ff6376;
     }
   }
-
   .lang_arrow svg {
     width: 16px;
     height: 11px;
@@ -32,23 +28,19 @@ const Ul = styled.ul`
     margin-left: 8px;
     margin-bottom: 1px;
   }
-
   &:hover {
     .lang_base {
       color: #ff6376;
     }
-
     .lang_list {
       visibility: visible;
       opacity: 1;
     }
-
     .lang_arrow svg {
       fill: #ff6376;
       transform: rotate(180deg);
     }
   }
-
   @media (hover: hover) {
     &:hover {
       cursor: pointer;
@@ -66,7 +58,7 @@ export const Language = () => {
   // }
   // if (!language) return <Spinner />
   return (
-    <Ul className='b700 grey relative'>
+    <Ul className='flex_center_center b700 grey relative'>
       <li className="lang_base">{language.toLocaleUpperCase()}</li>
       <li className="lang_list absolute">
         <ul>

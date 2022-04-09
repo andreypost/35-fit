@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { TDCLProps } from 'types/interface'
+import { TDCLCHProps } from 'types/interface'
 
 const Article = styled.article`
   h2 {
     max-width: 420px;
-    font-size: 36px;
+    font-size: 32px;
     span {
       font-size: 21px;
     }
@@ -30,7 +30,7 @@ const Article = styled.article`
   }
 `
 
-export const CommunityArticle = ({ className, title, subTitle, descript }: TDCLProps) => {
+export const CommunityArticle = ({ className, title, subTitle, descript, coach }: TDCLCHProps) => {
   const { t } = useTranslation()
 
   return (
@@ -40,6 +40,12 @@ export const CommunityArticle = ({ className, title, subTitle, descript }: TDCLP
           <>
             <br />
             <span>#{t('connected_to')}</span><span className='green'>{t('results')}</span>
+          </>
+        }
+        {coach &&
+          <>
+            <br />
+            <span>{coach}</span> <span>insta</span>
           </>
         }
       </h2>
