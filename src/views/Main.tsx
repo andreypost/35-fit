@@ -12,6 +12,7 @@ import { MinutesSVG, RedRuporSVG, SuccessSVG, SupportSVG, TieFitSVG, TieWowSVG }
 import add_01 from '../img/adds/add_1_1.png'
 import add_02 from '../img/adds/add_1_2.png'
 import add_03 from '../img/adds/add_1_3.png'
+import { InstaImages } from 'components/InstaImages'
 
 const MainBlock = styled.main`
   .header_new {
@@ -99,9 +100,8 @@ const MainBlock = styled.main`
   .rupor_member {
     box-sizing: border-box;
     max-width: 765px;
-    margin: 25px auto 120px;
+    margin: 25px auto 0;
     padding: 28px 30px 13px;
-    text-align: center;
     h6 {
       font-size: 22px;
     }
@@ -133,16 +133,11 @@ const MainBlock = styled.main`
   }
   .main_icons {
     gap: 40px;
-    margin-top: 60px;
-    text-align: center;
     h3 {
       max-width: 280px;
     }
   }
-  .main_wow {
-    margin-top: 60px;
-    margin-bottom: 30px;
-    article {
+  .main_wow article {
       margin-bottom: 30px;
       p {
         svg {
@@ -157,7 +152,6 @@ const MainBlock = styled.main`
         .header_month {
           color: #FF6376;
         }
-      }
     }
     h2 {
       font-size: 32px;
@@ -238,7 +232,7 @@ const Main = ({ user }) => {
           <p className='b900 uppercase'>35<span>€</span><span className='header_month'>/{t('header_banner.month')}</span></p>
         </div>
       </HeaderBanner>
-      <div className='section'>
+      <div className='section margin_b_120_80'>
         <div className='rupor white'>
           <div className='rupor_trial relative'>
             <RedRuporSVG className='absolute' />
@@ -251,7 +245,7 @@ const Main = ({ user }) => {
             <Link className='flex_center_center light_grey_button b900 green' to={PRICE_ROUTE}>{t('main.book_class')}</Link>
           </div>
         </div>
-        <div className='rupor_member'>
+        <div className='rupor_member center'>
           <h6 className='b900 grey'>{t('main.number_memberships')}</h6>
           <div className="grey_line">
             <div className="green_line"></div>
@@ -262,7 +256,7 @@ const Main = ({ user }) => {
       {content.first && <ImageDescription imgSrc={add_01} title='nav.personal_training' descript='header_banner.35_minute_high' link={TRAIN_ROUTE} />}
       {content.second &&
         <>
-          <div className='section flex_center_bet main_icons'>
+          <div className='section flex_center_bet main_icons center'>
             <div>
               <SupportSVG />
               <h3 className='b900 grey'>{t('main.more_time_for_personal')}</h3>
@@ -277,7 +271,7 @@ const Main = ({ user }) => {
             </div>
           </div>
           <img src={require("../img/patterns/pattern_bg_1_3.png")} alt="" />
-          <div className='section main_wow center'>
+          <div className='section main_wow margin_b_60_30 center'>
             <article className='flex_center_center blue'>
               <h2 className='b900 uppercase'>{t('nav.personal_training')}</h2>
               <p className='b900 uppercase relative'>
@@ -296,6 +290,7 @@ const Main = ({ user }) => {
 
       <CommunityArticle className='alignCenter' title='main.pick_a_day' descript='header_banner.training_becomes' />
       <CommunityArticle title='35fit_community' subTitle={true} descript='header_banner.training_becomes' />
+      <InstaImages />
 
     </MainBlock>
   )

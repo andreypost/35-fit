@@ -34,7 +34,7 @@ export const CommunityArticle = ({ className, title, subTitle, descript, coach }
   const { t } = useTranslation()
 
   return (
-    <Article className={`section flex_start_bet ${className}`}>
+    <Article className={`section flex_start_bet margin_b_60_30 ${className}`}>
       <h2 className='b900 blue' style={{ lineHeight: subTitle ? '22px' : 'inherit' }}>{t(title)}
         {subTitle &&
           <>

@@ -43,6 +43,7 @@ const Foot = styled.footer`
         margin-top: 25px;
         svg {
           min-width: 24px;
+          fill: #7FCBAE;
         }
         span {
           width: 90%;

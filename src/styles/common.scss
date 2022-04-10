@@ -105,12 +105,34 @@ textarea:focus {
   @include flex_center_bet;
 }
 
+.flex_center_around {
+  @include flex_center_around;
+}
+
 .flex_start_bet {
   @include flex_start_bet;
 }
 
 .flex_center_end_col {
   @include flex_center_end_col;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.margin_b_60_30 {
+  margin-bottom: 30px;
+  @media (min-width: 993px) {
+    margin-bottom: 60px;
+  }
+}
+
+.margin_b_120_80 {
+  margin-bottom: 80px;
+  @media (min-width: 993px) {
+    margin-bottom: 120px;
+  }
 }
 
 .relative {

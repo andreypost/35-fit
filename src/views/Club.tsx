@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 // import i18n from "../i18n";
 import { HeaderBanner } from 'HeaderBanner'
 import { CommunityArticle } from 'components/CommunityArticle'
+import { InstaImages } from 'components/InstaImages'
 
 const Club = () => {
   const { t } = useTranslation(),
@@ -21,6 +22,7 @@ const Club = () => {
       <img src={require("../img/patterns/pattern_bg_1_3.png")} alt="" />
 
       <CommunityArticle title='35fit_community' subTitle={true} descript='header_banner.training_becomes' />
+      <InstaImages />
     </main>
   )
 }

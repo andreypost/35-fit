@@ -7,7 +7,6 @@ const Div = styled.div`
   display: grid;
   align-items: center;
   gap: 35px;
-  margin-bottom: 30px;
   img {
     border-radius: 6px;
     box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.148126);
@@ -56,7 +55,7 @@ export const ImageDescription = ({ className, imgSrc, title, descript, link }: I
   const { t } = useTranslation()
 
   return (
-    <Div className={`section ${className}`}>
+    <Div className={`section margin_b_60_30 ${className}`}>
       <img src={imgSrc} alt="" />
       <article className='grey'>
         <h3 className='b900'>{t(title)}</h3>

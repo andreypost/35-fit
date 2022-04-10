@@ -44,6 +44,11 @@ $red_color        : #FF6376;
   justify-content: center;
 }
 
+@mixin flex_center_around {
+  @include flex_center;
+  justify-content: space-around;
+}
+
 @mixin flex_center_end_col {
   @include flex_center;
   justify-content: flex-end;

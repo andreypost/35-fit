@@ -7,6 +7,7 @@ import { CommunityArticle } from 'components/CommunityArticle'
 
 import add_01 from '../img/adds/add_4_1.png'
 import add_02 from '../img/adds/add_4_2.png'
+import { InstaImages } from 'components/InstaImages'
 
 const Schedule = () => {
   const { t } = useTranslation(),
@@ -25,6 +26,7 @@ const Schedule = () => {
       <ImageDescription className='right_img' imgSrc={add_02} title='schedule.for_better_results' descript='header_banner.training_becomes' />
       <img src={require("../img/patterns/pattern_bg_1_3.png")} alt="" />
       <CommunityArticle title='35fit_community' subTitle={true} descript='header_banner.training_becomes' />
+      <InstaImages />
     </main>
   )
 }
