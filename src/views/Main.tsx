@@ -18,7 +18,7 @@ const MainBlock = styled.main`
   .header_new {
     display: grid;
     justify-content: center;
-    padding-bottom: 120px;
+    padding-bottom: 121px;
     h4 {
       font-size: 22px;
       svg {
