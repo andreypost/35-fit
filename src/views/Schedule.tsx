@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 // import { Link } from 'react-router-dom'
 import { HeaderBanner } from 'HeaderBanner'
@@ -19,13 +19,30 @@ const Schedule = () => {
 
   return (
     <main className={'fallback ' + opacity}>
-      <HeaderBanner className='schedule' title='nav.schedule' descript='header_banner.training_becomes' />
+      <HeaderBanner
+        className="schedule"
+        title="nav.schedule"
+        descript="header_banner.training_becomes"
+      />
 
-      <img src={require("../img/patterns/pattern_bg_7_1.png")} alt="" />
-      <ImageDescription imgSrc={add_01} title='schedule.for_better_results' descript='header_banner.training_becomes' />
-      <ImageDescription className='right_img' imgSrc={add_02} title='schedule.for_better_results' descript='header_banner.training_becomes' />
-      <img src={require("../img/patterns/pattern_bg_1_3.png")} alt="" />
-      <CommunityArticle title='35fit_community' subTitle={true} descript='header_banner.training_becomes' />
+      <img src={require('../img/patterns/pattern_bg_7_1.png')} alt="" />
+      <ImageDescription
+        imgSrc={add_01}
+        title="schedule.for_better_results"
+        descript="header_banner.training_becomes"
+      />
+      <ImageDescription
+        className="right_img"
+        imgSrc={add_02}
+        title="schedule.for_better_results"
+        descript="header_banner.training_becomes"
+      />
+      <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />
+      <CommunityArticle
+        title="35fit_community"
+        subTitle={true}
+        descript="header_banner.training_becomes"
+      />
       <InstaImages />
     </main>
   )

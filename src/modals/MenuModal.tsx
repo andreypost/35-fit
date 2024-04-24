@@ -1,8 +1,9 @@
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
+import { userType } from 'types/commonPropTypes'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { publicLinks, RESERVE_ROUTE, } from 'utils/routes.constants'
+import { publicLinks, RESERVE_ROUTE } from 'utils/routes.constants'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectMenuModalActive, unsetMenuModal } from '../utils/modal.slice'
 import { User } from 'components/User'
@@ -49,7 +50,10 @@ export const BaseDiv = styled.div`
       }
     }
   }
-  &.menuActive, &.dashboarActive, &.loginActive, &.messageActive {
+  &.menuActive,
+  &.dashboarActive,
+  &.loginActive,
+  &.messageActive {
     z-index: 99;
     opacity: 1;
     transition: z-index 0.1s, opacity 0.4s 0.1s;
@@ -109,20 +113,36 @@ export const MenuModal = ({ user }) => {
   return (
     <Div
       className={modalState}
-      onClick={e => e.target === e.currentTarget && dispatch(unsetMenuModal())}
+      onClick={(e) =>
+        e.target === e.currentTarget && dispatch(unsetMenuModal())
+      }
     >
-      <nav className='relative'>
-        <CrossRedSVG className="cross_icon absolute" onClick={() => dispatch(unsetMenuModal())} />
+      <nav className="relative">
+        <CrossRedSVG
+          className="cross_icon absolute"
+          onClick={() => dispatch(unsetMenuModal())}
+        />
         <ul>
-          <NavigationLinks links={publicLinks} bold='b900' color='#737373' />
+          <NavigationLinks links={publicLinks} bold="b900" color="#737373" />
           <li className={'login ' + (user ? 'signOut' : 'signIn')}>
-            {useMemo(() => <User user={user} styles='menu_modal' />, [user])}
+            {useMemo(
+              () => (
+                <User user={user} styles="menu_modal" />
+              ),
+              [user]
+            )}
           </li>
           <li className="buyСlass">
-            <Link to={RESERVE_ROUTE} className='b700 white'>{t('nav.buy')}</Link>
+            <Link to={RESERVE_ROUTE} className="b700 white">
+              {t('nav.buy')}
+            </Link>
           </li>
         </ul>
       </nav>
     </Div>
   )
+}
+
+MenuModal.propTypes = {
+  user: userType,
 }

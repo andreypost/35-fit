@@ -1,0 +1,52 @@
+name: 'CI: Install, Build, Lint'
+
+on: [push, pull_request]
+
+defaults:
+  run:
+    working-directory: .
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          # node-version: '14'  # Specify Node.js version directly or use a `.nvmrc` file at the root
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install --frozen-lockfile
+
+      - name: Build Project
+        run: npm run build  # Align with npm usage
+
+      - name: Run `prettier`
+        run: npm run prettier-check  # Ensure script exists in package.json
+
+      - name: Run `ESLint`
+        run: npm run lint  # Ensure script exists in package.json
+
+  # deploy:
+
+  #   needs: build
+
+  #   runs-on: ubuntu-latest
+
+  #   if: github.ref == 'refs/heads/main'
+
+  # steps:
+
+  #   - uses: actions/checkout@v3
+
+  #   - name: Deploy to Firebase
+
+  #     run: npm run deploy  # Ensure you have a 'deploy' script in package.json
+
+  #     env:
+
+  #       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

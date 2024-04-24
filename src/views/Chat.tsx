@@ -1,4 +1,5 @@
-import { Fragment, useContext, useEffect, useState, useRef } from 'react'
+import React, { Fragment, useContext, useEffect, useState, useRef } from 'react'
+import { userType } from 'types/commonPropTypes'
 // import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
 import { Spinner } from 'Spinner'
@@ -25,7 +26,7 @@ const Canvas = ({ width, height, border }: canvasProps) => {
   const submitBlobData = async () => {
     const canvas = contexRef.current
     const imageBlob: any = await new Promise((resolve) =>
-      canvas?.toBlob(resolve, 'image/png'),
+      canvas?.toBlob(resolve, 'image/png')
     )
     const formData = new FormData()
     formData.append('image', imageBlob, 'image.png')
@@ -52,7 +53,7 @@ const Chat = ({ user }) => {
   const { firebase, firestore } = useContext(FirebaseAuthContext)
   const [chatMessage, setChatMessage] = useState('')
   const [messages, loading] = useCollectionData(
-    firestore.collection('messages').orderBy('createdAt'),
+    firestore.collection('messages').orderBy('createdAt')
   )
 
   const handleSendChatMessage = async (e: { preventDefault: () => void }) => {
@@ -114,3 +115,7 @@ const Chat = ({ user }) => {
   )
 }
 export default Chat
+
+Chat.propTypes = {
+  user: userType,
+}

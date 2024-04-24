@@ -1,7 +1,10 @@
 import React, { createContext, Suspense, lazy } from 'react'
 import ReactDom from 'react-dom'
 import { initializeApp } from 'firebase/app'
-import { getAuth, GoogleAuthProvider, signInWithPopup,
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
   // createUserWithEmailAndPassword,
 } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
@@ -15,12 +18,12 @@ import { Spinner } from 'Spinner'
 import { FBUProps } from 'types/interface'
 
 initializeApp({
-  apiKey: "AIzaSyAyT0D2bg_Jo3byFrOZ2_kIhpzTi3BBolU",
-  authDomain: "fit-35.firebaseapp.com",
-  projectId: "fit-35",
-  storageBucket: "fit-35.appspot.com",
-  messagingSenderId: "18584282293",
-  appId: "1:18584282293:web:151dcd0af8dbfe3bc9cafc"
+  apiKey: 'AIzaSyAyT0D2bg_Jo3byFrOZ2_kIhpzTi3BBolU',
+  authDomain: 'fit-35.firebaseapp.com',
+  projectId: 'fit-35',
+  storageBucket: 'fit-35.appspot.com',
+  messagingSenderId: '18584282293',
+  appId: '1:18584282293:web:151dcd0af8dbfe3bc9cafc',
   // measurementId: 'G-5227123YVS',
 })
 

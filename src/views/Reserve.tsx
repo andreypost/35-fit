@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 // import './Training.scss'
 // import { Link } from 'react-router-dom'
@@ -14,7 +14,7 @@ const Reserve = () => {
 
   return (
     <main className={'fallback ' + opacity}>
-      <HeaderBanner className='reserve' title='nav.reservation' />
+      <HeaderBanner className="reserve" title="nav.reservation" />
     </main>
   )
 }

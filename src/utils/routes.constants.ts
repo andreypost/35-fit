@@ -11,18 +11,18 @@ export const FLOWER_ROUTE = '/flower'
 export const CHAT_ROUTE = '/chat'
 
 export const publicLinks = [
-    { route: TRAIN_ROUTE, dictionary: 'nav.training' }, 
-    { route: PRICE_ROUTE, dictionary: 'nav.pricing' },
-    { route: SCHEDULE_ROUTE, dictionary: 'nav.schedule' },
-    { route: TEAM_ROUTE, dictionary: 'nav.team' },
-    { route: CLUB_ROUTE, dictionary: 'nav.club' },
-    { route: FAQ_ROUTE, dictionary: 'nav.faq' },
+  { route: TRAIN_ROUTE, dictionary: 'nav.training' },
+  { route: PRICE_ROUTE, dictionary: 'nav.pricing' },
+  { route: SCHEDULE_ROUTE, dictionary: 'nav.schedule' },
+  { route: TEAM_ROUTE, dictionary: 'nav.team' },
+  { route: CLUB_ROUTE, dictionary: 'nav.club' },
+  { route: FAQ_ROUTE, dictionary: 'nav.faq' },
 ]
 
 export const profileLinks = [
-    { route: MAIN_ROUTE, dictionary: 'nav.dashboard' },
-    { route: MAIN_ROUTE, dictionary: 'nav.classes' },
-    { route: MAIN_ROUTE, dictionary: 'nav.progress' },
-    { route: MAIN_ROUTE, dictionary: 'nav.contract' },
-    { route: MAIN_ROUTE, dictionary: 'nav.profile' }
+  { route: MAIN_ROUTE, dictionary: 'nav.dashboard' },
+  { route: MAIN_ROUTE, dictionary: 'nav.classes' },
+  { route: MAIN_ROUTE, dictionary: 'nav.progress' },
+  { route: MAIN_ROUTE, dictionary: 'nav.contract' },
+  { route: MAIN_ROUTE, dictionary: 'nav.profile' },
 ]

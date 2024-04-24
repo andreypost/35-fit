@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -13,10 +13,12 @@ const Div = styled(BaseDiv)`
   display: block;
   nav {
     text-align: center;
-    .use_google, a {
+    .use_google,
+    a {
       font-size: 14px;
     }
-    a, .checkmark {
+    a,
+    .checkmark {
       height: 42px;
     }
     #loginForm {
@@ -25,11 +27,12 @@ const Div = styled(BaseDiv)`
       flex-flow: column;
       margin-left: auto;
       margin-right: auto;
-      input[type="email"], input[type="password"] {
+      input[type='email'],
+      input[type='password'] {
         margin-bottom: 20px;
         &::placeholder {
           font-weight: 400;
-          color: #6E7071;
+          color: #6e7071;
         }
       }
       .check_box {
@@ -53,12 +56,12 @@ const Div = styled(BaseDiv)`
           align-items: center;
           justify-content: center;
           margin-right: 15px;
-          border: 2px solid #B2B2B2;
+          border: 2px solid #b2b2b2;
           border-radius: 50%;
-          transition: background-color .2s;
+          transition: background-color 0.2s;
         }
         &:hover input ~ .checkmark {
-          background-color: #B2B2B2;
+          background-color: #b2b2b2;
         }
         input:checked ~ .checkmark {
           background-color: white;
@@ -73,14 +76,14 @@ const Div = styled(BaseDiv)`
       }
       button {
         margin-bottom: 30px;
-        background: #B2B2B2;
-        transition: color .2s;
+        background: #b2b2b2;
+        transition: color 0.2s;
         &:hover {
           color: white;
         }
       }
       .use_google {
-        transition: color .2s;
+        transition: color 0.2s;
         &:hover {
           color: #ff6376;
         }
@@ -103,9 +106,9 @@ const Div = styled(BaseDiv)`
           margin-top: 30px;
           border-radius: 26px;
           background: #000044;
-          transition: color .2s;
+          transition: color 0.2s;
           &:hover {
-            color: #59B894;
+            color: #59b894;
           }
         }
       }
@@ -114,7 +117,8 @@ const Div = styled(BaseDiv)`
       flex-flow: column;
       #loginForm {
         padding: 40px 20px;
-        h1, .check_box {
+        h1,
+        .check_box {
           margin-bottom: 30px;
         }
         h1 {
@@ -140,7 +144,8 @@ const Div = styled(BaseDiv)`
         order: 2;
         padding-top: 60px;
         padding-bottom: 60px;
-        h1, .check_box {
+        h1,
+        .check_box {
           margin-bottom: 40px;
         }
         h1 {
@@ -162,25 +167,53 @@ export const LoginModal = ({ user, login }: FBUProps) => {
     modalState = useAppSelector(selectLoginModalActive),
     { t } = useTranslation(),
     [checkState, setCheckState] = useState(false)
-    // console.log('LoginModal: ', checkState)
+  // console.log('LoginModal: ', checkState)
   useEffect(() => {
     user && dispatch(unsetLoginModal())
   }, [user])
   return (
     <Div
       className={modalState}
-      onClick={e => e.target === e.currentTarget && dispatch(unsetLoginModal())}
+      onClick={(e) =>
+        e.target === e.currentTarget && dispatch(unsetLoginModal())
+      }
     >
       <nav>
-        <CrossRedSVG className="cross_icon absolute" onClick={() => dispatch(unsetLoginModal())} />
+        <CrossRedSVG
+          className="cross_icon absolute"
+          onClick={() => dispatch(unsetLoginModal())}
+        />
         <form action="" id="loginForm">
-          <h1 className='b900 blue'>{t('welcome_to')}<br />35 FIT</h1>
-          <label htmlFor="login" className='grey_label'>{t('email_address')}</label>
-          <input type="email" name="login" className='grey_button blue' placeholder={t('enter_email_address')} required />
-          <label htmlFor="password" className='grey_label'>{t('password')}</label>
-          <input type="password" name="password" className='grey_button part_radius blue' placeholder={t('enter_password')} required />
+          <h1 className="b900 blue">
+            {t('welcome_to')}
+            <br />
+            35 FIT
+          </h1>
+          <label htmlFor="login" className="grey_label">
+            {t('email_address')}
+          </label>
+          <input
+            type="email"
+            name="login"
+            className="grey_button blue"
+            placeholder={t('enter_email_address')}
+            required
+          />
+          <label htmlFor="password" className="grey_label">
+            {t('password')}
+          </label>
+          <input
+            type="password"
+            name="password"
+            className="grey_button part_radius blue"
+            placeholder={t('enter_password')}
+            required
+          />
           <label htmlFor="radio" className="grey_label check_box">
-            <input type="radio" name="radio" className='grey_button absolute'
+            <input
+              type="radio"
+              name="radio"
+              className="grey_button absolute"
               checked={checkState}
               readOnly
               onClick={() => setCheckState(!checkState)}
@@ -188,13 +221,19 @@ export const LoginModal = ({ user, login }: FBUProps) => {
             <span className="checkmark" />
             {t('keep_me_logged_in')}
           </label>
-          <button type="submit" className='grey_button grey'>{t('nav.login')}</button>
-          <p className="use_google b700 green" onClick={() => login()}>{t('use_google_account_sign_in')}</p>
+          <button type="submit" className="grey_button grey">
+            {t('nav.login')}
+          </button>
+          <p className="use_google b700 green" onClick={() => login()}>
+            {t('use_google_account_sign_in')}
+          </p>
         </form>
-        <div className='login_book'>
+        <div className="login_book">
           <article>
-            <h2 className='b900 white'>{t('not_member_yet')}</h2>
-            <Link className='b700 white' to={RESERVE_ROUTE}>{t('book_your_training')}</Link>
+            <h2 className="b900 white">{t('not_member_yet')}</h2>
+            <Link className="b700 white" to={RESERVE_ROUTE}>
+              {t('book_your_training')}
+            </Link>
           </article>
         </div>
       </nav>

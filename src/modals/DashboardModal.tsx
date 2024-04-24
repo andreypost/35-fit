@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
@@ -53,13 +53,23 @@ export const DashboardModal = ({ user, login, firebaseAuth }: FBUProps) => {
   return (
     <Div
       className={modalState}
-      onClick={e => e.target === e.currentTarget && dispatch(unsetDashModal())}
+      onClick={(e) =>
+        e.target === e.currentTarget && dispatch(unsetDashModal())
+      }
     >
       <nav>
-        <ul className='b900'>
-          {useMemo(() => <User user={user} styles='dashboard_modal' />, [user])}
-          <NavigationLinks links={profileLinks} bold='b900' color='#59b894' />
-          <li className='signout grey' onClick={() => (firebaseAuth.signOut(), dispatch(unsetDashModal()))}>
+        <ul className="b900">
+          {useMemo(
+            () => (
+              <User user={user} styles="dashboard_modal" />
+            ),
+            [user]
+          )}
+          <NavigationLinks links={profileLinks} bold="b900" color="#59b894" />
+          <li
+            className="signout grey"
+            onClick={() => (firebaseAuth.signOut(), dispatch(unsetDashModal()))}
+          >
             {t('nav.sign_out')}
           </li>
         </ul>

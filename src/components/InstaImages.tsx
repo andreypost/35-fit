@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 import { InstaSVG } from 'img/icons'
 
@@ -24,14 +25,14 @@ const Div = styled.div`
 `
 
 export const InstaImages = () => (
-  <Div className='section margin_b_120_80'>
-    <div className='flex_center_around img_box wrap'>
-      <img src={require("../img/adds/comm_1.png")} alt="" />
-      <img src={require("../img/adds/comm_2.png")} alt="" />
-      <img src={require("../img/adds/comm_3.png")} alt="" />
-      <img src={require("../img/adds/comm_1.png")} alt="" />
+  <Div className="section margin_b_120_80">
+    <div className="flex_center_around img_box wrap">
+      <img src={require('../img/adds/comm_1.png')} alt="" />
+      <img src={require('../img/adds/comm_2.png')} alt="" />
+      <img src={require('../img/adds/comm_3.png')} alt="" />
+      <img src={require('../img/adds/comm_1.png')} alt="" />
     </div>
-    <a href="/" className='flex_center_end_col b900 green'>
+    <a href="/" className="flex_center_end_col b900 green">
       <InstaSVG />
       @35fit_club
     </a>

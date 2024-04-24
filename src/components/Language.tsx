@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { AppContext } from '../AppRouter'
@@ -58,7 +58,7 @@ export const Language = () => {
   // }
   // if (!language) return <Spinner />
   return (
-    <Ul className='flex_center_center b700 grey relative'>
+    <Ul className="flex_center_center b700 grey relative">
       <li className="lang_base">{language.toLocaleUpperCase()}</li>
       <li className="lang_list absolute">
         <ul>
@@ -67,8 +67,7 @@ export const Language = () => {
               <li
                 key={item}
                 onClick={() => (
-                  i18n.changeLanguage(item),
-                  setLanguage(i18n.language)
+                  i18n.changeLanguage(item), setLanguage(i18n.language)
                 )}
               >
                 {item.toLocaleUpperCase()}

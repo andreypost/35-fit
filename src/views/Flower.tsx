@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
+import { userType } from 'types/commonPropTypes'
 // import { createStore, applyMiddleware } from 'redux'
 // import { configureStore } from '@reduxjs/toolkit'
 // import thunk from 'redux-thunk'
@@ -39,7 +40,7 @@ const Flower = ({ user }) => {
     ])
 
   const getImages = async (
-    translationResults: Set<{ word: any; lang: string }>,
+    translationResults: Set<{ word: any; lang: string }>
   ) => {
     // console.log(translationResults)
     for await (const item of translationResults) {
@@ -57,18 +58,18 @@ const Flower = ({ user }) => {
             src: items.photos[0].src.medium,
             word: item.word,
             lang: item.lang,
-          }),
+          })
         )
         .catch(() => setTitle({ src: empty, word: item.word, lang: item.lang }))
       await new Promise((resolve) => setTimeout(resolve, 2000))
     }
   }
   const getTranslation = async (
-    languageSet: Set<{ code: string; lang: string }>,
+    languageSet: Set<{ code: string; lang: string }>
   ) => {
     for await (const item of languageSet) {
       await fetch(
-        `https://api.mymemory.translated.net/get?q=${initial.value}&langpair=${initial.code}|${item.code}`,
+        `https://api.mymemory.translated.net/get?q=${initial.value}&langpair=${initial.code}|${item.code}`
       )
         .then((response) => response.json())
         .then((result) => {
@@ -124,6 +125,9 @@ const Flower = ({ user }) => {
   )
 }
 export default Flower
+Flower.propTypes = {
+  user: userType,
+}
 
 /* useEffect(() => {
   // first variant with generators, native js;

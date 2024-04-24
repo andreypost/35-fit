@@ -1,3 +1,4 @@
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -24,7 +25,7 @@ const Div = styled.div`
     }
     a {
       max-width: 186px;
-      transition: background-color .2s;
+      transition: background-color 0.2s;
       &:hover {
         color: white;
         background-color: #59b894;
@@ -51,16 +52,29 @@ const Div = styled.div`
   }
 `
 
-export const ImageDescription = ({ className, imgSrc, title, descript, link }: ILTDCLProps) => {
+export const ImageDescription = ({
+  className,
+  imgSrc,
+  title,
+  descript,
+  link,
+}: ILTDCLProps) => {
   const { t } = useTranslation()
 
   return (
     <Div className={`section margin_b_60_30 ${className}`}>
       <img src={imgSrc} alt="" />
-      <article className='grey'>
-        <h3 className='b900'>{t(title)}</h3>
+      <article className="grey">
+        <h3 className="b900">{t(title)}</h3>
         <p>{t(descript)}</p>
-        {link && <Link className='flex_center_center light_grey_button green' to={link}>{t('main.discover_more')}</Link>}
+        {link && (
+          <Link
+            className="flex_center_center light_grey_button green"
+            to={link}
+          >
+            {t('main.discover_more')}
+          </Link>
+        )}
       </article>
     </Div>
   )

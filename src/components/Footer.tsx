@@ -1,3 +1,4 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -10,7 +11,7 @@ const Foot = styled.footer`
   }
   p {
     font-size: 14px;
-    color: #F5F5F5;
+    color: #f5f5f5;
   }
   .footer_connected {
     background-color: #000044;
@@ -29,7 +30,7 @@ const Foot = styled.footer`
             background-color: #000044;
             &::placeholder {
               font-weight: 400;
-              color: #E8E8E8;
+              color: #e8e8e8;
             }
           }
         }
@@ -43,12 +44,12 @@ const Foot = styled.footer`
         margin-top: 25px;
         svg {
           min-width: 24px;
-          fill: #7FCBAE;
+          fill: #7fcbae;
         }
         span {
           width: 90%;
           height: 1px;
-          background-color: #1B385C;
+          background-color: #1b385c;
         }
       }
       @media (max-width: 992px) {
@@ -74,7 +75,7 @@ const Foot = styled.footer`
   .footer_touch {
     a {
       font-size: 14px;
-      color: #59B894;
+      color: #59b894;
     }
     .touch {
       display: grid;
@@ -89,12 +90,12 @@ const Foot = styled.footer`
         svg {
           width: 12px;
           height: 18px;
-          fill: #59B894;
+          fill: #59b894;
           transform: rotate(-90deg);
         }
       }
       .phone {
-        color: #F5F5F5;
+        color: #f5f5f5;
       }
       .email {
         margin-bottom: 20px;
@@ -131,7 +132,7 @@ const Foot = styled.footer`
     .careers_terms {
       gap: 60px;
       padding-bottom: 120px;
-           
+
       @media (min-width: 993px) {
         flex-flow: unset;
         gap: 38px;
@@ -147,72 +148,102 @@ export const Footer = () => {
     <Foot>
       <div className="footer_connected">
         <div className="section connected">
-          <article className='stay'>
-            <h2 className='b900 white'>{t('footer.stay_connected')}</h2>
+          <article className="stay">
+            <h2 className="b900 white">{t('footer.stay_connected')}</h2>
           </article>
           <article>
-            <h6 className='green uppercase'>{t('footer.newsletter')}</h6>
+            <h6 className="green uppercase">{t('footer.newsletter')}</h6>
             <p>{t('footer.be_first_queue')}</p>
-            <form action="" id="newsForm" className='flex_center_bet'>
-              <div className='input_box'>
-                <label htmlFor="email" className='label_styles white'>{t('email_address')}</label>
-                <input type="email" name="email" className='light_grey_button part_radius white' placeholder={t('enter_email_address')} required />
+            <form action="" id="newsForm" className="flex_center_bet">
+              <div className="input_box">
+                <label htmlFor="email" className="label_styles white">
+                  {t('email_address')}
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  className="light_grey_button part_radius white"
+                  placeholder={t('enter_email_address')}
+                  required
+                />
               </div>
-              <button type="submit" className='light_grey_button green'>{t('footer.subscribe')}</button>
+              <button type="submit" className="light_grey_button green">
+                {t('footer.subscribe')}
+              </button>
             </form>
           </article>
-          <article className='social'>
-            <h6 className='green uppercase'>{t('footer.social')}</h6>
-            <a href="" className='flex_center_bet'>
-              <FacebookSVG /><span />
+          <article className="social">
+            <h6 className="green uppercase">{t('footer.social')}</h6>
+            <a href="" className="flex_center_bet">
+              <FacebookSVG />
+              <span />
             </a>
-            <a href="" className='flex_center_bet'>
-              <InstaSVG /><span />
+            <a href="" className="flex_center_bet">
+              <InstaSVG />
+              <span />
             </a>
-            <a href="" className='flex_center_bet'>
-              <YoutubeSVG /><span />
+            <a href="" className="flex_center_bet">
+              <YoutubeSVG />
+              <span />
             </a>
           </article>
         </div>
       </div>
       <div className="footer_touch">
         <div className="section touch">
-          <article className='get'>
-            <h2 className='b900 white'>{t('footer.get_in_touch')}</h2>
+          <article className="get">
+            <h2 className="b900 white">{t('footer.get_in_touch')}</h2>
           </article>
-          <div className='contacts'>
+          <div className="contacts">
             <article>
-              <h6 className='green uppercase'>{t('footer.general')}</h6>
-              <a href="tel:+3726669999" className='flex_center_bet phone'>- 372 666 9999</a>
-              <a href="mailto:info@35fit.com" className='flex_center_bet email'>- info@35fit.com</a>
-              <Link to="/Faq" className='flex_center_bet light_grey_button'>
+              <h6 className="green uppercase">{t('footer.general')}</h6>
+              <a href="tel:+3726669999" className="flex_center_bet phone">
+                - 372 666 9999
+              </a>
+              <a href="mailto:info@35fit.com" className="flex_center_bet email">
+                - info@35fit.com
+              </a>
+              <Link to="/Faq" className="flex_center_bet light_grey_button">
                 {t('footer.Careers')}
                 <LangArrowSVG />
               </Link>
             </article>
             <article>
-              <h6 className='green uppercase'>{t('nav.club')}</h6>
-              <a href="tel:+3726669999" className='flex_center_bet phone'>- 372 666 9999</a>
-              <a href="mailto:gonsiori@35fit.com" className='flex_center_bet email'>- gonsiori@35fit.com</a>
-              <Link to="/Faq" className='flex_center_bet light_grey_button'>
+              <h6 className="green uppercase">{t('nav.club')}</h6>
+              <a href="tel:+3726669999" className="flex_center_bet phone">
+                - 372 666 9999
+              </a>
+              <a
+                href="mailto:gonsiori@35fit.com"
+                className="flex_center_bet email"
+              >
+                - gonsiori@35fit.com
+              </a>
+              <Link to="/Faq" className="flex_center_bet light_grey_button">
                 {t('footer.contacts')}
                 <LangArrowSVG />
               </Link>
             </article>
           </div>
-          <article className='partners'>
-            <h6 className='green uppercase'>{t('footer.partners')}</h6>
+          <article className="partners">
+            <h6 className="green uppercase">{t('footer.partners')}</h6>
             <p>{t('footer.search_engine')}</p>
-            <Link to="/Faq" className='flex_center_bet light_grey_button'>
+            <Link to="/Faq" className="flex_center_bet light_grey_button">
               {t('footer.become_partner')}
               <LangArrowSVG />
             </Link>
           </article>
         </div>
         <ul className="section flex_center_end_col b700 careers_terms">
-          <li><Link to="/Faq">{t('footer.Careers')}</Link></li>
-          <li><Link to="/">{t('footer.Privacy')}</Link></li>
-          <li><Link to="/">{t('footer.Terms')}</Link></li>
+          <li>
+            <Link to="/Faq">{t('footer.Careers')}</Link>
+          </li>
+          <li>
+            <Link to="/">{t('footer.Privacy')}</Link>
+          </li>
+          <li>
+            <Link to="/">{t('footer.Terms')}</Link>
+          </li>
         </ul>
       </div>
     </Foot>

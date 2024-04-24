@@ -8,15 +8,15 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
-      Spinner$: path.resolve(__dirname, '../src/components/Spinner.tsx'), // $ - added to signify an exact match
       components: path.resolve(__dirname, '../src/components'),
-      modals: path.resolve(__dirname, '../src/modals'),
       HeaderBanner$: path.resolve(
         __dirname,
-        '../src/components/HeaderBanner.tsx',
+        '../src/components/HeaderBanner.tsx'
       ),
+      Spinner$: path.resolve(__dirname, '../src/components/Spinner.tsx'), // $ - added to signify an exact match
       // Footer$: path.resolve(__dirname, '../src/components/Footer.tsx'),
       // Nav$: path.resolve(__dirname, '../src/components/Nav.tsx'),
+      modals: path.resolve(__dirname, '../src/modals'),
       img: path.resolve(__dirname, '../src/img'),
       svg: path.resolve(__dirname, '../src/img/svg'),
       mixins$: path.resolve(__dirname, '../src/styles/variables-mixins.scss'),
@@ -24,6 +24,7 @@ module.exports = {
       views: path.resolve(__dirname, '../src/views'),
       store$: path.resolve(__dirname, '../src/store/root.store.ts'),
       reducer$: path.resolve(__dirname, '../src/store/root.reducer.ts'),
+      types: path.resolve(__dirname, '../src/types'),
       // '@': path.resolve(__dirname, 'src'),
     },
   },
@@ -70,4 +71,9 @@ module.exports = {
     // publicPath: '/',  // makes it impossible to load index.html directly from build folder
   },
   stats: 'errors-only',
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
 }

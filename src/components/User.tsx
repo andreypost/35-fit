@@ -1,3 +1,5 @@
+import React from 'react'
+import { userType, styleTypes } from 'types/commonPropTypes'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
@@ -112,16 +114,34 @@ export const User = ({ user, styles }) => {
 
   return (
     <Div
-      className={'light_grey_button ' + styles + (user ? ' loggedOut' : ' loggedIn')}
-      onClick={() => styles === 'dashboard_modal' ? dispatch(unsetDashModal()) : user ? dispatch(dashModal()) : dispatch(loginModal())}
+      className={
+        'light_grey_button ' + styles + (user ? ' loggedOut' : ' loggedIn')
+      }
+      onClick={() =>
+        styles === 'dashboard_modal'
+          ? dispatch(unsetDashModal())
+          : user
+          ? dispatch(dashModal())
+          : dispatch(loginModal())
+      }
     >
-      <p className="user_name b700 green">{(user && user.displayName) || t('nav.login')}</p>
+      <p className="user_name b700 green">
+        {(user && user.displayName) || t('nav.login')}
+      </p>
       <img
         src={(user && user.photoURL) || empty_user}
-        onError={(e: any) => (e.target.onerror = null, e.target.src = empty_user)}
+        onError={(e: any) => (
+          (e.target.onerror = null), (e.target.src = empty_user)
+        )}
         className="user_face"
-        alt="user's face" />
+        alt="user's face"
+      />
       <LangArrowSVG className="user_arrow" />
     </Div>
   )
+}
+
+User.propTypes = {
+  user: userType,
+  styles: styleTypes,
 }

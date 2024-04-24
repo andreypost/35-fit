@@ -1,3 +1,4 @@
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { TDCLCHProps } from 'types/interface'
@@ -30,26 +31,37 @@ const Article = styled.article`
   }
 `
 
-export const CommunityArticle = ({ className, title, subTitle, descript, coach }: TDCLCHProps) => {
+export const CommunityArticle = ({
+  className,
+  title,
+  subTitle,
+  descript,
+  coach,
+}: TDCLCHProps) => {
   const { t } = useTranslation()
 
   return (
     <Article className={`section flex_start_bet margin_b_60_30 ${className}`}>
-      <h2 className='b900 blue' style={{ lineHeight: subTitle ? '22px' : 'inherit' }}>{t(title)}
-        {subTitle &&
+      <h2
+        className="b900 blue"
+        style={{ lineHeight: subTitle ? '22px' : 'inherit' }}
+      >
+        {t(title)}
+        {subTitle && (
           <>
             <br />
-            <span>#{t('connected_to')}</span><span className='green'>{t('results')}</span>
+            <span>#{t('connected_to')}</span>
+            <span className="green">{t('results')}</span>
           </>
-        }
-        {coach &&
+        )}
+        {coach && (
           <>
             <br />
             <span>{coach}</span> <span>insta</span>
           </>
-        }
+        )}
       </h2>
-      <p className='grey'>{t(descript)}</p>
+      <p className="grey">{t(descript)}</p>
     </Article>
   )
 }

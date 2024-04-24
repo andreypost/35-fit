@@ -1,4 +1,4 @@
-@import "mixins";
+@import 'mixins';
 
 body {
   font-family: $montserrat-font-family;
@@ -144,11 +144,11 @@ textarea:focus {
 }
 
 .b700 {
-  font-weight: 700!important;
+  font-weight: 700 !important;
 }
 
 .b900 {
-  font-weight: 900!important;
+  font-weight: 900 !important;
 }
 
 .uppercase {
@@ -203,14 +203,16 @@ textarea:focus {
 }
 
 .login_book {
-  background: url(../img/patterns/lines_login_man.png) no-repeat 0 100% / contain #7fcbae;
+  background: url(../img/patterns/lines_login_man.png) no-repeat 0 100% /
+    contain #7fcbae;
   @media (min-width: 993px) {
     background-position: 0% 0%;
   }
 }
 
 .header_banner.main {
-  background: url(../img/patterns/main_header.svg) no-repeat center center / cover;
+  background: url(../img/patterns/main_header.svg) no-repeat center center /
+    cover;
 }
 
 .header_banner.train {
@@ -238,11 +240,16 @@ textarea:focus {
 }
 
 .header_banner.reserve {
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0.0001) 0%, #F1F1F1 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.0001) 0%,
+    #f1f1f1 100%
+  );
 }
 
 .footer_touch {
-  background: url(../img/patterns/lines_footer.png) no-repeat center 90% / contain #00003a;
+  background: url(../img/patterns/lines_footer.png) no-repeat center 90% /
+    contain #00003a;
   @media (max-width: 992px) {
     background-position-y: 70%;
   }
@@ -272,4 +279,3 @@ textarea:focus {
 //     display: block;
 //   }
 // }
-

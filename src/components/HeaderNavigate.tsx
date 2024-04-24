@@ -1,10 +1,11 @@
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
+import { userType } from 'types/commonPropTypes'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectBurgerValue, menuModal } from 'utils/modal.slice'
-import { MAIN_ROUTE, publicLinks, RESERVE_ROUTE, } from 'utils/routes.constants'
+import { MAIN_ROUTE, publicLinks, RESERVE_ROUTE } from 'utils/routes.constants'
 import { Language } from './Language'
 import { User } from './User'
 import { LogoSVG } from '../img/icons'
@@ -41,7 +42,7 @@ const Header = styled.header`
       span,
       span::before,
       span::after {
-        content: "";
+        content: '';
         width: 30px;
         height: 3px;
         position: absolute;
@@ -112,7 +113,7 @@ const Header = styled.header`
       font-size: 14px;
       border-radius: 32px;
       background-color: #59b894;
-      transition: background-color .2s, border-color .2s;
+      transition: background-color 0.2s, border-color 0.2s;
       @media (max-width: 992px) {
         height: 38px;
       }
@@ -167,12 +168,25 @@ export const HeaderNavigate = ({ user }) => {
         <LogoSVG />
       </Link>
       <ul className="navigate_routes">
-        <NavigationLinks links={publicLinks} bold='b700' color='#737373' />
+        <NavigationLinks links={publicLinks} bold="b700" color="#737373" />
       </ul>
       <div className="navigate_menu">
-        {useMemo(() => <Language />, [])}
-        {useMemo(() => <User user={user} styles='header_nav' />, [user])}
-        <Link to={RESERVE_ROUTE} className="flex_center_center navigate_buy b700 white">
+        {useMemo(
+          () => (
+            <Language />
+          ),
+          []
+        )}
+        {useMemo(
+          () => (
+            <User user={user} styles="header_nav" />
+          ),
+          [user]
+        )}
+        <Link
+          to={RESERVE_ROUTE}
+          className="flex_center_center navigate_buy b700 white"
+        >
           {t('nav.buy')}
         </Link>
         <div
@@ -184,4 +198,8 @@ export const HeaderNavigate = ({ user }) => {
       </div>
     </Header>
   )
+}
+
+HeaderNavigate.propTypes = {
+  user: userType,
 }

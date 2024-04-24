@@ -5,23 +5,21 @@ export const actionSlice = createSlice({
   name: 'action',
   initialState: { first: false, second: false, third: false },
   reducers: {
-    firstBlockVisible: (state, action: PayloadAction<boolean>) => {  // --> dispatch = useAppDispatch() --> dispatch(firstBlockVisible(true))
+    firstBlockVisible: (state, action: PayloadAction<boolean>) => {
+      // --> dispatch = useAppDispatch() --> dispatch(firstBlockVisible(true))
       state.first = action.payload
     },
-    secondBlockVisible: state => {
+    secondBlockVisible: (state) => {
       state.second = true
     },
-    thirdBlockVisible: state => {
+    thirdBlockVisible: (state) => {
       state.third = true
     },
   },
 })
 
-export const {
-  firstBlockVisible,
-  secondBlockVisible,
-  thirdBlockVisible,
-} = actionSlice.actions
+export const { firstBlockVisible, secondBlockVisible, thirdBlockVisible } =
+  actionSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectFirstBlock = (state: RootState) => state.action.first

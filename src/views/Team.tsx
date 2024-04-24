@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { userType } from 'types/commonPropTypes.js'
 import { useTranslation } from 'react-i18next'
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 // import i18n from "../i18n";
-import { COACH_ROUTE } from 'utils/routes.constants';
+import { COACH_ROUTE } from 'utils/routes.constants'
 import { HeaderBanner } from 'HeaderBanner'
 import { ImageDescription } from 'components/ImageDescription'
 
@@ -18,15 +19,28 @@ const Team = ({ user }) => {
 
   return (
     <main className={'fallback ' + opacity}>
-      <HeaderBanner className='team' title='nav.team' descript='header_banner.training_becomes' />
+      <HeaderBanner
+        className="team"
+        title="nav.team"
+        descript="header_banner.training_becomes"
+      />
 
-      <Link className='flex_center_center b900 grey' to={COACH_ROUTE}>Joyce's</Link>
+      <Link className="flex_center_center b900 grey" to={COACH_ROUTE}>
+        Joyce&apos;s
+      </Link>
 
-      <img src={require("../img/patterns/pattern_bg_7_1.png")} alt="" />
+      <img src={require('../img/patterns/pattern_bg_7_1.png')} alt="" />
 
-      <ImageDescription className='right_img' imgSrc={add_01} title='team.we_do_have_coaches' descript='header_banner.training_becomes' />
+      <ImageDescription
+        className="right_img"
+        imgSrc={add_01}
+        title="team.we_do_have_coaches"
+        descript="header_banner.training_becomes"
+      />
     </main>
   )
 }
 export default Team
-
+Team.propTypes = {
+  user: userType,
+}

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
@@ -20,7 +20,7 @@ const Div = styled.div`
     font-size: 18px;
     padding-bottom: 70px;
   }
-  
+
   &.main h1 {
     margin-bottom: 120px;
     text-transform: uppercase;
@@ -29,7 +29,7 @@ const Div = styled.div`
       margin-bottom: 210px;
     }
   }
-  
+
   @media (max-width: 992px) {
     section {
       h3 {
@@ -37,7 +37,7 @@ const Div = styled.div`
       }
     }
   }
-  
+
   @media (min-width: 993px) {
     section {
       padding-top: 170px;
@@ -51,17 +51,22 @@ const Div = styled.div`
   }
 `
 
-export const HeaderBanner = ({ children, className, title, descript }: CHTDCLProps) => {
+export const HeaderBanner = ({
+  children,
+  className,
+  title,
+  descript,
+}: CHTDCLProps) => {
   const dispatch = useAppDispatch(),
     { t } = useTranslation()
 
   const keyDownHandler = (e: { key: string }) => {
-    (e.key === 'Escape') && dispatch(unsetAllModal())
+    e.key === 'Escape' && dispatch(unsetAllModal())
   }
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    document.addEventListener('keydown', e => keyDownHandler(e))
+    document.addEventListener('keydown', (e) => keyDownHandler(e))
     return () => {
       document.removeEventListener('keydown', keyDownHandler)
       dispatch(unsetAllModal())
@@ -71,8 +76,8 @@ export const HeaderBanner = ({ children, className, title, descript }: CHTDCLPro
   return (
     <Div className={`header_banner ${className}`}>
       <section className="section">
-        <h1 className='b900 blue'>{t(title)}</h1>
-        {descript && <p className='grey'>{t(descript)}</p>}
+        <h1 className="b900 blue">{t(title)}</h1>
+        {descript && <p className="grey">{t(descript)}</p>}
         {children}
       </section>
     </Div>
