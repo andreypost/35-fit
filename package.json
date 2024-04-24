@@ -4,7 +4,7 @@
   "description": "35-fit",
   "main": "index.js",
   "engines": {
-    "node": ">=16.20.2"
+    "node": ">=16.16.0"
   },
   "scripts": {
     "start": "webpack serve --config config/webpack.config.js --env env=dev",
