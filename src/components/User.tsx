@@ -1,5 +1,4 @@
-import React from 'react'
-import { userType, styleTypes } from 'types/commonPropTypes'
+import { UserType, StyleType } from 'types/interface'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
@@ -108,17 +107,18 @@ const Div = styled.div`
     }
   }
 `
-export const User = ({ user, styles }) => {
+
+export const User = ({ user, styleName }: UserType & StyleType) => {
   const dispatch = useAppDispatch(),
     { t } = useTranslation()
 
   return (
     <Div
       className={
-        'light_grey_button ' + styles + (user ? ' loggedOut' : ' loggedIn')
+        'light_grey_button ' + styleName + (user ? ' loggedOut' : ' loggedIn')
       }
       onClick={() =>
-        styles === 'dashboard_modal'
+        styleName === 'dashboard_modal'
           ? dispatch(unsetDashModal())
           : user
           ? dispatch(dashModal())
@@ -141,7 +141,7 @@ export const User = ({ user, styles }) => {
   )
 }
 
-User.propTypes = {
-  user: userType,
-  styles: styleTypes,
-}
+// User.propTypes = {
+//   user: userType,
+//   styles: StyleTypes,
+// }

@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react'
-import { userType } from 'types/commonPropTypes'
+import { useMemo } from 'react'
+import { UserType } from 'types/interface'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -157,7 +157,7 @@ const Header = styled.header`
   }
 `
 
-export const HeaderNavigate = ({ user }) => {
+export const HeaderNavigate = ({ user }: UserType) => {
   const { t } = useTranslation(),
     dispatch = useAppDispatch(),
     burgerState = useAppSelector(selectBurgerValue)
@@ -179,7 +179,7 @@ export const HeaderNavigate = ({ user }) => {
         )}
         {useMemo(
           () => (
-            <User user={user} styles="header_nav" />
+            <User user={user} styleName="header_nav" />
           ),
           [user]
         )}
@@ -198,8 +198,4 @@ export const HeaderNavigate = ({ user }) => {
       </div>
     </Header>
   )
-}
-
-HeaderNavigate.propTypes = {
-  user: userType,
 }

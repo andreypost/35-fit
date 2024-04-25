@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
@@ -61,7 +61,7 @@ export const DashboardModal = ({ user, login, firebaseAuth }: FBUProps) => {
         <ul className="b900">
           {useMemo(
             () => (
-              <User user={user} styles="dashboard_modal" />
+              <User user={user} styleName="dashboard_modal" />
             ),
             [user]
           )}

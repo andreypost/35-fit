@@ -26,6 +26,7 @@ module.exports = {
     // '@typescript-eslint/no-var-requires': 'off',
     'react-hooks/exhaustive-deps': 'warn', // Checks effect dependencies
     'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
+    'react/react-in-jsx-scope': 'off',
     // 'react/prop-types': 'off',
   },
   settings: {
@@ -34,9 +35,3 @@ module.exports = {
     },
   },
 }
-
-/*
-this pakages can be removed?:
-"eslint-config-prettier": "^8.3.0",
-"eslint-plugin-eslint-comments": "^3.2.0",
-*/
