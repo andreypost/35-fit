@@ -1,4 +1,4 @@
-name: 'CI: Install, Build, Lint'
+name: 'CI: Install, Build, Lint (with Prettier) and Conditional Firebase Deploy'
 
 on: [push, pull_request]
 
@@ -7,46 +7,40 @@ defaults:
     working-directory: .
 
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
 
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          # node-version: '14'  # Specify Node.js version directly or use a `.nvmrc` file at the root
+          # node-version: '14'  # Specify Node.js version directly or use a `.nvmrc` file
           cache: 'npm'
 
       - name: Install Dependencies
         run: npm install --frozen-lockfile
 
       - name: Build Project
-        run: npm run build  # Align with npm usage
+        run: npm run build # Runs script in package.json
 
-      - name: Run `prettier`
-        run: npm run prettier-check  # Ensure script exists in package.json
+      # - name: Run `prettier`
+      #   run: npm run prettier-check # Runs script in package.json
 
       - name: Run `ESLint`
-        run: npm run lint  # Ensure script exists in package.json
+        run: npm run lint # Runs script in package.json, combined with prettier-check in .eslintrc.cjs as 'plugin:prettier/recommended'
 
-  # deploy:
+      - name: Check for [deploy] in commit message
+        id: check_deploy
+        run: |
+          if git log -1 --pretty=%B | grep -q '\[deploy\]'; then
+            echo "DEPLOY_TRIGGERED=true" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_TRIGGERED=false" >> $GITHUB_ENV
+          fi
 
-  #   needs: build
-
-  #   runs-on: ubuntu-latest
-
-  #   if: github.ref == 'refs/heads/main'
-
-  # steps:
-
-  #   - uses: actions/checkout@v3
-
-  #   - name: Deploy to Firebase
-
-  #     run: npm run deploy  # Ensure you have a 'deploy' script in package.json
-
-  #     env:
-
-  #       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Deploy to Firebase
+        if: env.DEPLOY_TRIGGERED == 'true'
+        run: npm run firebase-deploy
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
