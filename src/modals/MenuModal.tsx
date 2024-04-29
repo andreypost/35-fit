@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react'
-import { userType } from 'types/commonPropTypes'
+import { useMemo } from 'react'
+import { UserType } from 'types/interface'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -25,7 +25,7 @@ export const BaseDiv = styled.div`
   // @media (orientation: landscape) {
   //   height: 100%;
   // }
-  @media (min-width: 993px) {
+  @media (min-width: 1024px) {
     display: none;
   }
   nav {
@@ -104,7 +104,7 @@ const Div = styled(BaseDiv)`
   }
 `
 
-export const MenuModal = ({ user }) => {
+export const MenuModal = ({ user }: UserType) => {
   const { t } = useTranslation(),
     modalState = useAppSelector(selectMenuModalActive),
     dispatch = useAppDispatch()
@@ -127,7 +127,7 @@ export const MenuModal = ({ user }) => {
           <li className={'login ' + (user ? 'signOut' : 'signIn')}>
             {useMemo(
               () => (
-                <User user={user} styles="menu_modal" />
+                <User user={user} styleName="menu_modal" />
               ),
               [user]
             )}
@@ -141,8 +141,4 @@ export const MenuModal = ({ user }) => {
       </nav>
     </Div>
   )
-}
-
-MenuModal.propTypes = {
-  user: userType,
 }

@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import { lazy } from 'react'
 const Main = lazy(() => import('views/Main'))
 const Training = lazy(() => import('views/Training'))
 const Pricing = lazy(() => import('views/Pricing'))

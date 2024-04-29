@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { InstaSVG } from 'img/icons'
 
@@ -17,7 +16,7 @@ const Div = styled.div`
     margin-bottom: 10px;
     fill: #004;
   }
-  @media (max-width: 992px) {
+  @media (max-width: 1023px) {
     .img_box {
       flex-flow: column;
     }

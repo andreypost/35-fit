@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -52,7 +51,7 @@ const Foot = styled.footer`
           background-color: #1b385c;
         }
       }
-      @media (max-width: 992px) {
+      @media (max-width: 1023px) {
         max-width: 480px;
         gap: 40px;
         justify-content: center;
@@ -65,7 +64,7 @@ const Foot = styled.footer`
           }
         }
       }
-      @media (min-width: 993px) {
+      @media (min-width: 1024px) {
         justify-content: space-between;
         grid-template-columns: 15% 40% 20%;
         padding-top: 120px;
@@ -100,7 +99,7 @@ const Foot = styled.footer`
       .email {
         margin-bottom: 20px;
       }
-      @media (max-width: 992px) {
+      @media (max-width: 1023px) {
         max-width: 480px;
         .get {
           margin-bottom: 30px;
@@ -114,7 +113,7 @@ const Foot = styled.footer`
           }
         }
       }
-      @media (min-width: 993px) {
+      @media (min-width: 1024px) {
         grid-template-columns: 15% 40% 20%;
         justify-content: space-between;
         .contacts {
@@ -133,7 +132,7 @@ const Foot = styled.footer`
       gap: 60px;
       padding-bottom: 120px;
 
-      @media (min-width: 993px) {
+      @media (min-width: 1024px) {
         flex-flow: unset;
         gap: 38px;
         padding-bottom: 50px;

@@ -29,7 +29,7 @@ const Header = styled.header`
     gap: 10px;
     margin-left: auto;
   }
-  @media (max-width: 992px) {
+  @media (max-width: 1023px) {
     .navigate_logo svg {
       width: 100px;
       height: 44px;
@@ -84,7 +84,7 @@ const Header = styled.header`
       }
     }
   }
-  @media (min-width: 993px) {
+  @media (min-width: 1024px) {
     .navigate_burger {
       display: none;
     }
@@ -114,10 +114,10 @@ const Header = styled.header`
       border-radius: 32px;
       background-color: #59b894;
       transition: background-color 0.2s, border-color 0.2s;
-      @media (max-width: 992px) {
+      @media (max-width: 1023px) {
         height: 38px;
       }
-      @media (min-width: 993px) {
+      @media (min-width: 1024px) {
         height: 42px;
       }
       &:hover {
@@ -152,7 +152,7 @@ const Header = styled.header`
       fill: #59b894;
     }
   }
-  @media (min-width: 993px) {
+  @media (min-width: 1024px) {
     margin-bottom: -70px;
   }
 `

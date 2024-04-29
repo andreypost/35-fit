@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { userType } from 'types/commonPropTypes'
+import { useState, useEffect } from 'react'
+import { UserType } from 'types/interface'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -63,7 +63,7 @@ const MainBlock = styled.main`
       svg {
         top: -70px;
         left: -30px;
-        @media (max-width: 992px) {
+        @media (max-width: 1023px) {
           width: 120px;
           height: 120px;
         }
@@ -168,7 +168,7 @@ const MainBlock = styled.main`
       font-size: 32px;
     }
   }
-  @media (max-width: 992px) {
+  @media (max-width: 1023px) {
     h4 svg {
       width: 163px;
       height: 90px;
@@ -189,7 +189,7 @@ const MainBlock = styled.main`
       gap: 75px;
     }
   }
-  @media (min-width: 993px) {
+  @media (min-width: 1024px) {
     .header_new {
       h4 svg {
         left: -80px;
@@ -218,7 +218,7 @@ const MainBlock = styled.main`
   }
 `
 
-const Main = ({ user }) => {
+const Main = ({ user }: UserType) => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState(''),
     winScroll = GetCurrentWindowScroll(),
@@ -360,7 +360,3 @@ const Main = ({ user }) => {
   )
 }
 export default Main
-
-Main.propTypes = {
-  user: userType,
-}

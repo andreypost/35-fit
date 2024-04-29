@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { userType } from 'types/commonPropTypes'
+import { useState, useEffect } from 'react'
+import { UserType } from 'types/interface'
 import { useTranslation } from 'react-i18next'
 // import { Link } from "react-router-dom";
 // import i18n from "../i18n";
@@ -8,7 +8,7 @@ import { InstaImages } from 'components/InstaImages'
 
 import add_01 from '../img/adds/add_5_1.png'
 
-const Coach = ({ user }) => {
+const Coach = ({ user }: UserType) => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState('')
 
@@ -32,6 +32,3 @@ const Coach = ({ user }) => {
   )
 }
 export default Coach
-Coach.propTypes = {
-  user: userType,
-}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
@@ -25,12 +25,12 @@ const Div = styled.div`
     margin-bottom: 120px;
     text-transform: uppercase;
     text-align: center;
-    @media (min-width: 993px) {
+    @media (min-width: 1024px) {
       margin-bottom: 210px;
     }
   }
 
-  @media (max-width: 992px) {
+  @media (max-width: 1023px) {
     section {
       h3 {
         font-size: 16px;
@@ -38,7 +38,7 @@ const Div = styled.div`
     }
   }
 
-  @media (min-width: 993px) {
+  @media (min-width: 1024px) {
     section {
       padding-top: 170px;
       h1 {

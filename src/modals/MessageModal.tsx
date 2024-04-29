@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { BaseDiv } from './MenuModal'

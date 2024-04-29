@@ -123,14 +123,14 @@ textarea:focus {
 
 .margin_b_60_30 {
   margin-bottom: 30px;
-  @media (min-width: 993px) {
+  @media (min-width: 1024px) {
     margin-bottom: 60px;
   }
 }
 
 .margin_b_120_80 {
   margin-bottom: 80px;
-  @media (min-width: 993px) {
+  @media (min-width: 1024px) {
     margin-bottom: 120px;
   }
 }
@@ -205,7 +205,7 @@ textarea:focus {
 .login_book {
   background: url(../img/patterns/lines_login_man.png) no-repeat 0 100% /
     contain #7fcbae;
-  @media (min-width: 993px) {
+  @media (min-width: 1024px) {
     background-position: 0% 0%;
   }
 }
@@ -250,7 +250,7 @@ textarea:focus {
 .footer_touch {
   background: url(../img/patterns/lines_footer.png) no-repeat center 90% /
     contain #00003a;
-  @media (max-width: 992px) {
+  @media (max-width: 1023px) {
     background-position-y: 70%;
   }
 }

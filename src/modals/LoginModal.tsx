@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -113,7 +113,7 @@ const Div = styled(BaseDiv)`
         }
       }
     }
-    @media (max-width: 992px) {
+    @media (max-width: 1023px) {
       flex-flow: column;
       #loginForm {
         padding: 40px 20px;
@@ -135,7 +135,7 @@ const Div = styled(BaseDiv)`
         }
       }
     }
-    @media (min-width: 993px) {
+    @media (min-width: 1024px) {
       max-width: 980px;
       display: grid;
       grid-template-columns: 1fr 1fr;

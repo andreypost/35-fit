@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -32,7 +31,7 @@ const Div = styled.div`
       }
     }
   }
-  @media (min-width: 993px) {
+  @media (min-width: 1024px) {
     grid-template-columns: 1.4fr 1fr;
     &.right_img {
       grid-template-columns: 1fr 1.4fr;

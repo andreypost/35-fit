@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { ISVGProp } from 'types/interface'
 
 export const LogoSVG = memo(() => (

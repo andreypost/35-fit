@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { userType } from 'types/commonPropTypes.js'
+import { useState, useEffect } from 'react'
+import { UserType } from 'types/interface'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 // import i18n from "../i18n";
@@ -9,7 +9,7 @@ import { ImageDescription } from 'components/ImageDescription'
 
 import add_01 from '../img/adds/add_5_1.png'
 
-const Team = ({ user }) => {
+const Team = ({ user }: UserType) => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState('')
 
@@ -41,6 +41,3 @@ const Team = ({ user }) => {
   )
 }
 export default Team
-Team.propTypes = {
-  user: userType,
-}

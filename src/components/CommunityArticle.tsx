@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { TDCLCHProps } from 'types/interface'
@@ -16,7 +15,7 @@ const Article = styled.article`
     font-size: 18px;
     line-height: 24px;
   }
-  @media (max-width: 992px) {
+  @media (max-width: 1023px) {
     flex-flow: column;
     gap: 20px;
     &.alignCenter {
@@ -24,7 +23,7 @@ const Article = styled.article`
       text-align: center;
     }
   }
-  @media (min-width: 993px) {
+  @media (min-width: 1024px) {
     p {
       line-height: 32px;
     }

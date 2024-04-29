@@ -1,9 +1,16 @@
-import React from 'react'
-import { linkTypes, styleTypes } from 'types/commonPropTypes'
+import { LinksType } from 'types/interface'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-export const NavigationLinks = ({ links, bold, color }) => {
+export const NavigationLinks = ({
+  links,
+  bold,
+  color,
+}: {
+  links: LinksType['links']
+  bold: string
+  color: string
+}) => {
   const location = useLocation(),
     { t } = useTranslation()
   return (
@@ -17,16 +24,10 @@ export const NavigationLinks = ({ links, bold, color }) => {
               color: location.pathname == route ? '#000044' : color,
             }}
           >
-            {t(dictionary)}
+            {dictionary ? t(dictionary) : ''}
           </Link>
         </li>
       ))}
     </>
   )
-}
-
-NavigationLinks.propTypes = {
-  links: linkTypes,
-  bold: styleTypes,
-  color: styleTypes,
 }

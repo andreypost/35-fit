@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import { userType } from 'types/commonPropTypes'
+import { useState } from 'react'
+import { UserType } from 'types/interface'
 // import { createStore, applyMiddleware } from 'redux'
 // import { configureStore } from '@reduxjs/toolkit'
 // import thunk from 'redux-thunk'
 // import axios from 'axios'
 import empty from 'img/empty_user.png'
 
-const Flower = ({ user }) => {
+const Flower = ({ user }: UserType) => {
   // function curry(f: { (a: any, b: any, c: any): any; length?: any; apply?: any }) {
   //     return function curried(this: any, ...args: any[]) {
   //         if (args.length >= f.length) {
@@ -125,9 +125,6 @@ const Flower = ({ user }) => {
   )
 }
 export default Flower
-Flower.propTypes = {
-  user: userType,
-}
 
 /* useEffect(() => {
   // first variant with generators, native js;

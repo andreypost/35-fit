@@ -54,3 +54,10 @@ export interface ILTDCLProps extends TDCLProps {
 export interface TDCLCHProps extends TDCLProps {
   coach?: string
 }
+
+export interface LinksType {
+  links: {
+    route: string
+    dictionary?: string
+  }[]
+}

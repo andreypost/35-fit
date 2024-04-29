@@ -1,5 +1,5 @@
-import React, { Fragment, useContext, useEffect, useState, useRef } from 'react'
-import { userType } from 'types/commonPropTypes'
+import { Fragment, useContext, useEffect, useState, useRef } from 'react'
+import { UserType } from 'types/interface'
 // import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
 import { Spinner } from 'Spinner'
@@ -48,7 +48,7 @@ const Canvas = ({ width, height, border }: canvasProps) => {
   )
 }
 
-const Chat = ({ user }) => {
+const Chat = ({ user }: UserType) => {
   // const { t } = useTranslation()
   const { firebase, firestore } = useContext(FirebaseAuthContext)
   const [chatMessage, setChatMessage] = useState('')
@@ -115,7 +115,3 @@ const Chat = ({ user }) => {
   )
 }
 export default Chat
-
-Chat.propTypes = {
-  user: userType,
-}

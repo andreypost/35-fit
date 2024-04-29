@@ -34,21 +34,21 @@ const Div = styled.div`
     }
   }
   &.header_nav {
-    @media (max-width: 992px) {
+    @media (max-width: 1023px) {
       width: 42px;
       justify-content: center;
       .user_name {
         display: none;
       }
     }
-    @media (min-width: 993px) {
+    @media (min-width: 1024px) {
       width: 140px;
       padding-left: 8px;
       padding-right: 2px;
       justify-content: space-between;
     }
     &.loggedIn {
-      @media (min-width: 993px) {
+      @media (min-width: 1024px) {
         justify-content: center;
         .user_face {
           display: none;
@@ -57,13 +57,11 @@ const Div = styled.div`
     }
   }
   &.menu_modal {
-    @media (max-width: 992px) {
+    @media (max-width: 1023px) {
       padding-left: 8px;
       padding-right: 2px;
       justify-content: space-between;
-    }
-    &.loggedIn {
-      @media (max-width: 993px) {
+      &.loggedIn {
         justify-content: center;
         .user_face {
           display: none;
@@ -126,10 +124,10 @@ export const User = ({ user, styleName }: UserType & StyleType) => {
       }
     >
       <p className="user_name b700 green">
-        {(user && user.displayName) || t('nav.login')}
+        {user?.displayName || t('nav.login')}
       </p>
       <img
-        src={(user && user.photoURL) || empty_user}
+        src={user?.photoURL || empty_user}
         onError={(e: any) => (
           (e.target.onerror = null), (e.target.src = empty_user)
         )}
@@ -140,8 +138,3 @@ export const User = ({ user, styleName }: UserType & StyleType) => {
     </Div>
   )
 }
-
-// User.propTypes = {
-//   user: userType,
-//   styles: StyleTypes,
-// }
