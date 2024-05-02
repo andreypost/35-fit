@@ -1,6 +1,18 @@
 name: 'CI: Install, Build, Lint (with Prettier) and Conditional Firebase Deploy'
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Manually trigger deploy to Firebase (set true to activate)'
+        required: false
+        default: 'false'
 
 defaults:
   run:
@@ -15,7 +27,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16' # Specify the Node.js version regardless of what is specified in the `.nvmrc` file
+          node-version: '16'
           cache: 'npm'
 
       - name: Install Dependencies
@@ -30,10 +42,12 @@ jobs:
       - name: Run `ESLint`
         run: npm run lint # Runs script in package.json, combined with prettier-check in .eslintrc.cjs as 'plugin:prettier/recommended'
 
-      - name: Check for [deploy] in commit message
-        id: check_deploy
+      - name: Determine Deployment Trigger
+        id: deployment_trigger
         run: |
-          if git log -1 --pretty=%B | grep -q '\[deploy\]'; then
+          if [[ "${{ github.event.inputs.deploy }}" == "true" ]]; then
+            echo "DEPLOY_TRIGGERED=true" >> $GITHUB_ENV
+          elif git log -1 --pretty=%B | grep -q '\[deploy\]'; then
             echo "DEPLOY_TRIGGERED=true" >> $GITHUB_ENV
           else
             echo "DEPLOY_TRIGGERED=false" >> $GITHUB_ENV
