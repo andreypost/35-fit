@@ -16,7 +16,7 @@ on:
 
 defaults:
   run:
-    working-directory: .
+    working-directory: headless
 
 jobs:
   build_and_deploy:
@@ -32,17 +32,17 @@ jobs:
 
       # Install dependencies for front-end
       - name: Install Front-end Dependencies
-        working-directory: ./headless
+        # working-directory: ./headless
         run: npm install --frozen-lockfile
 
       # Lint front-end
       - name: Lint Front-end
-        working-directory: ./headless
+        # working-directory: ./headless
         run: npm run lint # Runs script in package.json, combined with prettier-check in .eslintrc.cjs as 'plugin:prettier/recommended'
 
       # Build front-end
       - name: Build Front-end
-        working-directory: ./headless
+        # working-directory: ./headless
         run: npm run build # Runs script in package.json
 
       # # Install dependencies for API
@@ -70,7 +70,7 @@ jobs:
       # Deploy to Firebase if triggered
       - name: Deploy to Firebase
         if: env.DEPLOY_TRIGGERED == 'true'
-        working-directory: ./headless
+        # working-directory: ./headless
         run: npm run firebase-deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
