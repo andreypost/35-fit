@@ -23,6 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.0",
+    "aos": "^2.3.4",
     "axios": "^0.21.1",
     "caniuse-lite": "^1.0.30001320",
     "firebase": "^9.6.8",

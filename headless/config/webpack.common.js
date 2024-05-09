@@ -66,7 +66,7 @@ module.exports = {
   ],
   output: {
     clean: true,
-    path: path.resolve(__dirname, '../build'),
+    path: path.resolve(__dirname, '../../build'),
     filename: '[name].bundle.js',
     // publicPath: '/',  // makes it impossible to load index.html directly from build folder
   },
