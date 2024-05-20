@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { UserType } from 'types/interface'
+import { IUser } from 'types/interface'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -104,7 +104,7 @@ const Div = styled(BaseDiv)`
   }
 `
 
-export const MenuModal = ({ user }: UserType) => {
+export const MenuModal = ({ user }: IUser) => {
   const { t } = useTranslation(),
     modalState = useAppSelector(selectMenuModalActive),
     dispatch = useAppDispatch()

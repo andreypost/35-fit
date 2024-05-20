@@ -1,4 +1,4 @@
-import { UserType, StyleType } from 'types/interface'
+import { IUser, IStyle } from 'types/interface'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
@@ -106,7 +106,7 @@ const Div = styled.div`
   }
 `
 
-export const User = ({ user, styleName }: UserType & StyleType) => {
+export const User = ({ user, styleName }: IUser & IStyle) => {
   const dispatch = useAppDispatch(),
     { t } = useTranslation()
 

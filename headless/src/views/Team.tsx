@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { UserType } from 'types/interface'
+import { IUser } from 'types/interface'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 // import i18n from "../i18n";
@@ -9,7 +9,7 @@ import { ImageDescription } from 'components/ImageDescription'
 
 import add_01 from '../img/adds/add_5_1.png'
 
-const Team = ({ user }: UserType) => {
+const Team = ({ user }: IUser) => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState('')
 
@@ -22,7 +22,7 @@ const Team = ({ user }: UserType) => {
       <HeaderBanner
         className="team"
         title="nav.team"
-        descript="header_banner.training_becomes"
+        description="header_banner.training_becomes"
       />
 
       <Link className="flex_center_center b900 grey" to={COACH_ROUTE}>
@@ -35,7 +35,7 @@ const Team = ({ user }: UserType) => {
         className="right_img"
         imgSrc={add_01}
         title="team.we_do_have_coaches"
-        descript="header_banner.training_becomes"
+        description="header_banner.training_becomes"
       />
     </main>
   )

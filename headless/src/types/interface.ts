@@ -1,4 +1,4 @@
-export interface UserType {
+export interface IUser {
   user: {
     name?: string
     uid?: string
@@ -7,55 +7,55 @@ export interface UserType {
   }
 }
 
-export interface FBUProps extends UserType {
+export interface IFirebaseProps extends IUser {
   firebase?: any
   firebaseAuth?: any
   firestore?: any
   login: () => void
 }
 
-export interface ClassType {
+export interface IClass {
   className?: string
-  classList?: [string]
+  classList?: string[]
 }
 
-export interface StyleType {
+export interface IStyle {
   styleName?: string
   styleList?: { [key: string]: any }
 }
 
-export interface TDCLProps extends ClassType {
+export interface ITitleDescripClass extends IClass {
   title?: any
   subTitle?: any
-  descript?: any
+  description?: any
 }
 
-export interface ACProps {
+export interface IAppConfig {
   language: string
   setLanguage: (language: string) => void
 }
 
-export interface ISVGProp extends ClassType {
+export interface ISVGProps extends IClass {
   color?: string
   onClick?: any
 }
 
-export interface CHTDCLProps extends TDCLProps {
+export interface IChildrenTitleDescrip extends ITitleDescripClass {
   children?: JSX.Element | JSX.Element[]
   // children: [ReactElement, ReactElement]
   // children: (string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactNodeArray | React.ReactPortal | null | undefined)[]
 }
 
-export interface ILTDCLProps extends TDCLProps {
+export interface IImageLinkTitleDescrip extends ITitleDescripClass {
   imgSrc?: string
   link?: string
 }
 
-export interface TDCLCHProps extends TDCLProps {
+export interface ICoachTitleDescrip extends ITitleDescripClass {
   coach?: string
 }
 
-export interface LinksType {
+export interface ILinks {
   links: {
     route: string
     dictionary?: string

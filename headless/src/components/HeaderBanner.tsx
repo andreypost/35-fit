@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
 import { unsetAllModal } from 'utils/modal.slice'
-import { CHTDCLProps } from 'types/interface'
+import { IChildrenTitleDescrip } from 'types/interface'
 
 const Div = styled.div`
   section {
@@ -55,8 +55,8 @@ export const HeaderBanner = ({
   children,
   className,
   title,
-  descript,
-}: CHTDCLProps) => {
+  description,
+}: IChildrenTitleDescrip) => {
   const dispatch = useAppDispatch(),
     { t } = useTranslation()
 
@@ -77,7 +77,7 @@ export const HeaderBanner = ({
     <Div className={`header_banner ${className}`}>
       <section className="section">
         <h1 className="b900 blue">{t(title)}</h1>
-        {descript && <p className="grey">{t(descript)}</p>}
+        {description && <p className="grey">{t(description)}</p>}
         {children}
       </section>
     </Div>

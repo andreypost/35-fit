@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { TDCLCHProps } from 'types/interface'
+import { ICoachTitleDescrip } from 'types/interface'
 
 const Article = styled.article`
   h2 {
@@ -34,9 +34,9 @@ export const CommunityArticle = ({
   className,
   title,
   subTitle,
-  descript,
+  description,
   coach,
-}: TDCLCHProps) => {
+}: ICoachTitleDescrip) => {
   const { t } = useTranslation()
 
   return (
@@ -60,7 +60,7 @@ export const CommunityArticle = ({
           </>
         )}
       </h2>
-      <p className="grey">{t(descript)}</p>
+      <p className="grey">{t(description)}</p>
     </Article>
   )
 }

@@ -6,7 +6,7 @@ import { selectDashModalActive, unsetDashModal } from '../utils/modal.slice'
 import { BaseDiv } from './MenuModal'
 import { NavigationLinks } from 'components/NavigationLinks'
 import { profileLinks } from 'utils/routes.constants'
-import { FBUProps } from 'types/interface'
+import { IFirebaseProps } from 'types/interface'
 import { User } from 'components/User'
 
 const Div = styled(BaseDiv)`
@@ -45,7 +45,11 @@ const Div = styled(BaseDiv)`
   }
 `
 
-export const DashboardModal = ({ user, login, firebaseAuth }: FBUProps) => {
+export const DashboardModal = ({
+  user,
+  login,
+  firebaseAuth,
+}: IFirebaseProps) => {
   const { t } = useTranslation(),
     modalState = useAppSelector(selectDashModalActive),
     dispatch = useAppDispatch()

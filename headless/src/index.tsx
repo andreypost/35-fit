@@ -15,7 +15,7 @@ import './styles/normalize.css'
 import './styles/common.scss'
 import './i18n'
 import { Spinner } from 'Spinner'
-import { FBUProps } from 'types/interface'
+import { IFirebaseProps } from 'types/interface'
 
 initializeApp({
   apiKey: 'AIzaSyAyT0D2bg_Jo3byFrOZ2_kIhpzTi3BBolU',
@@ -30,7 +30,7 @@ initializeApp({
 const firebaseAuth = getAuth()
 const firestore = getFirestore()
 
-export const FirebaseAuthContext = createContext({} as FBUProps)
+export const FirebaseAuthContext = createContext({} as IFirebaseProps)
 
 const AppRouter = lazy(() => import('./AppRouter'))
 

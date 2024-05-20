@@ -1,4 +1,4 @@
-import { LinksType } from 'types/interface'
+import { ILinks } from 'types/interface'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -7,7 +7,7 @@ export const NavigationLinks = ({
   bold,
   color,
 }: {
-  links: LinksType['links']
+  links: ILinks['links']
   bold: string
   color: string
 }) => {

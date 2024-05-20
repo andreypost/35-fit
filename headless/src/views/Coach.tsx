@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { UserType } from 'types/interface'
+import { IUser } from 'types/interface'
 import { useTranslation } from 'react-i18next'
 // import { Link } from "react-router-dom";
 // import i18n from "../i18n";
@@ -8,7 +8,7 @@ import { InstaImages } from 'components/InstaImages'
 
 import add_01 from '../img/adds/add_5_1.png'
 
-const Coach = ({ user }: UserType) => {
+const Coach = ({ user }: IUser) => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState('')
 
@@ -24,7 +24,7 @@ const Coach = ({ user }: UserType) => {
 
       <CommunityArticle
         title="35fit_community"
-        descript="header_banner.training_becomes"
+        description="header_banner.training_becomes"
         coach="Joyce's"
       />
       <InstaImages />

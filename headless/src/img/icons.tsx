@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { ISVGProp } from 'types/interface'
+import { ISVGProps } from 'types/interface'
 
 export const LogoSVG = memo(() => (
   <svg viewBox="0 0 118 50" xmlns="http://www.w3.org/2000/svg">
@@ -18,7 +18,7 @@ export const LogoSVG = memo(() => (
 ))
 LogoSVG.displayName = 'LogoSVG'
 
-export const LangArrowSVG = memo(({ className }: ISVGProp) => (
+export const LangArrowSVG = memo(({ className }: ISVGProps) => (
   <svg
     className={className}
     viewBox="0 0 12 8"
@@ -33,7 +33,7 @@ export const LangArrowSVG = memo(({ className }: ISVGProp) => (
 ))
 LangArrowSVG.displayName = 'LangArrowSVG'
 
-export const CrossRedSVG = memo(({ className, onClick }: ISVGProp) => (
+export const CrossRedSVG = memo(({ className, onClick }: ISVGProps) => (
   <svg
     className={className}
     onClick={onClick}
@@ -53,7 +53,7 @@ export const CrossRedSVG = memo(({ className, onClick }: ISVGProp) => (
 ))
 CrossRedSVG.displayName = 'CrossRedSVG'
 
-export const TieFitSVG = memo(({ className }: ISVGProp) => (
+export const TieFitSVG = memo(({ className }: ISVGProps) => (
   <svg
     className={className}
     width="213"
@@ -86,7 +86,7 @@ export const TieFitSVG = memo(({ className }: ISVGProp) => (
 ))
 TieFitSVG.displayName = 'TieFitSVG'
 
-export const TieWowSVG = memo(({ className }: ISVGProp) => (
+export const TieWowSVG = memo(({ className }: ISVGProps) => (
   <svg
     className={className}
     width="213"
@@ -119,7 +119,7 @@ export const TieWowSVG = memo(({ className }: ISVGProp) => (
 ))
 TieWowSVG.displayName = 'TieWowSVG'
 
-export const RedRuporSVG = memo(({ className }: ISVGProp) => (
+export const RedRuporSVG = memo(({ className }: ISVGProps) => (
   <svg
     className={className}
     width="168"
@@ -180,7 +180,7 @@ export const RedRuporSVG = memo(({ className }: ISVGProp) => (
 ))
 RedRuporSVG.displayName = 'RedRuporSVG'
 
-export const FacebookSVG = memo(({ className }: ISVGProp) => (
+export const FacebookSVG = memo(({ className }: ISVGProps) => (
   <svg
     className={className}
     width="11"
@@ -193,7 +193,7 @@ export const FacebookSVG = memo(({ className }: ISVGProp) => (
 ))
 FacebookSVG.displayName = 'FacebookSVG'
 
-export const InstaSVG = memo(({ className }: ISVGProp) => (
+export const InstaSVG = memo(({ className }: ISVGProps) => (
   <svg
     className={className}
     width="24"
@@ -210,7 +210,7 @@ export const InstaSVG = memo(({ className }: ISVGProp) => (
 ))
 InstaSVG.displayName = 'InstaSVG'
 
-export const YoutubeSVG = memo(({ className }: ISVGProp) => (
+export const YoutubeSVG = memo(({ className }: ISVGProps) => (
   <svg
     className={className}
     width="24"

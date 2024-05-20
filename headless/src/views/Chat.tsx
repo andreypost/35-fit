@@ -1,5 +1,5 @@
 import { Fragment, useContext, useEffect, useState, useRef } from 'react'
-import { UserType } from 'types/interface'
+import { IUser } from 'types/interface'
 // import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
 import { Spinner } from 'Spinner'
@@ -48,7 +48,7 @@ const Canvas = ({ width, height, border }: canvasProps) => {
   )
 }
 
-const Chat = ({ user }: UserType) => {
+const Chat = ({ user }: IUser) => {
   // const { t } = useTranslation()
   const { firebase, firestore } = useContext(FirebaseAuthContext)
   const [chatMessage, setChatMessage] = useState('')

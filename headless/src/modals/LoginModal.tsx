@@ -6,8 +6,9 @@ import { RESERVE_ROUTE } from 'utils/routes.constants'
 import { useAppSelector, useAppDispatch } from 'utils/hooks'
 import { BaseDiv } from './MenuModal'
 import { selectLoginModalActive, unsetLoginModal } from '../utils/modal.slice'
-import { FBUProps } from 'types/interface'
+import { IFirebaseProps } from 'types/interface'
 import { CrossRedSVG } from 'img/icons'
+import axios from 'axios'
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -162,15 +163,39 @@ const Div = styled(BaseDiv)`
     }
   }
 `
-export const LoginModal = ({ user, login }: FBUProps) => {
+export const LoginModal = ({ user, login }: IFirebaseProps) => {
   const dispatch = useAppDispatch(),
     modalState = useAppSelector(selectLoginModalActive),
     { t } = useTranslation(),
+    [email, setEmail] = useState(''),
+    [password, setPassword] = useState(''),
+    [errorMessage, setErrorMessage] = useState(''),
     [checkState, setCheckState] = useState(false)
-  // console.log('LoginModal: ', checkState)
+
   useEffect(() => {
+    console.log('LoginModal: ', user)
     user && dispatch(unsetLoginModal())
   }, [user])
+
+  const handleLogin = async (e) => {
+    // console.log('email', email)
+    // console.log('password', password)
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const userEmail = formData.get('login')
+    const userPass = formData.get('password')
+    console.log('userEmail', userEmail)
+    console.log('userPass', userPass)
+    try {
+      const response = await axios.post('http://localhost:3000/users', {
+        email,
+        password,
+      })
+      console.log('response for User', response)
+    } catch (err) {
+      console.log('Unable to create a new User', err)
+    }
+  }
   return (
     <Div
       className={modalState}
@@ -183,7 +208,7 @@ export const LoginModal = ({ user, login }: FBUProps) => {
           className="cross_icon absolute"
           onClick={() => dispatch(unsetLoginModal())}
         />
-        <form action="" id="loginForm">
+        <form id="loginForm" onSubmit={handleLogin}>
           <h1 className="b900 blue">
             {t('welcome_to')}
             <br />
@@ -195,8 +220,10 @@ export const LoginModal = ({ user, login }: FBUProps) => {
           <input
             type="email"
             name="login"
+            value={email}
             className="grey_button blue"
             placeholder={t('enter_email_address')}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
           <label htmlFor="password" className="grey_label">
@@ -205,8 +232,10 @@ export const LoginModal = ({ user, login }: FBUProps) => {
           <input
             type="password"
             name="password"
+            value={password}
             className="grey_button part_radius blue"
             placeholder={t('enter_password')}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
           <label htmlFor="radio" className="grey_label check_box">

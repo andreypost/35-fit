@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { ILTDCLProps } from 'types/interface'
+import { IImageLinkTitleDescrip } from 'types/interface'
 
 const Div = styled.div`
   display: grid;
@@ -55,9 +55,9 @@ export const ImageDescription = ({
   className,
   imgSrc,
   title,
-  descript,
+  description,
   link,
-}: ILTDCLProps) => {
+}: IImageLinkTitleDescrip) => {
   const { t } = useTranslation()
 
   return (
@@ -65,7 +65,7 @@ export const ImageDescription = ({
       <img src={imgSrc} alt="" />
       <article className="grey">
         <h3 className="b900">{t(title)}</h3>
-        <p>{t(descript)}</p>
+        <p>{t(description)}</p>
         {link && (
           <Link
             className="flex_center_center light_grey_button green"

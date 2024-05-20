@@ -19,7 +19,7 @@ const Club = () => {
       <HeaderBanner
         className="club"
         title="nav.club"
-        descript="header_banner.training_becomes"
+        description="header_banner.training_becomes"
       />
 
       <img src={require('../img/patterns/pattern_bg_7_1.png')} alt="" />
@@ -28,7 +28,7 @@ const Club = () => {
       <CommunityArticle
         title="35fit_community"
         subTitle={true}
-        descript="header_banner.training_becomes"
+        description="header_banner.training_becomes"
       />
       <InstaImages />
     </main>

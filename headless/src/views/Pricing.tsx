@@ -16,7 +16,7 @@ const Pricing = () => {
       <HeaderBanner
         className="price"
         title="nav.pricing"
-        descript="header_banner.training_becomes"
+        description="header_banner.training_becomes"
       />
 
       <img src={require('../img/patterns/pattern_bg_7_1.png')} alt="" />

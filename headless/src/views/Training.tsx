@@ -16,13 +16,13 @@ const Training = () => {
       <HeaderBanner
         className="train"
         title="nav.personal_training"
-        descript="header_banner.35_minute_high"
+        description="header_banner.35_minute_high"
       />
 
       <CommunityArticle
         className="alignCenter"
         title="training.built_for_everyone"
-        descript="training.using_predefined_training"
+        description="training.using_predefined_training"
       />
 
       <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />

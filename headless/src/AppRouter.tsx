@@ -24,13 +24,13 @@ import { MenuModal } from 'modals/MenuModal'
 import { LoginModal } from 'modals/LoginModal'
 import { MessageModal } from 'modals/MessageModal'
 import { DashboardModal } from 'modals/DashboardModal'
-import { ACProps } from 'types/interface'
+import { IAppConfig } from 'types/interface'
 import { GetCurrentWindowScroll } from 'utils/hooks'
 // import { createBrowserHistory } from 'history'
 // const history = createBrowserHistory()
 // console.log(history.location.pathname)
 
-export const AppContext = createContext({} as ACProps)
+export const AppContext = createContext({} as IAppConfig)
 
 const AppRouter = () => {
   const { user, login, firebaseAuth } = useContext(FirebaseAuthContext),

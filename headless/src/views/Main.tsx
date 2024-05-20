@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { UserType } from 'types/interface'
+import { IUser } from 'types/interface'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -218,7 +218,7 @@ const MainBlock = styled.main`
   }
 `
 
-const Main = ({ user }: UserType) => {
+const Main = ({ user }: IUser) => {
   const { t } = useTranslation(),
     [opacity, setOpacity] = useState(''),
     winScroll = GetCurrentWindowScroll(),
@@ -287,7 +287,7 @@ const Main = ({ user }: UserType) => {
         <ImageDescription
           imgSrc={add_01}
           title="nav.personal_training"
-          descript="header_banner.35_minute_high"
+          description="header_banner.35_minute_high"
           link={TRAIN_ROUTE}
         />
       )}
@@ -330,14 +330,14 @@ const Main = ({ user }: UserType) => {
           <ImageDescription
             imgSrc={add_02}
             title="main.connected_training_system"
-            descript="main.never_before_has_digital"
+            description="main.never_before_has_digital"
             link={TRAIN_ROUTE}
           />
           <ImageDescription
             className="right_img"
             imgSrc={add_03}
             title="main.training_by_science"
-            descript="main.the_milonizer_can_determine"
+            description="main.the_milonizer_can_determine"
             link={TRAIN_ROUTE}
           />
         </>
@@ -348,12 +348,12 @@ const Main = ({ user }: UserType) => {
       <CommunityArticle
         className="alignCenter"
         title="main.pick_a_day"
-        descript="header_banner.training_becomes"
+        description="header_banner.training_becomes"
       />
       <CommunityArticle
         title="35fit_community"
         subTitle={true}
-        descript="header_banner.training_becomes"
+        description="header_banner.training_becomes"
       />
       <InstaImages />
     </MainBlock>
