@@ -173,7 +173,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     [checkState, setCheckState] = useState(false)
 
   useEffect(() => {
-    console.log('LoginModal: ', user)
+    // console.log('LoginModal: ', user)
     user && dispatch(unsetLoginModal())
   }, [user])
 

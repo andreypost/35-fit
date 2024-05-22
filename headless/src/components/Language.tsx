@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useRef, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { AppContext } from '../AppRouter'
@@ -15,7 +15,7 @@ const Ul = styled.ul`
     opacity: 0;
     top: 34px;
     left: 0;
-    transition: visibility 0s, opacity 0.5s linear;
+    transition: opacity 0.5s linear;
     li:hover {
       color: #ff6376;
     }
@@ -23,12 +23,12 @@ const Ul = styled.ul`
   .lang_arrow svg {
     width: 16px;
     height: 11px;
-    fill: #737373;
-    transition: transform 0.2s;
     margin-left: 8px;
     margin-bottom: 1px;
+    fill: #737373;
+    transition: transform 0.2s;
   }
-  &:hover {
+  &.active {
     .lang_base {
       color: #ff6376;
     }
@@ -42,23 +42,46 @@ const Ul = styled.ul`
     }
   }
   @media (hover: hover) {
-    &:hover {
-      cursor: pointer;
-    }
+    cursor: pointer;
   }
 `
 
 export const Language = () => {
   const { i18n } = useTranslation(),
     { language, setLanguage } = useContext(AppContext),
-    versions = ['en', 'ee', 'de']
-  // const lungRef = createRef<HTMLLIElement>()
-  // const handleShowList = () => {
-  //   if (lungRef.current) lungRef.current.style.opacity = '1'
-  // }
-  // if (!language) return <Spinner />
+    versions = ['en', 'ee', 'de'],
+    [langList, setLangList] = useState(false),
+    langRef = useRef<HTMLUListElement>(null)
+
+  useEffect(() => {
+    const handleMouseEnter = () => {
+      setLangList(true)
+    }
+    const handleMouseLeave = () => {
+      setLangList(false)
+    }
+    const langRefElem = langRef?.current
+
+    if (langRefElem) {
+      langRefElem.addEventListener('mouseenter', handleMouseEnter)
+      langRefElem.addEventListener('mouseleave', handleMouseLeave)
+
+      return () => {
+        langRefElem.removeEventListener('mouseenter', handleMouseEnter)
+        langRefElem.removeEventListener('mouseleave', handleMouseLeave)
+      }
+    }
+  }, [])
+
+  useEffect(() => setLangList(false), [language])
+
   return (
-    <Ul className="flex_center_center b700 grey relative">
+    <Ul
+      className={`flex_center_center b700 grey relative ${
+        langList ? 'active' : ''
+      }`}
+      ref={langRef}
+    >
       <li className="lang_base">{language.toLocaleUpperCase()}</li>
       <li className="lang_list absolute">
         <ul>
