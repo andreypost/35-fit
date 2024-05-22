@@ -1,5 +1,7 @@
-import React, { createContext, Suspense, lazy } from 'react'
+import React, { createContext, useEffect, Suspense, lazy } from 'react'
 import ReactDom from 'react-dom'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 import { initializeApp } from 'firebase/app'
 import {
   getAuth,
@@ -40,6 +42,13 @@ const App = () => {
     const provider = new GoogleAuthProvider()
     await signInWithPopup(firebaseAuth, provider)
   }
+
+  useEffect(() => {
+    AOS.init({
+      duration: 2000,
+      // once: true,
+    })
+  }, [])
 
   return (
     <Suspense fallback={<Spinner />}>

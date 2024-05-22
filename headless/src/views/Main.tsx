@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+// import { useState, useEffect } from 'react'
 import { IUser } from 'types/interface'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { GetCurrentWindowScroll } from 'utils/hooks'
+// import { GetCurrentWindowScroll } from 'utils/hooks'
 import { RESERVE_ROUTE, PRICE_ROUTE, TRAIN_ROUTE } from 'utils/routes.constants'
 import { HeaderBanner } from 'HeaderBanner'
 import { ImageDescription } from 'components/ImageDescription'
@@ -219,28 +219,23 @@ const MainBlock = styled.main`
 `
 
 const Main = ({ user }: IUser) => {
-  const { t } = useTranslation(),
-    [opacity, setOpacity] = useState(''),
-    winScroll = GetCurrentWindowScroll(),
-    [content, setContent] = useState({
-      first: false,
-      second: false,
-      third: false,
-    })
+  const { t } = useTranslation()
+  // winScroll = GetCurrentWindowScroll(),
+  // [content, setContent] = useState({
+  //   first: false,
+  //   second: false,
+  //   third: false,
+  // })
 
-  useEffect(() => {
-    setOpacity('active')
-  }, [])
-
-  useEffect(() => {
-    winScroll > 300 && setContent((prev) => ({ ...prev, first: true }))
-    winScroll > 600 && setContent((prev) => ({ ...prev, second: true }))
-    winScroll > 900 && setContent((prev) => ({ ...prev, third: true }))
-    // setContent({first: winScroll > 400, second: winScroll > 800, third: winScroll > 1200})
-  }, [winScroll])
+  // useEffect(() => {
+  //   winScroll > 300 && setContent((prev) => ({ ...prev, first: true }))
+  //   winScroll > 600 && setContent((prev) => ({ ...prev, second: true }))
+  //   winScroll > 900 && setContent((prev) => ({ ...prev, third: true }))
+  //   // setContent({first: winScroll > 400, second: winScroll > 800, third: winScroll > 1200})
+  // }, [winScroll])
 
   return (
-    <MainBlock className={'fallback ' + opacity}>
+    <MainBlock data-aos="fade">
       <HeaderBanner className="main" title="nav.personal_training">
         <div className="header_new blue">
           <h4 className="b900 uppercase relative">
@@ -283,65 +278,63 @@ const Main = ({ user }: IUser) => {
           <p className="b900 blue uppercase">76%{t('main.sold')}</p>
         </div>
       </div>
-      {content.first && (
-        <ImageDescription
-          imgSrc={add_01}
-          title="nav.personal_training"
-          description="header_banner.35_minute_high"
-          link={TRAIN_ROUTE}
-        />
-      )}
+      {/* {content.first && ( */}
+      <ImageDescription
+        imgSrc={add_01}
+        title="nav.personal_training"
+        description="header_banner.35_minute_high"
+        link={TRAIN_ROUTE}
+      />
+      {/* )}
       {content.second && (
-        <>
-          <div className="section flex_center_bet main_icons center">
-            <div>
-              <SupportSVG />
-              <h3 className="b900 grey">{t('main.more_time_for_personal')}</h3>
-            </div>
-            <div>
-              <MinutesSVG />
-              <h3 className="b900 grey">{t('main.35_minutes_to_better')}</h3>
-            </div>
-            <div>
-              <SuccessSVG />
-              <h3 className="b900 grey">
-                {t('main.versatile_training_incentives')}
-              </h3>
-            </div>
-          </div>
-          <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />
-          <div className="section main_wow margin_b_60_30 center">
-            <article className="flex_center_center blue">
-              <h2 className="b900 uppercase">{t('nav.personal_training')}</h2>
-              <p className="b900 uppercase relative">
-                <TieWowSVG className="absolute" />
-                35<span>€</span>
-                <span className="header_month">
-                  /{t('header_banner.month')}
-                </span>
-              </p>
-            </article>
-            <h2 className="b900 blue">{t('main.how_is_it_possible')}</h2>
-          </div>
-        </>
+        <> */}
+      <div className="section flex_center_bet main_icons center">
+        <div>
+          <SupportSVG />
+          <h3 className="b900 grey">{t('main.more_time_for_personal')}</h3>
+        </div>
+        <div>
+          <MinutesSVG />
+          <h3 className="b900 grey">{t('main.35_minutes_to_better')}</h3>
+        </div>
+        <div>
+          <SuccessSVG />
+          <h3 className="b900 grey">
+            {t('main.versatile_training_incentives')}
+          </h3>
+        </div>
+      </div>
+      <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />
+      <div className="section main_wow margin_b_60_30 center">
+        <article className="flex_center_center blue">
+          <h2 className="b900 uppercase">{t('nav.personal_training')}</h2>
+          <p className="b900 uppercase relative">
+            <TieWowSVG className="absolute" />
+            35<span>€</span>
+            <span className="header_month">/{t('header_banner.month')}</span>
+          </p>
+        </article>
+        <h2 className="b900 blue">{t('main.how_is_it_possible')}</h2>
+      </div>
+      {/* </>
       )}
       {content.third && (
-        <>
-          <ImageDescription
-            imgSrc={add_02}
-            title="main.connected_training_system"
-            description="main.never_before_has_digital"
-            link={TRAIN_ROUTE}
-          />
-          <ImageDescription
-            className="right_img"
-            imgSrc={add_03}
-            title="main.training_by_science"
-            description="main.the_milonizer_can_determine"
-            link={TRAIN_ROUTE}
-          />
-        </>
-      )}
+        <> */}
+      <ImageDescription
+        imgSrc={add_02}
+        title="main.connected_training_system"
+        description="main.never_before_has_digital"
+        link={TRAIN_ROUTE}
+      />
+      <ImageDescription
+        className="right_img"
+        imgSrc={add_03}
+        title="main.training_by_science"
+        description="main.the_milonizer_can_determine"
+        link={TRAIN_ROUTE}
+      />
+      {/* </>
+      )} */}
 
       <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />
 

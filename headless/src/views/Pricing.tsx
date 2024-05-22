@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+// import { useState, useEffect } from 'react'
+// import { useTranslation } from 'react-i18next'
 // import i18n from "../i18n";
 import { HeaderBanner } from 'HeaderBanner'
 
 const Pricing = () => {
-  const { t } = useTranslation(),
-    [opacity, setOpacity] = useState('')
+  // const { t } = useTranslation(),
+  //   [opacity, setOpacity] = useState('')
 
-  useEffect(() => {
-    setOpacity('active')
-  }, [])
+  // useEffect(() => {
+  //   setOpacity('active')
+  // }, [])
 
   return (
-    <main className={'fallback ' + opacity}>
+    <main data-aos="fade">
       <HeaderBanner
         className="price"
         title="nav.pricing"

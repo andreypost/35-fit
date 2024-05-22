@@ -61,7 +61,13 @@ export const ImageDescription = ({
   const { t } = useTranslation()
 
   return (
-    <Div className={`section margin_b_60_30 ${className}`}>
+    <Div
+      data-aos="fade-up"
+      data-aos-duration="1000"
+      className={`image_descript section margin_b_60_30 ${
+        className ? className : ''
+      }`}
+    >
       <img src={imgSrc} alt="" />
       <article className="grey">
         <h3 className="b900">{t(title)}</h3>

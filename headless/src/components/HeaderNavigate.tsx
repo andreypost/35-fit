@@ -163,7 +163,10 @@ export const HeaderNavigate = ({ user }: IUser) => {
     burgerState = useAppSelector(selectBurgerValue)
 
   return (
-    <Header className="section flex_center_bet relative">
+    <Header
+      data-aos="fade"
+      className="header_nav section flex_center_bet relative"
+    >
       <Link to={MAIN_ROUTE} className="navigate_logo">
         <LogoSVG />
       </Link>

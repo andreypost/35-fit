@@ -24,7 +24,11 @@ const Div = styled.div`
 `
 
 export const InstaImages = () => (
-  <Div className="section margin_b_120_80">
+  <Div
+    data-aos="fade-up"
+    data-aos-duration="1000"
+    className="insta_img section margin_b_120_80"
+  >
     <div className="flex_center_around img_box wrap">
       <img src={require('../img/adds/comm_1.png')} alt="" />
       <img src={require('../img/adds/comm_2.png')} alt="" />

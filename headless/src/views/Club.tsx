@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+// import { useState, useEffect } from 'react'
+// import { useTranslation } from 'react-i18next'
 // import { Link } from "react-router-dom";
 // import i18n from "../i18n";
 import { HeaderBanner } from 'HeaderBanner'
@@ -7,24 +7,23 @@ import { CommunityArticle } from 'components/CommunityArticle'
 import { InstaImages } from 'components/InstaImages'
 
 const Club = () => {
-  const { t } = useTranslation(),
-    [opacity, setOpacity] = useState('')
+  // const { t } = useTranslation(),
+  //   [opacity, setOpacity] = useState('')
 
-  useEffect(() => {
-    setOpacity('active')
-  }, [])
+  // useEffect(() => {
+  //   setOpacity('active')
+  // }, [])
 
   return (
-    <main className={'fallback ' + opacity}>
+    <main data-aos="fade">
+      {/* <main className={'fallback ' + opacity}> */}
       <HeaderBanner
         className="club"
         title="nav.club"
         description="header_banner.training_becomes"
       />
-
       <img src={require('../img/patterns/pattern_bg_7_1.png')} alt="" />
       <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />
-
       <CommunityArticle
         title="35fit_community"
         subTitle={true}

@@ -5,14 +5,14 @@ body {
   user-select: none;
 }
 
-.fallback {
-  opacity: 0;
+// .fallback {
+//   opacity: 0;
 
-  &.active {
-    opacity: 1;
-    transition: opacity 0.5s;
-  }
-}
+//   &.active {
+//     opacity: 1;
+//     transition: opacity 0.5s;
+//   }
+// }
 
 .section {
   max-width: 1440px;

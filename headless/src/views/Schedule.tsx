@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+// import { useState, useEffect } from 'react'
+// import { useTranslation } from 'react-i18next'
 // import { Link } from 'react-router-dom'
 import { HeaderBanner } from 'HeaderBanner'
 import { ImageDescription } from 'components/ImageDescription'
@@ -10,15 +10,15 @@ import add_02 from '../img/adds/add_4_2.png'
 import { InstaImages } from 'components/InstaImages'
 
 const Schedule = () => {
-  const { t } = useTranslation(),
-    [opacity, setOpacity] = useState('')
+  // const { t } = useTranslation(),
+  //   [opacity, setOpacity] = useState('')
 
-  useEffect(() => {
-    setOpacity('active')
-  }, [])
+  // useEffect(() => {
+  //   setOpacity('active')
+  // }, [])
 
   return (
-    <main className={'fallback ' + opacity}>
+    <main data-aos="fade">
       <HeaderBanner
         className="schedule"
         title="nav.schedule"

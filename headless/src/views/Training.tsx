@@ -1,18 +1,18 @@
-import { useState, useEffect, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+// import { useState, useEffect, useMemo } from 'react'
+// import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
 import { CommunityArticle } from 'components/CommunityArticle'
 
 const Training = () => {
-  const { t } = useTranslation(),
-    [opacity, setOpacity] = useState('')
+  // const { t } = useTranslation(),
+  //   [opacity, setOpacity] = useState('')
 
-  useEffect(() => {
-    setOpacity('active')
-  }, [])
+  // useEffect(() => {
+  //   setOpacity('active')
+  // }, [])
 
   return (
-    <main className={'fallback ' + opacity}>
+    <main data-aos="fade">
       <HeaderBanner
         className="train"
         title="nav.personal_training"

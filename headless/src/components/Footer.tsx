@@ -144,7 +144,7 @@ const Foot = styled.footer`
 export const Footer = () => {
   const { t } = useTranslation()
   return (
-    <Foot>
+    <Foot data-aos="fade">
       <div className="footer_connected">
         <div className="section connected">
           <article className="stay">

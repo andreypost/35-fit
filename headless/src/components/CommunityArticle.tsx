@@ -40,7 +40,11 @@ export const CommunityArticle = ({
   const { t } = useTranslation()
 
   return (
-    <Article className={`section flex_start_bet margin_b_60_30 ${className}`}>
+    <Article
+      className={`section flex_start_bet margin_b_60_30 ${
+        className ? className : ''
+      }`}
+    >
       <h2
         className="b900 blue"
         style={{ lineHeight: subTitle ? '22px' : 'inherit' }}
