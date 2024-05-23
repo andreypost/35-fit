@@ -5,15 +5,6 @@ body {
   user-select: none;
 }
 
-// .fallback {
-//   opacity: 0;
-
-//   &.active {
-//     opacity: 1;
-//     transition: opacity 0.5s;
-//   }
-// }
-
 .page_view {
   position: relative;
   z-index: 9;
@@ -291,9 +282,6 @@ textarea:focus {
 }
 
 @media (hover: hover) {
-  //     .section {
-  //         max-width: 960px;
-  //     }
   a,
   button {
     cursor: pointer;
