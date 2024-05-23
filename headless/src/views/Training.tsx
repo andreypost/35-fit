@@ -26,7 +26,7 @@ const Training = () => {
       />
       <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />
       <FooterBanner
-        title="main.trial_foot_banner_title"
+        title="training.trial_foot_banner_title"
         price="17"
         description="flexability + dynamics"
       />
