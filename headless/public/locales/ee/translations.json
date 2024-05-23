@@ -59,6 +59,12 @@
     "we_do_have_coaches": "Meil on klubis treenerid",
     "trial_foot_banner_title": "Personaalne proovitreening"
   },
+  "club": {
+    "trial_foot_banner_title": "Trugge spordivesi"
+  },
+  "faq": {
+    "trial_foot_banner_title": "Dünostika testid"
+  },
   "welcome_to": "Tere tulemast",
   "not_member_yet": "Mitte veel liige?",
   "book_your_training": "Broneeri oma esimene koolitus",

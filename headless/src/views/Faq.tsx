@@ -3,17 +3,15 @@
 // import { Link } from "react-router-dom";
 // import i18n from "../i18n";
 import { HeaderBanner } from 'HeaderBanner'
+import { FooterBanner } from 'FooterBanner'
 
 const Faq = () => {
   // const { t } = useTranslation(),
-  //   [opacity, setOpacity] = useState('')
-
   // useEffect(() => {
-  //   setOpacity('active')
   // }, [])
 
   return (
-    <main data-aos="fade">
+    <main data-aos="fade" className="page_view">
       <HeaderBanner
         className="faq"
         title="nav.faq"
@@ -21,6 +19,11 @@ const Faq = () => {
       />
 
       <img src={require('../img/patterns/pattern_bg_7_1.png')} alt="" />
+      <FooterBanner
+        title="faq.trial_foot_banner_title"
+        price="99"
+        subTitle="4 tests a year"
+      />
     </main>
   )
 }

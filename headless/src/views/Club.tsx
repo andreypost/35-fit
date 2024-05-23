@@ -5,18 +5,15 @@
 import { HeaderBanner } from 'HeaderBanner'
 import { CommunityArticle } from 'components/CommunityArticle'
 import { InstaImages } from 'components/InstaImages'
+import { FooterBanner } from 'FooterBanner'
 
 const Club = () => {
   // const { t } = useTranslation(),
-  //   [opacity, setOpacity] = useState('')
-
   // useEffect(() => {
-  //   setOpacity('active')
   // }, [])
 
   return (
-    <main data-aos="fade">
-      {/* <main className={'fallback ' + opacity}> */}
+    <main data-aos="fade" className="page_view">
       <HeaderBanner
         className="club"
         title="nav.club"
@@ -30,6 +27,11 @@ const Club = () => {
         description="header_banner.training_becomes"
       />
       <InstaImages />
+      <FooterBanner
+        title="club.trial_foot_banner_title"
+        price="4.95"
+        subTitle="month"
+      />
     </main>
   )
 }

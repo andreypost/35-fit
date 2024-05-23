@@ -28,7 +28,7 @@ const Training = () => {
       <FooterBanner
         title="training.trial_foot_banner_title"
         price="17"
-        description="flexability + dynamics"
+        subTitle="flexability + dynamics"
       />
     </main>
   )

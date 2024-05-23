@@ -24,7 +24,7 @@ const Pricing = () => {
       <FooterBanner
         title="pricinig.trial_foot_banner_title"
         price="99"
-        description="4 tests a year"
+        subTitle="4 tests a year"
       />
     </main>
   )

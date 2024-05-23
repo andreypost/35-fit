@@ -59,6 +59,12 @@
     "we_do_have_coaches": "Wir haben Trainer im Club",
     "trial_foot_banner_title": "Persönliches Probetraining"
   },
+  "club": {
+    "trial_foot_banner_title": "Trugge Sportwasser"
+  },
+  "faq": {
+    "trial_foot_banner_title": "Dynostics-Tests"
+  },
   "welcome_to": "Willkommen zu",
   "not_member_yet": "Noch kein Mitglied?",
   "book_your_training": "Buchen Sie Ihr erstes Training",

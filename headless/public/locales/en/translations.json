@@ -59,6 +59,12 @@
     "we_do_have_coaches": "We do have coaches in club",
     "trial_foot_banner_title": "Personal trial training"
   },
+  "club": {
+    "trial_foot_banner_title": "Trugge sport water"
+  },
+  "faq": {
+    "trial_foot_banner_title": "Dynostics tests"
+  },
   "welcome_to": "Welcome to",
   "not_member_yet": "Not a member yet?",
   "book_your_training": "Book your first training",

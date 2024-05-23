@@ -338,7 +338,7 @@ const Main = ({ user }: IUser) => {
       <FooterBanner
         title="main.trial_foot_banner_title"
         price="17"
-        description="3 classes / 10 days"
+        subTitle="3 classes / 10 days"
       />
     </MainBlock>
   )

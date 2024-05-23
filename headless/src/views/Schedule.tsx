@@ -48,7 +48,7 @@ const Schedule = () => {
       <FooterBanner
         title="schedule.trial_foot_banner_title"
         price="4.95"
-        description="month"
+        subTitle="month"
       />
     </main>
   )
