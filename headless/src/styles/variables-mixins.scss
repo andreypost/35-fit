@@ -54,11 +54,10 @@ $red_color: #ff6376;
   flex-flow: column;
 }
 
-// @mixin flex_start_end_col {
-//   @include flex_start;
-//   justify-content: flex-end;
-//   flex-flow      : column;
-// }
+@mixin flex_center_center_col {
+  @include flex_center_center;
+  flex-flow: column;
+}
 
 // @mixin flex_center_bet_col {
 //   @include flex_center_bet;

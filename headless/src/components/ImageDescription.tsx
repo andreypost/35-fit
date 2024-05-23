@@ -7,10 +7,6 @@ const Div = styled.div`
   display: grid;
   align-items: center;
   gap: 35px;
-  img {
-    border-radius: 6px;
-    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.148126);
-  }
   article {
     max-width: 480px;
     h3 {
@@ -68,7 +64,7 @@ export const ImageDescription = ({
         className ? className : ''
       }`}
     >
-      <img src={imgSrc} alt="" />
+      <img src={imgSrc} className="shadow_radius" alt="" />
       <article className="grey">
         <h3 className="b900">{t(title)}</h3>
         <p>{t(description)}</p>

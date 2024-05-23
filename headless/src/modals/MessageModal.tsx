@@ -24,7 +24,9 @@ export const MessageModal = () => {
         e.target === e.currentTarget && dispatch(unsetMessageModal())
       }
     >
-      <p>{messageValue}</p>
+      <nav className="shadow_radius">
+        <p>{messageValue}</p>
+      </nav>
     </Div>
   )
 }

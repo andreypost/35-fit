@@ -34,8 +34,6 @@ export const BaseDiv = styled.div`
     width: 90%;
     max-width: 480px;
     margin: 10vh auto;
-    border-radius: 6px;
-    box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
     background: #fff;
     transition: transform 0.6s;
     .cross_icon {
@@ -117,11 +115,12 @@ export const MenuModal = ({ user }: IUser) => {
         e.target === e.currentTarget && dispatch(unsetMenuModal())
       }
     >
-      <nav className="relative">
+      <nav className="relative shadow_radius">
         <CrossRedSVG
           className="cross_icon absolute"
           onClick={() => dispatch(unsetMenuModal())}
         />
+
         <ul>
           <NavigationLinks links={publicLinks} bold="b900" color="#737373" />
           <li className={'login ' + (user ? 'signOut' : 'signIn')}>

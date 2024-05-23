@@ -61,7 +61,7 @@ export const DashboardModal = ({
         e.target === e.currentTarget && dispatch(unsetDashModal())
       }
     >
-      <nav>
+      <nav className="shadow_radius">
         <ul className="b900">
           {useMemo(
             () => (

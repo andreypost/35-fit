@@ -8,6 +8,7 @@ import { RESERVE_ROUTE, PRICE_ROUTE, TRAIN_ROUTE } from 'utils/routes.constants'
 import { HeaderBanner } from 'HeaderBanner'
 import { ImageDescription } from 'components/ImageDescription'
 import { CommunityArticle } from 'components/CommunityArticle'
+import { FooterBanner } from 'FooterBanner'
 
 import {
   MinutesSVG,
@@ -101,12 +102,6 @@ const MainBlock = styled.main`
         }
       }
     }
-  }
-  .rupor_trial,
-  .rupor_book,
-  .rupor_member {
-    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.148126);
-    border-radius: 6px;
   }
   .rupor_member {
     box-sizing: border-box;
@@ -235,7 +230,7 @@ const Main = ({ user }: IUser) => {
   // }, [winScroll])
 
   return (
-    <MainBlock data-aos="fade">
+    <MainBlock data-aos="fade" className="page_view">
       <HeaderBanner className="main" title="nav.personal_training">
         <div className="header_new blue">
           <h4 className="b900 uppercase relative">
@@ -250,7 +245,7 @@ const Main = ({ user }: IUser) => {
       </HeaderBanner>
       <div className="section margin_b_120_80">
         <div className="rupor white">
-          <div className="rupor_trial relative">
+          <div className="rupor_trial relative shadow_radius">
             <RedRuporSVG className="absolute" />
             <h6>
               17<span className="b900">€</span>
@@ -260,7 +255,7 @@ const Main = ({ user }: IUser) => {
               {t('main.register_trial')}
             </Link>
           </div>
-          <div className="rupor_book">
+          <div className="rupor_book shadow_radius">
             <p className="b900 grey">{t('main.connected_results')}</p>
             <Link
               className="flex_center_center light_grey_button b900 green"
@@ -270,7 +265,7 @@ const Main = ({ user }: IUser) => {
             </Link>
           </div>
         </div>
-        <div className="rupor_member center">
+        <div className="rupor_member center shadow_radius">
           <h6 className="b900 grey">{t('main.number_memberships')}</h6>
           <div className="grey_line">
             <div className="green_line"></div>
@@ -349,6 +344,11 @@ const Main = ({ user }: IUser) => {
         description="header_banner.training_becomes"
       />
       <InstaImages />
+      <FooterBanner
+        className="price"
+        title="nav.pricing"
+        description="header_banner.training_becomes"
+      />
     </MainBlock>
   )
 }

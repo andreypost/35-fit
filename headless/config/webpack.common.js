@@ -14,6 +14,10 @@ module.exports = {
         '../src/components/HeaderBanner.tsx'
       ),
       Spinner$: path.resolve(__dirname, '../src/components/Spinner.tsx'), // $ - added to signify an exact match
+      FooterBanner$: path.resolve(
+        __dirname,
+        '../src/components/FooterBanner.tsx'
+      ),
       // Footer$: path.resolve(__dirname, '../src/components/Footer.tsx'),
       // Nav$: path.resolve(__dirname, '../src/components/Nav.tsx'),
       modals: path.resolve(__dirname, '../src/modals'),

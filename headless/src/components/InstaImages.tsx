@@ -7,7 +7,7 @@ const Div = styled.div`
     margin-bottom: 60px;
     img {
       max-width: 290px;
-      box-shadow: 0 24px 24px rgb(0 0 0 / 15%);
+      border-radius: unset;
     }
   }
   a svg {
@@ -24,16 +24,18 @@ const Div = styled.div`
 `
 
 export const InstaImages = () => (
-  <Div
-    data-aos="fade-up"
-    data-aos-duration="1000"
-    className="insta_img section margin_b_120_80"
-  >
+  <Div className="insta_img section margin_b_120_80">
     <div className="flex_center_around img_box wrap">
-      <img src={require('../img/adds/comm_1.png')} alt="" />
-      <img src={require('../img/adds/comm_2.png')} alt="" />
-      <img src={require('../img/adds/comm_3.png')} alt="" />
-      <img src={require('../img/adds/comm_1.png')} alt="" />
+      {['comm_1', 'comm_2', 'comm_3', 'comm_1'].map((n, i) => (
+        <img
+          key={`${n}_${i}`}
+          data-aos="fade-up"
+          data-aos-duration="1000"
+          src={require(`../img/adds/${n}.png`)}
+          className="shadow_radius"
+          alt="adds image"
+        />
+      ))}
     </div>
     <a href="/" className="flex_center_end_col b900 green">
       <InstaSVG />

@@ -41,7 +41,7 @@ export const CommunityArticle = ({
 
   return (
     <Article
-      className={`section flex_start_bet margin_b_60_30 ${
+      className={`com_article section flex_start_bet margin_b_60_30 ${
         className ? className : ''
       }`}
     >

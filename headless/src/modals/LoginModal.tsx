@@ -203,7 +203,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         e.target === e.currentTarget && dispatch(unsetLoginModal())
       }
     >
-      <nav>
+      <nav className="shadow_radius">
         <CrossRedSVG
           className="cross_icon absolute"
           onClick={() => dispatch(unsetLoginModal())}

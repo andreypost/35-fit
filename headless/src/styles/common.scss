@@ -14,6 +14,11 @@ body {
 //   }
 // }
 
+.page_view {
+  position: relative;
+  z-index: 9;
+}
+
 .section {
   max-width: 1440px;
   padding-left: 10px;
@@ -117,6 +122,10 @@ textarea:focus {
   @include flex_center_end_col;
 }
 
+.flex_center_center_col {
+  @include flex_center_center_col;
+}
+
 .wrap {
   flex-wrap: wrap;
 }
@@ -173,6 +182,11 @@ textarea:focus {
 
 .grey {
   color: $grey_color;
+}
+
+.shadow_radius {
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .grey_label {

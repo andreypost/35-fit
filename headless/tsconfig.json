@@ -23,6 +23,7 @@
       "components": ["components"],
       "HeaderBanner": ["components/HeaderBanner"],
       "Spinner": ["components/Spinner"],
+      "FooterBanner": ["components/FooterBanner"],
       // "Footer": ["components/Footer"],
       // "Nav": ["components/Nav"],
       "modals": ["modals"],
