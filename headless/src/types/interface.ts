@@ -25,9 +25,14 @@ export interface IStyle {
 }
 
 export interface ITitleDescripClass extends IClass {
-  title?: any
+  title?: string
   subTitle?: any
-  description?: any
+  description?: string
+}
+
+export interface IRoutePriceTitle extends ITitleDescripClass {
+  route?: string
+  price?: string
 }
 
 export interface IAppConfig {

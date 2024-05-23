@@ -54,8 +54,8 @@ const Div = styled.div`
 export const HeaderBanner = ({
   children,
   className,
-  title,
-  description,
+  title = '',
+  description = '',
 }: IChildrenTitleDescrip) => {
   const dispatch = useAppDispatch(),
     { t } = useTranslation()
@@ -77,7 +77,7 @@ export const HeaderBanner = ({
     <Div className={`header_banner ${className}`}>
       <section className="section">
         <h1 className="b900 blue">{t(title)}</h1>
-        {description && <p className="grey">{t(description)}</p>}
+        <p className="grey">{t(description)}</p>
         {children}
       </section>
     </Div>

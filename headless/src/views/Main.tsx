@@ -6,6 +6,7 @@ import styled from 'styled-components'
 // import { GetCurrentWindowScroll } from 'utils/hooks'
 import { RESERVE_ROUTE, PRICE_ROUTE, TRAIN_ROUTE } from 'utils/routes.constants'
 import { HeaderBanner } from 'HeaderBanner'
+import { GreenButton } from '../components/ui/GreenButton'
 import { ImageDescription } from 'components/ImageDescription'
 import { CommunityArticle } from 'components/CommunityArticle'
 import { FooterBanner } from 'FooterBanner'
@@ -52,12 +53,6 @@ const MainBlock = styled.main`
     .rupor_trial,
     .rupor_book {
       padding: 30px 20px;
-      a {
-        height: 54px;
-        width: 100%;
-        font-size: 15px;
-        border-radius: 32px;
-      }
     }
     .rupor_trial {
       background: #000044;
@@ -79,13 +74,6 @@ const MainBlock = styled.main`
         font-size: 24px;
         margin-bottom: 23px;
       }
-      a {
-        background-color: #59b894;
-        transition: all 0.4s;
-        &:hover {
-          background-color: #ff6376;
-        }
-      }
     }
     .rupor_book {
       display: flex;
@@ -95,6 +83,8 @@ const MainBlock = styled.main`
         margin-bottom: 76px;
       }
       a {
+        height: 54px;
+        font-size: 15px;
         transition: all 0.4s;
         &:hover {
           background-color: #59b894;
@@ -197,14 +187,14 @@ const MainBlock = styled.main`
       .rupor_trial,
       .rupor_book {
         padding: 37px 47px;
-        a {
-          height: 64px;
-          font-size: 18px;
-        }
       }
       .rupor_trial svg {
         top: -100px;
         left: -100px;
+      }
+      .rupor_book a {
+        height: 64px;
+        font-size: 18px;
       }
     }
     .main_wow article {
@@ -251,9 +241,10 @@ const Main = ({ user }: IUser) => {
               17<span className="b900">€</span>
             </h6>
             <p className="b900">3 {t('main.classes')}</p>
-            <Link className="flex_center_center b900 white" to={RESERVE_ROUTE}>
+            <GreenButton route={RESERVE_ROUTE} />
+            {/* <Link className="flex_center_center b900 white" to={RESERVE_ROUTE}>
               {t('main.register_trial')}
-            </Link>
+            </Link> */}
           </div>
           <div className="rupor_book shadow_radius">
             <p className="b900 grey">{t('main.connected_results')}</p>
@@ -345,9 +336,9 @@ const Main = ({ user }: IUser) => {
       />
       <InstaImages />
       <FooterBanner
-        className="price"
-        title="nav.pricing"
-        description="header_banner.training_becomes"
+        title="main.trial_foot_banner_title"
+        price="17"
+        description="3 classes / 10 days"
       />
     </MainBlock>
   )

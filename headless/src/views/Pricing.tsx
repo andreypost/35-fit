@@ -23,7 +23,7 @@ const Pricing = () => {
       <img src={require('../img/patterns/pattern_bg_7_1.png')} alt="" />
       <FooterBanner
         className="price"
-        title="nav.pricing"
+        title="main.trial_foot_banner_title"
         description="header_banner.training_becomes"
       />
     </main>

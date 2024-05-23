@@ -217,10 +217,13 @@ textarea:focus {
 }
 
 .green_button {
+  max-width: 260px;
+  min-width: 220px;
   height: 54px;
-  width: 100%;
   font-size: 15px;
+  padding: 0 20px;
   border-radius: 32px;
+  text-align: center;
   background-color: #59b894;
   transition: all 0.4s;
   &:hover {

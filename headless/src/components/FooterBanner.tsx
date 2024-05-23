@@ -1,8 +1,7 @@
 // import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { useAppDispatch } from 'utils/hooks'
-import { IChildrenTitleDescrip } from 'types/interface'
+import { IRoutePriceTitle } from 'types/interface'
 import { RedRuporSVG } from 'img/icons'
 import { GreenButton } from './ui/GreenButton'
 
@@ -16,6 +15,9 @@ const Div = styled.div`
     background: url(${require('../img/patterns/pattern_bg_footer_banner.png')})
         no-repeat center 360% / cover,
       #fff;
+    svg {
+      top: 0;
+    }
   }
 
   @media (max-width: 1023px) {
@@ -41,24 +43,27 @@ const Div = styled.div`
 `
 
 export const FooterBanner = ({
-  children,
   className,
-  title,
-  description,
-}: IChildrenTitleDescrip) => {
-  const dispatch = useAppDispatch(),
-    { t } = useTranslation()
+  title = '',
+  price,
+  description = '',
+  route,
+}: IRoutePriceTitle) => {
+  const { t } = useTranslation()
 
   // useEffect(() => {}, [])
 
   return (
-    <Div className={`footer_banner ${className}`}>
+    <Div className={`footer_banner relative ${className}`}>
       <section className="flex_center_center_col shadow_radius">
         <RedRuporSVG className="absolute" />
         <h5 className="b900 blue">{t(title)}</h5>
-        <GreenButton route="/" />
-        {description && <p className="grey">{t(description)}</p>}
-        {children}
+        <h6>
+          {price}
+          <span className="b900">€</span>
+        </h6>
+        <p className="grey">{t(description)}</p>
+        <GreenButton route={route} />
       </section>
     </Div>
   )

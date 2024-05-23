@@ -1,84 +1,86 @@
 {
-    "nav": {
-        "training": "Übung",
-        "personal_training": "Persönlich ausbildung",
-        "pricing": "Preisbildung",
-        "schedule": "Zeitplan",
-        "team": "Die Mannschaft",
-        "club": "Verein",
-        "faq": "FAQ",
-        "reservation": "Reservierung",
-        "coach": "coach",
-        "login": "Anmeldung",
-        "sign_out": "Ausloggen",
-        "buy": "Probestunde kaufen",
-        "dashboard": "Instrumententafel",
-        "classes": "Klassen",
-        "progress": "Fortschritt",
-        "contract": "Vertrag",
-        "profile": "Profil"
-    },
-    "header_banner": {
-        "new_standard": "Neuer Standard",
-        "month": "Monat",
-        "35_minute_high": "35-minütiges hochintensives Intervalltraining an Milon-Geräten mit angeleiteter Anleitung.",
-        "training_becomes" : "Durch die Intensität wird das Training effektiv. Der Club ist engagiert und 3 mal pro Woche und 2 mal in 10 Tagen."
-    },
-    "main": {
-        "classes": "Klassen",
-        "register_trial": "Registrieren Sie sich für eine Testversion",
-        "connected_results": "Verbunden mit Ergebnissen",
-        "book_class": "Buchen Sie die nächste Klasse",
-        "number_memberships": "Anzahl der Mitgliedschaften ist begrenzt!",
-        "sold": "verkauft",
-        "discover_more": "Entdecke mehr",
-        "never_before_has_digital": "Noch nie war digitales Training so intelligent: Geräte bilden zusammen mit der Trainingssteuerungssoftware ein ausgeklügeltes Connected Training System Modul.",
-        "connected_training_system": "Verbundenes Trainingssystem",
-        "training_by_science": "Ausbildung durch die Wissenschaft",
-        "the_milonizer_can_determine": "Der milonizer kann die Körpermaße des Nutzers ermitteln in Sekundenschnelle durch ein innovatives Scansystem auf Basis biometrischer Marker.",
-        "more_time_for_personal": "Mehr Zeit für die persönliche Betreuung",
-        "35_minutes_to_better": "35 Minuten zum besseren Trainingserfolg",
-        "versatile_training_incentives": "Vielfältige Trainingsanreize für den Erfolg",
-        "how_is_it_possible": "Wie ist das jetzt möglich?",
-        "pick_a_day": "Wählen Sie einen Tag aus und probieren Sie es aus!"
-    },
-    "training": {
-        "built_for_everyone": "Gebaut für alle",
-        "using_predefined_training": "Anhand vordefinierter Trainingsregime passen sich alle Trainingsparameter dem individuellen Trainingsziel und -stil an."
-    },
-    "schedule": {
-        "for_better_results": "Für bessere Ergebnisse halte dich an den Trainingsplan"
-    },
-    "team": {
-        "we_do_have_coaches": "Wir haben Trainer im Club"
-    },
-    "welcome_to": "Willkommen zu",
-    "not_member_yet": "Noch kein Mitglied?",
-    "book_your_training": "Buchen Sie Ihr erstes Training",
-    "use_google_account_sign_in": "Verwenden Sie Ihr Google-Konto, um sich anzumelden",
-    "email_address": "E-Mail-Addresse:",
-    "enter_email_address": "E-Mail Adresse eingeben",
-    "password": "Passwort:",
-    "enter_password": "Passwort eingeben",
-    "keep_me_logged_in": "Eingeloggt bleiben",
-    "35fit_community": "35FIT Gemeinschaft",
-    "connected_to": "mitergebnissen",
-    "results": "verbunden",
-    "footer": {
-        "stay_connected": "In Verbindung bleiben",
-        "get_in_touch": "In Kontakt kommen",
-        "newsletter": "Newsletter",
-        "be_first_queue": "Seien Sie der Erste in der Warteschlange! Holen Sie sich unsere neuesten Nachrichten direkt in Ihren Posteingang.",
-        "subscribe": "Abonnieren",
-        "social": "Sozial",
-        "general": "Allgemeines",
-        "partners": "Partner",
-        "contacts": "Kontakte",
-        "search_engine": "Suchmaschinenoptimierung und Werbung",
-        "become_partner": "Ein Partner werden",
+  "nav": {
+    "training": "Übung",
+    "personal_training": "Persönlich ausbildung",
+    "pricing": "Preisbildung",
+    "schedule": "Zeitplan",
+    "team": "Die Mannschaft",
+    "club": "Verein",
+    "faq": "FAQ",
+    "reservation": "Reservierung",
+    "coach": "coach",
+    "login": "Anmeldung",
+    "sign_out": "Ausloggen",
+    "buy": "Probestunde kaufen",
+    "dashboard": "Instrumententafel",
+    "classes": "Klassen",
+    "progress": "Fortschritt",
+    "contract": "Vertrag",
+    "profile": "Profil"
+  },
+  "header_banner": {
+    "new_standard": "Neuer Standard",
+    "month": "Monat",
+    "35_minute_high": "35-minütiges hochintensives Intervalltraining an Milon-Geräten mit angeleiteter Anleitung.",
+    "training_becomes": "Durch die Intensität wird das Training effektiv. Der Club ist engagiert und 3 mal pro Woche und 2 mal in 10 Tagen."
+  },
+  "main": {
+    "classes": "Klassen",
+    "register_trial": "Registrieren Sie sich für eine Testversion",
+    "connected_results": "Verbunden mit Ergebnissen",
+    "book_class": "Buchen Sie die nächste Klasse",
+    "number_memberships": "Anzahl der Mitgliedschaften ist begrenzt!",
+    "sold": "verkauft",
+    "discover_more": "Entdecke mehr",
+    "never_before_has_digital": "Noch nie war digitales Training so intelligent: Geräte bilden zusammen mit der Trainingssteuerungssoftware ein ausgeklügeltes Connected Training System Modul.",
+    "connected_training_system": "Verbundenes Trainingssystem",
+    "training_by_science": "Ausbildung durch die Wissenschaft",
+    "the_milonizer_can_determine": "Der milonizer kann die Körpermaße des Nutzers ermitteln in Sekundenschnelle durch ein innovatives Scansystem auf Basis biometrischer Marker.",
+    "more_time_for_personal": "Mehr Zeit für die persönliche Betreuung",
+    "35_minutes_to_better": "35 Minuten zum besseren Trainingserfolg",
+    "versatile_training_incentives": "Vielfältige Trainingsanreize für den Erfolg",
+    "how_is_it_possible": "Wie ist das jetzt möglich?",
+    "pick_a_day": "Wählen Sie einen Tag aus und probieren Sie es aus!",
+    "trial_foot_banner_title": "Persönliches Probetraining"
+  },
+  "training": {
+    "built_for_everyone": "Gebaut für alle",
+    "using_predefined_training": "Anhand vordefinierter Trainingsregime passen sich alle Trainingsparameter dem individuellen Trainingsziel und -stil an."
+  },
+  "schedule": {
+    "for_better_results": "Für bessere Ergebnisse halte dich an den Trainingsplan"
+  },
+  "team": {
+    "we_do_have_coaches": "Wir haben Trainer im Club",
+    "trial_foot_banner_title": "Persönliches Probetraining"
+  },
+  "welcome_to": "Willkommen zu",
+  "not_member_yet": "Noch kein Mitglied?",
+  "book_your_training": "Buchen Sie Ihr erstes Training",
+  "use_google_account_sign_in": "Verwenden Sie Ihr Google-Konto, um sich anzumelden",
+  "email_address": "E-Mail-Addresse:",
+  "enter_email_address": "E-Mail Adresse eingeben",
+  "password": "Passwort:",
+  "enter_password": "Passwort eingeben",
+  "keep_me_logged_in": "Eingeloggt bleiben",
+  "35fit_community": "35FIT Gemeinschaft",
+  "connected_to": "mitergebnissen",
+  "results": "verbunden",
+  "footer": {
+    "stay_connected": "In Verbindung bleiben",
+    "get_in_touch": "In Kontakt kommen",
+    "newsletter": "Newsletter",
+    "be_first_queue": "Seien Sie der Erste in der Warteschlange! Holen Sie sich unsere neuesten Nachrichten direkt in Ihren Posteingang.",
+    "subscribe": "Abonnieren",
+    "social": "Sozial",
+    "general": "Allgemeines",
+    "partners": "Partner",
+    "contacts": "Kontakte",
+    "search_engine": "Suchmaschinenoptimierung und Werbung",
+    "become_partner": "Ein Partner werden",
 
-        "Careers": "Karriere",
-        "Privacy": "Datenschutz-Bestimmungen",
-        "Terms": "Geschäftsbedingungen"
-    }
+    "Careers": "Karriere",
+    "Privacy": "Datenschutz-Bestimmungen",
+    "Terms": "Geschäftsbedingungen"
+  }
 }

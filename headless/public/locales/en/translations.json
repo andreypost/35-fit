@@ -1,84 +1,86 @@
 {
-    "nav": {
-        "training": "Training",
-        "personal_training": "Personal training",
-        "pricing": "Pricing",
-        "schedule": "Schedule",
-        "team": "The Team",
-        "club": "Club",
-        "faq": "FAQ",
-        "reservation": "Reservation",
-        "coach": "coach",
-        "login": "Login",
-        "sign_out": "Sign out",
-        "buy": "Buy a class",
-        "dashboard": "Dashboard",
-        "classes": "Classes",
-        "progress": "Progress",
-        "contract": "Contract",
-        "profile": "Profile"
-    },
-    "header_banner": {
-        "new_standard": "New standard",
-        "month": "Month",
-        "35_minute_high": "35-minute high intensity interval training workout done on Milon equipment with guided instruction.",
-        "training_becomes" : "Training becomes effective due to intensity. The club is engaged and 3 times a week, and 2 times in 10 days."
-    },
-    "main": {
-        "classes": "classes",
-        "register_trial": "Register for trial",
-        "connected_results": "Connected to Results",
-        "book_class": "Book next class",
-        "number_memberships": "Number of memberships is limited!",
-        "sold": "Sold",
-        "discover_more": "Discover more",
-        "never_before_has_digital": "Never before has digital training been so intelligent: Together with training control software, equipment represents a sophisticated Connected Training System module.",
-        "connected_training_system": "Connected Training System",
-        "training_by_science": "Training by science",
-        "the_milonizer_can_determine": "The milonizer can determine the user’s body measurements in a matter of seconds using an innovative scan system based on biometric markers.",
-        "more_time_for_personal": "More time for personal support",
-        "35_minutes_to_better": "35 minutes to better training success",
-        "versatile_training_incentives": "Versatile training incentives for success",
-        "how_is_it_possible": "How is it possible now?",
-        "pick_a_day": "Pick a day and give it a try!"
-    },
-    "training": {
-        "built_for_everyone": "Built for everyone",
-        "using_predefined_training": "Using predefined training regimes, all training parameters adjust according to the individual training objective and style."
-    },
-    "schedule": {
-        "for_better_results": "For better results stick to training plan"
-    },
-    "team": {
-        "we_do_have_coaches": "We do have coaches in club"
-    },
-    "welcome_to": "Welcome to",
-    "not_member_yet": "Not a member yet?",
-    "book_your_training": "Book your first training",
-    "use_google_account_sign_in": "Use your Google Account to sign in",
-    "email_address": "E-mail address:",
-    "enter_email_address": "Enter e-mail address",
-    "password": "Password:",
-    "enter_password": "Enter password",
-    "keep_me_logged_in": "Keep me logged in",
-    "35fit_community": "35FIT Community",
-    "connected_to": "connectedto",
-    "results": "results",
-    "footer": {
-        "stay_connected": "Stay connected",
-        "get_in_touch": "Get in touch",
-        "newsletter": "Newsletter",
-        "be_first_queue": "Be first in the queue! Get our latest news straight to your inbox.",
-        "subscribe": "Subscribe",
-        "social": "Social",
-        "general": "General",
-        "partners": "Partners",
-        "contacts": "Contacts",
-        "search_engine": "Search Engine Optimization And Advertising",
-        "become_partner": "Become a partner",
+  "nav": {
+    "training": "Training",
+    "personal_training": "Personal training",
+    "pricing": "Pricing",
+    "schedule": "Schedule",
+    "team": "The Team",
+    "club": "Club",
+    "faq": "FAQ",
+    "reservation": "Reservation",
+    "coach": "coach",
+    "login": "Login",
+    "sign_out": "Sign out",
+    "buy": "Buy a class",
+    "dashboard": "Dashboard",
+    "classes": "Classes",
+    "progress": "Progress",
+    "contract": "Contract",
+    "profile": "Profile"
+  },
+  "header_banner": {
+    "new_standard": "New standard",
+    "month": "Month",
+    "35_minute_high": "35-minute high intensity interval training workout done on Milon equipment with guided instruction.",
+    "training_becomes": "Training becomes effective due to intensity. The club is engaged and 3 times a week, and 2 times in 10 days."
+  },
+  "main": {
+    "classes": "classes",
+    "register_trial": "Register for trial",
+    "connected_results": "Connected to Results",
+    "book_class": "Book next class",
+    "number_memberships": "Number of memberships is limited!",
+    "sold": "Sold",
+    "discover_more": "Discover more",
+    "never_before_has_digital": "Never before has digital training been so intelligent: Together with training control software, equipment represents a sophisticated Connected Training System module.",
+    "connected_training_system": "Connected Training System",
+    "training_by_science": "Training by science",
+    "the_milonizer_can_determine": "The milonizer can determine the user’s body measurements in a matter of seconds using an innovative scan system based on biometric markers.",
+    "more_time_for_personal": "More time for personal support",
+    "35_minutes_to_better": "35 minutes to better training success",
+    "versatile_training_incentives": "Versatile training incentives for success",
+    "how_is_it_possible": "How is it possible now?",
+    "pick_a_day": "Pick a day and give it a try!",
+    "trial_foot_banner_title": "Personal trial training"
+  },
+  "training": {
+    "built_for_everyone": "Built for everyone",
+    "using_predefined_training": "Using predefined training regimes, all training parameters adjust according to the individual training objective and style."
+  },
+  "schedule": {
+    "for_better_results": "For better results stick to training plan"
+  },
+  "team": {
+    "we_do_have_coaches": "We do have coaches in club",
+    "trial_foot_banner_title": "Personal trial training"
+  },
+  "welcome_to": "Welcome to",
+  "not_member_yet": "Not a member yet?",
+  "book_your_training": "Book your first training",
+  "use_google_account_sign_in": "Use your Google Account to sign in",
+  "email_address": "E-mail address:",
+  "enter_email_address": "Enter e-mail address",
+  "password": "Password:",
+  "enter_password": "Enter password",
+  "keep_me_logged_in": "Keep me logged in",
+  "35fit_community": "35FIT Community",
+  "connected_to": "connectedto",
+  "results": "results",
+  "footer": {
+    "stay_connected": "Stay connected",
+    "get_in_touch": "Get in touch",
+    "newsletter": "Newsletter",
+    "be_first_queue": "Be first in the queue! Get our latest news straight to your inbox.",
+    "subscribe": "Subscribe",
+    "social": "Social",
+    "general": "General",
+    "partners": "Partners",
+    "contacts": "Contacts",
+    "search_engine": "Search Engine Optimization And Advertising",
+    "become_partner": "Become a partner",
 
-        "Careers": "Careers",
-        "Privacy": "Privacy policy",
-        "Terms": "Terms and conditions"
-    }
+    "Careers": "Careers",
+    "Privacy": "Privacy policy",
+    "Terms": "Terms and conditions"
+  }
 }
