@@ -216,6 +216,17 @@ textarea:focus {
   border-right: none;
 }
 
+.green_button {
+  height: 54px;
+  width: 100%;
+  font-size: 15px;
+  border-radius: 32px;
+  background-color: #59b894;
+  transition: all 0.4s;
+  &:hover {
+    background-color: #ff6376;
+  }
+}
 .login_book {
   background: url(../img/patterns/lines_login_man.png) no-repeat 0 100% /
     contain #7fcbae;
@@ -269,7 +280,11 @@ textarea:focus {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
+  .green_button {
+    height: 64px;
+    font-size: 18px;
+  }
 }
 
 @media (hover: hover) {

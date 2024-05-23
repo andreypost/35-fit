@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
 import { IChildrenTitleDescrip } from 'types/interface'
 import { RedRuporSVG } from 'img/icons'
+import { GreenButton } from './ui/GreenButton'
 
 const Div = styled.div`
   max-width: 1440px;
@@ -48,14 +49,14 @@ export const FooterBanner = ({
   const dispatch = useAppDispatch(),
     { t } = useTranslation()
 
-  useEffect(() => {}, [])
+  // useEffect(() => {}, [])
 
   return (
     <Div className={`footer_banner ${className}`}>
       <section className="flex_center_center_col shadow_radius">
         <RedRuporSVG className="absolute" />
         <h5 className="b900 blue">{t(title)}</h5>
-
+        <GreenButton route="/" />
         {description && <p className="grey">{t(description)}</p>}
         {children}
       </section>
