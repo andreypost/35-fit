@@ -47,7 +47,7 @@ export const FooterBanner = ({
   title = '',
   price,
   description = '',
-  route,
+  route = '/',
 }: IRoutePriceTitle) => {
   const { t } = useTranslation()
 

@@ -8,6 +8,7 @@ import { CommunityArticle } from 'components/CommunityArticle'
 import add_01 from '../img/adds/add_4_1.png'
 import add_02 from '../img/adds/add_4_2.png'
 import { InstaImages } from 'components/InstaImages'
+import { FooterBanner } from 'FooterBanner'
 
 const Schedule = () => {
   // const { t } = useTranslation(),
@@ -18,7 +19,7 @@ const Schedule = () => {
   // }, [])
 
   return (
-    <main data-aos="fade">
+    <main data-aos="fade" className="page_view">
       <HeaderBanner
         className="schedule"
         title="nav.schedule"
@@ -44,6 +45,11 @@ const Schedule = () => {
         description="header_banner.training_becomes"
       />
       <InstaImages />
+      <FooterBanner
+        title="schedule.trial_foot_banner_title"
+        price="4.95"
+        description="month"
+      />
     </main>
   )
 }
