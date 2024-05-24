@@ -15,7 +15,7 @@ const Div = styled.div`
     }
   }
 
-  .img_box {
+  /* .img_box {
     gap: 24px;
     margin-bottom: 60px;
     img {
@@ -33,7 +33,7 @@ const Div = styled.div`
     .img_box {
       flex-flow: column;
     }
-  }
+  } */
 `
 
 export const TrainigOptions = () => {
