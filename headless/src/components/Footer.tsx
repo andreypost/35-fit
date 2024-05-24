@@ -13,6 +13,7 @@ const Foot = styled.footer`
     color: #f5f5f5;
   }
   .footer_connected {
+    border-bottom: 1px solid rgb(127, 203, 174);
     background-color: #000044;
     .connected {
       display: grid;
@@ -54,7 +55,6 @@ const Foot = styled.footer`
       @media (max-width: 1023px) {
         max-width: 480px;
         gap: 40px;
-        justify-content: center;
         padding-top: 60px;
         #newsForm {
           flex-flow: column;
@@ -78,7 +78,7 @@ const Foot = styled.footer`
     }
     .touch {
       display: grid;
-      margin-bottom: 160px;
+      margin-bottom: 60px;
       padding-top: 60px;
       .contacts {
         display: grid;
@@ -129,13 +129,10 @@ const Foot = styled.footer`
       }
     }
     .careers_terms {
-      gap: 60px;
-      padding-bottom: 120px;
-
+      gap: 20px;
+      padding-bottom: 40px;
       @media (min-width: 1024px) {
         flex-flow: unset;
-        gap: 38px;
-        padding-bottom: 50px;
       }
     }
   }
