@@ -50,8 +50,8 @@ const Div = styled.div`
 export const ImageDescription = ({
   className,
   imgSrc,
-  title,
-  description,
+  title = '',
+  description = '',
   link,
 }: IImageLinkTitleDescrip) => {
   const { t } = useTranslation()

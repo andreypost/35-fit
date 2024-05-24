@@ -32,9 +32,9 @@ const Article = styled.article`
 
 export const CommunityArticle = ({
   className,
-  title,
+  title = '',
   subTitle,
-  description,
+  description = '',
   coach,
 }: ICoachTitleDescrip) => {
   const { t } = useTranslation()

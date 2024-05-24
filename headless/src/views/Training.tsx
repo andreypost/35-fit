@@ -3,6 +3,7 @@
 import { HeaderBanner } from 'HeaderBanner'
 import { CommunityArticle } from 'components/CommunityArticle'
 import { FooterBanner } from 'FooterBanner'
+import { TrainigOptions } from 'components/TrainigOptions'
 
 const Training = () => {
   // const { t } = useTranslation(),
@@ -19,6 +20,7 @@ const Training = () => {
         title="nav.personal_training"
         description="header_banner.35_minute_high"
       />
+      <TrainigOptions />
       <CommunityArticle
         className="alignCenter"
         title="training.built_for_everyone"
