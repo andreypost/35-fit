@@ -43,16 +43,6 @@ jobs:
       - name: Build Front-end
         run: npm run build # Runs script in package.json
 
-      # # Install dependencies for API
-      # - name: Install API Dependencies
-      #   working-directory: ./api
-      #   run: npm install --frozen-lockfile
-
-      # # Lint API
-      # - name: Lint API
-      #   working-directory: ./api
-      #   run: npm run lint
-
       # Determine if deployment should be triggered
       - name: Determine Deployment Trigger
         id: deployment_trigger
@@ -89,11 +79,10 @@ jobs:
       #   working-directory: ./api
       #   run: npm test
 
-      # Build and deploy backend
+      # just start and deploy backend without npm build, (needs to convert typescript to js)
       - name: Build and Deploy Backend
         if: env.DEPLOY_TRIGGERED == 'true'
         working-directory: ./api
         run: |
           npm install --frozen-lockfile
-          npm run build
-          npm run start
+          npm start
