@@ -14,9 +14,9 @@ on:
         required: false
         default: "false"
 
-defaults:
-  run:
-    working-directory: ./headless
+# defaults:
+#   run:
+#     working-directory: ./headless
 
 jobs:
   build_and_deploy:
@@ -33,14 +33,17 @@ jobs:
 
       # Install dependencies for front-end
       - name: Install Front-end Dependencies
+        working-directory: ./headless
         run: npm install --frozen-lockfile
 
       # Lint front-end
       - name: Lint Front-end
+        working-directory: ./headless
         run: npm run lint # Runs script in package.json, combined with prettier-check in .eslintrc.cjs as 'plugin:prettier/recommended'
 
       # Build front-end
       - name: Build Front-end
+        working-directory: ./headless
         run: npm run build # Runs script in package.json
 
       # Determine if deployment should be triggered
@@ -58,9 +61,17 @@ jobs:
       # Deploy to Firebase if triggered
       - name: Deploy to Firebase
         if: env.DEPLOY_TRIGGERED == 'true'
+        working-directory: ./headless
         run: npm run firebase-deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "npm"
+          cache-dependency-path: ./api/package-lock.json
 
       # Set up environment variables for Railway
       - name: Set up Railway Environment Variables
@@ -73,16 +84,21 @@ jobs:
           echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> $GITHUB_ENV
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
 
-      # # Run backend tests
+      # Install dependencies for back-end
+      - name: Install Back-end Dependencies
+        if: env.DEPLOY_TRIGGERED == 'true'
+        working-directory: ./api
+        run: npm install --frozen-lockfile
+
+      # Run backend tests (uncomment if you have tests)
       # - name: Run Backend Tests
       #   if: env.DEPLOY_TRIGGERED == 'true'
       #   working-directory: ./api
       #   run: npm test
 
-      # just start and deploy backend without npm build, (needs to convert typescript to js)
-      - name: Build and Deploy Backend
+      # Deploy backend without a build step
+      - name: Deploy Backend
         if: env.DEPLOY_TRIGGERED == 'true'
         working-directory: ./api
         run: |
-          npm install --frozen-lockfile
           npm start
