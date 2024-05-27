@@ -75,7 +75,7 @@ jobs:
       # Set up environment variables for Railway
       - name: Set up Railway Environment Variables
         if: env.DEPLOY_TRIGGERED == 'true'
-                run: |
+        run: |
           echo "PGHOST=${{ secrets.PGHOST }}" >> $GITHUB_ENV
           echo "PGPORT=${{ secrets.PGPORT }}" >> $GITHUB_ENV
           echo "PGUSER=${{ secrets.PGUSER }}" >> $GITHUB_ENV
