@@ -33,17 +33,14 @@ jobs:
 
       # Install dependencies for front-end
       - name: Install Front-end Dependencies
-        # working-directory: ./headless
         run: npm install --frozen-lockfile
 
       # Lint front-end
       - name: Lint Front-end
-        # working-directory: ./headless
         run: npm run lint # Runs script in package.json, combined with prettier-check in .eslintrc.cjs as 'plugin:prettier/recommended'
 
       # Build front-end
       - name: Build Front-end
-        # working-directory: ./headless
         run: npm run build # Runs script in package.json
 
       # # Install dependencies for API
@@ -71,7 +68,32 @@ jobs:
       # Deploy to Firebase if triggered
       - name: Deploy to Firebase
         if: env.DEPLOY_TRIGGERED == 'true'
-        # working-directory: ./headless
         run: npm run firebase-deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+      # Set up environment variables for Railway
+      - name: Set up Railway Environment Variables
+        if: env.DEPLOY_TRIGGERED == 'true'
+                run: |
+          echo "PGHOST=${{ secrets.PGHOST }}" >> $GITHUB_ENV
+          echo "PGPORT=${{ secrets.PGPORT }}" >> $GITHUB_ENV
+          echo "PGUSER=${{ secrets.PGUSER }}" >> $GITHUB_ENV
+          echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> $GITHUB_ENV
+          echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> $GITHUB_ENV
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+
+      # # Run backend tests
+      # - name: Run Backend Tests
+      #   if: env.DEPLOY_TRIGGERED == 'true'
+      #   working-directory: ./api
+      #   run: npm test
+
+      # Build and deploy backend
+      - name: Build and Deploy Backend
+        if: env.DEPLOY_TRIGGERED == 'true'
+        working-directory: ./api
+        run: |
+          npm install --frozen-lockfile
+          npm run build
+          npm run start
