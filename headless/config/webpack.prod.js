@@ -2,6 +2,10 @@
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const dotenv = require('dotenv')
+
+// Load environment variables from .env.production file
+dotenv.config({ path: './.env.production' })
 
 module.exports = {
   mode: 'production',
@@ -22,7 +26,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.name': JSON.stringify('production_mode'),
+      'process.env': JSON.stringify(process.env),
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',

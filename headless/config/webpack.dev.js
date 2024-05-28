@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const webpack = require('webpack')
-// const path = require('path');
-// const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin') // not stable
+const dotenv = require('dotenv')
+
+// Load environment variables from .env file
+dotenv.config()
 
 module.exports = {
   mode: 'development',
@@ -25,7 +27,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.name': JSON.stringify('development_mode'),
+      'process.env': JSON.stringify(process.env),
     }),
     new webpack.HotModuleReplacementPlugin(), // HMR should never be used in production
     // new ReactRefreshWebpackPlugin(),

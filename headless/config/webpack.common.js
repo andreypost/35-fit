@@ -13,7 +13,7 @@ module.exports = {
         __dirname,
         '../src/components/HeaderBanner.tsx'
       ),
-      Spinner$: path.resolve(__dirname, '../src/components/Spinner.tsx'), // $ - added to signify an exact match
+      Spinner$: path.resolve(__dirname, '../src/components/Spinner.tsx'),
       FooterBanner$: path.resolve(
         __dirname,
         '../src/components/FooterBanner.tsx'
