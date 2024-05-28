@@ -12,7 +12,6 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   },
 });
 
-// Verify the existing tables
 // sequelize
 //   .query(
 //     "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"
