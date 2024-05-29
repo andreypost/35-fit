@@ -42,7 +42,7 @@ jobs:
         working-directory: ./headless
         run: npm install --frozen-lockfile
 
-      # Lint front-end
+      # Lint Front-end
       - name: Lint Front-end
         working-directory: ./headless
         run: npm run lint # Runs script in package.json, combined with prettier-check in .eslintrc.cjs as 'plugin:prettier/recommended'
