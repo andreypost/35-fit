@@ -19,27 +19,25 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # Install dependencies for functions
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "npm"
           cache-dependency-path: ./functions/package-lock.json
-
-      # Install dependencies for functions
       - name: Install dependencies for functions
         run: |
           cd functions
           npm install --frozen-lockfile
 
+      # Install dependencies for front-end
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "npm"
           cache-dependency-path: ./headless/package-lock.json
-
-      # Install dependencies for front-end
       - name: Install Front-end Dependencies
         working-directory: ./headless
         run: npm install --frozen-lockfile
@@ -49,6 +47,18 @@ jobs:
         working-directory: ./headless
         run: npm run lint # Runs script in package.json, combined with prettier-check in .eslintrc.cjs as 'plugin:prettier/recommended'
 
+      # Serve functions
+        - name: Serve functions
+        run: |
+          cd functions
+          npm run serve
+
+      # Build functions # triggers the error, require a new pay plan
+      #   - name: Build functions
+      #   run: |
+      #     cd functions
+      #     npm run build
+
       # Build front-end
       - name: Build Front-end
         working-directory: ./headless
@@ -56,11 +66,6 @@ jobs:
           REACT_APP_API_URL: "http://127.0.0.1:5001/fit-35/us-central1/api"
         run: npm run build # Runs script in package.json
 
-      # # Build functions # triggers the error, require a new pay plan
-      #   - name: Build functions
-      #   run: |
-      #     cd functions
-      #     npm run build
 
       # Determine if deployment should be triggered
       - name: Determine Deployment Trigger
