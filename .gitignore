@@ -22,6 +22,11 @@ firebase-debug.*.log*
 # Node modules
 /api/node_modules/
 /headless/node_modules/
+/functions/node_modules/
 
 # Eslint cache
 /headless/.eslintcache
+
+# Compiled JavaScript files
+/functions/lib/**/*.js
+/functions/lib/**/*.js.map

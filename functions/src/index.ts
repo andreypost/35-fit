@@ -1,24 +1,29 @@
-const express = require("express");
-const User = require("./models/User");
-const sequelize = require("./database");
-const cors = require("cors");
+import * as functions from "firebase-functions";
+import express from "express";
+import cors from "cors";
+import User from "./models/User";
+import sequelize from "./database";
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Enable CORS
+const allowedOrigins = [
+  process.env.REACT_APP_HEADLESS_URL,
+  "https://.com",
+].filter((origin) => origin !== undefined) as string[];
+
 const corsOptions = {
-  origin: [process.env.REACT_APP_HEADLESS_URL, "https://.com"],
+  origin: allowedOrigins,
   optionsSuccessStatus: 200,
 };
+
 app.use(cors(corsOptions));
 
 // Test Route to check server
 app.get("/", (req, res) => {
-  res.send("Hello World from server!");
+  res.send("Hello World!");
 });
 
 // Route to get all users
@@ -29,7 +34,7 @@ app.get("/users", async (req, res) => {
     });
     res.json(users);
   } catch (error) {
-    res.status(500).send(error.toString());
+    res.status(500).send((error as Error).toString());
   }
 });
 
@@ -44,16 +49,19 @@ app.post("/users", async (req, res) => {
     res.status(201).json(userResponse);
   } catch (error) {
     console.error(error); // Log the error to the server console
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: (error as Error).message });
   }
 });
 
-// Connect to the database and start the server
+// Connect to the database
 sequelize
   .sync()
   .then(() => {
-    app.listen(port, () => console.log(`Server running on port ${port}`));
+    console.log("Database synced successfully");
   })
   .catch((err) => {
     console.error("Unable to connect to the database:", err);
   });
+
+// Export the Express app as a Firebase Function
+export const api = functions.https.onRequest(app);

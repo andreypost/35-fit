@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     node: true,
@@ -23,7 +24,6 @@ module.exports = {
     '@typescript-eslint', // Plugin for TypeScript linting
     'react-hooks', // Plugin for React hooks linting
   ],
-  root: true,
   rules: {
     // Custom rules
     '@typescript-eslint/explicit-module-boundary-types': 'off', // Disable explicit return type for functions
