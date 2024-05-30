@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 
 const allowedOrigins = [
-  process.env.REACT_APP_HEADLESS_URL,
+  process.env.HEADLESS_URL,
   "https://.com",
 ].filter((origin) => origin !== undefined) as string[];
 

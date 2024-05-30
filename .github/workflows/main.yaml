@@ -19,53 +19,90 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # Install dependencies for functions
+      # Install Cloud Firebase Functions
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "npm"
           cache-dependency-path: ./functions/package-lock.json
+
       - name: Install dependencies for functions
         run: |
           cd functions
           npm install --frozen-lockfile
 
-      # Install dependencies for front-end
+      # Build functions, triggers the error, require a new pay plan
+      # - name: Build functions
+      #   run: |
+      #     cd functions
+      #     npm run build
+
+      # - name: Deploy functions to Firebase
+      #   env:
+      #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      #   run: firebase deploy --only functions
+
+      - name: Serve functions
+        run: |
+          cd functions
+          npm run serve
+
+      # Install Back-end
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "npm"
+          cache-dependency-path: ./api/package-lock.json
+
+      # Set up environment variables for Railway Database
+      - name: Set up Railway Environment Variables
+        if: env.DEPLOY_TRIGGERED == 'true'
+        run: |
+          echo "PGHOST=${{ secrets.PGHOST }}" >> $GITHUB_ENV
+          echo "PGPORT=${{ secrets.PGPORT }}" >> $GITHUB_ENV
+          echo "PGUSER=${{ secrets.PGUSER }}" >> $GITHUB_ENV
+          echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> $GITHUB_ENV
+          echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> $GITHUB_ENV
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+
+      - name: Install Back-end Dependencies
+        # if: env.DEPLOY_TRIGGERED == 'true'
+        working-directory: ./api
+        run: npm install --frozen-lockfile
+
+      # Run Back-end tests
+      # - name: Run Back-end Tests
+      #   working-directory: ./api
+      #   run: npm test
+
+      # Deploy Back-end without a build step
+      # - name: Deploy Back-end
+      #   working-directory: ./api
+      #   run: npm start
+
+      # Install Front-end
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "npm"
           cache-dependency-path: ./headless/package-lock.json
+
       - name: Install Front-end Dependencies
         working-directory: ./headless
         run: npm install --frozen-lockfile
 
-      # Lint Front-end
       - name: Lint Front-end
         working-directory: ./headless
-        run: npm run lint # Runs script in package.json, combined with prettier-check in .eslintrc.cjs as 'plugin:prettier/recommended'
+        run: npm run lint # script, combined with prettier-check in .eslintrc.cjs as 'plugin:prettier/recommended'
 
-      # Serve functions
-        - name: Serve functions
-        run: |
-          cd functions
-          npm run serve
-
-      # Build functions # triggers the error, require a new pay plan
-      #   - name: Build functions
-      #   run: |
-      #     cd functions
-      #     npm run build
-
-      # Build front-end
       - name: Build Front-end
         working-directory: ./headless
         env:
-          REACT_APP_API_URL: "http://127.0.0.1:5001/fit-35/us-central1/api"
-        run: npm run build # Runs script in package.json
-
+          API_URL: "http://127.0.0.1:5001/fit-35/us-central1/api"
+        run: npm run build
 
       # Determine if deployment should be triggered
       - name: Determine Deployment Trigger
@@ -79,47 +116,10 @@ jobs:
             echo "DEPLOY_TRIGGERED=false" >> $GITHUB_ENV
           fi
 
-      # Deploy to Firebase if triggered
-      - name: Deploy to Firebase
+      # Deploy Front-end to Firebase if triggered
+      - name: Deploy Front-end to Firebase
         if: env.DEPLOY_TRIGGERED == 'true'
         working-directory: ./headless
-        run: npm run firebase-deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16"
-          cache: "npm"
-          cache-dependency-path: ./api/package-lock.json
-
-      # Set up environment variables for Railway
-      - name: Set up Railway Environment Variables
-        if: env.DEPLOY_TRIGGERED == 'true'
-        run: |
-          echo "PGHOST=${{ secrets.PGHOST }}" >> $GITHUB_ENV
-          echo "PGPORT=${{ secrets.PGPORT }}" >> $GITHUB_ENV
-          echo "PGUSER=${{ secrets.PGUSER }}" >> $GITHUB_ENV
-          echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> $GITHUB_ENV
-          echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> $GITHUB_ENV
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
-
-      # Install dependencies for back-end
-      - name: Install Back-end Dependencies
-        if: env.DEPLOY_TRIGGERED == 'true'
-        working-directory: ./api
-        run: npm install --frozen-lockfile
-
-      # Run backend tests (uncomment if you have tests)
-      # - name: Run Backend Tests
-      #   if: env.DEPLOY_TRIGGERED == 'true'
-      #   working-directory: ./api
-      #   run: npm test
-
-      # Deploy backend without a build step
-      # - name: Deploy Backend
-      #   if: env.DEPLOY_TRIGGERED == 'true'
-      #   working-directory: ./api
-      #   run: |
-      #     npm start
+        run: npm run firebase-deploy

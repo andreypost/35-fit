@@ -11,7 +11,7 @@ app.use(express.json());
 
 // Enable CORS
 const corsOptions = {
-  origin: [process.env.REACT_APP_HEADLESS_URL, "https://.com"],
+  origin: [process.env.HEADLESS_URL, "https://.com"],
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));

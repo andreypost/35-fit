@@ -173,7 +173,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     [checkState, setCheckState] = useState(false)
 
   useEffect(() => {
-    console.log('LoginModal: ', process.env.REACT_APP_API_URL)
+    console.log('LoginModal: ', process.env.API_URL)
     user && dispatch(unsetLoginModal())
   }, [user])
 
@@ -187,13 +187,10 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     console.log('userEmail', userEmail)
     console.log('userPass', userPass)
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/users`,
-        {
-          email,
-          password,
-        }
-      )
+      const response = await axios.post(`${process.env.API_URL}/users`, {
+        email,
+        password,
+      })
       console.log('response for User', response)
     } catch (err) {
       console.log('Unable to create a new User', err)
