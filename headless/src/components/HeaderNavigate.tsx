@@ -12,6 +12,7 @@ import { LogoSVG } from '../img/icons'
 import { NavigationLinks } from './NavigationLinks'
 
 const Header = styled.header`
+  max-width: 1440px;
   margin-bottom: -64px;
   z-index: 99;
   padding-top: 20px;

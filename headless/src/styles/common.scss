@@ -11,7 +11,7 @@ body {
 }
 
 .section {
-  max-width: 1440px;
+  max-width: 1280px;
   padding-left: 10px;
   padding-right: 10px;
   margin-left: auto;
@@ -93,6 +93,10 @@ textarea:focus {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
+.flex_center {
+  @include flex_center;
+}
+
 .flex_center_center {
   @include flex_center_center;
 }
@@ -119,6 +123,10 @@ textarea:focus {
 
 .wrap {
   flex-wrap: wrap;
+}
+
+.self_start {
+  align-self: flex-start;
 }
 
 .margin_b_60_30 {
