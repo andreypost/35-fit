@@ -54,12 +54,8 @@ export const Language = () => {
     langRef = useRef<HTMLUListElement>(null)
 
   useEffect(() => {
-    const handleMouseEnter = () => {
-      setLangList(true)
-    }
-    const handleMouseLeave = () => {
-      setLangList(false)
-    }
+    const handleMouseEnter = () => setLangList(true)
+    const handleMouseLeave = () => setLangList(false)
     const langRefElem = langRef?.current
 
     if (langRefElem) {
