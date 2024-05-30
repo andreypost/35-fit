@@ -28,22 +28,20 @@ jobs:
           cache-dependency-path: ./functions/package-lock.json
 
       - name: Install dependencies for functions
+        if: contains(github.event.head_commit.message, '[deploy-functions]')
         run: |
           cd functions
           npm install --frozen-lockfile
 
-      # Build functions, triggers the error, require a new pay plan
-      # - name: Build functions
-      #   run: |
-      #     cd functions
-      #     npm run build
-
-      # - name: Deploy functions to Firebase
-      #   env:
-      #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      #   run: firebase deploy --only functions
+      # Deploy functions, triggers the error, require a new pay plan
+      - name: Deploy functions to Firebase
+        if: contains(github.event.head_commit.message, '[deploy-functions]')
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: firebase deploy --only functions
 
       - name: Serve functions
+        if: contains(github.event.head_commit.message, '[deploy-functions]')
         run: |
           cd functions
           npm run serve
@@ -58,7 +56,7 @@ jobs:
 
       # Set up environment variables for Railway Database
       - name: Set up Railway Environment Variables
-        if: env.DEPLOY_TRIGGERED == 'true'
+        if: contains(github.event.head_commit.message, '[deploy-api]')
         run: |
           echo "PGHOST=${{ secrets.PGHOST }}" >> $GITHUB_ENV
           echo "PGPORT=${{ secrets.PGPORT }}" >> $GITHUB_ENV
@@ -68,7 +66,7 @@ jobs:
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
 
       - name: Install Back-end Dependencies
-        # if: env.DEPLOY_TRIGGERED == 'true'
+        if: contains(github.event.head_commit.message, '[deploy-api]')
         working-directory: ./api
         run: npm install --frozen-lockfile
 

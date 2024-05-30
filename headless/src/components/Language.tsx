@@ -54,6 +54,13 @@ export const Language = () => {
     langRef = useRef<HTMLUListElement>(null)
 
   useEffect(() => {
+    const storedLang = localStorage.getItem('preferredLang')
+    if (storedLang) {
+      setLanguage(storedLang)
+    } else {
+      localStorage.setItem('preferredLang', 'en')
+    }
+    console.log('storedLang: ', storedLang)
     const handleMouseEnter = () => {
       setLangList(true)
     }
