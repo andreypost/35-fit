@@ -21,6 +21,7 @@ jobs:
 
       # Install Cloud Firebase Functions
       - name: Use Node.js
+        if: contains(github.event.head_commit.message, '[deploy-functions]')
         uses: actions/setup-node@v3
         with:
           node-version: "16"
@@ -48,6 +49,7 @@ jobs:
 
       # Install Back-end
       - name: Use Node.js
+        if: contains(github.event.head_commit.message, '[deploy-api]')
         uses: actions/setup-node@v3
         with:
           node-version: "16"
