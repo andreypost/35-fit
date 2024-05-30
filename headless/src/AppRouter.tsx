@@ -35,7 +35,9 @@ export const AppContext = createContext({} as IAppConfig)
 const AppRouter = () => {
   const { user, login, firebaseAuth } = useContext(FirebaseAuthContext),
     { i18n } = useTranslation(),
-    [language, setLanguage] = useState(i18n.language),
+    [language, setLanguage] = useState(
+      localStorage.getItem('i18nextLng') || 'en'
+    ),
     winScroll = GetCurrentWindowScroll(),
     [footerContent, setFooterContent] = useState(false)
 

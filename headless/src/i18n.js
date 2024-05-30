@@ -20,7 +20,7 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     fallbackLng: 'en',
-    lng: 'en', // default language
+    lng: localStorage.getItem('i18nextLng') || 'en',
     resources: {
       de: {
         translation: translationDE,
