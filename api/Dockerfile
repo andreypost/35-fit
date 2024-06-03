@@ -14,7 +14,7 @@ RUN npm install --frozen-lockfile
 COPY . .
 
 # Copy the .env file from the api directory to the working directory
-COPY .env ./
+# COPY .env ./
 
 # Build the application (if needed)
 RUN npm run build
