@@ -5,14 +5,16 @@ FROM node:16
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json from the api directory to the working directory
-COPY package.json ./
+COPY package*.json ./
 
 # Install dependencies
-# RUN npm install --frozen-lockfile
-RUN npm install
+RUN npm install --frozen-lockfile
 
 # Copy the rest of the application code from the api directory to the working directory
 COPY . .
+
+# Copy the .env file from the api directory to the working directory
+COPY .env ./
 
 # Build the application (if needed)
 RUN npm run build
