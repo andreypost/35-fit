@@ -5,7 +5,7 @@ FROM node:16
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json from the api directory to the working directory
-COPY ./package*.json ./
+COPY ./package.json
 
 # Install dependencies
 RUN npm install --frozen-lockfile
