@@ -2,14 +2,10 @@
 FROM node:16
 
 # Set the working directory inside the container
-WORKDIR ./app
+WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json from the api directory to the working directory
-# COPY package*.json ./api
-
-COPY .api/package.json package.json
-
-COPY .api/package-lock.json package-lock.json
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install --frozen-lockfile
