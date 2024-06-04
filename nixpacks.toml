@@ -7,6 +7,3 @@ commands = ["cd api && npm install --frozen-lockfile"]
 
 [phases.build]
 commands = ["cd api && npm run build"]
-
-[phases.start]
-commands = ["cd api && npm start"]
