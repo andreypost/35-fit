@@ -1,15 +1,14 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "DOCKERFILE",
-    "buildCommand": "docker build -t api ./api",
-    "dockerfilePath": "./api/Dockerfile"
+    "builder": "NIXPACKS",
+    "buildCommand": "cd api && npm install --frozen-lockfile && npm run build"
   },
   "deploy": {
     "numReplicas": 1,
     "sleepApplication": false,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10,
-    "startCommand": "docker run -p 3000:3000 api"
+    "startCommand": "cd api && npm start"
   }
 }
