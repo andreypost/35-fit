@@ -1,9 +1,0 @@
-[build]
-plan = "node"
-
-[phases]
-[phases.install]
-commands = ["cd api && npm install"]
-
-[phases.build]
-commands = ["cd api && npm run build"]
