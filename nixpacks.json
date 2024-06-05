@@ -1,10 +1,10 @@
 {
   "phases": {
     "install": {
-      "cmds": ["cd ./api && npm install --frozen-lockfile"]
+      "cmds": ["cd ./api", "pm install --frozen-lockfile"]
     },
     "build": {
-      "cmds": ["cd ./api && npm run build"]
+      "cmds": ["cd ./api", "npm run build"]
     },
     "start": {
       "cmds": ["cd ./api", "npm start"]
