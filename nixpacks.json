@@ -7,7 +7,7 @@
       "cmds": ["cd ./api && npm run build"]
     },
     "start": {
-      "cmd": "echo 'Starting application' && cd ./api && npm start"
+      "cmds": ["cd ./api", "npm start"]
     }
   }
 }
