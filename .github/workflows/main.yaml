@@ -98,7 +98,7 @@ jobs:
         working-directory: ./headless
         run: npm run lint # script, combined with prettier-check in .eslintrc.cjs as 'plugin:prettier/recommended'
 
-      - name: Build Front-end
+      - name: Set up Variables && Build Front-end
         working-directory: ./headless
         # env:
         #   API_URL: "http://127.0.0.1:5001/fit-35/us-central1/api"
