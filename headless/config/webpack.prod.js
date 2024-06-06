@@ -6,7 +6,6 @@ const dotenv = require('dotenv')
 
 // Load environment variables from .env.production file
 dotenv.config({ path: './.env.production' })
-// dotenv.config({ path: './.env.production' })
 
 module.exports = {
   mode: 'production',

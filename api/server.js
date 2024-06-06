@@ -7,12 +7,15 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware to parse JSON bodies
-// app.use(express.json());
 app.use(express.json());
 
 // Enable CORS
 const corsOptions = {
-  origin: [process.env.HEADLESS_URL, "https://.com"],
+  origin: [
+    process.env.HEADLESS_URL,
+    "https://fit-35.web.app",
+    "https://fit-35.web.app/#/",
+  ],
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
