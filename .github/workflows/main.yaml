@@ -101,7 +101,7 @@ jobs:
       - name: Set up Variables && Build Front-end
         working-directory: ./headless
         # env:
-        #   API_URL: "https://127.0.0.1:5001/fit-35/us-central1/api"
+        #   API_URL: ""
         run: |
           echo "API_URL=${{ secrets.API_URL }}" >> $GITHUB_ENV
           npm run build

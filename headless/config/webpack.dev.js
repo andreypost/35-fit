@@ -2,8 +2,8 @@
 const webpack = require('webpack')
 const dotenv = require('dotenv')
 
-// Load environment variables from .env.production file
-dotenv.config({ path: './.env.production' })
+// Load environment variables from .env.development file
+dotenv.config({ path: './.env.development' })
 
 module.exports = {
   mode: 'development',
