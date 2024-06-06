@@ -14,7 +14,7 @@ describe("GET /", () => {
     server.close(done);
   });
 
-  it("should return Hello World", (done) => {
+  it("should return Hello World from api server!", (done) => {
     const options = {
       hostname: "localhost",
       port: server.address().port,
@@ -32,7 +32,7 @@ describe("GET /", () => {
       res.on("end", () => {
         try {
           assert.strictEqual(res.statusCode, 200);
-          assert.strictEqual(data, "Hello World!");
+          assert.strictEqual(data, "Hello World from api server!");
           done();
         } catch (error) {
           done(error);

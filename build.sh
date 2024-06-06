@@ -2,8 +2,8 @@
 
 echo "Building API"
 cd ./api
+npm install --frozen-lockfile
 echo "No build step for API"
-cd ..
 
 echo "Building Nest API"
 cd ./nest-api
