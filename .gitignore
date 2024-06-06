@@ -1,5 +1,7 @@
 # Logs
 .env
+.env.development
+.env.production
 logs
 *.log
 npm-debug.log*
@@ -15,9 +17,6 @@ firebase-debug.*.log*
 # For a team working on the same Firebase project(s), it is recommended to leave
 # it commented so all members can deploy to the same project(s) in .firebaserc.
 # .firebaserc
-
-# dotenv environment variables file
-# .env
 
 # Node modules
 /api/node_modules/
