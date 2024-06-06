@@ -10,6 +10,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // Enable CORS
+// app.use();
 const corsOptions = {
   origin: [
     process.env.HEADLESS_URL,
