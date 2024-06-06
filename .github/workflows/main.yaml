@@ -103,7 +103,7 @@ jobs:
         # env:
         #   API_URL: "http://127.0.0.1:5001/fit-35/us-central1/api"
         run: |
-          echo "API_URL=${{ variables.API_URL }}" >> $GITHUB_ENV
+          echo "API_URL=${{ secrets.API_URL }}" >> $GITHUB_ENV
           npm run build
 
       # Determine if deployment should be triggered
