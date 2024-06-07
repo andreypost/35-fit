@@ -21,7 +21,7 @@ jobs:
 
       # Install Cloud Firebase Functions
       - name: Use Node.js
-        if: contains(github.event.head_commit.message, '[deploy-functions]')
+        if: contains(github.event.head_commit.message, '[run-functions]')
         uses: actions/setup-node@v3
         with:
           node-version: "16"
@@ -29,27 +29,27 @@ jobs:
           cache-dependency-path: ./functions/package-lock.json
 
       - name: Install dependencies for functions
-        if: contains(github.event.head_commit.message, '[deploy-functions]')
+        if: contains(github.event.head_commit.message, '[run-functions]')
         run: |
           cd functions
           npm install --frozen-lockfile
 
       # Deploy functions, triggers the error, require a new pay plan
       - name: Deploy functions to Firebase
-        if: contains(github.event.head_commit.message, '[deploy-functions]')
+        if: contains(github.event.head_commit.message, '[run-functions]')
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: firebase deploy --only functions
 
       - name: Serve functions
-        if: contains(github.event.head_commit.message, '[deploy-functions]')
+        if: contains(github.event.head_commit.message, '[run-functions]')
         run: |
           cd functions
           npm run serve
 
       # Install Back-end
       - name: Use Node.js
-        if: contains(github.event.head_commit.message, '[deploy-api]')
+        if: contains(github.event.head_commit.message, '[run-api]')
         uses: actions/setup-node@v3
         with:
           node-version: "16"
@@ -58,7 +58,7 @@ jobs:
 
       # Set up environment variables for Railway Database
       - name: Set up Railway Environment Variables
-        if: contains(github.event.head_commit.message, '[deploy-api]')
+        if: contains(github.event.head_commit.message, '[run-api]')
         run: |
           echo "PGHOST=${{ secrets.PGHOST }}" >> $GITHUB_ENV
           echo "PGPORT=${{ secrets.PGPORT }}" >> $GITHUB_ENV
@@ -68,7 +68,7 @@ jobs:
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
 
       - name: Install Back-end Dependencies
-        if: contains(github.event.head_commit.message, '[deploy-api]')
+        if: contains(github.event.head_commit.message, '[run-api]')
         working-directory: ./api
         run: npm install --frozen-lockfile
 

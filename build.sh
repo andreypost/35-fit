@@ -9,3 +9,4 @@ echo "Building Nest API"
 cd ./nest-api
 npm install --frozen-lockfile
 npm run build
+npm run start:prod
