@@ -94,9 +94,6 @@ const Div = styled(BaseDiv)`
         max-width: 330px;
         a {
           width: 100%;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
           margin-top: 30px;
           border-radius: 26px;
           background: #000044;
@@ -253,7 +250,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         <div className="login_book">
           <article>
             <h2 className="b900 white">{t('not_member_yet')}</h2>
-            <Link className="b700 white" to={RESERVE_ROUTE}>
+            <Link className="flex_center_center b700 white" to={RESERVE_ROUTE}>
               {t('book_your_training')}
             </Link>
           </article>
