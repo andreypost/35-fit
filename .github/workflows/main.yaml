@@ -11,6 +11,10 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - "api/**"
+      - "functions/**"
+      - "headless/**"
   workflow_dispatch:
     inputs:
       deploy:
@@ -21,7 +25,7 @@ on:
 jobs:
   api:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, '[run-api]') || github.event_name == 'push' || github.event_name == 'pull_request'
+    if: "contains(github.event.head_commit.message, '[run-api]') || (github.event_name == 'push' && github.event.commits.*.modified | contains('api/')) || (github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, 'api/'))"
     steps:
       - uses: actions/checkout@v3
 
@@ -47,7 +51,7 @@ jobs:
 
   functions:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, '[run-functions]') || github.event_name == 'push' || github.event_name == 'pull_request'
+    if: "contains(github.event.head_commit.message, '[run-functions]') || (github.event_name == 'push' && github.event.commits.*.modified | contains('functions/')) || (github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, 'functions/'))"
     steps:
       - uses: actions/checkout@v3
 
@@ -77,7 +81,7 @@ jobs:
 
   headless:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, '[run-headless]') || github.event_name == 'push' || github.event_name == 'pull_request'
+    if: "contains(github.event.head_commit.message, '[run-headless]') || (github.event_name == 'push' && github.event.commits.*.modified | contains('headless/')) || (github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, 'headless/'))"
     steps:
       - uses: actions/checkout@v3
 
@@ -102,20 +106,8 @@ jobs:
           API_URL: ${{ secrets.API_URL }}
         run: npm run build
 
-      # - name: Determine Deployment Trigger
-      #   id: deployment_trigger
-      #   run: |
-      #     if [[ "${{ github.event.inputs.deploy }}" == "true" ]]; then
-      #       echo "DEPLOY_TRIGGERED=true" >> $GITHUB_ENV
-      #     elif git log -1 --pretty=%B | grep -q '\[deploy\]'; then
-      #       echo "DEPLOY_TRIGGERED=true" >> $GITHUB_ENV
-      #     else
-      #       echo "DEPLOY_TRIGGERED=false" >> $GITHUB_ENV
-      #     fi
-
       - name: Deploy Front-end to Firebase
         if: contains(github.event.head_commit.message, '[deploy-headless]')
-        # if: env.DEPLOY_TRIGGERED == 'true'
         working-directory: ./headless
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

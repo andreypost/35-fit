@@ -49,9 +49,6 @@ const Div = styled(BaseDiv)`
         .checkmark {
           box-sizing: border-box;
           width: 42px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
           margin-right: 15px;
           border: 2px solid #b2b2b2;
           border-radius: 50%;
@@ -243,7 +240,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
               readOnly
               onClick={() => setCheckState(!checkState)}
             />
-            <span className="checkmark" />
+            <span className="checkmark flex_center_center" />
             {t('keep_me_logged_in')}
           </label>
           <button type="submit" className="grey_button grey">
