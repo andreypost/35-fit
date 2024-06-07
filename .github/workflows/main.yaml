@@ -17,15 +17,15 @@ on:
         description: "Manually trigger deploy to Firebase (set true to activate)"
         required: false
         default: "false"
+
 jobs:
-  build_and_deploy:
+  api:
     runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[run-api]') || github.event_name == 'push' || github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v3
 
-        # Install API
       - name: Use Node.js
-        # if: contains(github.event.head_commit.message, '[run-api]')
         uses: actions/setup-node@v3
         with:
           node-version: "16"
@@ -33,7 +33,6 @@ jobs:
           cache-dependency-path: ./api/package-lock.json
 
       - name: Set up Railway Environment Variables
-        # if: contains(github.event.head_commit.message, '[run-api]')
         run: |
           echo "PGHOST=${{ secrets.PGHOST }}" >> $GITHUB_ENV
           echo "PGPORT=${{ secrets.PGPORT }}" >> $GITHUB_ENV
@@ -43,13 +42,16 @@ jobs:
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
 
       - name: Install API Dependencies
-        # if: contains(github.event.head_commit.message, '[run-api]')
         working-directory: ./api
         run: npm install --frozen-lockfile
 
-      # Install Cloud Firebase Functions
+  functions:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[run-functions]') || github.event_name == 'push' || github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v3
+
       - name: Use Node.js
-        # if: contains(github.event.head_commit.message, '[run-functions]')
         uses: actions/setup-node@v3
         with:
           node-version: "16"
@@ -57,12 +59,10 @@ jobs:
           cache-dependency-path: ./functions/package-lock.json
 
       - name: Install dependencies for functions
-        # if: contains(github.event.head_commit.message, '[run-functions]')
         run: |
           cd functions
           npm install --frozen-lockfile
 
-      # Deploy functions, triggers the error, require a new pay plan
       - name: Deploy functions to Firebase
         if: contains(github.event.head_commit.message, '[deploy-functions]')
         env:
@@ -75,7 +75,12 @@ jobs:
           cd functions
           npm run serve
 
-      # Install Front-end
+  headless:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[run-headless]') || github.event_name == 'push' || github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v3
+
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
@@ -89,7 +94,7 @@ jobs:
 
       - name: Lint Front-end
         working-directory: ./headless
-        run: npm run lint # script, combined with prettier-check in .eslintrc.cjs as 'plugin:prettier/recommended'
+        run: npm run lint
 
       - name: Set up Variables && Build Front-end
         working-directory: ./headless
@@ -97,21 +102,20 @@ jobs:
           API_URL: ${{ secrets.API_URL }}
         run: npm run build
 
-      # Determine if deployment should be triggered
-      - name: Determine Deployment Trigger
-        id: deployment_trigger
-        run: |
-          if [[ "${{ github.event.inputs.deploy }}" == "true" ]]; then
-            echo "DEPLOY_TRIGGERED=true" >> $GITHUB_ENV
-          elif git log -1 --pretty=%B | grep -q '\[deploy\]'; then
-            echo "DEPLOY_TRIGGERED=true" >> $GITHUB_ENV
-          else
-            echo "DEPLOY_TRIGGERED=false" >> $GITHUB_ENV
-          fi
+      # - name: Determine Deployment Trigger
+      #   id: deployment_trigger
+      #   run: |
+      #     if [[ "${{ github.event.inputs.deploy }}" == "true" ]]; then
+      #       echo "DEPLOY_TRIGGERED=true" >> $GITHUB_ENV
+      #     elif git log -1 --pretty=%B | grep -q '\[deploy\]'; then
+      #       echo "DEPLOY_TRIGGERED=true" >> $GITHUB_ENV
+      #     else
+      #       echo "DEPLOY_TRIGGERED=false" >> $GITHUB_ENV
+      #     fi
 
-      # Deploy Front-end to Firebase if triggered
       - name: Deploy Front-end to Firebase
-        if: env.DEPLOY_TRIGGERED == 'true'
+        if: contains(github.event.head_commit.message, '[deploy-headless]')
+        # if: env.DEPLOY_TRIGGERED == 'true'
         working-directory: ./headless
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
