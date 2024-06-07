@@ -25,7 +25,7 @@ on:
 jobs:
   api:
     runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, '[run-api]') || (github.event_name == 'push' && github.event.commits.*.modified | contains('api/')) || (github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, 'api/'))"
+    if: contains(github.event.head_commit.message, '[run-api]')
     steps:
       - uses: actions/checkout@v3
 
@@ -51,7 +51,7 @@ jobs:
 
   functions:
     runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, '[run-functions]') || (github.event_name == 'push' && github.event.commits.*.modified | contains('functions/')) || (github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, 'functions/'))"
+    if: contains(github.event.head_commit.message, '[run-functions]')
     steps:
       - uses: actions/checkout@v3
 
@@ -81,7 +81,7 @@ jobs:
 
   headless:
     runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, '[run-headless]') || (github.event_name == 'push' && github.event.commits.*.modified | contains('headless/')) || (github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, 'headless/'))"
+    if: contains(github.event.head_commit.message, '[run-headless]')
     steps:
       - uses: actions/checkout@v3
 
@@ -107,7 +107,7 @@ jobs:
         run: npm run build
 
       - name: Deploy Front-end to Firebase
-        if: contains(github.event.head_commit.message, '[deploy-headless]')
+        if: contains(github.event.head_commit.message, '[deploy-headless]') || github.event.inputs.deploy == 'true'
         working-directory: ./headless
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
