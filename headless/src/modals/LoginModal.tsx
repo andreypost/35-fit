@@ -37,8 +37,6 @@ const Div = styled(BaseDiv)`
         }
       }
       .check_box {
-        display: flex;
-        align-items: center;
         margin-bottom: unset;
         margin-left: unset;
         padding-left: unset;
@@ -238,7 +236,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <label htmlFor="radio" className="grey_label check_box">
+          <label htmlFor="radio" className="flex_center grey_label check_box">
             <input
               type="radio"
               name="radio"
