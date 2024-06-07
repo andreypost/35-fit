@@ -24,8 +24,6 @@ const Div = styled(BaseDiv)`
     }
     #loginForm {
       max-width: 330px;
-      display: flex;
-      flex-flow: column;
       margin-left: auto;
       margin-right: auto;
       input[type='email'],
@@ -206,7 +204,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           className="cross_icon absolute"
           onClick={() => dispatch(unsetLoginModal())}
         />
-        <form id="loginForm" onSubmit={handleLogin}>
+        <form id="loginForm" className="flex_str_col" onSubmit={handleLogin}>
           <h1 className="b900 blue">
             {t('welcome_to')}
             <br />

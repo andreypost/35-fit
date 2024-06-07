@@ -17,6 +17,12 @@ $red_color: #ff6376;
   display: flex;
 }
 
+@mixin flex_str_col {
+  @include flex;
+  align-items: stretch;
+  flex-flow: column;
+}
+
 @mixin flex_center {
   @include flex;
   align-items: center;

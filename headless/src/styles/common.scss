@@ -121,6 +121,10 @@ textarea:focus {
   @include flex_center_center_col;
 }
 
+.flex_str_col {
+  @include flex_str_col;
+}
+
 .wrap {
   flex-wrap: wrap;
 }
