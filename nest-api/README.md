@@ -28,13 +28,19 @@
 
 ## Installation
 
+
 ```bash
+$ nvm list
+$ nvm current
+$ nvm use v18.13.0
+
 $ npm install --frozen-lockfile
 ```
 
 ## Running the app
 
 ```bash
+
 # development
 $ npm run start
 
