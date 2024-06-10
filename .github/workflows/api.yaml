@@ -1,0 +1,42 @@
+name: "./api CI/CD Pipeline"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "api/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "api/**"
+
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    # if: contains(github.event.head_commit.message, '[run-api]')
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "npm"
+          cache-dependency-path: ./api/package-lock.json
+
+      # there is no need to set this vars on git, as they are set on railway for it's deployment
+      # - name: Set up Railway Environment Variables
+      #   run: |
+      #     echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> $GITHUB_ENV
+      #     echo "PGUSER=${{ secrets.PGUSER }}" >> $GITHUB_ENV
+      #     echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> $GITHUB_ENV
+      #     echo "PGHOST=${{ secrets.PGHOST }}" >> $GITHUB_ENV
+      #     echo "PGPORT=${{ secrets.PGPORT }}" >> $GITHUB_ENV
+      #     echo "DB_SSL=${{ secrets.DB_SSL }}" >> $GITHUB_ENV
+      #     echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+
+      - name: Install API Dependencies
+        working-directory: ./api
+        run: npm install --frozen-lockfile

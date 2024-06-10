@@ -1,0 +1,54 @@
+name: "./headless CI/CD Pipeline"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "headless/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "headless/**"
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: "Manually trigger deploy to Firebase (set true to activate)"
+        required: false
+        default: "false"
+
+jobs:
+  headless:
+    runs-on: ubuntu-latest
+    # if: contains(github.event.head_commit.message, '[run-headless]')
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "npm"
+          cache-dependency-path: ./headless/package-lock.json
+
+      - name: Install Front-end Dependencies
+        working-directory: ./headless
+        run: npm install --frozen-lockfile
+
+      - name: Lint Front-end
+        working-directory: ./headless
+        run: npm run lint
+
+      - name: Set up Variables && Build Front-end
+        working-directory: ./headless
+        env:
+          API_URL: https://35-fit-api-production.up.railway.app
+        run: npm run build
+
+      - name: Deploy Front-end to Firebase
+        if: contains(github.event.head_commit.message, '[deploy-headless]') || github.event.inputs.deploy == 'true'
+        working-directory: ./headless
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: npm run firebase-deploy

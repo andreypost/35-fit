@@ -1,0 +1,44 @@
+name: "./functions CI/CD Pipeline"
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "functions/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "functions/**"
+
+jobs:
+  functions:
+    runs-on: ubuntu-latest
+    # if: contains(github.event.head_commit.message, '[run-functions]')
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "npm"
+          cache-dependency-path: ./functions/package-lock.json
+
+      - name: Install dependencies for functions
+        run: |
+          cd functions
+          npm install --frozen-lockfile
+
+      - name: Deploy functions to Firebase
+        if: contains(github.event.head_commit.message, '[deploy-functions]')
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: firebase deploy --only functions
+
+      - name: Serve functions
+        if: contains(github.event.head_commit.message, '[deploy-functions]')
+        run: |
+          cd functions
+          npm run serve
