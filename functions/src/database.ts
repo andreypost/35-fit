@@ -3,14 +3,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// to connect to railway postgres database with url string
 const sequelize = new Sequelize(process.env.DATABASE_URL!, {
-  // for railway postgres database
   dialect: "postgres",
   protocol: "postgres",
   dialectOptions: {
     ssl: {
       require: true,
-      rejectUnauthorized: false, // You might need this if using a self-signed certificate
+      rejectUnauthorized: false,
     },
   },
 });

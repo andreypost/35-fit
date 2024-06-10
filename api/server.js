@@ -23,7 +23,7 @@ app.use(cors(corsOptions));
 
 // Test Route to check server
 app.get("/", (req, res) => {
-  res.send("Hello World from api server!");
+  res.send("Hello World from ./api server!");
 });
 
 // Route to get all users

@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HelloController } from './hello.controller';
+import { BadRequestException } from '@nestjs/common';
 
-describe('HelloController', () => {
+describe('Hello Controller', () => {
   let controller: HelloController;
 
   beforeEach(async () => {
@@ -11,9 +12,12 @@ describe('HelloController', () => {
 
     controller = module.get<HelloController>(HelloController);
   });
-  it('Should return "Hello a-name, here my first expierince with nest!"', () => {
-    expect(controller.getHello('a-name')).toBe(
-      'Hello a-name, here my first expierince with nest!!!',
-    );
+
+  it('should return "Hello a-name!"', () => {
+    expect(controller.getHello('a-name')).toBe('Hello a-name!');
+  });
+
+  it('should throw BadRequestException if user-name is not provided', () => {
+    expect(() => controller.getHello('')).toThrow(BadRequestException);
   });
 });

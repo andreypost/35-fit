@@ -1,9 +1,10 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, BadRequestException } from '@nestjs/common';
 
 @Controller()
 export class HelloController {
-  @Get('Hello, here my first expierince with nest!')
+  @Get('hello')
   getHello(@Query('user-name') userName: string): string {
-    return `Hello ${userName}, here my first expierince with nest!`;
+    if (!userName) throw new BadRequestException('User name is required!');
+    return `Hello ${userName}!`;
   }
 }
