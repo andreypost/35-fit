@@ -1,4 +1,4 @@
-name: "./api CI/CD Pipeline"
+name: "api CI/CD Pipeline"
 
 on:
   push:

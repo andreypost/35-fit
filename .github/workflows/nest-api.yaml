@@ -1,4 +1,4 @@
-name: "./nest-api CI/CD Pipeline"
+name: "nest-api CI/CD Pipeline"
 
 on:
   push:

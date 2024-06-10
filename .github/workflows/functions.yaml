@@ -1,4 +1,4 @@
-name: "./functions CI/CD Pipeline"
+name: "functions CI/CD Pipeline"
 on:
   push:
     branches:

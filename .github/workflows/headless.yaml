@@ -1,4 +1,4 @@
-name: "./headless CI/CD Pipeline"
+name: "headless CI/CD Pipeline"
 
 on:
   push:
