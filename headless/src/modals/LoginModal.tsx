@@ -169,11 +169,9 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    const formData = new FormData(e.target)
-    const userEmail = formData.get('login')
-    const userPass = formData.get('password')
-    console.log('userEmail', userEmail)
-    console.log('userPass', userPass)
+    // const formData = new FormData(e.target)
+    // const userEmail = formData.get('login')
+    // const userPass = formData.get('password')
     try {
       const allUsersData = await axios.get(`${process.env.API_URL}/users`)
       console.log('response for allUsersData: ', ...allUsersData.data)
