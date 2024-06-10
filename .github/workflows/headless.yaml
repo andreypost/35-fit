@@ -43,8 +43,8 @@ jobs:
       - name: Set up Variables && Build Front-end
         working-directory: ./headless
         env:
-          API_URL: https://35-fit-nest-api-production.up.railway.app/
-          # API_URL: https://35-fit-api-production.up.railway.app/
+          API_URL: https://35-fit-nest-api-production.up.railway.app
+          # API_URL: https://35-fit-api-production.up.railway.app
         run: npm run build
 
       - name: Deploy Front-end to Firebase
