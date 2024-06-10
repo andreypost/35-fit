@@ -168,8 +168,6 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
   }, [user])
 
   const handleLogin = async (e) => {
-    console.log('email', email)
-    console.log('password', password)
     e.preventDefault()
     const formData = new FormData(e.target)
     const userEmail = formData.get('login')
