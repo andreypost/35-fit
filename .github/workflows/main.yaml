@@ -36,15 +36,16 @@ jobs:
           cache: "npm"
           cache-dependency-path: ./api/package-lock.json
 
-      - name: Set up Railway Environment Variables
-        run: |
-          echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> $GITHUB_ENV
-          echo "PGUSER=${{ secrets.PGUSER }}" >> $GITHUB_ENV
-          echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> $GITHUB_ENV
-          echo "PGHOST=${{ secrets.PGHOST }}" >> $GITHUB_ENV
-          echo "PGPORT=${{ secrets.PGPORT }}" >> $GITHUB_ENV
-          echo "DB_SSL=${{ secrets.DB_SSL }}" >> $GITHUB_ENV
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+      # there is no need to set this vars on git, as they are set on railway for it's deployment
+      # - name: Set up Railway Environment Variables
+      #   run: |
+      #     echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> $GITHUB_ENV
+      #     echo "PGUSER=${{ secrets.PGUSER }}" >> $GITHUB_ENV
+      #     echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> $GITHUB_ENV
+      #     echo "PGHOST=${{ secrets.PGHOST }}" >> $GITHUB_ENV
+      #     echo "PGPORT=${{ secrets.PGPORT }}" >> $GITHUB_ENV
+      #     echo "DB_SSL=${{ secrets.DB_SSL }}" >> $GITHUB_ENV
+      #     echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
 
       - name: Install API Dependencies
         working-directory: ./api
@@ -72,6 +73,7 @@ jobs:
         if: contains(github.event.head_commit.message, '[deploy-functions]')
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: firebase deploy --only functions
 
       - name: Serve functions
@@ -108,7 +110,7 @@ jobs:
         run: npm run build
 
       - name: Deploy Front-end to Firebase
-        # if: contains(github.event.head_commit.message, '[deploy-headless]') || github.event.inputs.deploy == 'true'
+        if: contains(github.event.head_commit.message, '[deploy-headless]') || github.event.inputs.deploy == 'true'
         working-directory: ./headless
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

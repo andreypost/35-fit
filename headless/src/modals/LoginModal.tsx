@@ -229,8 +229,8 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
             className="grey_button part_radius blue"
             placeholder={t('enter_password')}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
+          {/* required */}
           <label htmlFor="radio" className="flex_center grey_label check_box">
             <input
               type="radio"

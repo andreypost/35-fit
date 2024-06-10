@@ -15,7 +15,8 @@ const sequelize = new Sequelize(process.env.DATABASE_URL!, {
   },
 });
 
-// const sequelize = new Sequelize( // for local fidb database
+// for local fidb database
+// const sequelize = new Sequelize(
 //   process.env.DB_NAME!,
 //   process.env.DB_USER!,
 //   process.env.DB_PASS!,
@@ -28,12 +29,5 @@ const sequelize = new Sequelize(process.env.DATABASE_URL!, {
 //     logging: false,
 //   }
 // );
-
-console.log(
-  "functions: ",
-  process.env.DB_USER,
-  process.env.DB_PASS,
-  process.env.DATABASE_URL
-);
 
 export default sequelize;
