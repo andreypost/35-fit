@@ -169,21 +169,24 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    console.log('email for User', email)
     // const formData = new FormData(e.target)
     // const userEmail = formData.get('login')
     // const userPass = formData.get('password')
     try {
-      // const allUsersData = await axios.get(`${process.env.API_URL}/users`)
-      // console.log('response for allUsersData: ', ...allUsersData.data)
       // const response = await axios.post(`${process.env.API_URL}/hello`, email)
       const response = await axios.post(`${process.env.API_URL}/users`, {
         email,
         password,
       })
-      console.log('response for User', response)
-    } catch (err) {
-      console.log('Unable to create a new User', err)
+      console.log('for email:', email, ' - ', response.data)
+      const allUsersData = await axios.get(`${process.env.API_URL}/users`)
+      console.log('all users: ', ...allUsersData.data)
+    } catch (err: any) {
+      if (err.response?.status === 400) {
+        console.log(err.response.data.message)
+        return
+      }
+      console.log('An unexpected error occurred', err)
     }
   }
   return (

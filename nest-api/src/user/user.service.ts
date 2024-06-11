@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -31,5 +31,9 @@ export class UserService {
       return bcrypt.compare(password, user.password);
     }
     return false;
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.userRepository.find();
   }
 }

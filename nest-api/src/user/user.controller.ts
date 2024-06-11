@@ -1,6 +1,13 @@
-import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  BadRequestException,
+  Get,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './user.entity';
 
 @Controller('users')
 export class UserController {
@@ -24,5 +31,10 @@ export class UserController {
       await this.userService.createUser(createUserDto);
       return 'User created successfully';
     }
+  }
+
+  @Get()
+  async getAllUsers(): Promise<User[]> {
+    return this.userService.findAll();
   }
 }
