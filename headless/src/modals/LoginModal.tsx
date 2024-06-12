@@ -174,11 +174,11 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     // const userPass = formData.get('password')
     try {
       // const response = await axios.post(`${process.env.API_URL}/hello`, email)
-      const response = await axios.post(`${process.env.API_URL}/users`, {
-        email,
-        password,
-      })
-      console.log('for email:', email, ' - ', response.data)
+      // const response = await axios.post(`${process.env.API_URL}/users`, {
+      //   email,
+      //   password,
+      // })
+      // console.log('for email:', email, ' - ', response.data)
       const allUsersData = await axios.get(`${process.env.API_URL}/users`)
       console.log('all users: ', ...allUsersData.data)
     } catch (err: any) {
