@@ -21,7 +21,7 @@ on:
 jobs:
   headless:
     runs-on: ubuntu-latest
-    # if: contains(github.event.head_commit.message, '[run-headless]')
+    # if: contains(github.event.head_commit.message, '[r-headless]')
     steps:
       - uses: actions/checkout@v3
 
@@ -48,7 +48,7 @@ jobs:
         run: npm run build
 
       - name: Deploy Front-end to Firebase
-        if: contains(github.event.head_commit.message, '[deploy-headless]') || github.event.inputs.deploy == 'true'
+        if: contains(github.event.head_commit.message, '[d-headless]') || github.event.inputs.deploy == 'true'
         working-directory: ./headless
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

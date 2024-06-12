@@ -14,7 +14,7 @@ on:
 jobs:
   functions:
     runs-on: ubuntu-latest
-    # if: contains(github.event.head_commit.message, '[run-functions]')
+    # if: contains(github.event.head_commit.message, '[r-functions]')
     steps:
       - uses: actions/checkout@v3
 
@@ -31,14 +31,14 @@ jobs:
           npm install --frozen-lockfile
 
       - name: Deploy functions to Firebase
-        if: contains(github.event.head_commit.message, '[deploy-functions]')
+        if: contains(github.event.head_commit.message, '[d-functions]')
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: firebase deploy --only functions
 
       - name: Serve functions
-        if: contains(github.event.head_commit.message, '[deploy-functions]')
+        if: contains(github.event.head_commit.message, '[d-functions]')
         run: |
           cd functions
           npm run serve

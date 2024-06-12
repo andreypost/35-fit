@@ -41,4 +41,3 @@ import { UserService } from './user/user.service';
 //   providers: [AppService],
 // })
 export class AppModule {}
-// console.log('process.env: ', process.env);

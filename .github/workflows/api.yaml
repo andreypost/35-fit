@@ -15,7 +15,7 @@ on:
 jobs:
   api:
     runs-on: ubuntu-latest
-    # if: contains(github.event.head_commit.message, '[run-api]')
+    # if: contains(github.event.head_commit.message, '[r-api]')
     steps:
       - uses: actions/checkout@v3
 
