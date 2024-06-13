@@ -55,24 +55,46 @@ describe('UserService', () => {
   });
 
   describe('createUser', () => {
-    it('should create and return a new user', async () => {
+    it('create and return a new user', async () => {
       const createUserDto: CreateUserDto = {
         email: mockUserData.email,
         password: mockUserData.password,
       };
+
       jest.spyOn(bcrypt, 'hash').mockResolvedValue(createUserDto.password);
       (repository.create as jest.Mock).mockReturnValue(createUserDto);
       (repository.save as jest.Mock).mockResolvedValue(createUserDto);
 
       result = await service.createUser(createUserDto);
 
-      expect(result).toEqual(createUserDto);
-
       expect(bcrypt.hash).toHaveBeenCalledWith(createUserDto.password, 10);
 
       expect(repository.create).toHaveBeenCalledWith(createUserDto);
 
       expect(repository.save).toHaveBeenCalledWith(createUserDto);
+
+      expect(result).toEqual(createUserDto);
+    });
+  });
+
+  describe('validateUser', () => {
+    it('return true if password is valid', async () => {
+      jest.spyOn(service, 'findUserByEmail').mockResolvedValue(mockUserData);
+      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true);
+
+      result = await service.validateUser(
+        mockUserData.email,
+        mockUserData.password,
+      );
+
+      expect(service.findUserByEmail).toHaveBeenCalledWith(mockUserData.email);
+
+      expect(bcrypt.compare).toHaveBeenCalledWith(
+        mockUserData.password,
+        'hashedPassword',
+      );
+
+      expect(result).toBe(true);
     });
   });
 });
