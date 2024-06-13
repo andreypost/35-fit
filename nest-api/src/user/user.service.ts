@@ -4,9 +4,12 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
+import { UserDetails } from 'src/interfaces/user-detais.interface';
+import usersData from '../../data/user-collection.json';
 
 @Injectable()
 export class UserService {
+  private readonly userData: UserDetails[] = usersData;
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -27,13 +30,15 @@ export class UserService {
 
   async validateUser(email: string, password: string): Promise<boolean> {
     const user = await this.findUserByEmail(email);
-    if (user) {
-      return bcrypt.compare(password, user.password);
-    }
+    if (user) return bcrypt.compare(password, user.password);
     return false;
   }
 
   async findAll(): Promise<User[]> {
     return this.userRepository.find();
+  }
+
+  async fetchUserDetails(): Promise<UserDetails[] | null> {
+    return this.userData;
   }
 }

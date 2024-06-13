@@ -179,8 +179,12 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       //   password,
       // })
       // console.log('for email:', email, ' - ', response.data)
-      const allUsersData = await axios.get(`${process.env.API_URL}/users`)
-      console.log('all users: ', ...allUsersData.data)
+      // const allUsersData = await axios.get(`${process.env.API_URL}/users`)
+      // console.log('all users: ', ...allUsersData.data)
+      const allUsersDetails = await axios.get(
+        `${process.env.API_URL}/users/details`
+      )
+      console.log('all users details: ', allUsersDetails)
     } catch (err: any) {
       if (err.response?.status === 400) {
         console.log(err.response.data.message)

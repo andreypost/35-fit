@@ -8,6 +8,7 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
+import { UserDetails } from 'src/interfaces/user-detais.interface';
 
 @Controller('users')
 export class UserController {
@@ -36,5 +37,10 @@ export class UserController {
   @Get()
   async getAllUsers(): Promise<User[]> {
     return this.userService.findAll();
+  }
+
+  @Get('details')
+  async getUserDetails(): Promise<UserDetails[] | null> {
+    return this.userService.fetchUserDetails();
   }
 }
