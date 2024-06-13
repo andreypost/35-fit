@@ -96,5 +96,24 @@ describe('UserService', () => {
 
       expect(result).toBe(true);
     });
+
+    it('should return false if password is invakid', async () => {
+      jest.spyOn(service, 'findUserByEmail').mockResolvedValue(mockUserData);
+      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false);
+
+      result = await service.validateUser(
+        mockUserData.email,
+        mockUserData.password,
+      );
+
+      expect(bcrypt.compare).toHaveBeenCalledWith(
+        'hashedPassword',
+        mockUserData.password,
+      );
+
+      expect(service.findUserByEmail).toHaveBeenCalledWith(mockUserData.email);
+
+      expect(result).toEqual(false);
+    });
   });
 });
