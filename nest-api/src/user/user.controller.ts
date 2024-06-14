@@ -4,11 +4,14 @@ import {
   Body,
   BadRequestException,
   Get,
+  Res,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDetailsDto, CreateUserDto } from './dto/create-user.dto';
 import { User } from '../entities/user';
 import { UserDetails } from 'src/interfaces/user';
+import { createReadStream } from 'fs';
+import { join } from 'path';
 
 @Controller('users')
 export class UserController {
@@ -40,8 +43,11 @@ export class UserController {
   }
 
   @Get('details')
-  async getUserDetails(): Promise<UserDetails[]> {
-    return this.userService.fetchUserDetails();
+  async getUserDetails(@Res() res): Promise<UserDetails[]> {
+    const file = createReadStream(
+      join(process.cwd(), 'data', 'user-collection.json'),
+    );
+    return file.pipe(res);
   }
 
   @Post('add')

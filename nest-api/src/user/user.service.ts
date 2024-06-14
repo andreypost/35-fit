@@ -5,41 +5,30 @@ import { User } from '../entities/user';
 import { CreateUserDto, CreateUserDetailsDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { UserDetails } from '../interfaces/user';
-import usersData from '../../data/user-collection.json';
-import * as path from 'path';
-import * as fs from 'fs';
+import { writeFile } from 'fs/promises';
+import { join } from 'path';
+import { readFileSync } from 'fs';
 
 @Injectable()
 export class UserService {
-  private readonly userData: UserDetails[] = usersData;
-  private readonly dataFilePath = path.resolve(
-    __dirname,
-    'nest-api/data/user-collection.json',
+  private userCollection: UserDetails[];
+  private filePath: string = join(
+    process.cwd(),
+    'data',
+    'user-collection.json',
   );
-
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {
-    const dataDir = path.dirname(this.dataFilePath);
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
+    this.userCollection = JSON.parse(readFileSync(this.filePath, 'utf8'));
   }
 
-  private getNextId(): number {
-    return Math.max(...this.userData.map(({ id }) => id), 0) + 1;
-  }
-
-  private async saveUserDataToFile(): Promise<void> {
-    try {
-      const data = JSON.stringify(this.userData, null, 2);
-      console.log('Data to write:', this.dataFilePath);
-      fs.writeFileSync(this.dataFilePath, data, 'utf-8');
-    } catch (error) {
-      console.error('Error saving user data:', error);
-      throw new Error('Could not save user data');
-    }
+  private async saveUserDataToFile() {
+    await writeFile(
+      this.filePath,
+      JSON.stringify(this.userCollection, null, 2),
+    );
   }
 
   async findUserByEmail(email: string): Promise<User | undefined> {
@@ -66,21 +55,16 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  async fetchUserDetails(): Promise<UserDetails[]> {
-    return this.userData;
-  }
-
   async addUser(
     createUserDetailsDto: CreateUserDetailsDto,
   ): Promise<UserDetails> {
+    const id = Math.max(...this.userCollection.map(({ id }) => id), 0) + 1;
     const newUser: UserDetails = {
-      id: this.getNextId(),
+      id: id,
       ...createUserDetailsDto,
     };
-    this.userData.push(newUser);
-
+    this.userCollection.push(newUser);
     await this.saveUserDataToFile();
-
     return newUser;
   }
 }
