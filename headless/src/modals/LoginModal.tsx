@@ -181,6 +181,13 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       // console.log('for email:', email, ' - ', response.data)
       // const allUsersData = await axios.get(`${process.env.API_URL}/users`)
       // console.log('all users: ', ...allUsersData.data)
+
+      const response = await axios.post(`${process.env.API_URL}/users/add`, {
+        earnings: '$1000.00',
+        country: 'Ukraine',
+        name: 'Andrii Post',
+      })
+
       const allUsersDetails = await axios.get(
         `${process.env.API_URL}/users/details`
       )
@@ -221,8 +228,8 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
             className="grey_button blue"
             placeholder={t('enter_email_address')}
             onChange={(e) => setEmail(e.target.value)}
-            required
           />
+          {/* required */}
           <label htmlFor="password" className="grey_label">
             {t('password')}
           </label>

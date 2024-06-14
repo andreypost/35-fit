@@ -6,9 +6,9 @@ import {
   Get,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './user.entity';
-import { UserDetails } from 'src/interfaces/user-detais.interface';
+import { CreateUserDetailsDto, CreateUserDto } from './dto/create-user.dto';
+import { User } from '../entities/user';
+import { UserDetails } from 'src/interfaces/user';
 
 @Controller('users')
 export class UserController {
@@ -19,10 +19,10 @@ export class UserController {
     const user = await this.userService.findUserByEmail(createUserDto.email);
 
     if (user) {
-      const isPasswordValid = await this.userService.validateUser(
-        createUserDto.email,
-        createUserDto.password,
-      );
+      const isPasswordValid = await this.userService.validateUser({
+        email: createUserDto.email,
+        password: createUserDto.password,
+      });
       if (isPasswordValid) {
         return 'User validated successfully';
       } else {
@@ -40,7 +40,16 @@ export class UserController {
   }
 
   @Get('details')
-  async getUserDetails(): Promise<UserDetails[] | null> {
+  async getUserDetails(): Promise<UserDetails[]> {
     return this.userService.fetchUserDetails();
+  }
+
+  @Post('add')
+  async addUser(
+    @Body() createUserDetailsDto: CreateUserDetailsDto,
+  ): Promise<UserDetails> {
+    if (!createUserDetailsDto)
+      throw new BadRequestException('Invalid user data');
+    return this.userService.addUser(createUserDetailsDto);
   }
 }

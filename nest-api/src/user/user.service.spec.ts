@@ -2,7 +2,7 @@ import { TestingModule, Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserService } from './user.service';
-import { User } from './user.entity';
+import { User } from '../entities/user';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 
@@ -82,10 +82,10 @@ describe('UserService', () => {
       jest.spyOn(service, 'findUserByEmail').mockResolvedValue(mockUserData);
       jest.spyOn(bcrypt, 'compare').mockResolvedValue(true);
 
-      result = await service.validateUser(
-        mockUserData.email,
-        mockUserData.password,
-      );
+      result = await service.validateUser({
+        email: mockUserData.email,
+        password: mockUserData.password,
+      });
 
       expect(service.findUserByEmail).toHaveBeenCalledWith(mockUserData.email);
 
@@ -101,10 +101,10 @@ describe('UserService', () => {
       jest.spyOn(service, 'findUserByEmail').mockResolvedValue(mockUserData);
       jest.spyOn(bcrypt, 'compare').mockResolvedValue(false);
 
-      result = await service.validateUser(
-        mockUserData.email,
-        mockUserData.password,
-      );
+      result = await service.validateUser({
+        email: mockUserData.email,
+        password: mockUserData.password,
+      });
 
       expect(bcrypt.compare).toHaveBeenCalledWith(
         'hashedPassword',
