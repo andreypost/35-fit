@@ -101,25 +101,13 @@ export class UserService {
 
   public getUserCountByCounrty(): Record<string, number> {
     const userCollection = this.loadUserCollection();
-    // const countryCount: Record<string, number> = {};
 
     return userCollection.reduce(
       (acc, { country }) => {
-        console.log(acc[country]);
-        acc[country] = acc[country] ? acc[country]++ : 1;
+        acc[country] = acc[country] ? ++acc[country] : 1;
         return acc;
       },
       {} as Record<string, number>,
     );
-
-    // userCollection.forEach(({ country }) => {
-    //   if (country) {
-    //     if (!countryCount[country]) {
-    //       countryCount[country] = 0;
-    //     }
-    //     countryCount[country]++;
-    //   }
-    // });
-    // return countryCount;
   }
 }
