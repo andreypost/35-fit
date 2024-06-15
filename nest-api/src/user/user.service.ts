@@ -5,33 +5,44 @@ import { User } from '../entities/user';
 import { CreateUserDto, CreateUserDetailsDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { UserDetails } from '../interfaces/user';
-import { writeFile } from 'fs/promises';
 import { join } from 'path';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 
 @Injectable()
 export class UserService {
-  private userCollection: UserDetails[];
-  private filePath: string = join(
+  private userCollection: UserDetails[] | null;
+  private readonly filePath: string = join(
     process.cwd(),
     'data',
     'user-collection.json',
   );
+
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) {
-    this.userCollection = JSON.parse(readFileSync(this.filePath, 'utf8'));
+  ) {}
+
+  private loadUserCollection(): UserDetails[] {
+    try {
+      this.userCollection = JSON.parse(readFileSync(this.filePath, 'utf8'));
+    } catch (error) {
+      this.userCollection = [];
+    }
+    return this.userCollection;
   }
 
-  private async saveUserDataToFile() {
-    await writeFile(
-      this.filePath,
-      JSON.stringify(this.userCollection, null, 2),
-    );
+  private saveUserDataToFile() {
+    try {
+      writeFileSync(
+        this.filePath,
+        JSON.stringify(this.userCollection, null, 2),
+      );
+    } catch (error) {
+      throw new Error('Failed to save user data to file');
+    }
   }
 
-  async findUserByEmail(email: string): Promise<User | undefined> {
+  public async findUserByEmail(email: string): Promise<User | undefined> {
     return this.userRepository.findOne({ where: { email } });
   }
 
@@ -44,27 +55,71 @@ export class UserService {
     return this.userRepository.save(newUser);
   }
 
-  async validateUser(details: UserDetails): Promise<boolean> {
+  public async validateUser(details: UserDetails): Promise<boolean> {
     const { email, password } = details;
     const user = await this.findUserByEmail(email);
-    if (user) return bcrypt.compare(password, user.password);
+    if (user) {
+      return bcrypt.compare(password, user.password);
+    }
     return false;
   }
 
-  async findAll(): Promise<User[]> {
+  public async findAll(): Promise<User[]> {
     return this.userRepository.find();
   }
 
-  async addUser(
+  public async addUserToJSON(
     createUserDetailsDto: CreateUserDetailsDto,
   ): Promise<UserDetails> {
-    const id = Math.max(...this.userCollection.map(({ id }) => id), 0) + 1;
+    const userCollection = this.loadUserCollection();
+    const id = Math.max(...userCollection.map(({ id }) => id), 0) + 1;
     const newUser: UserDetails = {
       id: id,
       ...createUserDetailsDto,
     };
-    this.userCollection.push(newUser);
-    await this.saveUserDataToFile();
+    userCollection.push(newUser);
+    this.saveUserDataToFile();
     return newUser;
+  }
+
+  // public async getUserCountByCounrtyDB(): Promise<Record<string, number>> {
+  //   const result = await this.userRepository
+  //     .createQueryBuilder('user')
+  //     .select('user.country', 'country')
+  //     .addSelect('COUNT(user.id)', 'count')
+  //     .groupBy('user.country')
+  //     .getRawMany();
+
+  //   return result.reduce(
+  //     (acc, { country, count }) => {
+  //       acc[country] = parseInt(count, 10);
+  //       return acc;
+  //     },
+  //     {} as Record<string, number>,
+  //   );
+  // }
+
+  public getUserCountByCounrty(): Record<string, number> {
+    const userCollection = this.loadUserCollection();
+    // const countryCount: Record<string, number> = {};
+
+    return userCollection.reduce(
+      (acc, { country }) => {
+        console.log(acc[country]);
+        acc[country] = acc[country] ? acc[country]++ : 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+
+    // userCollection.forEach(({ country }) => {
+    //   if (country) {
+    //     if (!countryCount[country]) {
+    //       countryCount[country] = 0;
+    //     }
+    //     countryCount[country]++;
+    //   }
+    // });
+    // return countryCount;
   }
 }

@@ -51,11 +51,16 @@ export class UserController {
   }
 
   @Post('add')
-  async addUser(
+  async addNewUserToJSON(
     @Body() createUserDetailsDto: CreateUserDetailsDto,
   ): Promise<UserDetails> {
     if (!createUserDetailsDto)
       throw new BadRequestException('Invalid user data');
-    return this.userService.addUser(createUserDetailsDto);
+    return this.userService.addUserToJSON(createUserDetailsDto);
+  }
+
+  @Get('count-by-country')
+  async getCountBycountry() {
+    return this.userService.getUserCountByCounrty();
   }
 }

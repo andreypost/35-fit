@@ -174,24 +174,37 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     // const userPass = formData.get('password')
     try {
       // const response = await axios.post(`${process.env.API_URL}/hello`, email)
-      // const response = await axios.post(`${process.env.API_URL}/users`, {
+      // const createUserRes = await axios.post(`${process.env.API_URL}/users`, {
       //   email,
       //   password,
       // })
-      // console.log('for email:', email, ' - ', response.data)
-      // const allUsersData = await axios.get(`${process.env.API_URL}/users`)
-      // console.log('all users: ', ...allUsersData.data)
+      // console.log(
+      //   'create new user for email:',
+      //   email,
+      //   ' - ',
+      //   createUserRes.data
+      // )
 
-      const response = await axios.post(`${process.env.API_URL}/users/add`, {
+      // const getAllUsers = await axios.get(`${process.env.API_URL}/users`)
+      // console.log('get all users: ', ...getAllUsers.data)
+
+      const usersAddRes = await axios.post(`${process.env.API_URL}/users/add`, {
         earnings: '$1000.00',
         country: 'Ukraine',
         name: 'Andrii Post',
       })
 
-      const allUsersDetails = await axios.get(
-        `${process.env.API_URL}/users/details`
+      console.log('/users/add: ', usersAddRes)
+
+      // const usersDetailsRes = await axios.get(
+      //   `${process.env.API_URL}/users/details`
+      // )
+      // console.log('/users/details: ', usersDetailsRes)
+
+      const countBycountry = await axios.get(
+        `${process.env.API_URL}/users/count-by-country`
       )
-      console.log('all users details: ', allUsersDetails)
+      console.log('/users/count-by-country: ', countBycountry.data)
     } catch (err: any) {
       if (err.response?.status === 400) {
         console.log(err.response.data.message)
