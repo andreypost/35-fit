@@ -7,15 +7,19 @@ import {
   Res,
 } from '@nestjs/common';
 import { UserService } from './user.service';
+import { UserDetails } from './user.details';
 import { CreateUserDetailsDto, CreateUserDto } from './dto/create-user.dto';
 import { User } from '../entities/user';
-import { UserDetails } from 'src/interfaces/user';
+import { IUserDetails } from 'src/interfaces/user';
 import { createReadStream } from 'fs';
 import { join } from 'path';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly userDetails: UserDetails,
+  ) {}
 
   @Post()
   async handleUser(@Body() createUserDto: CreateUserDto): Promise<string> {
@@ -43,7 +47,7 @@ export class UserController {
   }
 
   @Get('details')
-  async getUserDetails(@Res() res): Promise<UserDetails[]> {
+  async getUserDetails(@Res() res): Promise<IUserDetails[]> {
     const file = createReadStream(
       join(process.cwd(), 'data', 'user-collection.json'),
     );
@@ -53,14 +57,20 @@ export class UserController {
   @Post('add')
   async addNewUserToJSON(
     @Body() createUserDetailsDto: CreateUserDetailsDto,
-  ): Promise<UserDetails> {
-    if (!createUserDetailsDto)
+  ): Promise<IUserDetails> {
+    if (!createUserDetailsDto) {
       throw new BadRequestException('Invalid user data');
-    return this.userService.addUserToJSON(createUserDetailsDto);
+    }
+    return this.userDetails.addUserToJSON(createUserDetailsDto);
   }
 
   @Get('count-by-country')
-  async getCountBycountry() {
-    return this.userService.getUserCountByCounrty();
+  async getUserCountByCounrty() {
+    return this.userDetails.userCountByCounrty();
+  }
+
+  @Get('country-by-earnings')
+  async getStatCountryEarnings() {
+    return this.userDetails.statCountryEarnings();
   }
 }

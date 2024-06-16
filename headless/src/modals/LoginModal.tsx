@@ -196,15 +196,20 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
 
       console.log('/users/add: ', usersAddRes)
 
-      // const usersDetailsRes = await axios.get(
-      //   `${process.env.API_URL}/users/details`
-      // )
-      // console.log('/users/details: ', usersDetailsRes)
+      const usersDetailsRes = await axios.get(
+        `${process.env.API_URL}/users/details`
+      )
+      console.log('/users/details: ', usersDetailsRes)
 
       const countBycountry = await axios.get(
         `${process.env.API_URL}/users/count-by-country`
       )
       console.log('/users/count-by-country: ', countBycountry.data)
+
+      const countryByEarnings = await axios.get(
+        `${process.env.API_URL}/users/country-by-earnings`
+      )
+      console.log('/users/country-by-earnings: ', countryByEarnings.data)
     } catch (err: any) {
       if (err.response?.status === 400) {
         console.log(err.response.data.message)
