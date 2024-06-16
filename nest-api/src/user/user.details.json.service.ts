@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateUserDetailsDto } from './dto/create-user.dto';
 import { IUserDetails } from '../interfaces/user';
 import { join } from 'path';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFile, writeFile } from 'fs/promises';
 
 @Injectable()
-export class UserDetails {
+export class UserDetailsJsonService {
   private userCollection: IUserDetails[] | null;
   private readonly filePath: string = join(
     process.cwd(),
@@ -13,30 +13,35 @@ export class UserDetails {
     'user-collection.json',
   );
 
-  private loadUserCollection(): IUserDetails[] {
+  private async loadUserCollection(): Promise<IUserDetails[]> {
     try {
-      this.userCollection = JSON.parse(readFileSync(this.filePath, 'utf8'));
+      const fileContent = await readFile(this.filePath, 'utf8');
+      this.userCollection = JSON.parse(fileContent);
     } catch (error) {
-      this.userCollection = [];
+      throw new InternalServerErrorException(
+        'Failed to load user data from "./user-collection.json" file',
+      );
     }
     return this.userCollection;
   }
 
-  private saveUserDataToFile() {
+  private async saveUserDataToFile(): Promise<void> {
     try {
-      writeFileSync(
+      await writeFile(
         this.filePath,
         JSON.stringify(this.userCollection, null, 2),
       );
     } catch (error) {
-      throw new Error('Failed to save user data to file');
+      throw new InternalServerErrorException(
+        'Failed to save user data to "./user-collection.json" file',
+      );
     }
   }
 
-  public async addUserToJSON(
+  public async addNewUser(
     createUserDetailsDto: CreateUserDetailsDto,
   ): Promise<IUserDetails> {
-    const userCollection = this.loadUserCollection();
+    const userCollection = await this.loadUserCollection();
     const id = Math.max(...userCollection.map(({ id }) => id), 0) + 1;
     const newUser: IUserDetails = {
       id: id,
@@ -64,8 +69,8 @@ export class UserDetails {
   //   );
   // }
 
-  public userCountByCounrty(): Record<string, number> {
-    const userCollection = this.loadUserCollection();
+  public async getUserCountByCountry(): Promise<Record<string, number>> {
+    const userCollection = await this.loadUserCollection();
 
     return userCollection.reduce(
       (acc, { country }) => {
@@ -76,8 +81,8 @@ export class UserDetails {
     );
   }
 
-  public statCountryEarnings(): Record<string, number> {
-    const userCollection = this.loadUserCollection();
+  public async getAverageEarningsByCountry(): Promise<Record<string, number>> {
+    const userCollection = await this.loadUserCollection();
     interface CountryEarnings {
       total: number;
       count: number;
@@ -102,7 +107,6 @@ export class UserDetails {
     for (const [country, { total, count }] of Object.entries(countryEarnings)) {
       averageEarnings[country] = Math.round(total / count);
     }
-
     return averageEarnings;
   }
 }

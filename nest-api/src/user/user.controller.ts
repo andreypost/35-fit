@@ -7,7 +7,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserDetails } from './user.details';
+import { UserDetailsJsonService } from './user.details.json.service';
 import { CreateUserDetailsDto, CreateUserDto } from './dto/create-user.dto';
 import { User } from '../entities/user';
 import { IUserDetails } from 'src/interfaces/user';
@@ -18,10 +18,15 @@ import { join } from 'path';
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly userDetails: UserDetails,
+    private readonly userDetailsJsonService: UserDetailsJsonService,
   ) {}
 
-  @Post()
+  @Get()
+  async getAllUsers(): Promise<User[]> {
+    return this.userService.findAll();
+  }
+
+  @Post('create-auth-user')
   async handleUser(@Body() createUserDto: CreateUserDto): Promise<string> {
     const user = await this.userService.findUserByEmail(createUserDto.email);
 
@@ -41,12 +46,7 @@ export class UserController {
     }
   }
 
-  @Get()
-  async getAllUsers(): Promise<User[]> {
-    return this.userService.findAll();
-  }
-
-  @Get('details')
+  @Get('user-details')
   async getUserDetails(@Res() res): Promise<IUserDetails[]> {
     const file = createReadStream(
       join(process.cwd(), 'data', 'user-collection.json'),
@@ -54,23 +54,23 @@ export class UserController {
     return file.pipe(res);
   }
 
-  @Post('add')
-  async addNewUserToJSON(
+  @Post('add-new-user')
+  async addNewUser(
     @Body() createUserDetailsDto: CreateUserDetailsDto,
   ): Promise<IUserDetails> {
     if (!createUserDetailsDto) {
       throw new BadRequestException('Invalid user data');
     }
-    return this.userDetails.addUserToJSON(createUserDetailsDto);
+    return this.userDetailsJsonService.addNewUser(createUserDetailsDto);
   }
 
   @Get('count-by-country')
-  async getUserCountByCounrty() {
-    return this.userDetails.userCountByCounrty();
+  async getUserCountByCountry() {
+    return this.userDetailsJsonService.getUserCountByCountry();
   }
 
-  @Get('country-by-earnings')
-  async getStatCountryEarnings() {
-    return this.userDetails.statCountryEarnings();
+  @Get('average-earnings-by-country')
+  async getAverageEarningsByCountry() {
+    return this.userDetailsJsonService.getAverageEarningsByCountry();
   }
 }

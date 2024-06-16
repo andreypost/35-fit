@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -167,39 +167,40 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     user && dispatch(unsetLoginModal())
   }, [user])
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     // const formData = new FormData(e.target)
     // const userEmail = formData.get('login')
     // const userPass = formData.get('password')
     try {
       // const response = await axios.post(`${process.env.API_URL}/hello`, email)
-      // const createUserRes = await axios.post(`${process.env.API_URL}/users`, {
-      //   email,
-      //   password,
-      // })
-      // console.log(
-      //   'create new user for email:',
-      //   email,
-      //   ' - ',
-      //   createUserRes.data
+      // const createUserRes = await axios.post(
+      //   `${process.env.API_URL}/users/create-auth-user`,
+      //   {
+      //     email,
+      //     password,
+      //   }
       // )
+      // console.log('/users/create-auth-user:', email, ' - ', createUserRes.data)
 
       // const getAllUsers = await axios.get(`${process.env.API_URL}/users`)
       // console.log('get all users: ', ...getAllUsers.data)
 
-      const usersAddRes = await axios.post(`${process.env.API_URL}/users/add`, {
-        earnings: '$1000.00',
-        country: 'Ukraine',
-        name: 'Andrii Post',
-      })
+      const usersAddRes = await axios.post(
+        `${process.env.API_URL}/users/add-new-user`,
+        {
+          earnings: '$10000.00',
+          country: 'Ukraine',
+          name: 'Andrii Post',
+        }
+      )
 
-      console.log('/users/add: ', usersAddRes)
+      console.log('/users/add-new-user: ', usersAddRes)
 
       const usersDetailsRes = await axios.get(
-        `${process.env.API_URL}/users/details`
+        `${process.env.API_URL}/users/user-details`
       )
-      console.log('/users/details: ', usersDetailsRes)
+      console.log('/users/user-details: ', usersDetailsRes)
 
       const countBycountry = await axios.get(
         `${process.env.API_URL}/users/count-by-country`
@@ -207,9 +208,12 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       console.log('/users/count-by-country: ', countBycountry.data)
 
       const countryByEarnings = await axios.get(
-        `${process.env.API_URL}/users/country-by-earnings`
+        `${process.env.API_URL}/users/average-earnings-by-country`
       )
-      console.log('/users/country-by-earnings: ', countryByEarnings.data)
+      console.log(
+        '/users/average-earnings-by-country: ',
+        countryByEarnings.data
+      )
     } catch (err: any) {
       if (err.response?.status === 400) {
         console.log(err.response.data.message)
