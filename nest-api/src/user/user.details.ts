@@ -5,13 +5,15 @@ import { join } from 'path';
 import { readFile, writeFile } from 'fs/promises';
 
 @Injectable()
-export class UserDetailsJsonService {
+export class UserDetails {
   private userCollection: IUserDetails[] | null;
   private readonly filePath: string = join(
     process.cwd(),
     'data',
     'user-collection.json',
   );
+  private userCountCache: Record<string, number> | null = null;
+  private averageEarningsCache: Record<string, number> = {};
 
   private async loadUserCollection(): Promise<IUserDetails[]> {
     try {
@@ -31,6 +33,8 @@ export class UserDetailsJsonService {
         this.filePath,
         JSON.stringify(this.userCollection, null, 2),
       );
+      this.userCountCache = null;
+      this.averageEarningsCache = {};
     } catch (error) {
       throw new InternalServerErrorException(
         'Failed to save user data to "./user-collection.json" file',
@@ -70,43 +74,46 @@ export class UserDetailsJsonService {
   // }
 
   public async getUserCountByCountry(): Promise<Record<string, number>> {
+    if (this.userCountCache) return this.userCountCache;
+
     const userCollection = await this.loadUserCollection();
 
-    return userCollection.reduce(
+    this.userCountCache = userCollection.reduce(
       (acc, { country }) => {
         acc[country] = acc[country] ? ++acc[country] : 1;
         return acc;
       },
       {} as Record<string, number>,
     );
+    return this.userCountCache;
   }
 
-  public async getAverageEarningsByCountry(): Promise<Record<string, number>> {
+  public async getAverageEarnsByCountry(): Promise<Record<string, number>> {
+    if (Object.keys(this.averageEarningsCache).length)
+      return this.averageEarningsCache;
+
     const userCollection = await this.loadUserCollection();
-    interface CountryEarnings {
-      total: number;
-      count: number;
-    }
 
-    const countryEarnings: Record<string, CountryEarnings> =
-      userCollection.reduce(
-        (acc: Record<string, CountryEarnings>, { country, earnings }) => {
-          const formattedEarns = parseFloat(earnings.replace(/[$]/g, ''));
-          if (!acc[country]) {
-            acc[country] = { total: formattedEarns, count: 1 };
-          } else if (acc[country].count < 10) {
-            acc[country].total += formattedEarns;
-            acc[country].count += 1;
-          }
-          return acc;
-        },
-        {},
+    const countryEarnings: Record<string, number[]> = userCollection.reduce(
+      (acc: Record<string, number[]>, { country, earnings }) => {
+        const formattedEarns = parseFloat(earnings.replace(/[$]/g, ''));
+        !acc[country]
+          ? (acc[country] = [formattedEarns])
+          : acc[country].push(formattedEarns);
+        return acc;
+      },
+      {},
+    );
+
+    for (const country in countryEarnings) {
+      const topEarnings = countryEarnings[country]
+        .sort((a, b) => b - a)
+        .slice(0, 10);
+      const total = topEarnings.reduce((sum, earn) => sum + earn, 0);
+      this.averageEarningsCache[country] = Math.round(
+        total / topEarnings.length,
       );
-
-    const averageEarnings: Record<string, number> = {};
-    for (const [country, { total, count }] of Object.entries(countryEarnings)) {
-      averageEarnings[country] = Math.round(total / count);
     }
-    return averageEarnings;
+    return this.averageEarningsCache;
   }
 }

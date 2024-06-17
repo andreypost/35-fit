@@ -5,9 +5,10 @@ import {
   BadRequestException,
   Get,
   Res,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserDetailsJsonService } from './user.details.json.service';
+import { UserDetails } from './user.details';
 import { CreateUserDetailsDto, CreateUserDto } from './dto/create-user.dto';
 import { User } from '../entities/user';
 import { IUserDetails } from 'src/interfaces/user';
@@ -18,7 +19,7 @@ import { join } from 'path';
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly userDetailsJsonService: UserDetailsJsonService,
+    private readonly userDetails: UserDetails,
   ) {}
 
   @Get()
@@ -38,7 +39,7 @@ export class UserController {
       if (isPasswordValid) {
         return 'User validated successfully';
       } else {
-        throw new BadRequestException('Invalid password');
+        throw new UnauthorizedException('Invalid password');
       }
     } else {
       await this.userService.createUser(createUserDto);
@@ -61,16 +62,16 @@ export class UserController {
     if (!createUserDetailsDto) {
       throw new BadRequestException('Invalid user data');
     }
-    return this.userDetailsJsonService.addNewUser(createUserDetailsDto);
+    return this.userDetails.addNewUser(createUserDetailsDto);
   }
 
   @Get('count-by-country')
   async getUserCountByCountry() {
-    return this.userDetailsJsonService.getUserCountByCountry();
+    return this.userDetails.getUserCountByCountry();
   }
 
   @Get('average-earnings-by-country')
-  async getAverageEarningsByCountry() {
-    return this.userDetailsJsonService.getAverageEarningsByCountry();
+  async getAverageEarnsByCountry() {
+    return this.userDetails.getAverageEarnsByCountry();
   }
 }

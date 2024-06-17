@@ -189,7 +189,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       const usersAddRes = await axios.post(
         `${process.env.API_URL}/users/add-new-user`,
         {
-          earnings: '$10000.00',
+          earnings: '$5000.00',
           country: 'Ukraine',
           name: 'Andrii Post',
         }
