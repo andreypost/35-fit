@@ -1,8 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule, Test } from '@nestjs/testing';
 import { HelloController } from './hello.controller';
 import { BadRequestException } from '@nestjs/common';
 
-describe('Hello Controller', () => {
+describe('HelloController', () => {
   let controller: HelloController;
 
   beforeEach(async () => {
@@ -17,7 +17,7 @@ describe('Hello Controller', () => {
     expect(controller.getHello('a-name')).toBe('Hello a-name!');
   });
 
-  it('should throw BadRequestException if user-name is not provided', () => {
+  it('should throw BadRequestException if a-name is not provided', () => {
     expect(() => controller.getHello('')).toThrow(BadRequestException);
   });
 });
