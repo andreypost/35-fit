@@ -1,6 +1,5 @@
 import { TestingModule, Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { UserService } from './user.service';
 import { User } from '../entities/user';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,7 +19,6 @@ const mockUserRepository = () => ({
 
 describe('UserService', () => {
   let service: UserService;
-  // let repository: Repository<User>;
   let repository: { findOne: jest.Mock; create: jest.Mock; save: jest.Mock };
   let result = null;
 
@@ -30,20 +28,13 @@ describe('UserService', () => {
         UserService,
         {
           provide: getRepositoryToken(User),
-          useValue: {
-            findOne: jest.fn(),
-            create: jest.fn(),
-            save: jest.fn(),
-          },
-          useFactory: mockUserRepository,
-          // useValue: mockUserRepository(),
+          useValue: mockUserRepository(),
         },
       ],
     }).compile();
 
     service = module.get<UserService>(UserService);
     repository = module.get(getRepositoryToken(User));
-    // repository = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
   afterEach(() => {
@@ -61,7 +52,7 @@ describe('UserService', () => {
     it('should return undefined if a user not found', async () => {
       (repository.findOne as jest.Mock).mockResolvedValue(undefined);
 
-      result = await service.findUserByEmail(undefined);
+      result = await service.findUserByEmail('nonexistent@email');
       expect(result).toBeUndefined();
     });
   });
@@ -77,23 +68,17 @@ describe('UserService', () => {
       (repository.create as jest.Mock).mockReturnValue(createUserDto);
       (repository.save as jest.Mock).mockResolvedValue(createUserDto);
 
-      repository.create.mockReturnValue(createUserDto);
-      repository.save.mockResolvedValue(createUserDto);
-
       result = await service.createUser(createUserDto);
 
       expect(bcrypt.hash).toHaveBeenCalledWith(createUserDto.password, 10);
-
       expect(repository.create).toHaveBeenCalledWith(createUserDto);
-
       expect(repository.save).toHaveBeenCalledWith(createUserDto);
-
       expect(result).toEqual(createUserDto);
     });
   });
 
   describe('validateUser', () => {
-    it('return true if password is valid', async () => {
+    it('should return true if password is valid', async () => {
       jest.spyOn(service, 'findUserByEmail').mockResolvedValue(mockUserData);
       jest.spyOn(bcrypt, 'compare').mockResolvedValue(true);
 
@@ -103,16 +88,14 @@ describe('UserService', () => {
       });
 
       expect(service.findUserByEmail).toHaveBeenCalledWith(mockUserData.email);
-
       expect(bcrypt.compare).toHaveBeenCalledWith(
         mockUserData.password,
         'hashedPassword',
       );
-
       expect(result).toBe(true);
     });
 
-    it('should return false if password is invakid', async () => {
+    it('should return false if password is invalid', async () => {
       jest.spyOn(service, 'findUserByEmail').mockResolvedValue(mockUserData);
       jest.spyOn(bcrypt, 'compare').mockResolvedValue(false);
 
@@ -122,13 +105,11 @@ describe('UserService', () => {
       });
 
       expect(service.findUserByEmail).toHaveBeenCalledWith(mockUserData.email);
-
       expect(bcrypt.compare).toHaveBeenCalledWith(
-        'hashedPassword',
         mockUserData.password,
+        'hashedPassword',
       );
-
-      expect(result).toEqual(false);
+      expect(result).toBe(false);
     });
   });
 });

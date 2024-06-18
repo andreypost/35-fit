@@ -66,12 +66,12 @@ export class UserController {
   }
 
   @Get('count-by-country')
-  async getUserCountByCountry() {
+  async getUserCountByCountry(): Promise<Record<string, number>> {
     return this.userDetails.getUserCountByCountry();
   }
 
   @Get('average-earnings-by-country')
-  async getAverageEarnsByCountry() {
+  async getAverageEarnsByCountry(): Promise<Record<string, number>> {
     return this.userDetails.getAverageEarnsByCountry();
   }
 }

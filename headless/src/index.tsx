@@ -20,13 +20,13 @@ import { Spinner } from 'Spinner'
 import { IFirebaseProps } from 'types/interface'
 
 initializeApp({
-  apiKey: 'AIzaSyAyT0D2bg_Jo3byFrOZ2_kIhpzTi3BBolU',
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: 'fit-35.firebaseapp.com',
   projectId: 'fit-35',
   storageBucket: 'fit-35.appspot.com',
-  messagingSenderId: '18584282293',
-  appId: '1:18584282293:web:151dcd0af8dbfe3bc9cafc',
-  // measurementId: 'G-5227123YVS',
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  // measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 })
 
 const firebaseAuth = getAuth()
