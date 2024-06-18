@@ -19,9 +19,9 @@ import {
   TieFitSVG,
   TieWowSVG,
 } from 'img/icons'
-import add_01 from '../img/adds/add_1_1.png'
-import add_02 from '../img/adds/add_1_2.png'
-import add_03 from '../img/adds/add_1_3.png'
+import add_01 from '../img/adds/add_1_1.jpg'
+import add_02 from '../img/adds/add_1_2.jpg'
+import add_03 from '../img/adds/add_1_3.jpg'
 import { InstaImages } from 'components/InstaImages'
 
 const MainBlock = styled.main`
