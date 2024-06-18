@@ -20,7 +20,7 @@ import { Spinner } from 'Spinner'
 import { IFirebaseProps } from 'types/interface'
 
 initializeApp({
-  apiKey: 'AIzaSyAyT0D2bg_Jo3byFrOZ2_kIhpzTi3BBolU',
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: 'fit-35.firebaseapp.com',
   projectId: 'fit-35',
   storageBucket: 'fit-35.appspot.com',
