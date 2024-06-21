@@ -69,6 +69,6 @@ export interface ILinks {
 }
 
 export interface IPlanPricesBoxRoute extends IRoutePriceTitle {
-  sales?: number
+  sales?: number | null
   button?: string
 }

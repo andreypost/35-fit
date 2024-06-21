@@ -8,6 +8,8 @@ import { PlanPricesBox } from 'components/ui/PlanPricesBox'
 
 const Main = styled.main`
   .pricing_banner {
+    padding-top: 40px;
+    padding-bottom: 40px;
     background: url(${require('../img/patterns/pattern_bg_footer_banner.png')})
       center 30% / contain no-repeat;
     .section {
@@ -62,6 +64,7 @@ const Pricing = () => {
             subTitle="9-10 classes/month"
             description="18 month agreement"
             price="35€"
+            sales={32}
             button="pricinig.details"
           />
           <PlanPricesBox
@@ -70,6 +73,7 @@ const Pricing = () => {
             subTitle="9-10 classes/month"
             description="12 month agreement"
             price="44€"
+            sales={57}
             button="pricinig.details"
           />
           <PlanPricesBox
@@ -78,6 +82,7 @@ const Pricing = () => {
             subTitle="9-10 classes/month"
             description="No agreement"
             price="52€"
+            sales={18}
             button="pricinig.details"
           />
         </section>

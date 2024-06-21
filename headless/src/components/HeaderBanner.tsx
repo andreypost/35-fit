@@ -77,7 +77,7 @@ export const HeaderBanner = ({
     <Div className={`header_banner ${className}`}>
       <section className="section">
         <h1 className="b900 blue">{t(title)}</h1>
-        <p className="grey">{t(description)}</p>
+        <p className="grey">{description && t(description)}</p>
         {children}
       </section>
     </Div>

@@ -23,6 +23,7 @@ import add_01 from '../img/adds/add_1_1.jpg'
 import add_02 from '../img/adds/add_1_2.jpg'
 import add_03 from '../img/adds/add_1_3.jpg'
 import { InstaImages } from 'components/InstaImages'
+import { GreenGreyLine } from 'components/ui/GreenGreyLine'
 
 const MainBlock = styled.main`
   .header_new {
@@ -100,28 +101,6 @@ const MainBlock = styled.main`
     padding: 28px 30px 13px;
     h6 {
       font-size: 22px;
-    }
-    .grey_line {
-      height: 14px;
-      margin-top: 20px;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      background-color: #e8e8e8;
-      @keyframes greeLineWidth {
-        0% {
-          width: 0%;
-        }
-        100% {
-          width: 76%;
-        }
-      }
-      .green_line {
-        height: 14px;
-        border-radius: 6px;
-        background-color: #59b894;
-        animation: greeLineWidth 2s infinite alternate;
-        // animation: greeLineWidth 2s;
-      }
     }
     p {
       font-size: 16px;
@@ -258,9 +237,7 @@ const Main = ({ user }: IUser) => {
         </div>
         <div className="rupor_member center shadow_radius">
           <h6 className="b900 grey">{t('main.number_memberships')}</h6>
-          <div className="grey_line">
-            <div className="green_line"></div>
-          </div>
+          <GreenGreyLine />
           <p className="b900 blue uppercase">76%{t('main.sold')}</p>
         </div>
       </div>

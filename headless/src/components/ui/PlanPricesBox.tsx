@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { IPlanPricesBoxRoute } from 'types/interface'
 import { GreenButton } from './GreenButton'
+import { GreenGreyLine } from './GreenGreyLine'
 
 const Div = styled.div`
   background-color: #fff;
@@ -12,13 +13,8 @@ const Div = styled.div`
     }
     .box_price {
       font-size: 48px;
-      margin-bottom: 20px;
-    }
-    .box_month {
-      font-size: 36px;
     }
     .box_subtitle {
-      font-size: 18px;
       margin-bottom: 30px;
     }
     width: 100%;
@@ -37,16 +33,34 @@ const Div = styled.div`
     .box_top,
     .box_bottom {
       flex: 1;
+      .box_subtitle {
+        font-size: 18px;
+        font-weight: 900;
+        color: #004;
+      }
+      .box_price {
+        margin-bottom: 20px;
+      }
     }
   }
-  &.box {
+  &.box,
+  &.text {
     padding: 40px 15px;
-    .box_plan {
+    .box_plan,
+    .box_sold {
       font-size: 12px;
+    }
+    .box_plan,
+    .box_descript {
       margin-bottom: 20px;
     }
-  }
-  &.text {
+    .box_sold {
+      margin-bottom: 20px;
+    }
+    .green_button {
+      font-size: 14px;
+      height: 42px;
+    }
   }
   @media (max-width: 1023px) {
     .box_top {
@@ -59,14 +73,20 @@ const Div = styled.div`
       flex-flow: column;
       padding: 40px 10px;
     }
+    &.box {
+      .box_month {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+    }
+    &.text {
+      height: 324px;
+    }
   }
   @media (min-width: 1024px) {
     .box_top {
       .box_title {
         font-size: 36px;
-        margin-bottom: 30px;
-      }
-      .box_price {
         margin-bottom: 30px;
       }
       .box_subtitle {
@@ -75,6 +95,18 @@ const Div = styled.div`
     }
     &.banner {
       padding: 60px 40px;
+      .box_price {
+        margin-bottom: 30px;
+      }
+    }
+    &.box {
+      .box_month {
+        font-size: 36px;
+        margin-bottom: 20px;
+      }
+    }
+    &.text {
+      height: 364px;
     }
   }
 `
@@ -85,11 +117,10 @@ export const PlanPricesBox = ({
   subTitle = '',
   description = '',
   price = '',
-  sales = 0,
+  sales = null,
   button = '',
 }: IPlanPricesBoxRoute) => {
   const { t } = useTranslation()
-
   return (
     <Div
       className={`plan_prices_box shadow_radius flex ${
@@ -103,10 +134,21 @@ export const PlanPricesBox = ({
             {/\./g.test(title) ? t(title) : title}
           </h2>
           {className === 'box' && <hr />}
-          <p className="box_subtitle b900 blue">{subTitle}</p>
+          <p className="box_subtitle grey">{subTitle}</p>
           <p className="box_price b900 green">{price}</p>
           {className === 'box' && (
-            <p className="box_month b900 blue">monthly</p>
+            <>
+              <p className="box_month b900 blue">monthly</p>
+              <p className="box_descript b900 grey">
+                {/\./g.test(description) ? t(description) : description}
+              </p>
+              {sales && (
+                <>
+                  <GreenGreyLine />
+                  <p className="box_sold b900 grey">{sales}% SOLD</p>
+                </>
+              )}
+            </>
           )}
           {button && <GreenButton text={button} />}
         </article>
