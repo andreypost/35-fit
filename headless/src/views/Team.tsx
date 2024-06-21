@@ -7,7 +7,7 @@ import { HeaderBanner } from 'HeaderBanner'
 import { ImageDescription } from 'components/ImageDescription'
 import { FooterBanner } from 'FooterBanner'
 
-import add_01 from '../img/adds/add_5_1.png'
+import add_01 from '../img/adds/add_5_1.jpg'
 
 const Team = ({ user }: IUser) => {
   // const { t } = useTranslation(),

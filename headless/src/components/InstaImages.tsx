@@ -31,7 +31,7 @@ export const InstaImages = () => (
           key={`${n}_${i}`}
           data-aos="fade-up"
           data-aos-duration="1000"
-          src={require(`../img/adds/${n}.png`)}
+          src={require(`../img/adds/${n}.jpg`)}
           className="shadow_radius"
           alt="adds image"
         />

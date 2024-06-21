@@ -44,12 +44,22 @@
     "trial_foot_banner_title": "Persönliches Probetraining"
   },
   "training": {
+    "always_the_right": "Immer die richtige Geräteeinstellung",
+    "thanks_to_the_user": "Dank Benutzererkennung passt sich das smarte Gerät automatisch und sekundenschnell an die Größe, das Trainingsmotiv und die jeweiligen Bedürfnisse des Benutzers an.",
+    "keeping_training_exciting": "Das Training spannend halten",
+    "with_milon_training": "Mit dem milon Training erreichen Sie jedes Ziel fokussiert. Egal ob Muskelaufbau, Gewichtsabnahme oder Schmerzlinderung.",
+    "making_achievement_fun": "So macht Leistung Spaß",
+    "the_gamification_elements": "Die Gamification-Elemente auf dem Display fördern den Spieltrieb der Benutzer und sorgen für mehr Spaß beim Training – was motivierend und inspirierend wirkt.",
+    "more_time": "Mehr Zeit",
+    "patented_training_visualization": "Patentierte Trainingsvisualisierung. Das Milon Pendel zeigt dem Anwender den Bewegungsrhythmus an und gibt direktes Live-Feedback während des Trainings. Die Bedienung des Pendels erfolgt äußerst intuitiv durch Tippen und Wischen (wie bei einem Tablet).",
     "built_for_everyone": "Gebaut für alle",
     "using_predefined_training": "Anhand vordefinierter Trainingsregime passen sich alle Trainingsparameter dem individuellen Trainingsziel und -stil an.",
     "trial_foot_banner_title": "Milon-Tests"
   },
   "pricinig": {
-    "trial_foot_banner_title": "Diagnostische Tests"
+    "trial_foot_banner_title": "Diagnostische Tests",
+    "milons_broad_range": "Das breite Angebot an Trainingszirkeln von Milon deckt jeden Bedarf und jedes Leistungsniveau ab: vom gesundheitsorientierten Grundlagentraining bis zum gezielten Krafttraining.",
+    "details": "Einzelheiten"
   },
   "schedule": {
     "for_better_results": "Für bessere Ergebnisse halte dich an den Trainingsplan",

@@ -322,13 +322,12 @@ const Main = ({ user }: IUser) => {
       {/* </>
       )} */}
 
-      <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />
-
       <CommunityArticle
         className="alignCenter"
         title="main.pick_a_day"
         description="header_banner.training_becomes"
       />
+      <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />
       <CommunityArticle
         title="35fit_community"
         subTitle={true}

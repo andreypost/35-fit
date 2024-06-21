@@ -5,8 +5,8 @@ import { HeaderBanner } from 'HeaderBanner'
 import { ImageDescription } from 'components/ImageDescription'
 import { CommunityArticle } from 'components/CommunityArticle'
 
-import add_01 from '../img/adds/add_4_1.png'
-import add_02 from '../img/adds/add_4_2.png'
+import add_01 from '../img/adds/add_4_1.jpg'
+import add_02 from '../img/adds/add_4_2.jpg'
 import { InstaImages } from 'components/InstaImages'
 import { FooterBanner } from 'FooterBanner'
 

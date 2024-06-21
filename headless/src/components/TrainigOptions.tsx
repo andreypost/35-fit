@@ -93,13 +93,9 @@ export const TrainigOptions = () => {
                     fill="#000044"
                   />
                 </svg>
-                Always the right equipment setting
+                {t('training.always_the_right')}
               </h4>
-              <p className="grey">
-                Thanks to the user recognition feature, the smart equipment
-                adjusts automatically and within seconds to the user’s size,
-                training motive, and related needs.
-              </p>
+              <p className="grey">{t('training.thanks_to_the_user')}</p>
               <h4 className="flex_center blue b900">
                 <svg
                   width="33"
@@ -115,12 +111,9 @@ export const TrainigOptions = () => {
                     fill="#000044"
                   />
                 </svg>
-                Keeping training exciting
+                {t('training.keeping_training_exciting')}
               </h4>
-              <p className="grey">
-                With milon training, you can achieve any goal in a focused way.
-                Whether it’s muscle building, losing weight, or reducing pain.
-              </p>
+              <p className="grey">{t('training.with_milon_training')}</p>
             </div>
             <div className="op_img relative">
               <img
@@ -146,13 +139,9 @@ export const TrainigOptions = () => {
                     fill="#000044"
                   />
                 </svg>
-                Making achievement fun
+                {t('training.making_achievement_fun')}
               </h4>
-              <p className="grey">
-                The gamification elements on the display encourage users’
-                instinct to play and make training more fun – which has a
-                motivating and inspiring effect.
-              </p>
+              <p className="grey">{t('training.the_gamification_elements')}</p>
               <h4 className="flex_center blue b900">
                 <svg
                   width="36"
@@ -168,13 +157,10 @@ export const TrainigOptions = () => {
                     fill="#000044"
                   />
                 </svg>
-                More time
+                {t('training.more_time')}
               </h4>
               <p className="grey">
-                Patented training visualization. The milon pendulum displays the
-                movement rhythm to the user and provides direct live feedback
-                during training. Using the pendulum is extremely intuitive by
-                tapping and swiping (like a tablet).
+                {t('training.patented_training_visualization')}
               </p>
             </div>
           </div>

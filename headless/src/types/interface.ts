@@ -31,6 +31,7 @@ export interface ITitleDescripClass extends IClass {
 }
 
 export interface IRoutePriceTitle extends ITitleDescripClass {
+  text?: string
   route?: string
   price?: string
 }
@@ -65,4 +66,9 @@ export interface ILinks {
     route: string
     dictionary?: string
   }[]
+}
+
+export interface IPlanPricesBoxRoute extends IRoutePriceTitle {
+  sales?: number
+  button?: string
 }

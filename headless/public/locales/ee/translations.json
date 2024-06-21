@@ -44,12 +44,22 @@
     "trial_foot_banner_title": "Personaalne proovitreening"
   },
   "training": {
+    "always_the_right": "Alati õige varustuse seadistus",
+    "thanks_to_the_user": "Tänu kasutajatuvastusfunktsioonile nutikatele seadmetele kohandub automaatselt ja mõne sekundi jooksul kasutaja suuruse järgi, koolituse motiiv ja sellega seotud vajadused.",
+    "keeping_training_exciting": "Treeningu põnevana hoidmine",
+    "with_milon_training": "Miloni treeninguga saavutad mis tahes eesmärgi keskendunult. Olgu selleks siis lihaste kasvatamine, kaalu langetamine või valu vähendamine.",
+    "making_achievement_fun": "Saavutamise lõbusaks tegemine",
+    "the_gamification_elements": "Mängulised elemendid ekraanil julgustavad kasutajaid instinkt mängida ja muuta treenimine lõbusamaks – millel on a motiveeriv ja inspireeriv mõju.",
+    "more_time": "Rohkem aega",
+    "patented_training_visualization": "Patenteeritud treeningu visualiseerimine. Miloni pendel kuvab kasutajale liikumisrütmi ja annab otsest reaalajas tagasisidet treeningu ajal. Pendli kasutamine on äärmiselt intuitiivne koputamine ja pühkimine (nagu tahvelarvuti).",
     "built_for_everyone": "Ehitatud kõigile",
     "using_predefined_training": "Eelmääratletud treeningrežiimide abil kohandatakse kõiki treeningparameetreid vastavalt individuaalsele treeningueesmärgile ja -stiilile.",
     "trial_foot_banner_title": "Miloni testid"
   },
   "pricinig": {
-    "trial_foot_banner_title": "Diagnostilised testid"
+    "trial_foot_banner_title": "Diagnostilised testid",
+    "milons_broad_range": "Miloni lai valik treeningringe katab kõik vajadused ja jõudlustasemed: alates tervisele orienteeritud baastreeningust kuni konkreetselt suunatud jõutreeninguni.",
+    "details": "Üksikasjad"
   },
   "schedule": {
     "for_better_results": "Paremate tulemuste saavutamiseks järgige treeningplaani",

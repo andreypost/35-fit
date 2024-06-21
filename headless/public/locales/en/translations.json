@@ -44,12 +44,22 @@
     "trial_foot_banner_title": "Personal trial training"
   },
   "training": {
+    "always_the_right": "Always the right equipment setting",
+    "thanks_to_the_user": "Thanks to the user recognition feature, the smart equipment adjusts automatically and within seconds to the user’s size, training motive, and related needs.",
+    "keeping_training_exciting": "Keeping training exciting",
+    "with_milon_training": "With milon training, you can achieve any goal in a focused way. Whether it’s muscle building, losing weight, or reducing pain.",
+    "making_achievement_fun": "Making achievement fun",
+    "the_gamification_elements": "The gamification elements on the display encourage users’ instinct to play and make training more fun – which has a motivating and inspiring effect.",
+    "more_time": "More time",
+    "patented_training_visualization": "Patented training visualization. The milon pendulum displays the movement rhythm to the user and provides direct live feedback during training. Using the pendulum is extremely intuitive by tapping and swiping (like a tablet).",
     "built_for_everyone": "Built for everyone",
     "using_predefined_training": "Using predefined training regimes, all training parameters adjust according to the individual training objective and style.",
     "trial_foot_banner_title": "Milon tests"
   },
   "pricinig": {
-    "trial_foot_banner_title": "Diagnostics tests"
+    "trial_foot_banner_title": "Diagnostics tests",
+    "milons_broad_range": "Milon’s broad range of training circuits spans every need and every performance level: from health-oriented basic training to specifically targeted strength training.",
+    "details": "Details"
   },
   "schedule": {
     "for_better_results": "For better results stick to training plan",
