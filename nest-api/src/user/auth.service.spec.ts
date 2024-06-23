@@ -1,6 +1,6 @@
 import { TestingModule, Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserService } from './user.service';
+import { AuthService } from './auth.service';
 import { User } from '../entities/user';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
@@ -17,15 +17,15 @@ const mockUserRepository = () => ({
   save: jest.fn(),
 });
 
-describe('UserService', () => {
-  let service: UserService;
+describe('AuthService', () => {
+  let service: AuthService;
   let repository: { findOne: jest.Mock; create: jest.Mock; save: jest.Mock };
   let result = null;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        UserService,
+        AuthService,
         {
           provide: getRepositoryToken(User),
           useValue: mockUserRepository(),
@@ -33,7 +33,7 @@ describe('UserService', () => {
       ],
     }).compile();
 
-    service = module.get<UserService>(UserService);
+    service = module.get<AuthService>(AuthService);
     repository = module.get(getRepositoryToken(User));
   });
 

@@ -1,11 +1,12 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Res } from '@nestjs/common';
 import { CreateUserDetailsDto } from './dto/create-user.dto';
 import { IUserDetails } from '../interfaces/user';
 import { join } from 'path';
 import { readFile, writeFile } from 'fs/promises';
+import { createReadStream } from 'fs';
 
 @Injectable()
-export class UserDetails {
+export class DetailsService {
   private userCollection: IUserDetails[] | null;
   private readonly filePath: string = join(
     process.cwd(),
@@ -42,6 +43,17 @@ export class UserDetails {
     }
   }
 
+  public async getUserDetails(res: any): Promise<IUserDetails[]> {
+    try {
+      const file = createReadStream(this.filePath);
+      return file.pipe(res);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Failed to load user data from "./user-collection.json" file',
+      );
+    }
+  }
+
   public async addNewUser(
     createUserDetailsDto: CreateUserDetailsDto,
   ): Promise<IUserDetails> {
@@ -55,23 +67,6 @@ export class UserDetails {
     this.saveUserDataToFile();
     return newUser;
   }
-
-  // public async getUserCountByCounrtyDB(): Promise<Record<string, number>> {
-  //   const result = await this.userRepository
-  //     .createQueryBuilder('user')
-  //     .select('user.country', 'country')
-  //     .addSelect('COUNT(user.id)', 'count')
-  //     .groupBy('user.country')
-  //     .getRawMany();
-
-  //   return result.reduce(
-  //     (acc, { country, count }) => {
-  //       acc[country] = parseInt(count, 10);
-  //       return acc;
-  //     },
-  //     {} as Record<string, number>,
-  //   );
-  // }
 
   public async getUserCountByCountry(): Promise<Record<string, number>> {
     if (this.userCountCache) return this.userCountCache;
@@ -116,4 +111,30 @@ export class UserDetails {
     }
     return this.averageEarningsCache;
   }
+
+  public async findOneById(id: number): Promise<string> {
+    const userCollection = await this.loadUserCollection();
+    const user = userCollection.find((user) => {
+      console.log(user.id, id);
+      if (user.id === +id) return user;
+    });
+    return user ? user.name : `User with id ${id} not found.`;
+  }
+
+  // public async getUserCountByCounrtyDB(): Promise<Record<string, number>> {
+  //   const result = await this.userRepository
+  //     .createQueryBuilder('user')
+  //     .select('user.country', 'country')
+  //     .addSelect('COUNT(user.id)', 'count')
+  //     .groupBy('user.country')
+  //     .getRawMany();
+
+  //   return result.reduce(
+  //     (acc, { country, count }) => {
+  //       acc[country] = parseInt(count, 10);
+  //       return acc;
+  //     },
+  //     {} as Record<string, number>,
+  //   );
+  // }
 }

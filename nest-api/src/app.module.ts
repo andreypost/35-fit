@@ -3,11 +3,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user';
 import { AppController } from './app.controller';
-import { HelloController } from './hello.controller';
-import { UserController } from './user/user.controller';
 import { AppService } from './app.service';
-import { UserService } from './user/user.service';
-import { UserDetails } from './user/user.details';
+import { HelloController } from './hello.controller';
+import { AuthController } from './user/auth.controller';
+import { AuthService } from './user/auth.service';
+import { DetailsController } from './user/details.controller';
+import { DetailsService } from './user/details.service';
 
 @Module({
   imports: [
@@ -32,7 +33,12 @@ import { UserDetails } from './user/user.details';
     }),
     TypeOrmModule.forFeature([User]),
   ],
-  controllers: [AppController, HelloController, UserController],
-  providers: [AppService, UserService, UserDetails],
+  controllers: [
+    AppController,
+    HelloController,
+    AuthController,
+    DetailsController,
+  ],
+  providers: [AppService, AuthService, DetailsService],
 })
 export class AppModule {}

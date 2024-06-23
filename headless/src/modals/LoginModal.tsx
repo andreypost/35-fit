@@ -175,19 +175,19 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     try {
       // const response = await axios.post(`${process.env.API_URL}/hello`, email)
       // const createUserRes = await axios.post(
-      //   `${process.env.API_URL}/users/create-auth-user`,
+      //   `${process.env.API_URL}/auth/create-new-user`,
       //   {
       //     email,
       //     password,
       //   }
       // )
-      // console.log('/users/create-auth-user:', email, ' - ', createUserRes.data)
+      // console.log('/auth/create-new-user:', email, ' - ', createUserRes.data)
 
       // const getAllUsers = await axios.get(`${process.env.API_URL}/users`)
       // console.log('get all users: ', ...getAllUsers.data)
 
-      const usersAddRes = await axios.post(
-        `${process.env.API_URL}/users/add-new-user`,
+      const detailsNewUser = await axios.post(
+        `${process.env.API_URL}/details/add-new-user`,
         {
           earnings: '$5000.00',
           country: 'Ukraine',
@@ -195,25 +195,28 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         }
       )
 
-      console.log('/users/add-new-user: ', usersAddRes)
+      console.log('/details/add-new-user: ', detailsNewUser)
 
-      const usersDetailsRes = await axios.get(
-        `${process.env.API_URL}/users/user-details`
+      const detailsUsers = await axios.get(
+        `${process.env.API_URL}/details/users`
       )
-      console.log('/users/user-details: ', usersDetailsRes)
+      console.log('/details/users: ', detailsUsers)
 
-      const countBycountry = await axios.get(
-        `${process.env.API_URL}/users/count-by-country`
+      const detailsByCountry = await axios.get(
+        `${process.env.API_URL}/details/count-by-country`
       )
-      console.log('/users/count-by-country: ', countBycountry.data)
+      console.log('/details/count-by-country: ', detailsByCountry.data)
 
-      const countryByEarnings = await axios.get(
-        `${process.env.API_URL}/users/average-earnings-by-country`
+      const detailsByEarnings = await axios.get(
+        `${process.env.API_URL}/details/average-earnings-by-country`
       )
       console.log(
-        '/users/average-earnings-by-country: ',
-        countryByEarnings.data
+        '/details/average-earnings-by-country: ',
+        detailsByEarnings.data
       )
+
+      const detailsById = await axios.get(`${process.env.API_URL}/details/10`)
+      console.log('/details/id: ', detailsById)
     } catch (err: any) {
       if (err.response?.status === 400) {
         console.log(err.response.data.message)
