@@ -1,9 +1,9 @@
-import { Injectable, InternalServerErrorException, Res } from '@nestjs/common';
-import { CreateUserDetailsDto } from './dto/create-user.dto';
-import { IUserDetails } from '../interfaces/user';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { join } from 'path';
 import { readFile, writeFile } from 'fs/promises';
 import { createReadStream } from 'fs';
+import { IUserDetails } from 'src/interfaces/user';
+import { CreateUserDetailsDto } from './dto/create-user.dto';
 
 @Injectable()
 export class DetailsService {
@@ -13,7 +13,7 @@ export class DetailsService {
     'data',
     'user-collection.json',
   );
-  private userCountCache: Record<string, number> = null;
+  private usersCountCache: Record<string, number> = null;
   private averageEarningsCache: Record<string, number> = {};
 
   private async loadUserCollection(): Promise<IUserDetails[]> {
@@ -22,20 +22,19 @@ export class DetailsService {
       return (this.userCollection = JSON.parse(
         await readFile(this.filePath, 'utf8'),
       ));
-    } catch (error) {
+    } catch {
       throw new InternalServerErrorException(
-        'Failed to load user data from "./user-collection.json" file',
+        'Failed to load data from "user-collection.json" file',
       );
     }
   }
 
   public async getUserDetails(res: any): Promise<IUserDetails[]> {
     try {
-      const file = createReadStream(this.filePath);
-      return file.pipe(res);
-    } catch (error) {
+      return createReadStream(this.filePath).pipe(res);
+    } catch {
       throw new InternalServerErrorException(
-        'Failed to load user data from "./user-collection.json" file',
+        'Failed to load data from "user-collection.json" file',
       );
     }
   }
@@ -55,45 +54,43 @@ export class DetailsService {
         this.filePath,
         JSON.stringify(this.userCollection, null, 2),
       );
-      this.userCountCache = null;
+      this.usersCountCache = null;
       this.averageEarningsCache = {};
-    } catch (error) {
+    } catch {
       throw new InternalServerErrorException(
-        'Failed to save user data to "./user-collection.json" file',
+        'Failed to save data to "user-collection.json" file',
       );
     }
   }
 
-  public async getUserCountByCountry(): Promise<Record<string, number>> {
-    if (this.userCountCache?.length) return this.userCountCache;
+  public async getUsersCountByCountry(): Promise<Record<string, number>> {
+    if (this.usersCountCache?.length) return this.usersCountCache;
 
     await this.loadUserCollection();
-    this.userCountCache = this.userCollection.reduce(
+    return (this.usersCountCache = this.userCollection.reduce(
       (acc, { country }) => {
         acc[country] = acc[country] ? ++acc[country] : 1;
         return acc;
       },
       {} as Record<string, number>,
-    );
-    return this.userCountCache;
+    ));
   }
 
   public async getAverageEarnsByCountry(): Promise<Record<string, number>> {
-    if (Object.keys(this.averageEarningsCache).length)
+    if (Object.keys(this.averageEarningsCache)?.length)
       return this.averageEarningsCache;
 
     await this.loadUserCollection();
-    const countryEarnings: Record<string, number[]> =
-      this.userCollection.reduce(
-        (acc: Record<string, number[]>, { country, earnings }) => {
-          const formattedEarns = parseFloat(earnings.replace(/[$]/g, ''));
-          !acc[country]
-            ? (acc[country] = [formattedEarns])
-            : acc[country].push(formattedEarns);
-          return acc;
-        },
-        {},
-      );
+    const countryEarnings = this.userCollection.reduce(
+      (acc, { country, earnings }) => {
+        const formattedEarns = parseFloat(earnings.replace(/[$]/g, ''));
+        !acc[country]
+          ? (acc[country] = [formattedEarns])
+          : acc[country].push(formattedEarns);
+        return acc;
+      },
+      {} as Record<string, number[]>,
+    );
 
     for (const country in countryEarnings) {
       const topEarnings = countryEarnings[country]

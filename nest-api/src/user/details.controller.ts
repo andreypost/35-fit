@@ -32,7 +32,7 @@ export class DetailsController {
 
   @Get('count-by-country')
   async getUserCountByCountry(): Promise<Record<string, number>> {
-    return this.detailsService.getUserCountByCountry();
+    return this.detailsService.getUsersCountByCountry();
   }
 
   @Get('average-earnings-by-country')

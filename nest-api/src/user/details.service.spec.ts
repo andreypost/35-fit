@@ -81,7 +81,7 @@ describe('DetailsService', () => {
     (readFile as jest.Mock).mockResolvedValue(
       JSON.stringify(mockUserCollection),
     );
-    const result = await service.getUserCountByCountry();
+    const result = await service.getUsersCountByCountry();
     expect(result).toEqual({ Country1: 2, Country2: 1 });
   });
 
