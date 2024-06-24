@@ -23,7 +23,7 @@ export class DetailsController {
   @Post('add-new-user')
   async addNewUser(
     @Body() createUserDetailsDto: CreateUserDetailsDto,
-  ): Promise<IUserDetails> {
+  ): Promise<void> {
     if (!createUserDetailsDto) {
       throw new BadRequestException('Invalid user data');
     }
@@ -40,7 +40,7 @@ export class DetailsController {
     return this.detailsService.getAverageEarnsByCountry();
   }
 
-  @Get(':id')
+  @Get('users/:id')
   async findOneById(@Param('id') id: number): Promise<string> {
     return this.detailsService.findOneById(id);
   }

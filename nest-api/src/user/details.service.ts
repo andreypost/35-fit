@@ -17,9 +17,11 @@ export class DetailsService {
   private averageEarningsCache: Record<string, number> = {};
 
   private async loadUserCollection(): Promise<IUserDetails[]> {
+    if (this.userCollection?.length) return this.userCollection;
     try {
-      const fileContent = await readFile(this.filePath, 'utf8');
-      return (this.userCollection = JSON.parse(fileContent));
+      return (this.userCollection = JSON.parse(
+        await readFile(this.filePath, 'utf8'),
+      ));
     } catch (error) {
       throw new InternalServerErrorException(
         'Failed to load user data from "./user-collection.json" file',
@@ -40,7 +42,7 @@ export class DetailsService {
 
   public async addNewUser(
     createUserDetailsDto: CreateUserDetailsDto,
-  ): Promise<IUserDetails> {
+  ): Promise<void> {
     await this.loadUserCollection();
     const id = Math.max(...this.userCollection.map(({ id }) => id), 0) + 1;
     const newUser: IUserDetails = {
@@ -48,7 +50,6 @@ export class DetailsService {
       ...createUserDetailsDto,
     };
     this.userCollection.push(newUser);
-
     try {
       await writeFile(
         this.filePath,
@@ -61,15 +62,12 @@ export class DetailsService {
         'Failed to save user data to "./user-collection.json" file',
       );
     }
-
-    return newUser;
   }
 
   public async getUserCountByCountry(): Promise<Record<string, number>> {
-    if (this.userCountCache) return this.userCountCache;
+    if (this.userCountCache?.length) return this.userCountCache;
 
     await this.loadUserCollection();
-
     this.userCountCache = this.userCollection.reduce(
       (acc, { country }) => {
         acc[country] = acc[country] ? ++acc[country] : 1;
@@ -85,7 +83,6 @@ export class DetailsService {
       return this.averageEarningsCache;
 
     await this.loadUserCollection();
-
     const countryEarnings: Record<string, number[]> =
       this.userCollection.reduce(
         (acc: Record<string, number[]>, { country, earnings }) => {
@@ -112,10 +109,7 @@ export class DetailsService {
 
   public async findOneById(id: number): Promise<string> {
     await this.loadUserCollection();
-    const user = this.userCollection.find((user) => {
-      console.log(user.id, id);
-      if (user.id === +id) return user;
-    });
+    const user = this.userCollection.find((user) => user.id === +id);
     return user ? user.name : `User with id ${id} not found.`;
   }
 

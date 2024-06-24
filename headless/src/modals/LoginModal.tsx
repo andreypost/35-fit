@@ -186,6 +186,11 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       // const getAllUsers = await axios.get(`${process.env.API_URL}/users`)
       // console.log('get all users: ', ...getAllUsers.data)
 
+      const detailsUsers = await axios.get(
+        `${process.env.API_URL}/details/users`
+      )
+      console.log('/details/users: ', detailsUsers.data)
+
       const detailsNewUser = await axios.post(
         `${process.env.API_URL}/details/add-new-user`,
         {
@@ -194,13 +199,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           name: 'Andrii Post',
         }
       )
-
       console.log('/details/add-new-user: ', detailsNewUser)
-
-      const detailsUsers = await axios.get(
-        `${process.env.API_URL}/details/users`
-      )
-      console.log('/details/users: ', detailsUsers)
 
       const detailsByCountry = await axios.get(
         `${process.env.API_URL}/details/count-by-country`
@@ -215,8 +214,10 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         detailsByEarnings.data
       )
 
-      const detailsById = await axios.get(`${process.env.API_URL}/details/10`)
-      console.log('/details/id: ', detailsById)
+      const detailsById = await axios.get(
+        `${process.env.API_URL}/details/users/10`
+      )
+      console.log('/details/users/id: ', detailsById)
     } catch (err: any) {
       if (err.response?.status === 400) {
         console.log(err.response.data.message)
