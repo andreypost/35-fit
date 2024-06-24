@@ -40,8 +40,8 @@ export class DetailsController {
     return this.detailsService.getAverageEarnsByCountry();
   }
 
-  // @Get(':id')
-  // async findOneById(@Param('id') id: number): Promise<string> {
-  //   return this.detailsService.findOneById(id);
-  // }
+  @Get(':id')
+  async findOneById(@Param('id') id: number): Promise<string> {
+    return this.detailsService.findOneById(id);
+  }
 }

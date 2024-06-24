@@ -41,34 +41,40 @@ describe('DetailsService', () => {
     );
   });
 
-  it('should save user data to file', async () => {
-    service['userCollection'] = mockUserCollection;
-    await service['saveUserDataToFile']();
+  it('should save user data to file when adding a new user', async () => {
+    (readFile as jest.Mock).mockResolvedValue(
+      JSON.stringify(mockUserCollection),
+    );
+    const newUserDetailsDto = {
+      name: 'User4',
+      country: 'Country3',
+      earnings: '$300',
+    };
+    const newUser = { id: 4, ...newUserDetailsDto };
+
+    const result = await service.addNewUser(newUser);
+    expect(result).toEqual(newUser);
     expect(writeFile).toHaveBeenCalledWith(
       service['filePath'],
-      JSON.stringify(mockUserCollection, null, 2),
+      JSON.stringify([...mockUserCollection, newUser], null, 2),
     );
   });
 
   it('should handle error when saving user data', async () => {
-    (writeFile as jest.Mock).mockRejectedValue(new Error('Error saving file'));
-    await expect(service['saveUserDataToFile']()).rejects.toThrow(
-      InternalServerErrorException,
-    );
-  });
-
-  it('should add a new user', async () => {
     (readFile as jest.Mock).mockResolvedValue(
       JSON.stringify(mockUserCollection),
     );
-    const newUser = { name: 'User4', country: 'Country3', earnings: '$300' };
-    const result = await service.addNewUser({
-      id: 1,
-      name: 'User1',
-      country: 'Country1',
-      earnings: '$100',
-    });
-    expect(result).toEqual({ id: 4, ...newUser });
+    (writeFile as jest.Mock).mockRejectedValue(new Error('Error saving file'));
+
+    const newUserDetailsDto = {
+      id: 4,
+      name: 'User4',
+      country: 'Country3',
+      earnings: '$300',
+    };
+    await expect(service.addNewUser(newUserDetailsDto)).rejects.toThrow(
+      InternalServerErrorException,
+    );
   });
 
   it('should get user count by country', async () => {
@@ -85,5 +91,15 @@ describe('DetailsService', () => {
     );
     const result = await service.getAverageEarnsByCountry();
     expect(result).toEqual({ Country1: 150, Country2: 150 });
+  });
+
+  it('should find one user by id', async () => {
+    (readFile as jest.Mock).mockResolvedValue(
+      JSON.stringify(mockUserCollection),
+    );
+    const userName = await service.findOneById(1);
+    expect(userName).toBe('User1');
+    const userNameNotFound = await service.findOneById(999);
+    expect(userNameNotFound).toBe('User with id 999 not found.');
   });
 });
