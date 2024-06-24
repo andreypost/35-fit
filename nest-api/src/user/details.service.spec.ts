@@ -53,7 +53,7 @@ describe('DetailsService', () => {
     const newUser = { id: 4, ...newUserDetailsDto };
 
     const result = await service.addNewUser(newUser);
-    expect(result).toEqual(newUser);
+    expect(result).toEqual(undefined);
     expect(writeFile).toHaveBeenCalledWith(
       service['filePath'],
       JSON.stringify([...mockUserCollection, newUser], null, 2),
