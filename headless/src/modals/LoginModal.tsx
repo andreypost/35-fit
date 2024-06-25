@@ -186,38 +186,36 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       // const getAllUsers = await axios.get(`${process.env.API_URL}/users`)
       // console.log('get all users: ', ...getAllUsers.data)
 
-      const detailsUsers = await axios.get(
-        `${process.env.API_URL}/details/users`
-      )
-      console.log('/details/users: ', detailsUsers.data)
+      const detailUsers = await axios.get(`${process.env.API_URL}/detail/users`)
+      console.log('/detail/users: ', detailUsers.data)
 
-      const detailsNewUser = await axios.post(
-        `${process.env.API_URL}/details/add-new-user`,
+      const detailNewUser = await axios.post(
+        `${process.env.API_URL}/detail/add-new-user`,
         {
           earnings: '$5000.00',
           country: 'Ukraine',
           name: 'Andrii Post',
         }
       )
-      console.log('/details/add-new-user: ', detailsNewUser)
+      console.log('/detail/add-new-user: ', detailNewUser)
 
-      const detailsByCountry = await axios.get(
-        `${process.env.API_URL}/details/count-by-country`
+      const detailByCountry = await axios.get(
+        `${process.env.API_URL}/detail/count-by-country`
       )
-      console.log('/details/count-by-country: ', detailsByCountry.data)
+      console.log('/detail/count-by-country: ', detailByCountry.data)
 
-      const detailsByEarnings = await axios.get(
-        `${process.env.API_URL}/details/average-earnings-by-country`
+      const detailByEarnings = await axios.get(
+        `${process.env.API_URL}/detail/average-earnings-by-country`
       )
       console.log(
-        '/details/average-earnings-by-country: ',
-        detailsByEarnings.data
+        '/detail/average-earnings-by-country: ',
+        detailByEarnings.data
       )
 
-      const detailsById = await axios.get(
-        `${process.env.API_URL}/details/users/10`
+      const detailById = await axios.get(
+        `${process.env.API_URL}/detail/users/10`
       )
-      console.log('/details/users/id: ', detailsById)
+      console.log('/detail/users/id: ', detailById)
     } catch (err: any) {
       if (err.response?.status === 400) {
         console.log(err.response.data.message)

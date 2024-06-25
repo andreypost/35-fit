@@ -7,8 +7,8 @@ import { AppService } from './app.service';
 import { HelloController } from './hello.controller';
 import { AuthController } from './user/auth.controller';
 import { AuthService } from './user/auth.service';
-import { DetailsController } from './user/details.controller';
-import { DetailsService } from './user/details.service';
+import { DetailController } from './user/detail.controller';
+import { DetailService } from './user/detail.service';
 
 @Module({
   imports: [
@@ -37,8 +37,8 @@ import { DetailsService } from './user/details.service';
     AppController,
     HelloController,
     AuthController,
-    DetailsController,
+    DetailController,
   ],
-  providers: [AppService, AuthService, DetailsService],
+  providers: [AppService, AuthService, DetailService],
 })
 export class AppModule {}

@@ -7,17 +7,17 @@ import {
   Res,
   Param,
 } from '@nestjs/common';
-import { DetailsService } from './details.service';
+import { DetailService } from './detail.service';
 import { CreateUserDetailsDto } from './dto/create-user.dto';
 import { IUserDetails } from 'src/interfaces/user';
 
-@Controller('details')
-export class DetailsController {
-  constructor(private readonly detailsService: DetailsService) {}
+@Controller('detail')
+export class DetailController {
+  constructor(private readonly detailService: DetailService) {}
 
   @Get('users')
   async getUserDetails(@Res() res): Promise<IUserDetails[]> {
-    return this.detailsService.getUserDetails(res);
+    return this.detailService.getUserDetails(res);
   }
 
   @Post('add-new-user')
@@ -27,21 +27,21 @@ export class DetailsController {
     if (!createUserDetailsDto) {
       throw new BadRequestException('Invalid user data');
     }
-    return this.detailsService.addNewUser(createUserDetailsDto);
+    return this.detailService.addNewUser(createUserDetailsDto);
   }
 
   @Get('count-by-country')
-  async getUserCountByCountry(): Promise<Record<string, number>> {
-    return this.detailsService.getUsersCountByCountry();
+  async getUsersCountByCountry(): Promise<Record<string, number>> {
+    return this.detailService.getUsersCountByCountry();
   }
 
   @Get('average-earnings-by-country')
-  async getAverageEarnsByCountry(): Promise<Record<string, number>> {
-    return this.detailsService.getAverageEarnsByCountry();
+  async getAverageEarningsByCountry(): Promise<Record<string, number>> {
+    return this.detailService.getAverageEarningsByCountry();
   }
 
   @Get('users/:id')
   async findOneById(@Param('id') id: number): Promise<string> {
-    return this.detailsService.findOneById(id);
+    return this.detailService.findOneById(id);
   }
 }

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DetailsService } from './details.service';
+import { DetailService } from './detail.service';
 import { InternalServerErrorException } from '@nestjs/common';
 import { readFile, writeFile } from 'fs/promises';
 import { IUserDetails } from '../interfaces/user';
@@ -10,15 +10,15 @@ jest.mock('fs', () => ({
 }));
 
 describe('DetailsService', () => {
-  let service: DetailsService;
+  let service: DetailService;
   let mockUserCollection: IUserDetails[];
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [DetailsService],
+      providers: [DetailService],
     }).compile();
 
-    service = module.get<DetailsService>(DetailsService);
+    service = module.get<DetailService>(DetailService);
     mockUserCollection = [
       { id: 1, name: 'User1', country: 'Country1', earnings: '$100' },
       { id: 2, name: 'User2', country: 'Country1', earnings: '$200' },
@@ -89,7 +89,7 @@ describe('DetailsService', () => {
     (readFile as jest.Mock).mockResolvedValue(
       JSON.stringify(mockUserCollection),
     );
-    const result = await service.getAverageEarnsByCountry();
+    const result = await service.getAverageEarningsByCountry();
     expect(result).toEqual({ Country1: 150, Country2: 150 });
   });
 

@@ -6,7 +6,7 @@ import { IUserDetails } from 'src/interfaces/user';
 import { CreateUserDetailsDto } from './dto/create-user.dto';
 
 @Injectable()
-export class DetailsService {
+export class DetailService {
   private userCollection: IUserDetails[] = null;
   private readonly filePath: string = join(
     process.cwd(),
@@ -16,12 +16,9 @@ export class DetailsService {
   private usersCountCache: Record<string, number> = null;
   private averageEarningsCache: Record<string, number> = {};
 
-  private async loadUserCollection(): Promise<IUserDetails[]> {
-    if (this.userCollection?.length) return this.userCollection;
+  public async getUserDetails(res: any): Promise<IUserDetails[]> {
     try {
-      return (this.userCollection = JSON.parse(
-        await readFile(this.filePath, 'utf8'),
-      ));
+      return createReadStream(this.filePath).pipe(res);
     } catch {
       throw new InternalServerErrorException(
         'Failed to load data from "user-collection.json" file',
@@ -29,9 +26,12 @@ export class DetailsService {
     }
   }
 
-  public async getUserDetails(res: any): Promise<IUserDetails[]> {
+  private async loadUserCollection(): Promise<IUserDetails[]> {
+    if (this.userCollection?.length) return this.userCollection;
     try {
-      return createReadStream(this.filePath).pipe(res);
+      return (this.userCollection = JSON.parse(
+        await readFile(this.filePath, 'utf8'),
+      ));
     } catch {
       throw new InternalServerErrorException(
         'Failed to load data from "user-collection.json" file',
@@ -76,7 +76,7 @@ export class DetailsService {
     ));
   }
 
-  public async getAverageEarnsByCountry(): Promise<Record<string, number>> {
+  public async getAverageEarningsByCountry(): Promise<Record<string, number>> {
     if (Object.keys(this.averageEarningsCache)?.length)
       return this.averageEarningsCache;
 
