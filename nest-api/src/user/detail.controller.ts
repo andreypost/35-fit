@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Post,
-  Body,
-  BadRequestException,
-  Get,
-  Res,
-  Param,
-} from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { DetailService } from './detail.service';
 import { CreateUserDetailsDto } from './dto/create-user.dto';
 import { IUserDetails } from 'src/interfaces/user';
@@ -16,17 +8,14 @@ export class DetailController {
   constructor(private readonly detailService: DetailService) {}
 
   @Get('users')
-  async getUserDetails(@Res() res): Promise<IUserDetails[]> {
-    return this.detailService.getUserDetails(res);
+  async getUserDetails(): Promise<IUserDetails[]> {
+    return this.detailService.loadUserCollection();
   }
 
   @Post('add-new-user')
   async addNewUser(
     @Body() createUserDetailsDto: CreateUserDetailsDto,
   ): Promise<void> {
-    if (!createUserDetailsDto) {
-      throw new BadRequestException('Invalid user data');
-    }
     return this.detailService.addNewUser(createUserDetailsDto);
   }
 

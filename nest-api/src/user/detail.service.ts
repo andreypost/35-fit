@@ -1,7 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { join } from 'path';
 import { readFile, writeFile } from 'fs/promises';
-import { createReadStream } from 'fs';
 import { IUserDetails } from 'src/interfaces/user';
 import { CreateUserDetailsDto } from './dto/create-user.dto';
 
@@ -13,21 +12,11 @@ export class DetailService {
     'data',
     'user-collection.json',
   );
-  private usersCountCache: Record<string, number> = null;
+  private usersCountCache: Record<string, number> = {};
   private averageEarningsCache: Record<string, number> = {};
 
-  public async getUserDetails(res: any): Promise<IUserDetails[]> {
-    try {
-      return createReadStream(this.filePath).pipe(res);
-    } catch {
-      throw new InternalServerErrorException(
-        'Failed to load data from "user-collection.json" file',
-      );
-    }
-  }
-
-  private async loadUserCollection(): Promise<IUserDetails[]> {
-    if (this.userCollection?.length) return this.userCollection;
+  public async loadUserCollection(): Promise<IUserDetails[]> {
+    if (this.userCollection) return this.userCollection;
     try {
       return (this.userCollection = JSON.parse(
         await readFile(this.filePath, 'utf8'),
@@ -54,7 +43,7 @@ export class DetailService {
         this.filePath,
         JSON.stringify(this.userCollection, null, 2),
       );
-      this.usersCountCache = null;
+      this.usersCountCache = {};
       this.averageEarningsCache = {};
     } catch {
       throw new InternalServerErrorException(
@@ -64,12 +53,12 @@ export class DetailService {
   }
 
   public async getUsersCountByCountry(): Promise<Record<string, number>> {
-    if (this.usersCountCache?.length) return this.usersCountCache;
+    if (Object.keys(this.usersCountCache)?.length) return this.usersCountCache;
 
     await this.loadUserCollection();
     return (this.usersCountCache = this.userCollection.reduce(
       (acc, { country }) => {
-        acc[country] = acc[country] ? ++acc[country] : 1;
+        acc[country] ? ++acc[country] : (acc[country] = 1);
         return acc;
       },
       {} as Record<string, number>,
@@ -83,7 +72,7 @@ export class DetailService {
     await this.loadUserCollection();
     const countryEarnings = this.userCollection.reduce(
       (acc, { country, earnings }) => {
-        const formattedEarns = parseFloat(earnings.replace(/[$]/g, ''));
+        const formattedEarns = parseFloat(earnings.replace(/[$]/, ''));
         !acc[country]
           ? (acc[country] = [formattedEarns])
           : acc[country].push(formattedEarns);

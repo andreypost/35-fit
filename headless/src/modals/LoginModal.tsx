@@ -213,7 +213,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       )
 
       const detailById = await axios.get(
-        `${process.env.API_URL}/detail/users/10`
+        `${process.env.API_URL}/detail/users/104`
       )
       console.log('/detail/users/id: ', detailById)
     } catch (err: any) {
