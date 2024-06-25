@@ -5,9 +5,6 @@ import { readFile, writeFile } from 'fs/promises';
 import { IUserDetails } from '../interfaces/user';
 
 jest.mock('fs/promises');
-jest.mock('fs', () => ({
-  createReadStream: jest.fn(),
-}));
 
 describe('DetailsService', () => {
   let service: DetailService;
@@ -30,13 +27,13 @@ describe('DetailsService', () => {
     (readFile as jest.Mock).mockResolvedValue(
       JSON.stringify(mockUserCollection),
     );
-    const users = await service['loadUserCollection']();
+    const users = await service.loadUserCollection();
     expect(users).toEqual(mockUserCollection);
   });
 
   it('should handle error when loading user collection', async () => {
     (readFile as jest.Mock).mockRejectedValue(new Error('Error loading file'));
-    await expect(service['loadUserCollection']()).rejects.toThrow(
+    await expect(service.loadUserCollection()).rejects.toThrow(
       InternalServerErrorException,
     );
   });
