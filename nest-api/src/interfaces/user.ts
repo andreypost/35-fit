@@ -1,7 +1,7 @@
 export interface IUserDetails {
   email?: string;
   password?: string;
-  id?: number;
+  id?: string;
   earnings?: string;
   country?: string;
   name?: string;

@@ -3,12 +3,14 @@ import { DetailService } from './detail.service';
 import { InternalServerErrorException } from '@nestjs/common';
 import { readFile, writeFile } from 'fs/promises';
 import { IUserDetails } from '../interfaces/user';
+import { CreateUserDetailsDto } from './dto/create-user.dto';
 
 jest.mock('fs/promises');
 
 describe('DetailsService', () => {
   let service: DetailService;
   let mockUserCollection: IUserDetails[];
+  let newUserDetailsDto: CreateUserDetailsDto;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -17,10 +19,16 @@ describe('DetailsService', () => {
 
     service = module.get<DetailService>(DetailService);
     mockUserCollection = [
-      { id: 1, name: 'User1', country: 'Country1', earnings: '$100' },
-      { id: 2, name: 'User2', country: 'Country1', earnings: '$200' },
-      { id: 3, name: 'User3', country: 'Country2', earnings: '$150' },
+      { id: 'uuid1', name: 'User1', country: 'Country1', earnings: '$100' },
+      { id: 'uuid2', name: 'User2', country: 'Country1', earnings: '$200' },
+      { id: 'uuid3', name: 'User3', country: 'Country2', earnings: '$150' },
     ];
+    newUserDetailsDto = {
+      id: 'uuid1',
+      name: 'User1',
+      country: 'Country1',
+      earnings: '$100',
+    };
   });
 
   it('should load user collection', async () => {
@@ -42,18 +50,12 @@ describe('DetailsService', () => {
     (readFile as jest.Mock).mockResolvedValue(
       JSON.stringify(mockUserCollection),
     );
-    const newUserDetailsDto = {
-      name: 'User4',
-      country: 'Country3',
-      earnings: '$300',
-    };
-    const newUser = { id: 4, ...newUserDetailsDto };
 
-    const result = await service.addNewUser(newUser);
-    expect(result).toEqual(undefined);
+    const result = await service.addNewUser(newUserDetailsDto);
+    expect(result).toEqual(newUserDetailsDto);
     expect(writeFile).toHaveBeenCalledWith(
       service['filePath'],
-      JSON.stringify([...mockUserCollection, newUser], null, 2),
+      JSON.stringify([...mockUserCollection, newUserDetailsDto], null, 2),
     );
   });
 
@@ -63,12 +65,6 @@ describe('DetailsService', () => {
     );
     (writeFile as jest.Mock).mockRejectedValue(new Error('Error saving file'));
 
-    const newUserDetailsDto = {
-      id: 4,
-      name: 'User4',
-      country: 'Country3',
-      earnings: '$300',
-    };
     await expect(service.addNewUser(newUserDetailsDto)).rejects.toThrow(
       InternalServerErrorException,
     );
@@ -90,13 +86,13 @@ describe('DetailsService', () => {
     expect(result).toEqual({ Country1: 150, Country2: 150 });
   });
 
-  it('should find one user by id', async () => {
+  it('should find one user by uuid id', async () => {
     (readFile as jest.Mock).mockResolvedValue(
       JSON.stringify(mockUserCollection),
     );
-    const userName = await service.findOneById(1);
-    expect(userName).toBe('User1');
-    const userNameNotFound = await service.findOneById(999);
-    expect(userNameNotFound).toBe('User with id 999 not found.');
+    const userName = await service.findOneById('uuid1');
+    expect(userName).toEqual(newUserDetailsDto);
+    const userNameNotFound = await service.findOneById('uuid999');
+    expect(userNameNotFound).toEqual('User with id uuid999 not found.');
   });
 });

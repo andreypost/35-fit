@@ -21,7 +21,7 @@ export class DetailService {
     try {
       return (this.userCollection = JSON.parse(
         await readFile(this.filePath, 'utf8'),
-      ));
+      ).map((user) => ({ ...user, id: user.id.toString() })));
     } catch {
       throw new InternalServerErrorException(
         'Failed to load data from "user-collection.json" file',
@@ -34,10 +34,7 @@ export class DetailService {
   ): Promise<IUserDetails> {
     await this.loadUserCollection();
     const id: string = uuidv4();
-    const newUser: IUserDetails = {
-      id: id,
-      ...createUserDetailsDto,
-    };
+    const newUser: IUserDetails = { id, ...createUserDetailsDto };
     this.userCollection.push(newUser);
     try {
       await writeFile(
@@ -97,7 +94,7 @@ export class DetailService {
 
   public async findOneById(id: string): Promise<IUserDetails | string> {
     await this.loadUserCollection();
-    const user = this.userCollection.find((user) => user.id.toString() === id);
+    const user = this.userCollection.find((user) => user.id === id);
     return user ? user : `User with id ${id} not found.`;
   }
 
