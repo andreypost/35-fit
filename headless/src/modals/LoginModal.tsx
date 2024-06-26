@@ -177,14 +177,14 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       // const createUserRes = await axios.post(
       //   `${process.env.API_URL}/auth/create-new-user`,
       //   {
-      //     email,
-      //     password,
+      //     email: 'test@email.com',
+      //     password: '9999',
       //   }
       // )
       // console.log('/auth/create-new-user:', email, ' - ', createUserRes.data)
 
-      // const getAllUsers = await axios.get(`${process.env.API_URL}/users`)
-      // console.log('get all users: ', ...getAllUsers.data)
+      // const getAllUsers = await axios.get(`${process.env.API_URL}/auth`)
+      // console.log('/auth - get all users: ', ...getAllUsers.data)
 
       const detailUsers = await axios.get(`${process.env.API_URL}/detail/users`)
       console.log('/detail/users: ', detailUsers.data)

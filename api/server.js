@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 });
 
 // Route to get all users
-app.get("/users", async (req, res) => {
+app.get("/auth", async (req, res) => {
   try {
     const users = await User.findAll({
       attributes: { exclude: ["password"] }, // Exclude password from the result
@@ -39,7 +39,7 @@ app.get("/users", async (req, res) => {
 });
 
 // Route to create a new user
-app.post("/users", async (req, res) => {
+app.post("/auth", async (req, res) => {
   console.log(req.body); // See exactly what is being received
   try {
     const { name, email, password } = req.body;
