@@ -43,12 +43,12 @@ export class DetailService {
       );
       this.usersCountCache = {};
       this.averageEarningsCache = {};
+      return newUser;
     } catch {
       throw new InternalServerErrorException(
         'Failed to save data to "user-collection.json" file',
       );
     }
-    return newUser;
   }
 
   public async getUsersCountByCountry(): Promise<Record<string, number>> {
@@ -57,7 +57,7 @@ export class DetailService {
     await this.loadUserCollection();
     return (this.usersCountCache = this.userCollection.reduce(
       (acc, { country }) => {
-        acc[country] ? ++acc[country] : (acc[country] = 1);
+        !acc[country] ? (acc[country] = 1) : ++acc[country];
         return acc;
       },
       {} as Record<string, number>,
@@ -71,10 +71,10 @@ export class DetailService {
     await this.loadUserCollection();
     const countryEarnings = this.userCollection.reduce(
       (acc, { country, earnings }) => {
-        const formattedEarns = parseFloat(earnings.replace(/[$]/, ''));
+        const formattedEarnings = parseInt(earnings.replace(/[$]/, ''));
         !acc[country]
-          ? (acc[country] = [formattedEarns])
-          : acc[country].push(formattedEarns);
+          ? (acc[country] = [formattedEarnings])
+          : acc[country].push(formattedEarnings);
         return acc;
       },
       {} as Record<string, number[]>,
@@ -84,11 +84,12 @@ export class DetailService {
       const topEarnings = countryEarnings[country]
         .sort((a, b) => b - a)
         .slice(0, 10);
-      const total = topEarnings.reduce((sum, earn) => sum + earn, 0);
+      const total = topEarnings.reduce((acc, sum) => acc + sum, 0);
       this.averageEarningsCache[country] = Math.round(
         total / topEarnings.length,
       );
     }
+
     return this.averageEarningsCache;
   }
 
