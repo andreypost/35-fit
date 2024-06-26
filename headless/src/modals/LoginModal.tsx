@@ -213,9 +213,10 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       )
 
       const detailById = await axios.get(
-        `${process.env.API_URL}/detail/users/104`
+        `${process.env.API_URL}/detail/users/${detailNewUser?.data?.id}`
       )
       console.log('/detail/users/id: ', detailById)
+      // end of async call
     } catch (err: any) {
       if (err.response?.status === 400) {
         console.log(err.response.data.message)

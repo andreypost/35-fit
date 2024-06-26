@@ -1,4 +1,11 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { DetailService } from './detail.service';
 import { CreateUserDetailsDto } from './dto/create-user.dto';
 import { IUserDetails } from 'src/interfaces/user';
@@ -15,7 +22,7 @@ export class DetailController {
   @Post('add-new-user')
   async addNewUser(
     @Body() createUserDetailsDto: CreateUserDetailsDto,
-  ): Promise<void> {
+  ): Promise<IUserDetails> {
     return this.detailService.addNewUser(createUserDetailsDto);
   }
 
@@ -30,7 +37,9 @@ export class DetailController {
   }
 
   @Get('users/:id')
-  async findOneById(@Param('id') id: number): Promise<string> {
+  async findOneById(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<IUserDetails | string> {
     return this.detailService.findOneById(id);
   }
 }

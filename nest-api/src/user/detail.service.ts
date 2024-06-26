@@ -3,6 +3,7 @@ import { join } from 'path';
 import { readFile, writeFile } from 'fs/promises';
 import { IUserDetails } from 'src/interfaces/user';
 import { CreateUserDetailsDto } from './dto/create-user.dto';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class DetailService {
@@ -30,9 +31,9 @@ export class DetailService {
 
   public async addNewUser(
     createUserDetailsDto: CreateUserDetailsDto,
-  ): Promise<void> {
+  ): Promise<IUserDetails> {
     await this.loadUserCollection();
-    const id = Math.max(...this.userCollection.map(({ id }) => id), 0) + 1;
+    const id: string = uuidv4();
     const newUser: IUserDetails = {
       id: id,
       ...createUserDetailsDto,
@@ -50,6 +51,7 @@ export class DetailService {
         'Failed to save data to "user-collection.json" file',
       );
     }
+    return newUser;
   }
 
   public async getUsersCountByCountry(): Promise<Record<string, number>> {
@@ -93,10 +95,10 @@ export class DetailService {
     return this.averageEarningsCache;
   }
 
-  public async findOneById(id: number): Promise<string> {
+  public async findOneById(id: string): Promise<IUserDetails | string> {
     await this.loadUserCollection();
-    const user = this.userCollection.find((user) => user.id === +id);
-    return user ? user.name : `User with id ${id} not found.`;
+    const user = this.userCollection.find((user) => user.id.toString() === id);
+    return user ? user : `User with id ${id} not found.`;
   }
 
   // public async getUserCountByCounrtyDB(): Promise<Record<string, number>> {
