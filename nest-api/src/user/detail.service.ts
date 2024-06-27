@@ -8,6 +8,7 @@ import { join } from 'path';
 import { IUserDetails } from 'src/interfaces/user';
 import { CreateUserDetailsDto } from './dto/create-user.dto';
 import { v4 as uuid4 } from 'uuid';
+import { validateOrReject } from 'class-validator';
 
 @Injectable()
 export class DetailService {
@@ -36,6 +37,11 @@ export class DetailService {
   public async addNewUser(
     createUserDetailsDto: CreateUserDetailsDto,
   ): Promise<IUserDetails> {
+    try {
+      await validateOrReject(createUserDetailsDto);
+    } catch {
+      throw new InternalServerErrorException('Validation failed');
+    }
     await this.loadUserCollection();
     const id: string = uuid4();
     const newUser: IUserDetails = {
