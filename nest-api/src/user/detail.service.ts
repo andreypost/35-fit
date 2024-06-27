@@ -1,9 +1,13 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { join } from 'path';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { readFile, writeFile } from 'fs/promises';
+import { join } from 'path';
 import { IUserDetails } from 'src/interfaces/user';
 import { CreateUserDetailsDto } from './dto/create-user.dto';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuid4 } from 'uuid';
 
 @Injectable()
 export class DetailService {
@@ -17,14 +21,14 @@ export class DetailService {
   private averageEarningsCache: Record<string, number> = {};
 
   public async loadUserCollection(): Promise<IUserDetails[]> {
-    if (this.userCollection) return this.userCollection;
+    // if (this.userCollection) return this.userCollection;
     try {
       return (this.userCollection = JSON.parse(
         await readFile(this.filePath, 'utf8'),
-      ).map((user) => ({ ...user, id: user.id.toString() })));
+      ));
     } catch {
       throw new InternalServerErrorException(
-        'Failed to load data from "user-collection.json" file',
+        'Failed to load data from "user-collection.json" file.',
       );
     }
   }
@@ -33,8 +37,12 @@ export class DetailService {
     createUserDetailsDto: CreateUserDetailsDto,
   ): Promise<IUserDetails> {
     await this.loadUserCollection();
-    const id: string = uuidv4();
-    const newUser: IUserDetails = { id, ...createUserDetailsDto };
+    const id: string = uuid4();
+    const newUser: IUserDetails = {
+      ...createUserDetailsDto,
+      id,
+    };
+
     this.userCollection.push(newUser);
     try {
       await writeFile(
@@ -46,7 +54,7 @@ export class DetailService {
       return newUser;
     } catch {
       throw new InternalServerErrorException(
-        'Failed to save data to "user-collection.json" file',
+        'Faild to save newUser to "user-collection.json" file.',
       );
     }
   }
@@ -89,14 +97,16 @@ export class DetailService {
         total / topEarnings.length,
       );
     }
-
     return this.averageEarningsCache;
   }
 
-  public async findOneById(id: string): Promise<IUserDetails | string> {
+  public async findUserById(id: string): Promise<IUserDetails> {
     await this.loadUserCollection();
-    const user = this.userCollection.find((user) => user.id === id);
-    return user ? user : `User with id ${id} not found.`;
+    const user: IUserDetails = this.userCollection.find(
+      (user) => user.id === id,
+    );
+    if (!user) throw new NotFoundException(`User with id ${id} not found.`);
+    return user;
   }
 
   // public async getUserCountByCounrtyDB(): Promise<Record<string, number>> {

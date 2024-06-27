@@ -1,21 +1,21 @@
 import {
-  Controller,
-  Post,
   Body,
+  Controller,
   Get,
   Param,
   ParseUUIDPipe,
+  Post,
 } from '@nestjs/common';
 import { DetailService } from './detail.service';
-import { CreateUserDetailsDto } from './dto/create-user.dto';
 import { IUserDetails } from 'src/interfaces/user';
+import { CreateUserDetailsDto } from './dto/create-user.dto';
 
 @Controller('detail')
 export class DetailController {
   constructor(private readonly detailService: DetailService) {}
 
   @Get('users')
-  async getUserDetails(): Promise<IUserDetails[]> {
+  async loadUserCollection(): Promise<IUserDetails[]> {
     return this.detailService.loadUserCollection();
   }
 
@@ -37,9 +37,9 @@ export class DetailController {
   }
 
   @Get('users/:id')
-  async findOneById(
+  async findUserById(
     @Param('id', new ParseUUIDPipe()) id: string,
-  ): Promise<IUserDetails | string> {
-    return this.detailService.findOneById(id);
+  ): Promise<IUserDetails> {
+    return this.detailService.findUserById(id);
   }
 }

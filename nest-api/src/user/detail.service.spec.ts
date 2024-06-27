@@ -1,13 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DetailService } from './detail.service';
-import { InternalServerErrorException } from '@nestjs/common';
+import {
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { readFile, writeFile } from 'fs/promises';
 import { IUserDetails } from '../interfaces/user';
 import { CreateUserDetailsDto } from './dto/create-user.dto';
 
 jest.mock('fs/promises');
+jest.mock('uuid', () => ({
+  v4: jest.fn(() => 'mock-uuid'),
+}));
 
-describe('DetailsService', () => {
+describe('DetailService', () => {
   let service: DetailService;
   let mockUserCollection: IUserDetails[];
   let newUserDetailsDto: CreateUserDetailsDto;
@@ -18,23 +24,27 @@ describe('DetailsService', () => {
     }).compile();
 
     service = module.get<DetailService>(DetailService);
+
     mockUserCollection = [
-      { id: 'uuid1', name: 'User1', country: 'Country1', earnings: '$100' },
-      { id: 'uuid2', name: 'User2', country: 'Country1', earnings: '$200' },
-      { id: 'uuid3', name: 'User3', country: 'Country2', earnings: '$150' },
+      { id: 'mock-uuid', name: 'User1', country: 'Country1', earnings: '$100' },
+      { id: 'mock-uuid', name: 'User2', country: 'Country1', earnings: '$200' },
+      { id: 'mock-uuid', name: 'User3', country: 'Country2', earnings: '$150' },
     ];
     newUserDetailsDto = {
-      id: 'uuid1',
+      id: 'mock-uuid',
       name: 'User1',
       country: 'Country1',
       earnings: '$100',
     };
   });
 
-  it('should load user collection', async () => {
+  const mockReadFile = () =>
     (readFile as jest.Mock).mockResolvedValue(
       JSON.stringify(mockUserCollection),
     );
+
+  it('should load user collection', async () => {
+    mockReadFile();
     const users = await service.loadUserCollection();
     expect(users).toEqual(mockUserCollection);
   });
@@ -47,52 +57,44 @@ describe('DetailsService', () => {
   });
 
   it('should save user data to file when adding a new user', async () => {
-    (readFile as jest.Mock).mockResolvedValue(
-      JSON.stringify(mockUserCollection),
-    );
+    mockReadFile();
+
+    const expectedNewUser = { ...newUserDetailsDto, id: 'mock-uuid' };
 
     const result = await service.addNewUser(newUserDetailsDto);
-    expect(result).toEqual(newUserDetailsDto);
+    expect(result).toEqual(expectedNewUser);
     expect(writeFile).toHaveBeenCalledWith(
       service['filePath'],
-      JSON.stringify([...mockUserCollection, newUserDetailsDto], null, 2),
+      JSON.stringify([...mockUserCollection, expectedNewUser], null, 2),
     );
   });
 
   it('should handle error when saving user data', async () => {
-    (readFile as jest.Mock).mockResolvedValue(
-      JSON.stringify(mockUserCollection),
-    );
+    mockReadFile();
     (writeFile as jest.Mock).mockRejectedValue(new Error('Error saving file'));
-
     await expect(service.addNewUser(newUserDetailsDto)).rejects.toThrow(
       InternalServerErrorException,
     );
   });
 
   it('should get user count by country', async () => {
-    (readFile as jest.Mock).mockResolvedValue(
-      JSON.stringify(mockUserCollection),
-    );
+    mockReadFile();
     const result = await service.getUsersCountByCountry();
     expect(result).toEqual({ Country1: 2, Country2: 1 });
   });
 
   it('should get average earnings by country', async () => {
-    (readFile as jest.Mock).mockResolvedValue(
-      JSON.stringify(mockUserCollection),
-    );
+    mockReadFile();
     const result = await service.getAverageEarningsByCountry();
     expect(result).toEqual({ Country1: 150, Country2: 150 });
   });
 
   it('should find one user by uuid id', async () => {
-    (readFile as jest.Mock).mockResolvedValue(
-      JSON.stringify(mockUserCollection),
+    mockReadFile();
+    const user = await service.findUserById('mock-uuid');
+    expect(user).toEqual(newUserDetailsDto);
+    await expect(service.findUserById('uuid999')).rejects.toThrow(
+      NotFoundException,
     );
-    const userName = await service.findOneById('uuid1');
-    expect(userName).toEqual(newUserDetailsDto);
-    const userNameNotFound = await service.findOneById('uuid999');
-    expect(userNameNotFound).toEqual('User with id uuid999 not found.');
   });
 });
