@@ -160,7 +160,8 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     [email, setEmail] = useState(''),
     [password, setPassword] = useState(''),
     // [errorMessage, setErrorMessage] = useState(''),
-    [checkState, setCheckState] = useState(false)
+    [checkState, setCheckState] = useState(false),
+    [earnings, setEarnings] = useState(5000)
 
   useEffect(() => {
     console.log('LoginModal: ', process.env.API_URL)
@@ -192,7 +193,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       const detailNewUser = await axios.post(
         `${process.env.API_URL}/detail/add-new-user`,
         {
-          earnings: '$5000.00',
+          earnings: `$${earnings}`,
           country: 'Ukraine',
           name: 'Andrii Post',
         }
@@ -220,6 +221,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       )
       console.log('/detail/users/id: ', detailById.data)
       // end of async call
+      setEarnings(earnings + 100)
     } catch (err: any) {
       if (err.response?.status === 400) {
         console.log(err.response.data.message)

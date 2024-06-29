@@ -4,21 +4,22 @@ import { CreateUserDetailsDto } from './dto/create-user.dto';
 import { Test, TestingModule } from '@nestjs/testing';
 import { readFile, writeFile } from 'fs/promises';
 import {
+  BadRequestException,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
 import { validateOrReject } from 'class-validator';
 
 jest.mock('fs/promises');
 jest.mock('uuid', () => ({
-  v4: jest.fn(() => 'mock-uuid'),
+  v4: jest.fn(),
 }));
 jest.mock('class-validator');
 
 describe('DetailService', () => {
   let service: DetailService;
   let mockUserCollection: IUserDetails[];
-  let createUserDetailsDto: CreateUserDetailsDto;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -28,17 +29,25 @@ describe('DetailService', () => {
     service = module.get<DetailService>(DetailService);
 
     mockUserCollection = [
-      { id: 'mock-uuid', name: 'User1', country: 'Country1', earnings: '$100' },
-      { id: 'mock-uuid', name: 'User2', country: 'Country1', earnings: '$200' },
-      { id: 'mock-uuid', name: 'User3', country: 'Country2', earnings: '$150' },
+      {
+        id: '0fff1a40-078b-4ecd-89a5-bf7bd49e4e63',
+        earnings: '$6300',
+        country: 'Ukraine',
+        name: 'Andrii Post',
+      },
+      {
+        id: '32838264-888a-49df-b15a-39386b7dc107',
+        earnings: '$6400',
+        country: 'Poland',
+        name: 'Andrii Post',
+      },
+      {
+        id: '39b4e5d5-5b94-4f1e-839e-d8a831320042',
+        earnings: '$6500',
+        country: 'Ukraine',
+        name: 'Andrii Post',
+      },
     ];
-
-    createUserDetailsDto = {
-      id: 'mock-uuid',
-      name: 'User1',
-      country: 'Country1',
-      earnings: '$100',
-    };
   });
 
   const mockReadFile = () =>
@@ -46,63 +55,79 @@ describe('DetailService', () => {
       JSON.stringify(mockUserCollection),
     );
 
-  it('should load user collection', async () => {
+  const mockUuid = '0fff1a40-078b-4ecd-89a5-bf7bd49e4e63';
+  (uuidv4 as jest.Mock).mockReturnValue(mockUuid);
+
+  const createUserDetailsDto: CreateUserDetailsDto = {
+    id: mockUuid,
+    earnings: '$6300',
+    country: 'Ukraine',
+    name: 'Andrii Post',
+  };
+
+  it('should load data from user collection file', async () => {
     mockReadFile();
+
     expect(await service.loadUserCollection()).toEqual(mockUserCollection);
   });
 
-  it('should handle error when loading user collection', async () => {
-    (readFile as jest.Mock).mockRejectedValue(new Error('Error loading file'));
+  it('should throw InternalServerErrorException when loading data from user collection file', async () => {
+    (readFile as jest.Mock).mockRejectedValue(
+      new Error('Failed to load data from "user-collection.json" file.'),
+    );
+
     await expect(service.loadUserCollection()).rejects.toThrow(
       InternalServerErrorException,
     );
   });
 
-  it('should save new user to user collection', async () => {
+  it('should create and save new user data to user collection file', async () => {
     mockReadFile();
+
     expect(await service.addNewUser(createUserDetailsDto)).toEqual(
       createUserDetailsDto,
     );
+
     expect(writeFile).toHaveBeenCalledWith(
       service['filePath'],
       JSON.stringify([...mockUserCollection, createUserDetailsDto], null, 2),
     );
   });
 
-  it('should throw InternalServerErrorException when user data is malformed', async () => {
-    mockReadFile();
+  it('should throw BadRequestException if user data is malformed', async () => {
+    const malformedUserDetailsDto: any = { country: 'Ukraine' };
 
-    const malformedUserDetailsDto: any = { country: 'Country3' };
+    (validateOrReject as jest.Mock).mockRejectedValue(
+      () => new Error('User data is malformed.'),
+    );
 
-    (validateOrReject as jest.Mock).mockImplementation(() => {
-      throw new InternalServerErrorException('Validation failed');
-    });
     await expect(service.addNewUser(malformedUserDetailsDto)).rejects.toThrow(
-      InternalServerErrorException,
+      BadRequestException,
     );
   });
 
   it('should get users count by country', async () => {
     mockReadFile();
+
     expect(await service.getUsersCountByCountry()).toEqual({
-      Country1: 2,
-      Country2: 1,
+      Ukraine: 2,
+      Poland: 1,
     });
   });
 
   it('should get average earnings by country', async () => {
     mockReadFile();
+
     expect(await service.getAverageEarningsByCountry()).toEqual({
-      Country1: 150,
-      Country2: 150,
+      Ukraine: 6400,
+      Poland: 6400,
     });
   });
 
   it('should find user by ID', async () => {
     mockReadFile();
-    expect(await service.findUserById('mock-uuid')).toEqual(
-      createUserDetailsDto,
-    );
+
+    expect(await service.findUserById(mockUuid)).toEqual(createUserDetailsDto);
 
     await expect(service.findUserById('uuid999')).rejects.toThrow(
       NotFoundException,

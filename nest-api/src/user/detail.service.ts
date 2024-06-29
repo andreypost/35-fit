@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -7,7 +8,7 @@ import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { IUserDetails } from 'src/interfaces/user';
 import { CreateUserDetailsDto } from './dto/create-user.dto';
-import { v4 as uuid4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { validateOrReject } from 'class-validator';
 
 @Injectable()
@@ -40,13 +41,14 @@ export class DetailService {
     try {
       await validateOrReject(createUserDetailsDto);
     } catch {
-      throw new InternalServerErrorException('Validation failed');
+      throw new BadRequestException('User data is malformed.');
     }
+
     await this.loadUserCollection();
-    const id: string = uuid4();
+    const id: string = uuidv4();
     const newUser: IUserDetails = {
-      ...createUserDetailsDto,
       id,
+      ...createUserDetailsDto,
     };
 
     this.userCollection.push(newUser);
