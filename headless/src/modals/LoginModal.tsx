@@ -193,7 +193,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       //   `${process.env.API_URL}/auth/add-new-user-details`,
       //   {
       //     earnings: `$${earnings}`,
-      //     country: countries[(index % countries.length) - 1],
+      //     country: countries[index % (countries.length - 1)],
       //     name: 'Andrii Postoliuk',
       //   }
       // )
@@ -228,7 +228,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         `${process.env.API_URL}/detail/add-new-user`,
         {
           earnings: `$${earnings}`,
-          country: countries[(index % countries.length) - 1],
+          country: countries[index % (countries.length - 1)],
           name: 'Andrii Postoliuk',
         }
       )
