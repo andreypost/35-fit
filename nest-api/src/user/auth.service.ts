@@ -8,6 +8,7 @@ import { IUserDetails } from '../interfaces/user';
 
 @Injectable()
 export class AuthService {
+  private userDetailsData: UserDetails[];
   constructor(
     @InjectRepository(UserDetails)
     private readonly userDetailsRepository: Repository<UserDetails>,
@@ -16,33 +17,28 @@ export class AuthService {
   ) {}
 
   public async findAllUserDetails(): Promise<UserDetails[]> {
-    return await this.userDetailsRepository.find();
+    return (this.userDetailsData = await this.userDetailsRepository.find());
   }
 
-  // public async addNewUserDetails(
-  //   createUserDetailsDto: CreateUserDetailsDto,
-  // ): Promise<UserDetails> {
-  //   const newUserDetails =
-  //     this.userDetailsRepository.create(createUserDetailsDto);
-  //   return this.userDetailsRepository.save(newUserDetails);
-  // }
+  public async addNewUserDetails(
+    createUserDetailsDto: CreateUserDetailsDto,
+  ): Promise<UserDetails> {
+    const newUserDetails =
+      this.userDetailsRepository.create(createUserDetailsDto);
+    return this.userDetailsRepository.save(newUserDetails);
+  }
 
-  // public async getUserCountByCounrtyDB(): Promise<Record<string, number>> {
-  //   const result = await this.userRepository
-  //     .createQueryBuilder('user')
-  //     .select('user.country', 'country')
-  //     .addSelect('COUNT(user.id)', 'count')
-  //     .groupBy('user.country')
-  //     .getRawMany();
+  public async getUserCountByCountryDetails(): Promise<Record<string, number>> {
+    await this.findAllUserDetails();
 
-  //   return result.reduce(
-  //     (acc, { country, count }) => {
-  //       acc[country] = parseInt(count, 10);
-  //       return acc;
-  //     },
-  //     {} as Record<string, number>,
-  //   );
-  // }
+    return this.userDetailsData.reduce(
+      (acc, { country }) => {
+        !acc[country] ? (acc[country] = 1) : ++acc[country];
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+  }
 
   public async findAll(): Promise<User[]> {
     return await this.userRepository.find();

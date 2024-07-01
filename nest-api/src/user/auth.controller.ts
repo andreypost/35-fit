@@ -18,12 +18,17 @@ export class AuthController {
     return this.authService.findAllUserDetails();
   }
 
-  // @Post('add-new-user-details')
-  // async addNewUserDetails(
-  //   @Body() createUserDetailsDto: CreateUserDetailsDto,
-  // ): Promise<UserDetails> {
-  //   return this.authService.addNewUserDetails(createUserDetailsDto);
-  // }
+  @Post('add-new-user-details')
+  async addNewUserDetails(
+    @Body() createUserDetailsDto: CreateUserDetailsDto,
+  ): Promise<UserDetails> {
+    return this.authService.addNewUserDetails(createUserDetailsDto);
+  }
+
+  @Get('count-by-country-details')
+  async getUserCountByCountryDetails(): Promise<Record<string, number>> {
+    return this.authService.getUserCountByCountryDetails();
+  }
 
   @Get('users')
   async getAllUsers(): Promise<User[]> {

@@ -2,7 +2,7 @@ import { TestingModule, Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { AuthService } from './auth.service';
 import { User, UserDetails } from '../entities/user';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDetailsDto, CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 
 const mockUser = {
@@ -31,6 +31,12 @@ const mockUserDetails = [
     name: 'Andrii Postoliuk',
   },
 ];
+
+const mockUserDetailsDto = {
+  earnings: '$6300',
+  country: 'Chile',
+  name: 'Andrii Postoliuk',
+};
 
 const mockRepository = () => ({
   find: jest.fn(),
@@ -77,7 +83,7 @@ describe('AuthService', () => {
     jest.clearAllMocks();
   });
 
-  it('authService should be defined', () => {
+  it('authService should be defined', async () => {
     expect(authService).toBeDefined();
   });
 
@@ -85,6 +91,42 @@ describe('AuthService', () => {
     it('should return an array of user details', async () => {
       userDetailsRepository.find.mockResolvedValue(mockUserDetails);
       expect(await authService.findAllUserDetails()).toEqual(mockUserDetails);
+    });
+  });
+
+  describe('addNewUserDetails', () => {
+    it('should create, add and return a new user details', async () => {
+      const createUserDetailsDto: CreateUserDetailsDto = {
+        earnings: mockUserDetailsDto.earnings,
+        country: mockUserDetailsDto.country,
+        name: mockUserDetailsDto.name,
+      };
+
+      userDetailsRepository.create.mockReturnValue(createUserDetailsDto);
+      userDetailsRepository.save.mockResolvedValue(createUserDetailsDto);
+
+      result = await authService.addNewUserDetails(createUserDetailsDto);
+
+      expect(userDetailsRepository.create).toHaveBeenCalledWith(
+        createUserDetailsDto,
+      );
+      expect(userDetailsRepository.save).toHaveBeenCalledWith(
+        createUserDetailsDto,
+      );
+      expect(result).toEqual(createUserDetailsDto);
+    });
+  });
+
+  describe('getUserCountByCountryDetails', () => {
+    it('should return the count by country result', async () => {
+      userDetailsRepository.find.mockResolvedValue(mockUserDetails);
+      result = await authService.getUserCountByCountryDetails();
+
+      expect(userDetailsRepository.find).toHaveBeenCalled();
+      expect(result).toEqual({
+        Ukraine: 2,
+        Poland: 1,
+      });
     });
   });
 

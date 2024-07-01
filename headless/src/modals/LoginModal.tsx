@@ -187,7 +187,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       // const getAuthUserDetails = await axios.get(
       //   `${process.env.API_URL}/auth/details`
       // )
-      // console.log('/auth/users - get all users: ', ...getAuthUserDetails.data)
+      // console.log('/auth/users: ', ...getAuthUserDetails.data)
 
       // const addNewUserDetails = await axios.post(
       //   `${process.env.API_URL}/auth/add-new-user-details`,
@@ -199,10 +199,18 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       // )
       // console.log('/auth/add-new-user-details:', addNewUserDetails.data)
 
+      // const getUserCountByCounrtyDetails = await axios.get(
+      //   `${process.env.API_URL}/auth/count-by-country-details`
+      // )
+      // console.log(
+      //   '/auth/count-by-country-details:',
+      //   getUserCountByCounrtyDetails.data
+      // )
+
       // const createUserRes = await axios.post(
       //   `${process.env.API_URL}/auth/create-new-user`,
       //   {
-      //     email: 'test_04@email.com',
+      //     email: 'test_05@email.com',
       //     password: '9999',
       //   }
       // )
