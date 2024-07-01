@@ -87,118 +87,106 @@ describe('AuthService', () => {
     expect(authService).toBeDefined();
   });
 
-  describe('findAllUserDetails', () => {
-    it('should return an array of user details', async () => {
-      userDetailsRepository.find.mockResolvedValue(mockUserDetails);
-      expect(await authService.findAllUserDetails()).toEqual(mockUserDetails);
+  it('should return an array of user details', async () => {
+    userDetailsRepository.find.mockResolvedValue(mockUserDetails);
+    expect(await authService.findAllUserDetails()).toEqual(mockUserDetails);
+  });
+
+  it('should create, add and return a new user details', async () => {
+    const createUserDetailsDto: CreateUserDetailsDto = {
+      earnings: mockUserDetailsDto.earnings,
+      country: mockUserDetailsDto.country,
+      name: mockUserDetailsDto.name,
+    };
+
+    userDetailsRepository.create.mockReturnValue(createUserDetailsDto);
+    userDetailsRepository.save.mockResolvedValue(createUserDetailsDto);
+
+    result = await authService.addNewUserDetails(createUserDetailsDto);
+
+    expect(userDetailsRepository.create).toHaveBeenCalledWith(
+      createUserDetailsDto,
+    );
+    expect(userDetailsRepository.save).toHaveBeenCalledWith(
+      createUserDetailsDto,
+    );
+    expect(result).toEqual(createUserDetailsDto);
+  });
+
+  it('should return the count by country result', async () => {
+    userDetailsRepository.find.mockResolvedValue(mockUserDetails);
+    result = await authService.getUserCountByCountryDetails();
+
+    expect(userDetailsRepository.find).toHaveBeenCalled();
+    expect(result).toEqual({
+      Ukraine: 2,
+      Poland: 1,
     });
   });
 
-  describe('addNewUserDetails', () => {
-    it('should create, add and return a new user details', async () => {
-      const createUserDetailsDto: CreateUserDetailsDto = {
-        earnings: mockUserDetailsDto.earnings,
-        country: mockUserDetailsDto.country,
-        name: mockUserDetailsDto.name,
-      };
+  it('should return a user if found', async () => {
+    userRepository.findOne.mockResolvedValue(mockUser.email);
 
-      userDetailsRepository.create.mockReturnValue(createUserDetailsDto);
-      userDetailsRepository.save.mockResolvedValue(createUserDetailsDto);
-
-      result = await authService.addNewUserDetails(createUserDetailsDto);
-
-      expect(userDetailsRepository.create).toHaveBeenCalledWith(
-        createUserDetailsDto,
-      );
-      expect(userDetailsRepository.save).toHaveBeenCalledWith(
-        createUserDetailsDto,
-      );
-      expect(result).toEqual(createUserDetailsDto);
-    });
+    result = await authService.findUserByEmail('test@email');
+    expect(result).toEqual(mockUser.email);
   });
 
-  describe('getUserCountByCountryDetails', () => {
-    it('should return the count by country result', async () => {
-      userDetailsRepository.find.mockResolvedValue(mockUserDetails);
-      result = await authService.getUserCountByCountryDetails();
+  it('should return undefined if a user not found', async () => {
+    userRepository.findOne.mockResolvedValue(undefined);
 
-      expect(userDetailsRepository.find).toHaveBeenCalled();
-      expect(result).toEqual({
-        Ukraine: 2,
-        Poland: 1,
-      });
-    });
+    result = await authService.findUserByEmail('nonexistent@email');
+    expect(result).toBeUndefined();
   });
 
-  describe('findUserByEmail', () => {
-    it('should return a user if found', async () => {
-      userRepository.findOne.mockResolvedValue(mockUser.email);
+  it('create and return a new user', async () => {
+    const createUserDto: CreateUserDto = {
+      email: mockUser.email,
+      password: mockUser.password,
+    };
 
-      result = await authService.findUserByEmail('test@email');
-      expect(result).toEqual(mockUser.email);
-    });
+    jest.spyOn(bcrypt, 'hash').mockResolvedValue(createUserDto.password);
+    userRepository.create.mockReturnValue(createUserDto);
+    userRepository.save.mockResolvedValue(createUserDto);
 
-    it('should return undefined if a user not found', async () => {
-      userRepository.findOne.mockResolvedValue(undefined);
+    result = await authService.createUser(createUserDto);
 
-      result = await authService.findUserByEmail('nonexistent@email');
-      expect(result).toBeUndefined();
-    });
+    expect(bcrypt.hash).toHaveBeenCalledWith(createUserDto.password, 10);
+    expect(userRepository.create).toHaveBeenCalledWith(createUserDto);
+    expect(userRepository.save).toHaveBeenCalledWith(createUserDto);
+    expect(result).toEqual(createUserDto);
   });
 
-  describe('createUser', () => {
-    it('create and return a new user', async () => {
-      const createUserDto: CreateUserDto = {
-        email: mockUser.email,
-        password: mockUser.password,
-      };
+  it('should return true if password is valid', async () => {
+    jest.spyOn(authService, 'findUserByEmail').mockResolvedValue(mockUser);
+    jest.spyOn(bcrypt, 'compare').mockResolvedValue(true);
 
-      jest.spyOn(bcrypt, 'hash').mockResolvedValue(createUserDto.password);
-      userRepository.create.mockReturnValue(createUserDto);
-      userRepository.save.mockResolvedValue(createUserDto);
-
-      result = await authService.createUser(createUserDto);
-
-      expect(bcrypt.hash).toHaveBeenCalledWith(createUserDto.password, 10);
-      expect(userRepository.create).toHaveBeenCalledWith(createUserDto);
-      expect(userRepository.save).toHaveBeenCalledWith(createUserDto);
-      expect(result).toEqual(createUserDto);
+    result = await authService.validateUser({
+      email: mockUser.email,
+      password: mockUser.password,
     });
+
+    expect(authService.findUserByEmail).toHaveBeenCalledWith(mockUser.email);
+    expect(bcrypt.compare).toHaveBeenCalledWith(
+      mockUser.password,
+      'hashedPassword',
+    );
+    expect(result).toBe(true);
   });
 
-  describe('validateUser', () => {
-    it('should return true if password is valid', async () => {
-      jest.spyOn(authService, 'findUserByEmail').mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true);
+  it('should return false if password is invalid', async () => {
+    jest.spyOn(authService, 'findUserByEmail').mockResolvedValue(mockUser);
+    jest.spyOn(bcrypt, 'compare').mockResolvedValue(false);
 
-      result = await authService.validateUser({
-        email: mockUser.email,
-        password: mockUser.password,
-      });
-
-      expect(authService.findUserByEmail).toHaveBeenCalledWith(mockUser.email);
-      expect(bcrypt.compare).toHaveBeenCalledWith(
-        mockUser.password,
-        'hashedPassword',
-      );
-      expect(result).toBe(true);
+    result = await authService.validateUser({
+      email: mockUser.email,
+      password: mockUser.password,
     });
 
-    it('should return false if password is invalid', async () => {
-      jest.spyOn(authService, 'findUserByEmail').mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false);
-
-      result = await authService.validateUser({
-        email: mockUser.email,
-        password: mockUser.password,
-      });
-
-      expect(authService.findUserByEmail).toHaveBeenCalledWith(mockUser.email);
-      expect(bcrypt.compare).toHaveBeenCalledWith(
-        mockUser.password,
-        'hashedPassword',
-      );
-      expect(result).toBe(false);
-    });
+    expect(authService.findUserByEmail).toHaveBeenCalledWith(mockUser.email);
+    expect(bcrypt.compare).toHaveBeenCalledWith(
+      mockUser.password,
+      'hashedPassword',
+    );
+    expect(result).toBe(false);
   });
 });

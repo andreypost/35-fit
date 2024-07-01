@@ -12,43 +12,40 @@ import { v4 as uuidv4 } from 'uuid';
 import { validateOrReject } from 'class-validator';
 
 jest.mock('fs/promises');
-jest.mock('uuid', () => ({
-  v4: jest.fn(),
-}));
+jest.mock('uuid');
 jest.mock('class-validator');
 
 describe('DetailService', () => {
-  let service: DetailService;
-  let mockUserCollection: IUserDetails[];
+  let detailService: DetailService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [DetailService],
     }).compile();
 
-    service = module.get<DetailService>(DetailService);
-
-    mockUserCollection = [
-      {
-        id: '0fff1a40-078b-4ecd-89a5-bf7bd49e4e63',
-        earnings: '$6300',
-        country: 'Ukraine',
-        name: 'Andrii Postoliuk',
-      },
-      {
-        id: '32838264-888a-49df-b15a-39386b7dc107',
-        earnings: '$6400',
-        country: 'Poland',
-        name: 'Andrii Postoliuk',
-      },
-      {
-        id: '39b4e5d5-5b94-4f1e-839e-d8a831320042',
-        earnings: '$6500',
-        country: 'Ukraine',
-        name: 'Andrii Postoliuk',
-      },
-    ];
+    detailService = module.get<DetailService>(DetailService);
   });
+
+  const mockUserCollection: IUserDetails[] = [
+    {
+      id: '0fff1a40-078b-4ecd-89a5-bf7bd49e4e63',
+      earnings: '$6300',
+      country: 'Ukraine',
+      name: 'Andrii Postoliuk',
+    },
+    {
+      id: '32838264-888a-49df-b15a-39386b7dc107',
+      earnings: '$6400',
+      country: 'Poland',
+      name: 'Andrii Postoliuk',
+    },
+    {
+      id: '39b4e5d5-5b94-4f1e-839e-d8a831320042',
+      earnings: '$6500',
+      country: 'Ukraine',
+      name: 'Andrii Postoliuk',
+    },
+  ];
 
   const mockReadFile = () =>
     (readFile as jest.Mock).mockResolvedValue(
@@ -61,15 +58,17 @@ describe('DetailService', () => {
     name: 'Andrii Postoliuk',
   };
 
-  const mockUuId = '0fff1a40-078b-4ecd-89a5-bf7bd49e4e63';
-  (uuidv4 as jest.Mock).mockReturnValue(mockUuId);
+  const mockUuidId = '0fff1a40-078b-4ecd-89a5-bf7bd49e4e63';
+  (uuidv4 as jest.Mock).mockReturnValue(mockUuidId);
 
-  const createUserDetailsDtoId = { id: mockUuId, ...createUserDetailsDto };
+  const createUserDetailsDtoId = { id: mockUuidId, ...createUserDetailsDto };
 
   it('should load data from user collection file', async () => {
     mockReadFile();
 
-    expect(await service.loadUserCollection()).toEqual(mockUserCollection);
+    expect(await detailService.loadUserCollection()).toEqual(
+      mockUserCollection,
+    );
   });
 
   it('should throw InternalServerErrorException when loading data from user collection file', async () => {
@@ -77,7 +76,7 @@ describe('DetailService', () => {
       new Error('Failed to load data from "user-collection.json" file.'),
     );
 
-    await expect(service.loadUserCollection()).rejects.toThrow(
+    await expect(detailService.loadUserCollection()).rejects.toThrow(
       InternalServerErrorException,
     );
   });
@@ -85,12 +84,12 @@ describe('DetailService', () => {
   it('should create and save new user data to user collection file', async () => {
     mockReadFile();
 
-    expect(await service.addNewUser(createUserDetailsDtoId)).toEqual(
+    expect(await detailService.addNewUser(createUserDetailsDtoId)).toEqual(
       createUserDetailsDtoId,
     );
 
     expect(writeFile).toHaveBeenCalledWith(
-      service['filePath'],
+      detailService['filePath'],
       JSON.stringify([...mockUserCollection, createUserDetailsDtoId], null, 2),
     );
   });
@@ -99,18 +98,18 @@ describe('DetailService', () => {
     const malformedUserDetailsDto: any = { country: 'Ukraine' };
 
     (validateOrReject as jest.Mock).mockRejectedValue(
-      () => new Error('User data is malformed.'),
+      new Error('User data is malformed.'),
     );
 
-    await expect(service.addNewUser(malformedUserDetailsDto)).rejects.toThrow(
-      BadRequestException,
-    );
+    await expect(
+      detailService.addNewUser(malformedUserDetailsDto),
+    ).rejects.toThrow(BadRequestException);
   });
 
   it('should get users count by country', async () => {
     mockReadFile();
 
-    expect(await service.getUsersCountByCountry()).toEqual({
+    expect(await detailService.getUsersCountByCountry()).toEqual({
       Ukraine: 2,
       Poland: 1,
     });
@@ -119,7 +118,7 @@ describe('DetailService', () => {
   it('should get average earnings by country', async () => {
     mockReadFile();
 
-    expect(await service.getAverageEarningsByCountry()).toEqual({
+    expect(await detailService.getAverageEarningsByCountry()).toEqual({
       Ukraine: 6400,
       Poland: 6400,
     });
@@ -128,11 +127,11 @@ describe('DetailService', () => {
   it('should find user by ID', async () => {
     mockReadFile();
 
-    expect(await service.findUserById(mockUuId)).toEqual(
+    expect(await detailService.findUserById(mockUuidId)).toEqual(
       createUserDetailsDtoId,
     );
 
-    await expect(service.findUserById('uuid999')).rejects.toThrow(
+    await expect(detailService.findUserById('uuid999')).rejects.toThrow(
       NotFoundException,
     );
   });
