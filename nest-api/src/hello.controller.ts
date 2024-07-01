@@ -1,9 +1,9 @@
-import { Controller, Get, Query, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
 
-@Controller()
+@Controller('hello')
 export class HelloController {
-  @Get('hello')
-  getHello(@Query('user-name') userName: string): string {
+  @Get()
+  async getHello(@Query('user-name') userName: string): Promise<string> {
     if (!userName) throw new BadRequestException('User name is required!');
     return `Hello ${userName}!`;
   }

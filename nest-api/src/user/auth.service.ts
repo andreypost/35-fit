@@ -16,7 +16,7 @@ export class AuthService {
   ) {}
 
   public async findAllUserDetails(): Promise<UserDetails[]> {
-    return this.userDetailsRepository.find();
+    return await this.userDetailsRepository.find();
   }
 
   // public async addNewUserDetails(
@@ -28,7 +28,7 @@ export class AuthService {
   // }
 
   public async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+    return await this.userRepository.find();
   }
 
   public async findUserByEmail(email: string): Promise<User | undefined> {

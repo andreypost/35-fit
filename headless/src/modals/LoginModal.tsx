@@ -204,7 +204,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       // const createUserRes = await axios.post(
       //   `${process.env.API_URL}/auth/create-new-user`,
       //   {
-      //     email: 'test_01@email.com',
+      //     email: 'test_02@email.com',
       //     password: '9999',
       //   }
       // )
@@ -243,10 +243,8 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
 
       const detailById = await axios.get(
         `${process.env.API_URL}/detail/users/${detailNewUser.data.id}`
-        // `${
-        //   process.env.API_URL
-        // }/detail/users/${'fcf589c5-38f9-4bf1-b940-7c31f6cf28e0'}`
       )
+      // 'fcf589c5-38f9-4bf1-b940-7c31f6cf28e0'
       console.log('/detail/users/id: ', detailById.data)
       // end of async call
       setEarnings(earnings + 100)
