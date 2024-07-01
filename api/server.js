@@ -10,7 +10,6 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // Enable CORS
-// app.use();
 const corsOptions = {
   origin: [
     process.env.HEADLESS_URL,
@@ -21,13 +20,21 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+const logRequestDetails = (req, res, next) => {
+  console.log("logRequestDetails: ", req.method);
+  console.log("logRequestDetails: ", req.url);
+  next();
+};
+
+app.use(logRequestDetails);
+
 // Test Route to check server
 app.get("/", (req, res) => {
   res.send("Hello World from ./api server!");
 });
 
 // Route to get all users
-app.get("/auth", async (req, res) => {
+app.get("/auth/users", async (req, res) => {
   try {
     const users = await User.findAll({
       attributes: { exclude: ["password"] }, // Exclude password from the result
@@ -39,7 +46,7 @@ app.get("/auth", async (req, res) => {
 });
 
 // Route to create a new user
-app.post("/auth", async (req, res) => {
+app.post("/auth/create-new-user", async (req, res) => {
   console.log(req.body); // See exactly what is being received
   try {
     const { name, email, password } = req.body;

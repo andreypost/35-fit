@@ -116,21 +116,4 @@ export class DetailService {
     if (!user) throw new NotFoundException(`User with id ${id} not found.`);
     return user;
   }
-
-  // public async getUserCountByCounrtyDB(): Promise<Record<string, number>> {
-  //   const result = await this.userRepository
-  //     .createQueryBuilder('user')
-  //     .select('user.country', 'country')
-  //     .addSelect('COUNT(user.id)', 'count')
-  //     .groupBy('user.country')
-  //     .getRawMany();
-
-  //   return result.reduce(
-  //     (acc, { country, count }) => {
-  //       acc[country] = parseInt(count, 10);
-  //       return acc;
-  //     },
-  //     {} as Record<string, number>,
-  //   );
-  // }
 }

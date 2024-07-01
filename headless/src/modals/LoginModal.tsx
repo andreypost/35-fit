@@ -184,8 +184,6 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     // const userEmail = formData.get('login')
     // const userPass = formData.get('password')
     try {
-      // const response = await axios.post(`${process.env.API_URL}/hello`, email)
-
       // const getAuthUserDetails = await axios.get(
       //   `${process.env.API_URL}/auth/details`
       // )
@@ -204,7 +202,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       // const createUserRes = await axios.post(
       //   `${process.env.API_URL}/auth/create-new-user`,
       //   {
-      //     email: 'test_02@email.com',
+      //     email: 'test_04@email.com',
       //     password: '9999',
       //   }
       // )

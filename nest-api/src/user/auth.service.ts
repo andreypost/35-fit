@@ -27,6 +27,23 @@ export class AuthService {
   //   return this.userDetailsRepository.save(newUserDetails);
   // }
 
+  // public async getUserCountByCounrtyDB(): Promise<Record<string, number>> {
+  //   const result = await this.userRepository
+  //     .createQueryBuilder('user')
+  //     .select('user.country', 'country')
+  //     .addSelect('COUNT(user.id)', 'count')
+  //     .groupBy('user.country')
+  //     .getRawMany();
+
+  //   return result.reduce(
+  //     (acc, { country, count }) => {
+  //       acc[country] = parseInt(count, 10);
+  //       return acc;
+  //     },
+  //     {} as Record<string, number>,
+  //   );
+  // }
+
   public async findAll(): Promise<User[]> {
     return await this.userRepository.find();
   }
