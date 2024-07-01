@@ -161,7 +161,17 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     [password, setPassword] = useState(''),
     // [errorMessage, setErrorMessage] = useState(''),
     [checkState, setCheckState] = useState(false),
-    [earnings, setEarnings] = useState(5000)
+    [earnings, setEarnings] = useState(5000),
+    [index, setIndex] = useState(1)
+
+  const countries = [
+    'Chile',
+    'Netherlands',
+    'France',
+    'United Kingdom',
+    'Ukraine',
+    'United Kingdom',
+  ]
 
   useEffect(() => {
     console.log('LoginModal: ', process.env.API_URL)
@@ -175,17 +185,35 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     // const userPass = formData.get('password')
     try {
       // const response = await axios.post(`${process.env.API_URL}/hello`, email)
+
+      // const getAuthUserDetails = await axios.get(
+      //   `${process.env.API_URL}/auth/details`
+      // )
+      // console.log('/auth/users - get all users: ', ...getAuthUserDetails.data)
+
+      // const addNewUserDetails = await axios.post(
+      //   `${process.env.API_URL}/auth/add-new-user-details`,
+      //   {
+      //     earnings: `$${earnings}`,
+      //     country: countries[(index % countries.length) - 1],
+      //     name: 'Andrii Postoliuk',
+      //   }
+      // )
+      // console.log('/auth/add-new-user-details:', addNewUserDetails.data)
+
       // const createUserRes = await axios.post(
       //   `${process.env.API_URL}/auth/create-new-user`,
       //   {
-      //     email: 'test@email.com',
+      //     email: 'test_01@email.com',
       //     password: '9999',
       //   }
       // )
       // console.log('/auth/create-new-user:', email, ' - ', createUserRes.data)
 
-      // const getAllUsers = await axios.get(`${process.env.API_URL}/auth`)
-      // console.log('/auth - get all users: ', ...getAllUsers.data)
+      // const getAuthAllUsers = await axios.get(
+      //   `${process.env.API_URL}/auth/users`
+      // )
+      // console.log('/auth/users - get all users: ', ...getAuthAllUsers.data)
 
       const detailUsers = await axios.get(`${process.env.API_URL}/detail/users`)
       console.log('/detail/users: ', detailUsers.data)
@@ -194,8 +222,8 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         `${process.env.API_URL}/detail/add-new-user`,
         {
           earnings: `$${earnings}`,
-          country: 'Ukraine',
-          name: 'Andrii Post',
+          country: countries[(index % countries.length) - 1],
+          name: 'Andrii Postoliuk',
         }
       )
       console.log('/detail/add-new-user: ', detailNewUser)
@@ -222,6 +250,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       console.log('/detail/users/id: ', detailById.data)
       // end of async call
       setEarnings(earnings + 100)
+      setIndex(index + 1)
     } catch (err: any) {
       if (err.response?.status === 400) {
         console.log(err.response.data.message)

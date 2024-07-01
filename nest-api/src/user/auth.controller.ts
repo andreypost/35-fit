@@ -6,14 +6,26 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from '../entities/user';
+import { CreateUserDetailsDto, CreateUserDto } from './dto/create-user.dto';
+import { User, UserDetails } from '../entities/user';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get()
+  @Get('details')
+  async findAllUserDetails(): Promise<UserDetails[]> {
+    return this.authService.findAllUserDetails();
+  }
+
+  // @Post('add-new-user-details')
+  // async addNewUserDetails(
+  //   @Body() createUserDetailsDto: CreateUserDetailsDto,
+  // ): Promise<UserDetails> {
+  //   return this.authService.addNewUserDetails(createUserDetailsDto);
+  // }
+
+  @Get('users')
   async getAllUsers(): Promise<User[]> {
     return this.authService.findAll();
   }

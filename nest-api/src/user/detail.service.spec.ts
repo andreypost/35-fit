@@ -33,19 +33,19 @@ describe('DetailService', () => {
         id: '0fff1a40-078b-4ecd-89a5-bf7bd49e4e63',
         earnings: '$6300',
         country: 'Ukraine',
-        name: 'Andrii Post',
+        name: 'Andrii Postoliuk',
       },
       {
         id: '32838264-888a-49df-b15a-39386b7dc107',
         earnings: '$6400',
         country: 'Poland',
-        name: 'Andrii Post',
+        name: 'Andrii Postoliuk',
       },
       {
         id: '39b4e5d5-5b94-4f1e-839e-d8a831320042',
         earnings: '$6500',
         country: 'Ukraine',
-        name: 'Andrii Post',
+        name: 'Andrii Postoliuk',
       },
     ];
   });
@@ -55,15 +55,16 @@ describe('DetailService', () => {
       JSON.stringify(mockUserCollection),
     );
 
-  const mockUuid = '0fff1a40-078b-4ecd-89a5-bf7bd49e4e63';
-  (uuidv4 as jest.Mock).mockReturnValue(mockUuid);
-
   const createUserDetailsDto: CreateUserDetailsDto = {
-    id: mockUuid,
     earnings: '$6300',
     country: 'Ukraine',
-    name: 'Andrii Post',
+    name: 'Andrii Postoliuk',
   };
+
+  const mockUuId = '0fff1a40-078b-4ecd-89a5-bf7bd49e4e63';
+  (uuidv4 as jest.Mock).mockReturnValue(mockUuId);
+
+  const createUserDetailsDtoId = { id: mockUuId, ...createUserDetailsDto };
 
   it('should load data from user collection file', async () => {
     mockReadFile();
@@ -84,13 +85,13 @@ describe('DetailService', () => {
   it('should create and save new user data to user collection file', async () => {
     mockReadFile();
 
-    expect(await service.addNewUser(createUserDetailsDto)).toEqual(
-      createUserDetailsDto,
+    expect(await service.addNewUser(createUserDetailsDtoId)).toEqual(
+      createUserDetailsDtoId,
     );
 
     expect(writeFile).toHaveBeenCalledWith(
       service['filePath'],
-      JSON.stringify([...mockUserCollection, createUserDetailsDto], null, 2),
+      JSON.stringify([...mockUserCollection, createUserDetailsDtoId], null, 2),
     );
   });
 
@@ -127,7 +128,9 @@ describe('DetailService', () => {
   it('should find user by ID', async () => {
     mockReadFile();
 
-    expect(await service.findUserById(mockUuid)).toEqual(createUserDetailsDto);
+    expect(await service.findUserById(mockUuId)).toEqual(
+      createUserDetailsDtoId,
+    );
 
     await expect(service.findUserById('uuid999')).rejects.toThrow(
       NotFoundException,

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entities/user';
+import { User, UserDetails } from './entities/user';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HelloController } from './hello.controller';
@@ -24,14 +24,14 @@ import { DetailService } from './user/detail.service';
         username: configService.get<string>('PGUSER'),
         password: configService.get<string>('PGPASSWORD'),
         database: configService.get<string>('PGDATABASE'),
-        entities: [User],
+        entities: [User, UserDetails],
         synchronize: Boolean(
           configService.get<string>('NODE_ENV') === 'development',
         ),
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, UserDetails]),
   ],
   controllers: [
     AppController,

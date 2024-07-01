@@ -1,25 +1,56 @@
 import { TestingModule, Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { AuthService } from './auth.service';
-import { User } from '../entities/user';
+import { User, UserDetails } from '../entities/user';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 
-const mockUserData = {
+const mockUser = {
   id: 1,
   email: 'test@email',
   password: 'hashedPassword',
 };
 
-const mockUserRepository = () => ({
+const mockUserDetails = [
+  {
+    id: '0fff1a40-078b-4ecd-89a5-bf7bd49e4e63',
+    earnings: '$6300',
+    country: 'Ukraine',
+    name: 'Andrii Postoliuk',
+  },
+  {
+    id: '32838264-888a-49df-b15a-39386b7dc107',
+    earnings: '$6400',
+    country: 'Poland',
+    name: 'Andrii Postoliuk',
+  },
+  {
+    id: '39b4e5d5-5b94-4f1e-839e-d8a831320042',
+    earnings: '$6500',
+    country: 'Ukraine',
+    name: 'Andrii Postoliuk',
+  },
+];
+
+const mockRepository = () => ({
+  find: jest.fn(),
   findOne: jest.fn(),
   create: jest.fn(),
   save: jest.fn(),
 });
 
 describe('AuthService', () => {
-  let service: AuthService;
-  let repository: { findOne: jest.Mock; create: jest.Mock; save: jest.Mock };
+  let authService: AuthService;
+  let userRepository: {
+    findOne: jest.Mock;
+    create: jest.Mock;
+    save: jest.Mock;
+  };
+  let userDetailsRepository: {
+    find: jest.Mock;
+    create: jest.Mock;
+    save: jest.Mock;
+  };
   let result = null;
 
   beforeEach(async () => {
@@ -28,31 +59,47 @@ describe('AuthService', () => {
         AuthService,
         {
           provide: getRepositoryToken(User),
-          useValue: mockUserRepository(),
+          useValue: mockRepository(),
+        },
+        {
+          provide: getRepositoryToken(UserDetails),
+          useValue: mockRepository(),
         },
       ],
     }).compile();
 
-    service = module.get<AuthService>(AuthService);
-    repository = module.get(getRepositoryToken(User));
+    authService = module.get<AuthService>(AuthService);
+    userRepository = module.get(getRepositoryToken(User));
+    userDetailsRepository = module.get(getRepositoryToken(UserDetails));
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
+  it('authService should be defined', () => {
+    expect(authService).toBeDefined();
+  });
+
+  describe('findAllUserDetails', () => {
+    it('should return an array of user details', async () => {
+      userDetailsRepository.find.mockResolvedValue(mockUserDetails);
+      expect(await authService.findAllUserDetails()).toEqual(mockUserDetails);
+    });
+  });
+
   describe('findUserByEmail', () => {
     it('should return a user if found', async () => {
-      (repository.findOne as jest.Mock).mockResolvedValue(mockUserData.email);
+      userRepository.findOne.mockResolvedValue(mockUser.email);
 
-      result = await service.findUserByEmail('test@email');
-      expect(result).toEqual(mockUserData.email);
+      result = await authService.findUserByEmail('test@email');
+      expect(result).toEqual(mockUser.email);
     });
 
     it('should return undefined if a user not found', async () => {
-      (repository.findOne as jest.Mock).mockResolvedValue(undefined);
+      userRepository.findOne.mockResolvedValue(undefined);
 
-      result = await service.findUserByEmail('nonexistent@email');
+      result = await authService.findUserByEmail('nonexistent@email');
       expect(result).toBeUndefined();
     });
   });
@@ -60,53 +107,53 @@ describe('AuthService', () => {
   describe('createUser', () => {
     it('create and return a new user', async () => {
       const createUserDto: CreateUserDto = {
-        email: mockUserData.email,
-        password: mockUserData.password,
+        email: mockUser.email,
+        password: mockUser.password,
       };
 
       jest.spyOn(bcrypt, 'hash').mockResolvedValue(createUserDto.password);
-      (repository.create as jest.Mock).mockReturnValue(createUserDto);
-      (repository.save as jest.Mock).mockResolvedValue(createUserDto);
+      userRepository.create.mockReturnValue(createUserDto);
+      userRepository.save.mockResolvedValue(createUserDto);
 
-      result = await service.createUser(createUserDto);
+      result = await authService.createUser(createUserDto);
 
       expect(bcrypt.hash).toHaveBeenCalledWith(createUserDto.password, 10);
-      expect(repository.create).toHaveBeenCalledWith(createUserDto);
-      expect(repository.save).toHaveBeenCalledWith(createUserDto);
+      expect(userRepository.create).toHaveBeenCalledWith(createUserDto);
+      expect(userRepository.save).toHaveBeenCalledWith(createUserDto);
       expect(result).toEqual(createUserDto);
     });
   });
 
   describe('validateUser', () => {
     it('should return true if password is valid', async () => {
-      jest.spyOn(service, 'findUserByEmail').mockResolvedValue(mockUserData);
+      jest.spyOn(authService, 'findUserByEmail').mockResolvedValue(mockUser);
       jest.spyOn(bcrypt, 'compare').mockResolvedValue(true);
 
-      result = await service.validateUser({
-        email: mockUserData.email,
-        password: mockUserData.password,
+      result = await authService.validateUser({
+        email: mockUser.email,
+        password: mockUser.password,
       });
 
-      expect(service.findUserByEmail).toHaveBeenCalledWith(mockUserData.email);
+      expect(authService.findUserByEmail).toHaveBeenCalledWith(mockUser.email);
       expect(bcrypt.compare).toHaveBeenCalledWith(
-        mockUserData.password,
+        mockUser.password,
         'hashedPassword',
       );
       expect(result).toBe(true);
     });
 
     it('should return false if password is invalid', async () => {
-      jest.spyOn(service, 'findUserByEmail').mockResolvedValue(mockUserData);
+      jest.spyOn(authService, 'findUserByEmail').mockResolvedValue(mockUser);
       jest.spyOn(bcrypt, 'compare').mockResolvedValue(false);
 
-      result = await service.validateUser({
-        email: mockUserData.email,
-        password: mockUserData.password,
+      result = await authService.validateUser({
+        email: mockUser.email,
+        password: mockUser.password,
       });
 
-      expect(service.findUserByEmail).toHaveBeenCalledWith(mockUserData.email);
+      expect(authService.findUserByEmail).toHaveBeenCalledWith(mockUser.email);
       expect(bcrypt.compare).toHaveBeenCalledWith(
-        mockUserData.password,
+        mockUser.password,
         'hashedPassword',
       );
       expect(result).toBe(false);

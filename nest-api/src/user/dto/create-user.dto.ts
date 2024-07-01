@@ -9,8 +9,6 @@ export class CreateUserDto {
 }
 
 export class CreateUserDetailsDto {
-  id: string;
-
   @IsNotEmpty()
   earnings: string;
 
