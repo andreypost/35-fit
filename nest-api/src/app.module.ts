@@ -7,6 +7,8 @@ import { AppService } from './app.service';
 import { HelloController } from './hello.controller';
 import { AuthController } from './user/auth.controller';
 import { AuthService } from './user/auth.service';
+import { DetailController } from './user/detail.controller';
+import { DetailService } from './user/detail.service';
 
 @Module({
   imports: [
@@ -31,7 +33,12 @@ import { AuthService } from './user/auth.service';
     }),
     TypeOrmModule.forFeature([User, UserDetails]),
   ],
-  controllers: [AppController, HelloController, AuthController],
-  providers: [AppService, AuthService],
+  controllers: [
+    AppController,
+    HelloController,
+    AuthController,
+    DetailController,
+  ],
+  providers: [AppService, AuthService, DetailService],
 })
 export class AppModule {}
