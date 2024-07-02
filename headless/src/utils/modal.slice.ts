@@ -45,7 +45,7 @@ export const modalSlice = createSlice({
     messageErrorModal: (state) => {
       ;(state.messageActive = 'messageActive'),
         (state.messageValue =
-          'Sorry, but it is not possible to retrieve data at this time. Try later!')
+          'Sorry, but it is not possible to send data at this time. Please try again later!')
     },
     unsetMessageModal: (state) => {
       state.messageActive = ''

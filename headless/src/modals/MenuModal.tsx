@@ -63,12 +63,7 @@ export const BaseDiv = styled.div`
 
 const Div = styled(BaseDiv)`
   nav ul {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-flow: column;
     padding: 40px;
-    text-align: center;
     li {
       width: 100%;
       max-width: 280px;
@@ -85,11 +80,9 @@ const Div = styled(BaseDiv)`
         margin: 40px auto 20px;
       }
       &.buyСlass a {
+        display: flex;
         box-sizing: border-box;
         height: 42px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         border-radius: 32px;
         font-size: 14px;
         background-color: #59b894;
@@ -120,8 +113,7 @@ export const MenuModal = ({ user }: IUser) => {
           className="cross_icon absolute"
           onClick={() => dispatch(unsetMenuModal())}
         />
-
-        <ul>
+        <ul className="flex_center_bet_col center">
           <NavigationLinks links={publicLinks} bold="b900" color="#737373" />
           <li className={'login ' + (user ? 'signOut' : 'signIn')}>
             {useMemo(
@@ -132,7 +124,7 @@ export const MenuModal = ({ user }: IUser) => {
             )}
           </li>
           <li className="buyСlass">
-            <Link to={RESERVE_ROUTE} className="b700 white">
+            <Link to={RESERVE_ROUTE} className="flex_center_center b700 white">
               {t('nav.buy')}
             </Link>
           </li>

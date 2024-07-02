@@ -125,6 +125,9 @@ textarea:focus {
   @include flex_center_center_col;
 }
 
+.flex_center_bet_col {
+  @include flex_center_center_col;
+}
 .flex_str_col {
   @include flex_str_col;
 }

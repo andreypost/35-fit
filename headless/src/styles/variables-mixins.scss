@@ -65,10 +65,10 @@ $red_color: #ff6376;
   flex-flow: column;
 }
 
-// @mixin flex_center_bet_col {
-//   @include flex_center_bet;
-//   flex-flow: column;
-// }
+@mixin flex_center_bet_col {
+  @include flex_center_bet;
+  flex-flow: column;
+}
 
 @mixin font_14 {
   font-size: 14px;
