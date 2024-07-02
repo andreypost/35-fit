@@ -12,7 +12,7 @@ const Div = styled.div`
       width: 0%;
     }
     100% {
-      width: 76%;
+      width: var(--sales-width);
     }
   }
   .green_line {
@@ -24,10 +24,10 @@ const Div = styled.div`
   }
 `
 
-export const GreenGreyLine = ({ sales = 75 }: IPlanPricesBoxRoute) => {
+export const GreenGreyLine = ({ sales }: IPlanPricesBoxRoute) => {
   return (
     <Div className="green_grey_line">
-      <div className="green_line" />
+      <div className="green_line" style={{ '--sales-width': `${sales}%` }} />
     </Div>
   )
 }

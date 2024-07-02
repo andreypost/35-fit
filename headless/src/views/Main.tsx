@@ -237,7 +237,7 @@ const Main = ({ user }: IUser) => {
         </div>
         <div className="rupor_member center shadow_radius">
           <h6 className="b900 grey">{t('main.number_memberships')}</h6>
-          <GreenGreyLine />
+          <GreenGreyLine sales={76} />
           <p className="b900 blue uppercase">76%{t('main.sold')}</p>
         </div>
       </div>

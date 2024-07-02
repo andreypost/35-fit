@@ -117,7 +117,7 @@ export const PlanPricesBox = ({
   subTitle = '',
   description = '',
   price = '',
-  sales = null,
+  sales = 0,
   button = '',
 }: IPlanPricesBoxRoute) => {
   const { t } = useTranslation()
@@ -142,9 +142,9 @@ export const PlanPricesBox = ({
               <p className="box_descript b900 grey">
                 {/\./g.test(description) ? t(description) : description}
               </p>
-              {sales && (
+              {sales > 0 && (
                 <>
-                  <GreenGreyLine />
+                  <GreenGreyLine sales={sales} />
                   <p className="box_sold b900 grey">{sales}% SOLD</p>
                 </>
               )}
