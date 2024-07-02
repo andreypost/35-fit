@@ -197,7 +197,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       }
 
       // const getAuthUserDetails = await axios.get(
-      //   `${process.env.API_URL}/auth/details`
+      //   `${process.env.API_URL}/auth/users`
       // )
       // console.log('/auth/users: ', ...getAuthUserDetails.data)
       // const addNewUserDetails = await axios.post(

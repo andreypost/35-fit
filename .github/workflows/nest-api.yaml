@@ -14,7 +14,7 @@ on:
 
 defaults:
   run:
-    working-directory: nest-api
+    working-directory: ./nest-api
 
 jobs:
   build:
@@ -27,10 +27,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: ./nest-api/package-lock.json
 
       - name: Install dependencies in nest-api
-        run: npm install --frozen-lockfile
+        run: npm install ci
 
       - name: Build project
         run: npm run build
