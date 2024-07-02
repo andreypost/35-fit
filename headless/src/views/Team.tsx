@@ -60,8 +60,13 @@ const Team = ({ user }: IUser) => {
           { name: 'Cameron Horner', position: 'Head Coach', img: 'p_5_4' },
           { name: 'Marvin', position: 'Coach', img: 'p_5_5' },
           { name: 'Kayla', position: 'Coach', img: 'p_5_6' },
-        ].map(({ name, position, img }) => (
-          <Link to={COACH_ROUTE} data-aos="fade-up" data-aos-duration="1000">
+        ].map(({ name, position, img }, index) => (
+          <Link
+            key={index}
+            to={COACH_ROUTE}
+            data-aos="fade-up"
+            data-aos-duration="1000"
+          >
             <article>
               <h4 className="b900 green">{name}</h4>
               <p className="grey">{position}</p>
