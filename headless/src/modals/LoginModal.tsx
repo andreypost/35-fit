@@ -221,37 +221,6 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       // )
       // console.log('/auth/users - get all users: ', ...getAuthAllUsers.data)
 
-      const detailUsers = await axios.get(`${process.env.API_URL}/detail/users`)
-      console.log('/detail/users: ', detailUsers.data)
-
-      const detailNewUser = await axios.post(
-        `${process.env.API_URL}/detail/add-new-user`,
-        {
-          earnings: `$${earnings}`,
-          country: countries[index % (countries.length - 1)],
-          name: 'Andrii Postoliuk',
-        }
-      )
-      console.log('/detail/add-new-user: ', detailNewUser)
-
-      const detailByCountry = await axios.get(
-        `${process.env.API_URL}/detail/count-by-country`
-      )
-      console.log('/detail/count-by-country: ', detailByCountry.data)
-
-      const detailByEarnings = await axios.get(
-        `${process.env.API_URL}/detail/average-earnings-by-country`
-      )
-      console.log(
-        '/detail/average-earnings-by-country: ',
-        detailByEarnings.data
-      )
-
-      const detailById = await axios.get(
-        `${process.env.API_URL}/detail/users/${detailNewUser.data.id}`
-      )
-      // 'fcf589c5-38f9-4bf1-b940-7c31f6cf28e0'
-      console.log('/detail/users/id: ', detailById.data)
       // end of async call
       setEarnings(earnings + 100)
       setIndex(index + 1)
