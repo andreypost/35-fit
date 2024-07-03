@@ -2,12 +2,12 @@
 
 echo "Building API"
 cd ./api
-npm install --frozen-lockfile
+npm install ci
 echo "No build step for API"
 
 echo "Building Nest API"
 cd ./nest-api
-npm install --frozen-lockfile
+npm install ci
 npm run build
 
 echo "Running tests"
