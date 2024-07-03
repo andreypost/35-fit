@@ -178,28 +178,29 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
   // ]
 
   useEffect(() => {
-    // console.log('LoginModal: ', process.env.API_URL)
+    console.log('LoginModal: ', process.env.API_URL)
     user && dispatch(unsetLoginModal())
   }, [user])
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const userEmail = formData.get('login')
-    const userPass = formData.get('password')
+    // const formData = new FormData(e.currentTarget)
+    // const userEmail = formData.get('login')
+    // const userPass = formData.get('password')
 
     try {
-      if (userEmail && userPass) {
-        dispatch(unsetLoginModal())
-        return await new Promise(() => {
-          setTimeout(() => dispatch(messageErrorModal()), 1500)
-        })
-      }
+      dispatch(unsetLoginModal())
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(dispatch(messageErrorModal()))
+        }, 1500)
+      })
 
       // const getAuthUserDetails = await axios.get(
-      //   `${process.env.API_URL}/auth/users`
+      //   `${process.env.API_URL}/auth/details`
       // )
-      // console.log('/auth/users: ', ...getAuthUserDetails.data)
+      // console.log('/auth/details: ', ...getAuthUserDetails.data)
+
       // const addNewUserDetails = await axios.post(
       //   `${process.env.API_URL}/auth/add-new-user-details`,
       //   {
@@ -209,6 +210,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       //   }
       // )
       // console.log('/auth/add-new-user-details:', addNewUserDetails.data)
+
       // const getUserCountByCounrtyDetails = await axios.get(
       //   `${process.env.API_URL}/auth/count-by-country-details`
       // )
@@ -216,6 +218,12 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       //   '/auth/count-by-country-details:',
       //   getUserCountByCounrtyDetails.data
       // )
+
+      // const getAuthAllUsers = await axios.get(
+      //   `${process.env.API_URL}/auth/users`
+      // )
+      // console.log('/auth/users - get all users: ', ...getAuthAllUsers.data)
+
       // const createUserRes = await axios.post(
       //   `${process.env.API_URL}/auth/create-new-user`,
       //   {
@@ -224,12 +232,10 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       //   }
       // )
       // console.log('/auth/create-new-user:', email, ' - ', createUserRes.data)
-      // const getAuthAllUsers = await axios.get(
-      //   `${process.env.API_URL}/auth/users`
-      // )
-      // console.log('/auth/users - get all users: ', ...getAuthAllUsers.data)
+
       // const detailUsers = await axios.get(`${process.env.API_URL}/detail/users`)
       // console.log('/detail/users: ', detailUsers.data)
+
       // const detailNewUser = await axios.post(
       //   `${process.env.API_URL}/detail/add-new-user`,
       //   {
@@ -239,10 +245,12 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       //   }
       // )
       // console.log('/detail/add-new-user: ', detailNewUser)
+
       // const detailByCountry = await axios.get(
       //   `${process.env.API_URL}/detail/count-by-country`
       // )
       // console.log('/detail/count-by-country: ', detailByCountry.data)
+
       // const detailByEarnings = await axios.get(
       //   `${process.env.API_URL}/detail/average-earnings-by-country`
       // )
@@ -250,11 +258,13 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       //   '/detail/average-earnings-by-country: ',
       //   detailByEarnings.data
       // )
+
       // const detailById = await axios.get(
       //   `${process.env.API_URL}/detail/users/${detailNewUser.data.id}`
       // )
       // 'fcf589c5-38f9-4bf1-b940-7c31f6cf28e0'
       // console.log('/detail/users/id: ', detailById.data)
+
       // end of async call
       // setEarnings(earnings + 100)
       // setIndex(index + 1)
@@ -294,7 +304,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
             className="grey_button blue"
             placeholder={t('enter_email_address')}
             onChange={(e) => setEmail(e.target.value)}
-            required
+            // required
           />
           <label htmlFor="password" className="grey_label">
             {t('password')}
@@ -306,7 +316,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
             className="grey_button part_radius blue"
             placeholder={t('enter_password')}
             onChange={(e) => setPassword(e.target.value)}
-            required
+            // required
           />
           <label htmlFor="radio" className="flex_center grey_label check_box">
             <input
