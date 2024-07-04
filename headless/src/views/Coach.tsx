@@ -128,17 +128,14 @@ const Coach = () => {
   )
   return (
     <Main data-aos="fade" className="coach_section">
-      <HeaderBanner
-        className="coach"
-        children={
-          <Link
-            className="flex_center_center light_grey_button hover_green_white b900 green"
-            to={TEAM_ROUTE}
-          >
-            {t('coach.back_to_team')}
-          </Link>
-        }
-      />
+      <HeaderBanner className="coach">
+        <Link
+          className="flex_center_center light_grey_button hover_green_white b900 green"
+          to={TEAM_ROUTE}
+        >
+          {t('coach.back_to_team')}
+        </Link>
+      </HeaderBanner>
       {selectedCoache && (
         <div className="section coach_person">
           <div className="flex coach_banner">
