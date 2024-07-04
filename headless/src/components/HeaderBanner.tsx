@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
-import { unsetAllModal } from 'utils/modal.slice'
+import { unsetAllModal } from 'slices/modal.slice'
 import { IChildrenTitleDescrip } from 'types/interface'
 
 const Div = styled.div`
@@ -76,7 +76,7 @@ export const HeaderBanner = ({
   return (
     <Div className={`header_banner ${className}`}>
       <section className="section">
-        <h1 className="b900 blue">{t(title)}</h1>
+        <h1 className="b900 blue">{title && t(title)}</h1>
         <p className="grey">{description && t(description)}</p>
         {children}
       </section>

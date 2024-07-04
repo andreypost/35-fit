@@ -5,7 +5,7 @@ import {
   selectMessageModalActive,
   selectMessageModalValue,
   unsetMessageModal,
-} from '../utils/modal.slice'
+} from 'slices/modal.slice'
 import { CrossRedSVG } from 'img/icons'
 
 const Div = styled(BaseDiv)`

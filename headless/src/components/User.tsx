@@ -2,14 +2,11 @@ import { IUser, IStyle } from 'types/interface'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch } from 'utils/hooks'
-import { loginModal, dashModal, unsetDashModal } from 'utils/modal.slice'
+import { loginModal, dashModal, unsetDashModal } from 'slices/modal.slice'
 import empty_user from '../img/empty_user.png'
 import { LangArrowSVG } from 'img/icons'
 
 const Div = styled.div`
-  display: flex;
-  align-items: center;
-  transition: background-color 0.2s;
   .user_name {
     white-space: nowrap;
     text-overflow: ellipsis;

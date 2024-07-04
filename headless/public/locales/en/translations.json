@@ -75,6 +75,10 @@
   "faq": {
     "trial_foot_banner_title": "Dynostics tests"
   },
+  "coach": {
+    "back_to_team": "Back to Team",
+    "dont_sell_yourself": "Don't sell yourself short in life. Give yourself a challenge"
+  },
   "welcome_to": "Welcome to",
   "not_member_yet": "Not a member yet?",
   "book_your_training": "Book your first training",

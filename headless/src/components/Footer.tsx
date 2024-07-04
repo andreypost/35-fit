@@ -84,6 +84,13 @@ const Foot = styled.footer`
         display: grid;
         gap: 60px;
       }
+      .contacts,
+      .partners {
+        .light_grey_button {
+          display: flex;
+          justify-content: space-between;
+        }
+      }
       a {
         line-height: 24px;
         svg {
@@ -199,7 +206,7 @@ export const Footer = () => {
               <a href="mailto:info@35fit.com" className="flex_center_bet email">
                 - info@35fit.com
               </a>
-              <Link to="/Faq" className="flex_center_bet light_grey_button">
+              <Link to="/Faq" className="light_grey_button">
                 {t('footer.Careers')}
                 <LangArrowSVG />
               </Link>
@@ -215,7 +222,7 @@ export const Footer = () => {
               >
                 - gonsiori@35fit.com
               </a>
-              <Link to="/Faq" className="flex_center_bet light_grey_button">
+              <Link to="/Faq" className="light_grey_button">
                 {t('footer.contacts')}
                 <LangArrowSVG />
               </Link>
@@ -224,7 +231,7 @@ export const Footer = () => {
           <article className="partners">
             <h6 className="green uppercase">{t('footer.partners')}</h6>
             <p>{t('footer.search_engine')}</p>
-            <Link to="/Faq" className="flex_center_bet light_grey_button">
+            <Link to="/Faq" className="light_grey_button">
               {t('footer.become_partner')}
               <LangArrowSVG />
             </Link>

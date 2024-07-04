@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
-import { selectBurgerValue, menuModal } from 'utils/modal.slice'
+import { selectBurgerValue, menuModal } from 'slices/modal.slice'
 import { MAIN_ROUTE, publicLinks, RESERVE_ROUTE } from 'utils/routes.constants'
 import { Language } from './Language'
 import { User } from './User'
@@ -114,7 +114,7 @@ const Header = styled.header`
       font-size: 14px;
       border-radius: 32px;
       background-color: #59b894;
-      transition: background-color 0.2s, border-color 0.2s;
+      transition: background-color 0.4s, border-color 0.4s;
       @media (max-width: 1023px) {
         height: 38px;
       }

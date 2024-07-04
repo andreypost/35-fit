@@ -6,7 +6,7 @@ export const TEAM_ROUTE = '/team'
 export const CLUB_ROUTE = '/club'
 export const FAQ_ROUTE = '/faq'
 export const RESERVE_ROUTE = '/reserve'
-export const COACH_ROUTE = '/coach'
+export const COACH_ROUTE = '/coach/:name'
 export const FLOWER_ROUTE = '/flower'
 export const CHAT_ROUTE = '/chat'
 

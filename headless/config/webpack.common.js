@@ -24,6 +24,7 @@ module.exports = {
       img: path.resolve(__dirname, '../src/img'),
       svg: path.resolve(__dirname, '../src/img/svg'),
       mixins$: path.resolve(__dirname, '../src/styles/variables-mixins.scss'),
+      slices: path.resolve(__dirname, '../src/slices'),
       utils: path.resolve(__dirname, '../src/utils'),
       views: path.resolve(__dirname, '../src/views'),
       store$: path.resolve(__dirname, '../src/store/root.store.ts'),

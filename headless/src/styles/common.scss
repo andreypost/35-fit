@@ -178,6 +178,10 @@ textarea:focus {
   text-align: center;
 }
 
+.left {
+  text-align: left;
+}
+
 .white {
   color: #fff;
 }
@@ -217,6 +221,14 @@ textarea:focus {
 .light_grey_button {
   @include input_styles;
   border-color: $light_grey_color;
+  transition: background-color 0.4s, color 0.4s;
+}
+
+.hover_green_white {
+  &:hover {
+    background-color: $green_color;
+    color: #fff;
+  }
 }
 
 .part_radius {
@@ -277,12 +289,14 @@ textarea:focus {
   background: url(../img/banner/faq.png) no-repeat 70% center / cover;
 }
 
-.header_banner.reserve {
+.header_banner.reserve,
+.header_banner.coach {
   background: linear-gradient(
     0deg,
     rgba(255, 255, 255, 0.0001) 0%,
     #f1f1f1 100%
   );
+  background: linear-gradient(0deg, hsla(0, 0%, 100%, 0.303244), #f1f1f1);
 }
 
 .footer_touch {

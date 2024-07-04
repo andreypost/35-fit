@@ -1,9 +1,9 @@
 // import { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { IUser } from 'types/interface'
+import { useAppSelector } from 'utils/hooks'
+import { selectCoaches } from 'slices/coach.slice'
 // import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { COACH_ROUTE } from 'utils/routes.constants'
 import { HeaderBanner } from 'HeaderBanner'
 import { ImageDescription } from 'components/ImageDescription'
 import { FooterBanner } from 'FooterBanner'
@@ -11,7 +11,7 @@ import { FooterBanner } from 'FooterBanner'
 import add_01 from '../img/adds/add_5_1.jpg'
 
 const Main = styled.main`
-  .coach_section {
+  .coaches {
     row-gap: 40px;
     padding-top: 40px;
     padding-bottom: 40px;
@@ -40,10 +40,9 @@ const Main = styled.main`
   }
 `
 
-const Team = ({ user }: IUser) => {
+const Team = () => {
   // const { t } = useTranslation(),
-  // useEffect(() => {
-  // }, [])
+  const coaches = useAppSelector(selectCoaches)
 
   return (
     <Main data-aos="fade" className="page_view">
@@ -52,18 +51,11 @@ const Team = ({ user }: IUser) => {
         title="nav.team"
         description="header_banner.training_becomes"
       />
-      <section className="section coach_section flex_center_center wrap">
-        {[
-          { name: 'Joyce Hallow', position: 'Head Coach', img: 'p_5_1' },
-          { name: 'John Wayne', position: 'Coach', img: 'p_5_2' },
-          { name: 'Samantha Jade', position: 'Coach', img: 'p_5_3' },
-          { name: 'Cameron Horner', position: 'Head Coach', img: 'p_5_4' },
-          { name: 'Marvin', position: 'Coach', img: 'p_5_5' },
-          { name: 'Kayla', position: 'Coach', img: 'p_5_6' },
-        ].map(({ name, position, img }, index) => (
+      <section className="section coaches flex_center_center wrap">
+        {coaches?.map(({ name, position, img, route }, index) => (
           <Link
             key={index}
-            to={COACH_ROUTE}
+            to={`/coach/${route}`}
             data-aos="fade-up"
             data-aos-duration="1000"
           >

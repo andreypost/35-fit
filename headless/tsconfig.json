@@ -30,6 +30,7 @@
       "img": ["img"],
       "svg": ["svg"],
       "mixins": ["styles/variables-mixins"],
+      "slices": ["slices"],
       "utils": ["utils"],
       "views": ["views"],
       "store": ["store/root.store"],

@@ -88,6 +88,9 @@ $red_color: #ff6376;
 @mixin input_styles {
   @include font_14;
   box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   height: 42px;
   padding-left: 20px;
   padding-right: 20px;

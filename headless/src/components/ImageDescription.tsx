@@ -18,14 +18,6 @@ const Div = styled.div`
       line-height: 24px;
       margin-bottom: 40px;
     }
-    a {
-      max-width: 186px;
-      transition: background-color 0.2s;
-      &:hover {
-        color: white;
-        background-color: #59b894;
-      }
-    }
   }
   @media (min-width: 1024px) {
     grid-template-columns: 1.4fr 1fr;
@@ -69,10 +61,7 @@ export const ImageDescription = ({
         <h3 className="b900">{t(title)}</h3>
         <p>{t(description)}</p>
         {link && (
-          <Link
-            className="flex_center_center light_grey_button green"
-            to={link}
-          >
+          <Link className="light_grey_button hover_green_white green" to={link}>
             {t('main.discover_more')}
           </Link>
         )}

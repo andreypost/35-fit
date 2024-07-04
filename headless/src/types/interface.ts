@@ -72,3 +72,7 @@ export interface IPlanPricesBoxRoute extends IRoutePriceTitle {
   sales?: number
   button?: string
 }
+
+export interface IRouteParams {
+  name?: string
+}

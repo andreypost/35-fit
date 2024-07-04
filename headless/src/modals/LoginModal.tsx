@@ -9,7 +9,7 @@ import {
   messageErrorModal,
   selectLoginModalActive,
   unsetLoginModal,
-} from '../utils/modal.slice'
+} from 'slices/modal.slice'
 import { IFirebaseProps } from 'types/interface'
 import { CrossRedSVG } from 'img/icons'
 import axios from 'axios'

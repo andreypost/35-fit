@@ -86,11 +86,6 @@ const MainBlock = styled.main`
       a {
         height: 54px;
         font-size: 15px;
-        transition: all 0.4s;
-        &:hover {
-          background-color: #59b894;
-          color: white;
-        }
       }
     }
   }
@@ -221,14 +216,11 @@ const Main = ({ user }: IUser) => {
             </h6>
             <p className="b900">3 {t('main.classes')}</p>
             <GreenButton route={RESERVE_ROUTE} />
-            {/* <Link className="flex_center_center b900 white" to={RESERVE_ROUTE}>
-              {t('main.register_trial')}
-            </Link> */}
           </div>
           <div className="rupor_book shadow_radius">
             <p className="b900 grey">{t('main.connected_results')}</p>
             <Link
-              className="flex_center_center light_grey_button b900 green"
+              className="light_grey_button hover_green_white b900 green"
               to={PRICE_ROUTE}
             >
               {t('main.book_class')}
