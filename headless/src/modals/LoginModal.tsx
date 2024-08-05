@@ -157,6 +157,7 @@ const Div = styled(BaseDiv)`
     }
   }
 `
+
 export const LoginModal = ({ user, login }: IFirebaseProps) => {
   const dispatch = useAppDispatch(),
     modalState = useAppSelector(selectLoginModalActive),
@@ -177,6 +178,86 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
   //   'United Kingdom',
   // ]
 
+  const authUsersRoutes = async () => {
+    try {
+      const getAuthAllUsers = await axios.get(
+        `${process.env.API_URL}/auth/users`
+      )
+      console.log('/auth/users - get all users: ', getAuthAllUsers.data)
+
+      // const createUserRes = await axios.post(
+      //   `${process.env.API_URL}/auth/create-new-user`,
+      //   {
+      //     email: 'test_13@email.com',
+      //     password: '9999',
+      //   }
+      // )
+      // console.log('/auth/create-new-user:', createUserRes.data)
+    } catch (err: any) {
+      console.log(
+        'An unexpected error occurred: ',
+        err.response?.data?.message || err.message
+      )
+    }
+  }
+
+  const authDetailRoutes = async () => {
+    try {
+      const getAuthUserDetails = await axios.get(
+        `${process.env.API_URL}/auth/details`
+      )
+      console.log('/auth/details: ', ...getAuthUserDetails.data)
+      // const addNewUserDetails = await axios.post(
+      //   `${process.env.API_URL}/auth/add-new-user-details`,
+      //   {
+      //     earnings: `$${earnings}`,
+      //     country: countries[index % (countries.length - 1)],
+      //     name: 'Andrii Postoliuk',
+      //   }
+      // )
+      // console.log('/auth/add-new-user-details:', addNewUserDetails.data)
+      // const getUserCountByCounrtyDetails = await axios.get(
+      //   `${process.env.API_URL}/auth/count-by-country-details`
+      // )
+      // console.log(
+      //   '/auth/count-by-country-details:',
+      //   getUserCountByCounrtyDetails.data
+      // )
+      // const detailUsers = await axios.get(`${process.env.API_URL}/detail/users`)
+      // console.log('/detail/users: ', detailUsers.data)
+      // const detailNewUser = await axios.post(
+      //   `${process.env.API_URL}/detail/add-new-user`,
+      //   {
+      //     earnings: `$${earnings}`,
+      //     country: countries[index % (countries.length - 1)],
+      //     name: 'Andrii Postoliuk',
+      //   }
+      // )
+      // console.log('/detail/add-new-user: ', detailNewUser)
+      // const detailByCountry = await axios.get(
+      //   `${process.env.API_URL}/detail/count-by-country`
+      // )
+      // console.log('/detail/count-by-country: ', detailByCountry.data)
+      // const detailByEarnings = await axios.get(
+      //   `${process.env.API_URL}/detail/average-earnings-by-country`
+      // )
+      // console.log(
+      //   '/detail/average-earnings-by-country: ',
+      //   detailByEarnings.data
+      // )
+      // const detailById = await axios.get(
+      //   `${process.env.API_URL}/detail/users/${detailNewUser.data.id}`
+      // )
+      // 'fcf589c5-38f9-4bf1-b940-7c31f6cf28e0'
+      // console.log('/detail/users/id: ', detailById.data)
+    } catch (err: any) {
+      console.log(
+        'An unexpected error occurred: ',
+        err.response?.data?.message || err.message
+      )
+    }
+  }
+
   useEffect(() => {
     console.log('LoginModal: ', process.env.API_URL)
     user && dispatch(unsetLoginModal())
@@ -188,93 +269,19 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     // const userEmail = formData.get('login')
     // const userPass = formData.get('password')
 
-    try {
-      dispatch(unsetLoginModal())
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(dispatch(messageErrorModal()))
-        }, 1500)
-      })
+    dispatch(unsetLoginModal())
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(dispatch(messageErrorModal()))
+      }, 1500)
+    })
 
-      // const getAuthUserDetails = await axios.get(
-      //   `${process.env.API_URL}/auth/details`
-      // )
-      // console.log('/auth/details: ', ...getAuthUserDetails.data)
+    authUsersRoutes()
 
-      // const addNewUserDetails = await axios.post(
-      //   `${process.env.API_URL}/auth/add-new-user-details`,
-      //   {
-      //     earnings: `$${earnings}`,
-      //     country: countries[index % (countries.length - 1)],
-      //     name: 'Andrii Postoliuk',
-      //   }
-      // )
-      // console.log('/auth/add-new-user-details:', addNewUserDetails.data)
+    // authDetailRoutes()
 
-      // const getUserCountByCounrtyDetails = await axios.get(
-      //   `${process.env.API_URL}/auth/count-by-country-details`
-      // )
-      // console.log(
-      //   '/auth/count-by-country-details:',
-      //   getUserCountByCounrtyDetails.data
-      // )
-
-      // const getAuthAllUsers = await axios.get(
-      //   `${process.env.API_URL}/auth/users`
-      // )
-      // console.log('/auth/users - get all users: ', ...getAuthAllUsers.data)
-
-      // const createUserRes = await axios.post(
-      //   `${process.env.API_URL}/auth/create-new-user`,
-      //   {
-      //     email: 'test_05@email.com',
-      //     password: '9999',
-      //   }
-      // )
-      // console.log('/auth/create-new-user:', email, ' - ', createUserRes.data)
-
-      // const detailUsers = await axios.get(`${process.env.API_URL}/detail/users`)
-      // console.log('/detail/users: ', detailUsers.data)
-
-      // const detailNewUser = await axios.post(
-      //   `${process.env.API_URL}/detail/add-new-user`,
-      //   {
-      //     earnings: `$${earnings}`,
-      //     country: countries[index % (countries.length - 1)],
-      //     name: 'Andrii Postoliuk',
-      //   }
-      // )
-      // console.log('/detail/add-new-user: ', detailNewUser)
-
-      // const detailByCountry = await axios.get(
-      //   `${process.env.API_URL}/detail/count-by-country`
-      // )
-      // console.log('/detail/count-by-country: ', detailByCountry.data)
-
-      // const detailByEarnings = await axios.get(
-      //   `${process.env.API_URL}/detail/average-earnings-by-country`
-      // )
-      // console.log(
-      //   '/detail/average-earnings-by-country: ',
-      //   detailByEarnings.data
-      // )
-
-      // const detailById = await axios.get(
-      //   `${process.env.API_URL}/detail/users/${detailNewUser.data.id}`
-      // )
-      // 'fcf589c5-38f9-4bf1-b940-7c31f6cf28e0'
-      // console.log('/detail/users/id: ', detailById.data)
-
-      // end of async call
-      // setEarnings(earnings + 100)
-      // setIndex(index + 1)
-    } catch (err: any) {
-      if (err.response?.status === 400) {
-        console.log(err.response.data.message)
-        return
-      }
-      console.log('An unexpected error occurred', err)
-    }
+    // setEarnings(earnings + 100)
+    // setIndex(index + 1)
   }
   return (
     <Div

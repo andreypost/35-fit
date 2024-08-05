@@ -1,5 +1,36 @@
-const { Sequelize } = require("sequelize");
-require("dotenv").config();
+import { DataSource } from "typeorm";
+import * as dotenv from "dotenv";
+import { dataBaseConfig } from "./ormconfig";
+
+dotenv.config();
+
+export const AppDataSource = new DataSource(dataBaseConfig);
+
+AppDataSource.initialize()
+  .then(() => {
+    console.log("Data Source has been initialized!");
+  })
+  .catch((err) => {
+    console.error("Error during Data Source initialization:", err);
+  });
+
+// import { Sequelize } from "sequelize";
+// import dotenv from "dotenv";
+
+// dotenv.config();
+
+// const sequelize = new Sequelize(
+//   process.env.DB_NAME as string,
+//   process.env.DB_USER as string,
+//   process.env.DB_PASS as string,
+//   {
+//     host: process.env.DB_HOST,
+//     dialect: "postgres",
+//     logging: false,
+//   }
+// );
+
+// export default sequelize;
 
 // connect to railway postgres database with url string
 // const sequelize = new Sequelize(process.env.DATABASE_URL, {
@@ -33,28 +64,3 @@ require("dotenv").config();
 //     logging: false,
 //   }
 // );
-
-// local fidb database
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASS,
-  {
-    host: process.env.DB_HOST,
-    dialect: "postgres",
-    logging: false,
-  }
-);
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-  })
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err);
-  });
-
-module.exports = sequelize;
-console.log(process.env.PGDATABASE, process.env.PGUSER);
-console.log(`./api is running on local port: http://localhost:3000/`);
