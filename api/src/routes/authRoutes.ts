@@ -2,11 +2,11 @@ import { Request, Response, Router } from "express";
 import { AppDataSource } from "../config/database";
 import { User } from "../entity/User";
 
-const router = Router();
+const authRoutes = Router();
 
 const userRepository = AppDataSource.getRepository(User);
 
-router.get("/users", async (req: Request, res: Response) => {
+authRoutes.get("/users", async (req: Request, res: Response) => {
   try {
     const users = await userRepository.find({
       select: ["id", "password", "email"],
@@ -22,7 +22,7 @@ router.get("/users", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/create-new-user", async (req: Request, res: Response) => {
+authRoutes.post("/create-new-user", async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const user = userRepository.create({ email, password });
@@ -43,7 +43,7 @@ router.post("/create-new-user", async (req: Request, res: Response) => {
   }
 });
 
-export default router;
+export default authRoutes;
 
 /* import { Request, Response, Router } from "express";
 import User from "../models/User";
