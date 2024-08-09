@@ -1,4 +1,4 @@
-import { TestingModule, Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -15,7 +15,7 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World from Nest.js server!"', () => {
+    it('Should return "Hello World from Nest.js server!"', async () => {
       expect(appController.getHello()).toBe('Hello World from Nest.js server!');
     });
   });

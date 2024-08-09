@@ -165,18 +165,18 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     [email, setEmail] = useState(''),
     [password, setPassword] = useState(''),
     // [errorMessage, setErrorMessage] = useState(''),
-    [checkState, setCheckState] = useState(false)
-  // [earnings, setEarnings] = useState(5000),
-  // [index, setIndex] = useState(1)
+    [checkState, setCheckState] = useState(false),
+    [earnings, setEarnings] = useState(5000),
+    [index, setIndex] = useState(1)
 
-  // const countries = [
-  //   'Chile',
-  //   'Netherlands',
-  //   'France',
-  //   'United Kingdom',
-  //   'Ukraine',
-  //   'United Kingdom',
-  // ]
+  const countries = [
+    'Chile',
+    'Netherlands',
+    'France',
+    'United Kingdom',
+    'Ukraine',
+    'United Kingdom',
+  ]
 
   const authUsersRoutes = async () => {
     try {
@@ -185,13 +185,16 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       )
       console.log('/auth/users - get all users: ', getAuthAllUsers.data)
 
-      // const createUserRes = await axios.post(
-      //   `${process.env.API_URL}/auth/create-new-user`,
-      //   {
-      //     email: 'test_05@email.com',
-      //     password: '9999',
-      //   }
-      // )
+      const createUserRes = await axios.post(
+        `${process.env.API_URL}/auth/create-new-user`,
+        {
+          name: 'Andrii',
+          age: 25,
+          email: 'test_14@email.com',
+          password: '9999',
+        }
+      )
+      console.log('/auth/create-new-user:', createUserRes)
       // console.log('/auth/create-new-user:', createUserRes.data)
     } catch (err: any) {
       console.log(
@@ -207,15 +210,15 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         `${process.env.API_URL}/auth/details`
       )
       console.log('/auth/details: ', ...getAuthUserDetails.data)
-      // const addNewUserDetails = await axios.post(
-      //   `${process.env.API_URL}/auth/add-new-user-details`,
-      //   {
-      //     earnings: `$${earnings}`,
-      //     country: countries[index % (countries.length - 1)],
-      //     name: 'Andrii Postoliuk',
-      //   }
-      // )
-      // console.log('/auth/add-new-user-details:', addNewUserDetails.data)
+      const addNewUserDetails = await axios.post(
+        `${process.env.API_URL}/auth/add-new-user-details`,
+        {
+          earnings: `$${earnings}`,
+          country: countries[index % (countries.length - 1)],
+          name: 'Andrii Postoliuk',
+        }
+      )
+      console.log('/auth/add-new-user-details:', addNewUserDetails.data)
       // const getUserCountByCounrtyDetails = await axios.get(
       //   `${process.env.API_URL}/auth/count-by-country-details`
       // )
@@ -280,8 +283,8 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
 
     // authDetailRoutes()
 
-    // setEarnings(earnings + 100)
-    // setIndex(index + 1)
+    setEarnings(earnings + 100)
+    setIndex(index + 1)
   }
   return (
     <Div

@@ -1,35 +1,53 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User, UserDetails } from './entities/user';
+import { ConfigModule } from '@nestjs/config';
+import { DatabaseModule } from './db/database.module';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { HelloController } from './hello.controller';
-import { AuthController } from './user/auth.controller';
-import { AuthService } from './user/auth.service';
 import { DetailController } from './user/detail.controller';
+import { AuthController } from './user/auth.controller';
+import { userProviders, userDetailsProviders } from './user/auth.provider';
+import { AppService } from './app.service';
+import { AuthService } from './user/auth.service';
 import { DetailService } from './user/detail.service';
+import 'reflect-metadata';
+// import { TypeOrmModule } from '@nestjs/typeorm';
+// import { dataSourceOptions, AppDataSource } from './db/dataSource';
+// import { User, UserDetails } from './entities/user';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    DatabaseModule,
+  ],
+  controllers: [
+    AppController,
+    HelloController,
+    AuthController,
+    DetailController,
+  ],
+  providers: [
+    ...userProviders,
+    ...userDetailsProviders,
+    AppService,
+    AuthService,
+    DetailService,
+  ],
+})
+export class AppModule {}
+
+/*
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('PGHOST'),
-        port: parseInt(configService.get<string>('PGPORT'), 10),
-        username: configService.get<string>('PGUSER'),
-        password: configService.get<string>('PGPASSWORD'),
-        database: configService.get<string>('PGDATABASE'),
-        entities: [User, UserDetails],
-        synchronize: Boolean(
-          configService.get<string>('NODE_ENV') === 'development',
-        ),
+      useFactory: () => ({
+        ...dataSourceOptions,
+        autoLoadEntities: true,
       }),
-      inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([User, UserDetails]),
   ],
@@ -39,6 +57,10 @@ import { DetailService } from './user/detail.service';
     AuthController,
     DetailController,
   ],
-  providers: [AppService, AuthService, DetailService],
+  providers: [
+    AppService,
+    AuthService,
+    DetailService,
+  ],
 })
-export class AppModule {}
+*/

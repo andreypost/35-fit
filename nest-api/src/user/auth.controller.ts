@@ -32,7 +32,7 @@ export class AuthController {
 
   @Get('users')
   async getAllUsers(): Promise<User[]> {
-    return this.authService.findAll();
+    return this.authService.getAllUsers();
   }
 
   @Post('create-new-user')

@@ -9,7 +9,6 @@
     "node": ">=18.13.0"
   },
   "scripts": {
-    "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -20,7 +19,13 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "build": "nest build",
+    "typeorm:generate": "npx typeorm-ts-node-commonjs migration:generate -d src/db/data.source.ts",
+    "typeorm:show": "npx typeorm-ts-node-commonjs migration:show -d src/db/data.source.ts",
+    "typeorm:run": "npx typeorm-ts-node-commonjs migration:run -d src/db/data.source.ts",
+    "typeorm:revert": "npx typeorm-ts-node-commonjs migration:revert -d src/db/data.source.ts",
+    "typeorm:drop": "npx typeorm-ts-node-commonjs schema:drop -d src/db/data.source.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
