@@ -14,7 +14,7 @@ import { validateOrReject } from 'class-validator';
 jest.mock('fs/promises');
 jest.mock('uuid');
 jest.mock('class-validator');
-/*
+
 describe('DetailService', () => {
   let detailService: DetailService;
 
@@ -51,19 +51,20 @@ describe('DetailService', () => {
   const mockReadFile = () =>
     (readFile as jest.Mock).mockReturnValue(JSON.stringify(mockUserCollection));
 
+  const mockUuidId: string = '07deaa69-33e4-4685-88ed-6d2b0ddc59e7';
+  (uuidv4 as jest.Mock).mockReturnValue(mockUuidId);
+
   const createUserDetailsDto: CreateUserDetailsDto = {
+    id: mockUuidId,
     earnings: '$5700',
     country: 'United Kingdom',
     name: 'Andrii Postoliuk',
   };
 
-  const mockUuidId: string = '07deaa69-33e4-4685-88ed-6d2b0ddc59e7';
-  (uuidv4 as jest.Mock).mockReturnValue(mockUuidId);
-
-  const createUserDetailsDtoId = {
-    id: mockUuidId,
-    ...createUserDetailsDto,
-  };
+  // const createUserDetailsDtoId = {
+  //   id: mockUuidId,
+  //   ...createUserDetailsDto,
+  // };
 
   it('should load data from user collection file', async () => {
     mockReadFile();
@@ -98,13 +99,13 @@ describe('DetailService', () => {
   it('should create and add new user detail to user-collection file', async () => {
     mockReadFile();
 
-    expect(await detailService.addNewUser(createUserDetailsDtoId)).toEqual(
-      createUserDetailsDtoId,
+    expect(await detailService.addNewUser(createUserDetailsDto)).toEqual(
+      createUserDetailsDto,
     );
 
     expect(writeFile).toHaveBeenCalledWith(
       detailService['filePath'],
-      JSON.stringify([...mockUserCollection, createUserDetailsDtoId], null, 2),
+      JSON.stringify([...mockUserCollection, createUserDetailsDto], null, 2),
     );
   });
 
@@ -128,7 +129,7 @@ describe('DetailService', () => {
     mockReadFile();
 
     expect(await detailService.findUserById(mockUuidId)).toEqual(
-      createUserDetailsDtoId,
+      createUserDetailsDto,
     );
 
     await expect(detailService.findUserById('uuid999')).rejects.toThrow(
@@ -136,4 +137,3 @@ describe('DetailService', () => {
     );
   });
 });
-*/
