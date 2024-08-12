@@ -73,7 +73,7 @@ describe('AuthService', () => {
     create: jest.Mock;
     save: jest.Mock;
   };
-  let result = null;
+  const result = null;
 
   // beforeEach(async () => {
   //   const module: TestingModule = await Test.createTestingModule({
