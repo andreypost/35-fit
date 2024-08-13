@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DetailService } from './detail.service';
 import { readFile, writeFile } from 'fs/promises';
-import { IUserDetails } from 'src/interfaces/user';
+import { UserDetails } from '../entities/user.details';
 import {
   BadRequestException,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDetailsDto } from './dto/create-user.dto';
+import { CreateUserDetailsDto } from './dto/create-user-details.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { validateOrReject } from 'class-validator';
 
@@ -27,7 +27,7 @@ describe('DetailService', () => {
     detailService = module.get<DetailService>(DetailService);
   });
 
-  const mockUserCollection: IUserDetails[] = [
+  const mockUserCollection: UserDetails[] = [
     {
       id: '07deaa69-33e4-4685-88ed-6d2b0ddc59e7',
       earnings: '$5700',
@@ -60,11 +60,6 @@ describe('DetailService', () => {
     country: 'United Kingdom',
     name: 'Andrii Postoliuk',
   };
-
-  // const createUserDetailsDtoId = {
-  //   id: mockUuidId,
-  //   ...createUserDetailsDto,
-  // };
 
   it('should load data from user collection file', async () => {
     mockReadFile();

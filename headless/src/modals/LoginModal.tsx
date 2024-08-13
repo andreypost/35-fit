@@ -190,7 +190,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         {
           name: 'Andrii',
           age: 25,
-          email: 'test_14@email.com',
+          email: 'test_04@email.com',
           password: '9999',
         }
       )
@@ -219,6 +219,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         }
       )
       console.log('/auth/add-new-user-details:', addNewUserDetails.data)
+      
       // const getUserCountByCounrtyDetails = await axios.get(
       //   `${process.env.API_URL}/auth/count-by-country-details`
       // )
@@ -279,9 +280,9 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       }, 1500)
     })
 
-    authUsersRoutes()
+    // authUsersRoutes()
 
-    // authDetailRoutes()
+    authDetailRoutes()
 
     setEarnings(earnings + 100)
     setIndex(index + 1)

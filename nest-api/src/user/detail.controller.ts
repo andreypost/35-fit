@@ -7,22 +7,22 @@ import {
   Post,
 } from '@nestjs/common';
 import { DetailService } from './detail.service';
-import { IUserDetails } from 'src/interfaces/user';
-import { CreateUserDetailsDto } from './dto/create-user.dto';
+import { UserDetails } from '../entities/user.details';
+import { CreateUserDetailsDto } from './dto/create-user-details.dto';
 
 @Controller('detail')
 export class DetailController {
   constructor(private readonly detailService: DetailService) {}
 
   @Get('users')
-  async loadUserCollection(): Promise<IUserDetails[]> {
+  async loadUserCollection(): Promise<UserDetails[]> {
     return this.detailService.loadUserCollection();
   }
 
   @Post('add-new-user')
   async addNewUser(
     @Body() createUserDetailsDto: CreateUserDetailsDto,
-  ): Promise<IUserDetails> {
+  ): Promise<UserDetails> {
     return this.detailService.addNewUser(createUserDetailsDto);
   }
 
@@ -39,7 +39,7 @@ export class DetailController {
   @Get('users/:id')
   async findUserById(
     @Param('id', new ParseUUIDPipe()) id: string,
-  ): Promise<IUserDetails> {
+  ): Promise<UserDetails> {
     return this.detailService.findUserById(id);
   }
 }

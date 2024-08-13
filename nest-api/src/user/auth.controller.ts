@@ -6,8 +6,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDetailsDto, CreateUserDto } from './dto/create-user.dto';
-import { User, UserDetails } from '../entities/user';
+import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDetailsDto } from './dto/create-user-details.dto';
+import { User } from '../entities/user';
+import { UserDetails } from '../entities/user.details';
 
 @Controller('auth')
 export class AuthController {
@@ -41,6 +43,8 @@ export class AuthController {
 
     if (user) {
       const isPasswordValid = await this.authService.validateUser({
+        name: createUserDto.name,
+        age: createUserDto.age,
         email: createUserDto.email,
         password: createUserDto.password,
       });

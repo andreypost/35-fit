@@ -1,5 +1,4 @@
 import {
-  IsString,
   IsNotEmpty,
   IsEmail,
   IsInt,
@@ -27,19 +26,4 @@ export class CreateUserDto {
   @MinLength(4)
   @IsNotEmpty()
   password: string;
-}
-
-export class CreateUserDetailsDto {
-  @IsUUID()
-  @IsOptional()
-  id: string;
-
-  @IsNotEmpty()
-  earnings: string;
-
-  @IsNotEmpty()
-  country: string;
-
-  @IsNotEmpty()
-  name: string;
 }

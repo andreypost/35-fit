@@ -1,7 +1,8 @@
 import { ConfigService } from '@nestjs/config';
-import { DataSource } from 'typeorm';
-import { User, UserDetails } from '../entities/user';
 import { config } from 'dotenv';
+import { DataSource } from 'typeorm';
+import { User } from '../entities/user';
+import { UserDetails } from '../entities/user.details';
 
 config(); // strongly required for migrations
 
@@ -18,5 +19,7 @@ export const AppDataSource = new DataSource({
   logging: true,
   entities: [User, UserDetails],
   migrations:
-    process.env.NODE_ENV === 'production' ? [] : ['src/db/migrations/**/*.ts'],
+    process.env.NODE_ENV === 'production'
+      ? []
+      : ['dist/src/db/migrations/**/*.js'],
 });

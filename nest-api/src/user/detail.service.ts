@@ -6,14 +6,14 @@ import {
 } from '@nestjs/common';
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
-import { IUserDetails } from 'src/interfaces/user';
-import { CreateUserDetailsDto } from './dto/create-user.dto';
+import { UserDetails } from '../entities/user.details';
+import { CreateUserDetailsDto } from './dto/create-user-details.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { validateOrReject } from 'class-validator';
 
 @Injectable()
 export class DetailService {
-  private userCollection: IUserDetails[] = null;
+  private userCollection: UserDetails[] = null;
   private readonly filePath: string = join(
     process.cwd(),
     'data',
@@ -22,7 +22,7 @@ export class DetailService {
   private usersCountCache: Record<string, number> = {};
   private averageEarningsCache: Record<string, number> = {};
 
-  public async loadUserCollection(): Promise<IUserDetails[]> {
+  public async loadUserCollection(): Promise<UserDetails[]> {
     // if (this.userCollection) return this.userCollection;
     try {
       return (this.userCollection = JSON.parse(
@@ -37,7 +37,7 @@ export class DetailService {
 
   public async addNewUser(
     createUserDetailsDto: CreateUserDetailsDto,
-  ): Promise<IUserDetails> {
+  ): Promise<UserDetails> {
     try {
       await validateOrReject(createUserDetailsDto);
     } catch {
@@ -46,7 +46,7 @@ export class DetailService {
 
     await this.loadUserCollection();
     const id: string = uuidv4();
-    const newUser: IUserDetails = {
+    const newUser: UserDetails = {
       id,
       ...createUserDetailsDto,
     };
@@ -108,9 +108,9 @@ export class DetailService {
     return this.averageEarningsCache;
   }
 
-  public async findUserById(id: string): Promise<IUserDetails> {
+  public async findUserById(id: string): Promise<UserDetails> {
     await this.loadUserCollection();
-    const user: IUserDetails = this.userCollection.find(
+    const user: UserDetails = this.userCollection.find(
       (user) => user.id === id,
     );
     if (!user) throw new NotFoundException(`User with id ${id} not found.`);
