@@ -219,7 +219,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         }
       )
       console.log('/auth/add-new-user-details:', addNewUserDetails.data)
-      
+
       // const getUserCountByCounrtyDetails = await axios.get(
       //   `${process.env.API_URL}/auth/count-by-country-details`
       // )
