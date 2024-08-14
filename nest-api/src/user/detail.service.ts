@@ -10,7 +10,7 @@ import { UserDetails } from '../entities/user.details';
 import { CreateUserDetailsDto } from './dto/create-user-details.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { validateOrReject } from 'class-validator';
-import { countCountryEarnings } from 'src/helpers/user.collection';
+import { countCountryEarnings } from '../helpers/user.collection';
 
 @Injectable()
 export class DetailService {

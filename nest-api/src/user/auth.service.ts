@@ -5,7 +5,7 @@ import { UserDetails } from '../entities/user.details';
 import { User } from '../entities/user';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateUserDetailsDto } from './dto/create-user-details.dto';
-import { countCountryEarnings } from 'src/helpers/user.collection';
+import { countCountryEarnings } from '../helpers/user.collection';
 
 @Injectable()
 export class AuthService {
