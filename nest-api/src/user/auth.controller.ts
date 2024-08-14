@@ -32,6 +32,11 @@ export class AuthController {
     return this.authService.getUserCountByCountryDetails();
   }
 
+  @Get('average-earnings-by-country')
+  async getAverageEarningsByCountry(): Promise<Record<string, number>> {
+    return this.authService.getAverageEarningsByCountry();
+  }
+
   @Get('users')
   async getAllUsers(): Promise<User[]> {
     return this.authService.getAllUsers();
@@ -42,12 +47,8 @@ export class AuthController {
     const user = await this.authService.findUserByEmail(createUserDto.email);
 
     if (user) {
-      const isPasswordValid = await this.authService.validateUser({
-        name: createUserDto.name,
-        age: createUserDto.age,
-        email: createUserDto.email,
-        password: createUserDto.password,
-      });
+      const isPasswordValid =
+        await this.authService.validateUser(createUserDto);
       if (isPasswordValid) {
         return 'User validated successfully';
       } else {

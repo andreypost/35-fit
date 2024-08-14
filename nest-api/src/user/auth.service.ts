@@ -5,6 +5,7 @@ import { UserDetails } from '../entities/user.details';
 import { User } from '../entities/user';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateUserDetailsDto } from './dto/create-user-details.dto';
+import { countCountryEarnings } from 'src/helpers/user.collection';
 
 @Injectable()
 export class AuthService {
@@ -66,6 +67,11 @@ export class AuthService {
       password: hashedPassword,
     });
     return await this.userRepository.save(newUser);
+  }
+
+  public async getAverageEarningsByCountry(): Promise<Record<string, number>> {
+    await this.findAllUserDetails();
+    return countCountryEarnings(this.userDetailsData);
   }
 }
 

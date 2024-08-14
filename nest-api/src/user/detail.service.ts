@@ -10,6 +10,7 @@ import { UserDetails } from '../entities/user.details';
 import { CreateUserDetailsDto } from './dto/create-user-details.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { validateOrReject } from 'class-validator';
+import { countCountryEarnings } from 'src/helpers/user.collection';
 
 @Injectable()
 export class DetailService {
@@ -85,27 +86,10 @@ export class DetailService {
       return this.averageEarningsCache;
 
     await this.loadUserCollection();
-    const countryEarnings = this.userCollection.reduce(
-      (acc, { country, earnings }) => {
-        const formattedEarnings = parseInt(earnings.replace(/[$]/, ''));
-        !acc[country]
-          ? (acc[country] = [formattedEarnings])
-          : acc[country].push(formattedEarnings);
-        return acc;
-      },
-      {} as Record<string, number[]>,
-    );
 
-    for (const country in countryEarnings) {
-      const topEarnings = countryEarnings[country]
-        .sort((a, b) => b - a)
-        .slice(0, 10);
-      const total = topEarnings.reduce((acc, sum) => acc + sum, 0);
-      this.averageEarningsCache[country] = Math.round(
-        total / topEarnings.length,
-      );
-    }
-    return this.averageEarningsCache;
+    return (this.averageEarningsCache = countCountryEarnings(
+      this.userCollection,
+    ));
   }
 
   public async findUserById(id: string): Promise<UserDetails> {
