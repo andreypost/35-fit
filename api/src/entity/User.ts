@@ -1,10 +1,23 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BeforeInsert,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import bcrypt from "bcrypt";
 
-@Entity({ name: "Users" })
+@Entity({ name: "users" })
 export class User {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @PrimaryGeneratedColumn("uuid")
+  id?: number;
+
+  @Column()
+  name!: string;
+
+  @Column()
+  age!: number;
 
   @Column({ unique: true })
   email!: string;
@@ -21,4 +34,9 @@ export class User {
   async checkPassword(inputPassword: string): Promise<boolean> {
     return bcrypt.compare(inputPassword, this.password);
   }
+  @CreateDateColumn()
+  created_at?: Date;
+
+  @UpdateDateColumn()
+  updated_at?: Date;
 }

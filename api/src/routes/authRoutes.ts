@@ -9,7 +9,7 @@ const userRepository = AppDataSource.getRepository(User);
 authRoutes.get("/users", async (req: Request, res: Response) => {
   try {
     const users = await userRepository.find({
-      select: ["id", "password", "email"],
+      select: ["name", "age", "email"],
     });
     res.json(users);
   } catch (err) {
@@ -24,8 +24,8 @@ authRoutes.get("/users", async (req: Request, res: Response) => {
 
 authRoutes.post("/create-new-user", async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
-    const user = userRepository.create({ email, password });
+    const { name, age, email, password } = req.body;
+    const user = userRepository.create({ name, age, email, password });
 
     await userRepository.save(user);
     const { password: _, ...userResponse } = user;

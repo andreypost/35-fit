@@ -18,6 +18,9 @@ firebase-debug.*.log*
 # it commented so all members can deploy to the same project(s) in .firebaserc.
 # .firebaserc
 
+# builds
+/api/dist/
+
 # Node modules
 /api/node_modules/
 /headless/node_modules/
