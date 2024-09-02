@@ -19,12 +19,10 @@ export const AppDataSource = new DataSource({
 });
 
 AppDataSource.initialize()
-  .then(() => {
-    console.log("Data Source has been initialized!");
-  })
-  .catch((err) => {
-    console.error("Error during Data Source initialization:", err);
-  });
+  .then(() => console.log("Data Source has been initialized!"))
+  .catch((err) =>
+    console.error("Error during Data Source initialization:", err)
+  );
 
 // import { Sequelize } from "sequelize";
 // import dotenv from "dotenv";

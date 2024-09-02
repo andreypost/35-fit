@@ -13,7 +13,7 @@ const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
 // Middleware to parse JSON request bodies
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));
 
 // Custom middleware to log request details
 app.use(logRequestDetails);
@@ -24,22 +24,22 @@ const allowedOrigins = [
   "https://fit-35.web.app/#/",
 ].filter((origin) => origin !== undefined) as string[];
 
-const corsOptions = {
-  origin: allowedOrigins,
-  optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: allowedOrigins,
+    optionsSuccessStatus: 200,
+  })
+);
 
 app.use("/auth", authRoutes);
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World with TypeScript Express from ./api server!");
-});
+app.get("/", (req: Request, res: Response) =>
+  res.send("Hello World with TypeScript Express from ./api server!")
+);
 
-app.listen(PORT, HOST, () => {
-  console.log(`Server is running on port http://${HOST}:${PORT}`);
-});
+app.listen(PORT, HOST, () =>
+  console.log(`Server is running on port http://${HOST}:${PORT}`)
+);
 
 // import sequelize from "./config/database";
 
