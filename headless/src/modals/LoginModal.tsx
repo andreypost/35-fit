@@ -158,38 +158,47 @@ const Div = styled(BaseDiv)`
     }
   }
 `
-const GET_USERS = gql`
-  query GetUsers {
-    users {
+const GET_IMAGES = gql`
+  query getImages($category: String) {
+    images(category: $category) {
       id
-      name
-      email
+      title
+      category
+      owner
+      url
     }
   }
 `
-// const GET_USERS = gql`
-//   query GetUsers {
-//     users {
-//       id
-//       name
-//       email
-//     }
-//   }
-// `
 
-const UserList = () => {
-  const { loading, error, data } = useQuery(GET_USERS)
-  console.log(data)
+const GET_IMAGE_BY_ID = gql`
+  query getImage($id: Int) {
+    image(id: $id) {
+      id
+      title
+      category
+      owner
+      url
+    }
+  }
+`
+
+const ImagesList = ({ category }: any) => {
+  const { loading, error, data } = useQuery(GET_IMAGES, {
+    variables: { category },
+  })
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
   return (
-    <ul>
-      {data.users.map(({ id, name, email }) => (
-        <li key={id}>
-          {name} - {email}
-        </li>
+    <>
+      {data.images.map(({ id, title, category, owner, url }) => (
+        <div key={id}>
+          <h3>{title}</h3>
+          <p>Category: {category}</p>
+          <p>Owner: {owner}</p>
+          <img src={url} alt={title} />
+        </div>
       ))}
-    </ul>
+    </>
   )
 }
 
@@ -201,7 +210,12 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     [password, setPassword] = useState(''),
     // [errorMessage, setErrorMessage] = useState(''),
     [checkState, setCheckState] = useState(false),
-    [index, setIndex] = useState(0)
+    [index, setIndex] = useState(0),
+    [selectedImageId, setSelectedImageId] = useState<number>(0),
+    { loading, error, data } = useQuery(GET_IMAGE_BY_ID, {
+      variables: { id: selectedImageId },
+      skip: !selectedImageId,
+    })
 
   const countries = [
     'Chile',
@@ -353,7 +367,27 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           onClick={() => dispatch(unsetLoginModal())}
         />
         <form id="loginForm" className="flex_str_col" onSubmit={handleLogin}>
-          <UserList />
+          {/* <ImagesList category="Desserts" /> */}
+          <p
+            className="grey_button grey"
+            onClick={() => setSelectedImageId(Number(!selectedImageId))}
+          >
+            show image
+          </p>
+          {selectedImageId > 0 && (
+            <>
+              {loading && <p>Loading image details...</p>}
+              {error && <p>Error fetching image details</p>}
+              {data && (
+                <div>
+                  <h3>{data.image.title}</h3>
+                  <p>Category: {data.image.category}</p>
+                  <p>Owner: {data.image.owner}</p>
+                  <img src={data.image.url} alt={data.image.title} />
+                </div>
+              )}
+            </>
+          )}
           <h1 className="b900 blue">
             {t('welcome_to')}
             <br />

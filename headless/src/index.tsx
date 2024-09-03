@@ -52,7 +52,6 @@ const App = () => {
   }, [])
 
   return (
-    // <ApolloAppProvider>
     <Suspense fallback={<Spinner />}>
       <FirebaseAuthContext.Provider
         value={{
@@ -69,7 +68,6 @@ const App = () => {
         </Provider>
       </FirebaseAuthContext.Provider>
     </Suspense>
-    // </ApolloAppProvider>
   )
 }
 
