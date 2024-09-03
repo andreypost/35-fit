@@ -42,7 +42,7 @@ jobs:
       #     echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
 
       - name: Install API Dependencies
-        run: npm install ci
+        run: npm ci
 
       - name: Build API
         run: npm run build

@@ -37,7 +37,7 @@ jobs:
           cache-dependency-path: ./headless/package-lock.json
 
       - name: Install Front-end Dependencies
-        run: npm install ci
+        run: npm ci
 
       - name: Lint Front-end
         run: npm run lint

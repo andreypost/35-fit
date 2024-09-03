@@ -32,7 +32,7 @@ jobs:
           cache-dependency-path: ./nest-api/package-lock.json
 
       - name: Install dependencies in nest-api
-        run: npm install ci
+        run: npm ci
 
       - name: Build project
         run: npm run build
