@@ -13,6 +13,7 @@ import {
 import { IFirebaseProps } from 'types/interface'
 import { CrossRedSVG } from 'img/icons'
 import axios from 'axios'
+import { gql, useQuery } from '@apollo/client'
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -157,6 +158,40 @@ const Div = styled(BaseDiv)`
     }
   }
 `
+const GET_USERS = gql`
+  query GetUsers {
+    users {
+      id
+      name
+      email
+    }
+  }
+`
+// const GET_USERS = gql`
+//   query GetUsers {
+//     users {
+//       id
+//       name
+//       email
+//     }
+//   }
+// `
+
+const UserList = () => {
+  const { loading, error, data } = useQuery(GET_USERS)
+  console.log(data)
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error :(</p>
+  return (
+    <ul>
+      {data.users.map(({ id, name, email }) => (
+        <li key={id}>
+          {name} - {email}
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 export const LoginModal = ({ user, login }: IFirebaseProps) => {
   const dispatch = useAppDispatch(),
@@ -190,16 +225,18 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       )
       console.log(index, '/auth/users - get all users: ', getAuthAllUsers.data)
 
-      const createUserRes = await axios.post(
-        `${process.env.API_URL}/auth/create-new-user`,
-        {
-          name: 'Andrii',
-          age: 20 + index,
-          email: 'test_08@email.com',
-          password: '9999',
-        }
-      )
-      console.log('/auth/create-new-user:', createUserRes)
+      await axios.get(`${process.env.API_URL}/graphql`)
+
+      // const createUserRes = await axios.post(
+      //   `${process.env.API_URL}/auth/create-new-user`,
+      //   {
+      //     name: 'Andrii',
+      //     age: 20 + index,
+      //     email: 'test_08@email.com',
+      //     password: '9999',
+      //   }
+      // )
+      // console.log('/auth/create-new-user:', createUserRes)
       // console.log('/auth/create-new-user:', createUserRes.data)
     } catch (err: any) {
       console.log(
@@ -316,6 +353,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           onClick={() => dispatch(unsetLoginModal())}
         />
         <form id="loginForm" className="flex_str_col" onSubmit={handleLogin}>
+          <UserList />
           <h1 className="b900 blue">
             {t('welcome_to')}
             <br />

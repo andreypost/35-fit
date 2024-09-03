@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, Suspense, lazy } from 'react'
+import ApolloAppProvider from './ApolloAppProvider'
 import ReactDom from 'react-dom'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -51,6 +52,7 @@ const App = () => {
   }, [])
 
   return (
+    // <ApolloAppProvider>
     <Suspense fallback={<Spinner />}>
       <FirebaseAuthContext.Provider
         value={{
@@ -67,6 +69,7 @@ const App = () => {
         </Provider>
       </FirebaseAuthContext.Provider>
     </Suspense>
+    // </ApolloAppProvider>
   )
 }
 
@@ -80,4 +83,9 @@ const App = () => {
 //   console.log(process.env.NODE_ENV, 'development ')
 // }
 
-ReactDom.render(<App />, document.getElementById('root'))
+ReactDom.render(
+  <ApolloAppProvider>
+    <App />
+  </ApolloAppProvider>,
+  document.getElementById('root')
+)
