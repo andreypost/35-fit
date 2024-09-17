@@ -1,51 +1,79 @@
 import "reflect-metadata";
-import dotenv from "dotenv";
-import express, { Request, Response } from "express";
-import { logRequestDetails } from "./middlewares/logRequestDetails";
+// import dotenv from "dotenv";
+import "./config/env";
+import { env } from "./config/env";
+import express, { Application, Request, Response } from "express";
+// import { logRequestDetails } from "./middleware/logRequestDetails";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes";
-import { createHandler } from "graphql-http/lib/use/express";
-import { imagesSchema } from "./graphql/imagesSchema";
+import { errorHandler } from "./middleware/errorHandler";
+import cookieParser from "cookie-parser";
+import { GraphQLSchema } from "graphql";
+import { QuerySchema } from "./graphql/querySchema";
+import { MutationSchema } from "./graphql/mutationSchema";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
 
-dotenv.config();
+// dotenv.config();
 
-const app = express();
+const app: Application = express();
 
-const HOST = process.env.HOST || "127.0.0.1";
-const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+const HOST = env.HOST || "127.0.0.1";
+const PORT = env.PORT ? parseInt(env.PORT, 10) : 3000;
 
-// Middleware to parse JSON request bodies
-// app.use(express.json({ limit: "10kb" }));
-app.use(express.json());
-
-// Custom middleware to log request details
-app.use(logRequestDetails);
+app.use(express.json({ limit: "10kb" }));
 
 const allowedOrigins = [
-  process.env.HEADLESS_URL,
+  env.HEADLESS_URL,
   "https://fit-35.web.app",
   "https://fit-35.web.app/#/",
 ].filter((origin) => origin !== undefined) as string[];
 
 app.use(
-  cors({
+  cors<cors.CorsRequest>({
     origin: allowedOrigins,
+    credentials: true,
     optionsSuccessStatus: 200,
+    exposedHeaders: ["set-cookie"],
   })
 );
+
+app.use(cookieParser());
+
+// app.use(logRequestDetails);
 
 app.use("/auth", authRoutes);
 
-app.all(
-  "/graphql",
-  createHandler({
-    schema: imagesSchema,
-  })
-);
+const startApolloServer = async () => {
+  const apolloServer = new ApolloServer({
+    schema: new GraphQLSchema({
+      query: QuerySchema,
+      mutation: MutationSchema,
+    }),
+  });
+
+  await apolloServer.start();
+  return app.use(
+    "/graphql",
+    expressMiddleware(apolloServer, {
+      context: async ({ req, res }) => {
+        const authToken = req?.cookies?.authToken;
+        return {
+          req,
+          res,
+          authToken,
+        };
+      },
+    })
+  );
+};
+startApolloServer();
 
 app.get("/", (req: Request, res: Response) =>
   res.send("Hello World with TypeScript Express from ./api server!")
 );
+
+app.use(errorHandler);
 
 app.listen(PORT, HOST, () =>
   console.log(`Server is running on port http://${HOST}:${PORT}`)

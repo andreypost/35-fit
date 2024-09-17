@@ -1,47 +1,91 @@
-import { Request, Response, Router } from "express";
-import { AppDataSource } from "../config/database";
-import { User } from "../entity/User";
+import { NextFunction, Request, Response, Router } from "express";
+import { body, validationResult } from "express-validator";
+import { loginLimiter } from "../middleware/rateLimiter";
+import {
+  setAuthToken,
+  validateAuthToken,
+  verifyTokenWithResponse,
+} from "../auth/jsonWebToken";
+import { userRepository } from "../config/database";
+import { msg } from "../constants/messages";
+import bcrypt from "bcrypt";
 
 const authRoutes = Router();
 
-const userRepository = AppDataSource.getRepository(User);
+authRoutes.post(
+  "/login",
+  body("email").isEmail().withMessage(msg.VALID_EMAIL_IS_REQUIRED),
+  body("password")
+    .isLength({ min: 4 })
+    .withMessage(msg.PASSWORD_MUTS_BE_AT_LEAST),
+  loginLimiter,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const authToken = req?.cookies?.authToken;
+    if (authToken) {
+      return await verifyTokenWithResponse(authToken, res);
+    }
 
-authRoutes.get("/users", async (req: Request, res: Response) => {
-  try {
-    const users = await userRepository.find({
-      select: ["name", "age", "email"],
-    });
-    res.json(users);
-  } catch (err) {
-    console.error(err);
-    if (err instanceof Error) {
-      res.status(500).json({ message: err.message });
-    } else {
-      res.status(500).json({ message: "An unknown error occurred" });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: errors.array() });
+    }
+
+    try {
+      const { email, password } = req.body;
+      const user = await userRepository.findOne({
+        where: { email },
+        select: ["id", "name", "email", "password"],
+      });
+      if (!user) {
+        return res.status(400).json({ message: msg.USER_NOT_FOUND });
+      }
+
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: msg.INVALID_CREDENTIALS });
+      }
+
+      await setAuthToken(user.id, user.email, res);
+      res.status(200).json({ message: msg.LOGIN_SUCCESSFUL });
+    } catch (err) {
+      next(err);
     }
   }
-});
+);
 
-authRoutes.post("/create-new-user", async (req: Request, res: Response) => {
-  try {
-    const { name, age, email, password } = req.body;
-    const user = userRepository.create({ name, age, email, password });
-
-    await userRepository.save(user);
-    const { password: _, ...userResponse } = user;
-
-    res.status(200).json(userResponse);
-  } catch (err: any) {
-    console.error(err);
-    if (err.name === "QueryFailedError") {
-      res.status(400).json({ message: err.message });
-    } else if (err instanceof Error) {
-      res.status(500).json({ message: err.message });
-    } else {
-      res.status(500).json({ message: "An unknown error occurred" });
+authRoutes.get(
+  "/users",
+  loginLimiter,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const authToken = req?.cookies?.authToken;
+    try {
+      await validateAuthToken(authToken);
+      const users = await userRepository.find({
+        select: ["name", "age", "email"],
+      });
+      res.json(users);
+    } catch (err) {
+      next(err);
     }
   }
-});
+);
+
+authRoutes.post(
+  "/create-new-user",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { name, age, email, password } = req.body;
+      const user = userRepository.create({ name, age, email, password });
+
+      await userRepository.save(user);
+      const { password: _, ...userResponse } = user;
+
+      res.status(200).json(userResponse);
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
 
 export default authRoutes;
 

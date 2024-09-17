@@ -1,13 +1,33 @@
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
-import { IChildrenTitleDescrip } from 'types/interface'
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from '@apollo/client'
+// import { setContext } from '@apollo/client/link/context'
+
+const httpLink = createHttpLink({
+  uri: `${process.env.API_URL}/graphql`,
+})
+
+// const authLink = setContext((_, { headers }) => {
+//   const token = localStorage.getItem('authToken')
+//   return {
+//     headers: {
+//       ...headers,
+//       authorization: token ? `Bearer ${token}` : '',
+//     },
+//   }
+// })
 
 const client = new ApolloClient({
-  uri: `${process.env.API_URL}/graphql`,
+  // link: authLink.concat(httpLink),
+  link: httpLink,
   cache: new InMemoryCache(),
 })
 
-const ApolloAppProvider = ({ children }: IChildrenTitleDescrip) => (
-  <ApolloProvider client={client}>{children} </ApolloProvider>
-)
-
-export default ApolloAppProvider
+export const ApolloAppProvider = ({
+  children,
+}: {
+  children: React.ReactNode
+}) => <ApolloProvider client={client}>{children} </ApolloProvider>

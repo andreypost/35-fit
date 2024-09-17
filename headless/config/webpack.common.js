@@ -20,6 +20,7 @@ module.exports = {
       ),
       // Footer$: path.resolve(__dirname, '../src/components/Footer.tsx'),
       // Nav$: path.resolve(__dirname, '../src/components/Nav.tsx'),
+      queries: path.resolve(__dirname, '../src/graphql/queries'),
       modals: path.resolve(__dirname, '../src/modals'),
       img: path.resolve(__dirname, '../src/img'),
       svg: path.resolve(__dirname, '../src/img/svg'),

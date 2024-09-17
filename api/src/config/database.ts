@@ -1,21 +1,21 @@
 import { DataSource } from "typeorm";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
+import { env } from "./env";
 import { User } from "../entity/User";
 
-dotenv.config();
+// dotenv.config();
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT as string, 10),
-  username: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  host: env.DB_HOST,
+  port: parseInt(env.DB_PORT as string, 10),
+  username: env.DB_USER,
+  password: env.DB_PASS,
+  database: env.DB_NAME,
   synchronize: false,
   logging: false,
   entities: [User],
-  migrations:
-    process.env.NODE_ENV === "production" ? [] : ["dist/migration/**/*.js"],
+  migrations: env.NODE_ENV === "production" ? [] : ["dist/migration/**/*.js"],
 });
 
 AppDataSource.initialize()
@@ -23,6 +23,8 @@ AppDataSource.initialize()
   .catch((err) =>
     console.error("Error during Data Source initialization:", err)
   );
+
+export const userRepository = AppDataSource.getRepository(User);
 
 // import { Sequelize } from "sequelize";
 // import dotenv from "dotenv";

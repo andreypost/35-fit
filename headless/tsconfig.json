@@ -26,6 +26,7 @@
       "FooterBanner": ["components/FooterBanner"],
       // "Footer": ["components/Footer"],
       // "Nav": ["components/Nav"],
+      "queries": ["graphql/queries"],
       "modals": ["modals"],
       "img": ["img"],
       "svg": ["svg"],

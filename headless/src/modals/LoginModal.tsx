@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 import { RESERVE_ROUTE } from 'utils/routes.constants'
 import { useAppSelector, useAppDispatch } from 'utils/hooks'
 import { BaseDiv } from './MenuModal'
 import {
-  messageErrorModal,
+  // messageErrorModal,
   selectLoginModalActive,
   unsetLoginModal,
 } from 'slices/modal.slice'
-import { IFirebaseProps } from 'types/interface'
+import { IFirebaseProps, IGetImageById, IGetImages } from 'types/interface'
 import { CrossRedSVG } from 'img/icons'
 import axios from 'axios'
-import { gql, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
+import { GET_IMAGES, GET_IMAGE_BY_ID, LOGIN_USER } from 'queries'
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -158,39 +159,17 @@ const Div = styled(BaseDiv)`
     }
   }
 `
-const GET_IMAGES = gql`
-  query getImages($category: String) {
-    images(category: $category) {
-      id
-      title
-      category
-      owner
-      url
-    }
-  }
-`
 
-const GET_IMAGE_BY_ID = gql`
-  query getImage($id: Int) {
-    image(id: $id) {
-      id
-      title
-      category
-      owner
-      url
-    }
-  }
-`
-
-const ImagesList = ({ category }: any) => {
-  const { loading, error, data } = useQuery(GET_IMAGES, {
-    variables: { category },
+const ImagesList = ({ categoryImages }: any) => {
+  const { loading, error, data } = useQuery<IGetImages>(GET_IMAGES, {
+    variables: { categoryImages },
+    context: { credentials: 'include' },
   })
   if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :(</p>
+  if (error) return <p>Error: {error.message}</p>
   return (
     <>
-      {data.images.map(({ id, title, category, owner, url }) => (
+      {data?.imagesByCategory.map(({ id, title, category, owner, url }) => (
         <div key={id}>
           <h3>{title}</h3>
           <p>Category: {category}</p>
@@ -212,9 +191,17 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     [checkState, setCheckState] = useState(false),
     [index, setIndex] = useState(0),
     [selectedImageId, setSelectedImageId] = useState<number>(0),
-    { loading, error, data } = useQuery(GET_IMAGE_BY_ID, {
-      variables: { id: selectedImageId },
+    {
+      loading: imageLoading,
+      error: imageError,
+      data: imageData,
+    } = useQuery<IGetImageById>(GET_IMAGE_BY_ID, {
+      variables: { imageId: selectedImageId },
       skip: !selectedImageId,
+      context: { credentials: 'include' },
+    }),
+    [loginUser] = useMutation(LOGIN_USER, {
+      context: { credentials: 'include' },
     })
 
   const countries = [
@@ -234,29 +221,33 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
 
   const authUsersRoutes = async () => {
     try {
-      const getAuthAllUsers = await axios.get(
-        `${process.env.API_URL}/auth/users`
+      const logUserRes = await axios.post(
+        `${process.env.API_URL}/auth/login`,
+        {
+          email: 'test_08@email.com',
+          password: '9999',
+        },
+        { withCredentials: true }
       )
-      console.log(index, '/auth/users - get all users: ', getAuthAllUsers.data)
-
-      await axios.get(`${process.env.API_URL}/graphql`)
-
+      console.log('/auth/login:', logUserRes)
+      // const getAuthAllUsers = await axios.get(
+      //   `${process.env.API_URL}/auth/users`,
+      //   { withCredentials: true }
+      // )
+      // console.log(index, '/auth/users - get all users: ', getAuthAllUsers.data)
       // const createUserRes = await axios.post(
       //   `${process.env.API_URL}/auth/create-new-user`,
       //   {
       //     name: 'Andrii',
-      //     age: 20 + index,
+      //     age: '20 + index',
       //     email: 'test_08@email.com',
       //     password: '9999',
-      //   }
+      //   },
       // )
       // console.log('/auth/create-new-user:', createUserRes)
       // console.log('/auth/create-new-user:', createUserRes.data)
     } catch (err: any) {
-      console.log(
-        'An unexpected error occurred: ',
-        err.response?.data?.message || err.message
-      )
+      console.error(err?.response?.data?.message || err?.message)
     }
   }
 
@@ -322,10 +313,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       // )
       // console.log('/detail/users/id: ', detailById.data)
     } catch (err: any) {
-      console.log(
-        'An unexpected error occurred: ',
-        err.response?.data?.message || err.message
-      )
+      console.error(err?.response?.data?.message || err?.message)
     }
   }
 
@@ -335,18 +323,27 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     setIndex(Math.floor(Math.random() * countries.length))
   }, [user])
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async <T extends React.FormEvent<HTMLFormElement>>(
+    e: T
+  ): Promise<void> => {
     e.preventDefault()
+    // const response = await loginUser({
+    //   variables: {
+    //     email: 'test_08@email.com',
+    //     password: '9999',
+    //   },
+    // })
+    // console.log('/graphql loginUser:', response)
     // const formData = new FormData(e.currentTarget)
     // const userEmail = formData.get('login')
     // const userPass = formData.get('password')
 
-    dispatch(unsetLoginModal())
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(dispatch(messageErrorModal()))
-      }, 1500)
-    })
+    // dispatch(unsetLoginModal())
+    // await new Promise((resolve) => {
+    //   setTimeout(() => {
+    //     resolve(dispatch(messageErrorModal()))
+    //   }, 1500)
+    // })
 
     authUsersRoutes()
 
@@ -367,7 +364,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           onClick={() => dispatch(unsetLoginModal())}
         />
         <form id="loginForm" className="flex_str_col" onSubmit={handleLogin}>
-          {/* <ImagesList category="Desserts" /> */}
+          <ImagesList categoryImages="Coffee" />
           <p
             className="grey_button grey"
             onClick={() => setSelectedImageId(Number(!selectedImageId))}
@@ -376,14 +373,19 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           </p>
           {selectedImageId > 0 && (
             <>
-              {loading && <p>Loading image details...</p>}
-              {error && <p>Error fetching image details</p>}
-              {data && (
+              {imageLoading && <p>Loading image details...</p>}
+              {imageError && (
+                <p>Error fetching image details: {imageError.message}</p>
+              )}
+              {imageData && imageData?.imageById && (
                 <div>
-                  <h3>{data.image.title}</h3>
-                  <p>Category: {data.image.category}</p>
-                  <p>Owner: {data.image.owner}</p>
-                  <img src={data.image.url} alt={data.image.title} />
+                  <h3>{imageData?.imageById?.title}</h3>
+                  <p>Category: {imageData?.imageById?.category}</p>
+                  <p>Owner: {imageData?.imageById?.owner}</p>
+                  <img
+                    src={imageData?.imageById?.url}
+                    alt={imageData?.imageById?.title}
+                  />
                 </div>
               )}
             </>

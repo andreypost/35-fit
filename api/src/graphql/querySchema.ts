@@ -2,11 +2,10 @@ import {
   GraphQLInt,
   GraphQLList,
   GraphQLObjectType,
-  GraphQLSchema,
   GraphQLString,
-  // buildSchema,
 } from "graphql";
-// import { createHandler } from "graphql-http/lib/use/express";
+import { validateAuthToken } from "../auth/jsonWebToken";
+import { msg } from "../constants/messages";
 
 const imagesData = [
   {
@@ -47,7 +46,7 @@ const imagesData = [
 ];
 
 const ImageType = new GraphQLObjectType({
-  name: "Image",
+  name: "ImageResponseData",
   fields: {
     id: { type: GraphQLInt },
     title: { type: GraphQLString },
@@ -57,34 +56,44 @@ const ImageType = new GraphQLObjectType({
   },
 });
 
-const ImagesQuery = new GraphQLObjectType({
+export const QuerySchema = new GraphQLObjectType({
   name: "Query",
   fields: () => ({
-    image: {
+    imageById: {
       type: ImageType,
       args: {
-        id: { type: GraphQLInt },
+        imageId: { type: GraphQLInt },
       },
-      resolve: (parent, args, context) => {
-        return imagesData.find((image) => image.id === args.id);
+      resolve: async (parent, { imageId }, { authToken }) => {
+        await validateAuthToken(authToken);
+
+        const image = imagesData.find(({ id }) => id === imageId);
+        if (!image) {
+          throw new Error(msg.IMAGES_NOT_FOUND);
+        }
+        return image;
       },
     },
-    images: {
+    imagesByCategory: {
       type: new GraphQLList(ImageType),
       args: {
-        category: { type: GraphQLString },
+        categoryImages: { type: GraphQLString },
       },
-      resolve: (parent, args, contex) =>
-        imagesData.filter(
-          (image) =>
-            image.category.toLowerCase() === args.category.toLowerCase()
-        ),
+      resolve: async (parent, { categoryImages }, { authToken }) => {
+        await validateAuthToken(authToken);
+
+        const images = imagesData.filter(
+          ({ category }) =>
+            category.toLowerCase() === categoryImages.toLowerCase()
+        );
+        if (!images?.length) {
+          throw new Error(msg.IMAGES_NOT_FOUND);
+        }
+
+        return images;
+      },
     },
   }),
-});
-
-export const imagesSchema = new GraphQLSchema({
-  query: ImagesQuery,
 });
 
 // simplier variant

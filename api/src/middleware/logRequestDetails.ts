@@ -7,5 +7,6 @@ export const logRequestDetails = (
 ) => {
   console.log("logRequestDetails method: ", req.method);
   console.log("logRequestDetails url: ", req.url);
+  console.log("logRequestDetails headers: ", req.headers);
   next();
 };

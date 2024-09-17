@@ -76,3 +76,17 @@ export interface IPlanPricesBoxRoute extends IRoutePriceTitle {
 export interface IRouteParams {
   name?: string
 }
+
+export interface IGetImageById {
+  imageById: {
+    id: string
+    title: string
+    category: string
+    owner: string
+    url: string
+  }
+}
+
+export interface IGetImages {
+  imagesByCategory: IGetImageById['imageById'][]
+}

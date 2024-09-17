@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, Suspense, lazy } from 'react'
-import ApolloAppProvider from './ApolloAppProvider'
+import { ApolloAppProvider } from './ApolloAppProvider'
 import ReactDom from 'react-dom'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
