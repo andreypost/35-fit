@@ -6,7 +6,7 @@ import { RESERVE_ROUTE } from 'utils/routes.constants'
 import { useAppSelector, useAppDispatch } from 'utils/hooks'
 import { BaseDiv } from './MenuModal'
 import {
-  // messageErrorModal,
+  messageErrorModal,
   selectLoginModalActive,
   unsetLoginModal,
 } from 'slices/modal.slice'
@@ -230,11 +230,11 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         { withCredentials: true }
       )
       console.log('/auth/login:', logUserRes)
-      // const getAuthAllUsers = await axios.get(
-      //   `${process.env.API_URL}/auth/users`,
-      //   { withCredentials: true }
-      // )
-      // console.log(index, '/auth/users - get all users: ', getAuthAllUsers.data)
+      const getAuthAllUsers = await axios.get(
+        `${process.env.API_URL}/auth/users`,
+        { withCredentials: true }
+      )
+      console.log(index, '/auth/users - get all users: ', getAuthAllUsers.data)
       // const createUserRes = await axios.post(
       //   `${process.env.API_URL}/auth/create-new-user`,
       //   {
@@ -247,7 +247,11 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       // console.log('/auth/create-new-user:', createUserRes)
       // console.log('/auth/create-new-user:', createUserRes.data)
     } catch (err: any) {
-      console.error(err?.response?.data?.message || err?.message)
+      console.error(
+        err?.response?.data?.message || err?.message,
+        err?.response?.data?.success,
+        err
+      )
     }
   }
 
@@ -313,7 +317,11 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       // )
       // console.log('/detail/users/id: ', detailById.data)
     } catch (err: any) {
-      console.error(err?.response?.data?.message || err?.message)
+      // console.error(err?.response?.data?.message || err?.message)
+      console.error(
+        err?.response?.data?.message || err?.message,
+        err?.response?.data?.success
+      )
     }
   }
 
@@ -327,23 +335,31 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    // const response = await loginUser({
-    //   variables: {
-    //     email: 'test_08@email.com',
-    //     password: '9999',
-    //   },
-    // })
-    // console.log('/graphql loginUser:', response)
+    try {
+      // const response = await loginUser({
+      //   variables: {
+      //     email: 'test_08@email.com',
+      //     password: '9999',
+      //   },
+      // })
+      // console.log('/graphql loginUser:', response)
+    } catch (err: any) {
+      console.error(
+        err?.response?.data?.message || err?.message,
+        err?.response?.data?.success
+      )
+    }
     // const formData = new FormData(e.currentTarget)
     // const userEmail = formData.get('login')
     // const userPass = formData.get('password')
-
-    // dispatch(unsetLoginModal())
-    // await new Promise((resolve) => {
-    //   setTimeout(() => {
-    //     resolve(dispatch(messageErrorModal()))
-    //   }, 1500)
-    // })
+    if (process.env.NODE_ENV === 'production') {
+      dispatch(unsetLoginModal())
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(dispatch(messageErrorModal()))
+        }, 1500)
+      })
+    }
 
     authUsersRoutes()
 

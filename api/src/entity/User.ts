@@ -17,13 +17,34 @@ export class User {
   name!: string;
 
   @Column()
+  surname!: string;
+
+  @Column({ default: "Non-binary" })
+  gender!: string;
+
+  @Column()
   age!: number;
+
+  @Column()
+  country!: string;
+
+  @Column()
+  city!: string;
 
   @Column({ unique: true })
   email!: string;
 
   @Column()
   password!: string;
+
+  @Column()
+  phone!: string;
+
+  @Column()
+  emergencyName?: string;
+
+  @Column()
+  emergencyPhone?: string;
 
   @BeforeInsert()
   async hashPassword() {

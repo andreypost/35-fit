@@ -1,10 +1,21 @@
+export interface IAuth {
+  name?: string
+  surname?: string
+  gender?: string
+  age?: number
+  country?: string
+  city?: string
+  email?: string
+  password?: string
+  phone?: string
+  emergencyName?: string
+  emergencyPhone?: string
+  uid?: string
+  displayName?: string
+  photoURL?: string
+}
 export interface IUser {
-  user: {
-    name?: string
-    uid?: string
-    displayName?: string
-    photoURL?: string
-  }
+  user: IAuth
 }
 
 export interface IFirebaseProps extends IUser {

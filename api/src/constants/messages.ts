@@ -1,7 +1,10 @@
 export const msg = {
   VALID_EMAIL_IS_REQUIRED: "Valid email is required!",
   PASSWORD_MUTS_BE_AT_LEAST: "Password must be at least 4 characters long!",
+  NAME_IS_REQUIRED: "Name is required!",
+  VALID_AGE_REQUIRED: "Valid age required!",
   FAILED_TO_GENERATE_TOKEN: "Failed to generate auth token.",
+  USER_CREATED_SUCCESSFULLY: "User created successfully!",
   USER_ALREADY_LOGGED_IN: "User already logged in!",
   INVALID_OR_EXPIRED_TOKEN: "Invalid or expired token!",
   LOGIN_SUCCESSFUL: "Login successful.",

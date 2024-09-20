@@ -51,7 +51,7 @@ const AppRouter = () => {
   }, [])
 
   useEffect(() => {
-    winScroll > 800 && setFooterContent(true)
+    winScroll > 80 && setFooterContent(true)
   }, [winScroll])
 
   useDebugValue(user)

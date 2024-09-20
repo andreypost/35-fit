@@ -1,5 +1,4 @@
 import "reflect-metadata";
-// import dotenv from "dotenv";
 import "./config/env";
 import { env } from "./config/env";
 import express, { Application, Request, Response } from "express";
@@ -14,14 +13,12 @@ import { MutationSchema } from "./graphql/mutationSchema";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 
-// dotenv.config();
-
 const app: Application = express();
 
 const HOST = env.HOST || "127.0.0.1";
 const PORT = env.PORT ? parseInt(env.PORT, 10) : 3000;
 
-app.use(express.json({ limit: "10kb" }));
+// app.use(express.json({ limit: "10kb" }));
 
 const allowedOrigins = [
   env.HEADLESS_URL,
@@ -30,15 +27,17 @@ const allowedOrigins = [
 ].filter((origin) => origin !== undefined) as string[];
 
 app.use(
+  express.json({ limit: "10kb" }),
   cors<cors.CorsRequest>({
     origin: allowedOrigins,
     credentials: true,
     optionsSuccessStatus: 200,
     exposedHeaders: ["set-cookie"],
-  })
+  }),
+  cookieParser()
 );
 
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // app.use(logRequestDetails);
 

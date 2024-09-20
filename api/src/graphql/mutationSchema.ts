@@ -44,8 +44,7 @@ export const MutationSchema = new GraphQLObjectType({
         email: { type: GraphQLString },
         password: { type: GraphQLString },
       },
-      resolve: async (parent, { email, password }, { req, res }) => {
-        const authToken = req?.cookies?.authToken;
+      resolve: async (parent, { email, password }, { req, res, authToken }) => {
         if (authToken) {
           return await verifyToken(authToken);
         }

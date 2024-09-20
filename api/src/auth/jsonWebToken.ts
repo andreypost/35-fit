@@ -1,7 +1,5 @@
 import { env } from "../config/env";
 import { sign, verify } from "jsonwebtoken";
-// import dotenv from "dotenv";
-// dotenv.config();
 import { msg } from "../constants/messages";
 
 export const SECRET_JWT_KEY = env.JWT_KEY as string;
@@ -40,29 +38,25 @@ export const setAuthToken = async (
 export const verifyToken = async (authToken: string) => {
   try {
     verify(authToken, SECRET_JWT_KEY);
-    return { valid: true, message: msg.USER_ALREADY_LOGGED_IN };
+    return { success: true, message: msg.USER_ALREADY_LOGGED_IN };
   } catch (error) {
-    return { valid: false, message: msg.INVALID_OR_EXPIRED_TOKEN };
+    return { success: false, message: msg.INVALID_OR_EXPIRED_TOKEN };
   }
 };
 
-export const verifyTokenWithResponse = async (authToken: string, res?: any) => {
-  const result = await verifyToken(authToken);
+// export const verifyTokenWithResponse = async (authToken: string, res: any) => {
+//   const { success, message } = await verifyToken(authToken);
 
-  if (res) {
-    const statusCode = result.valid ? 200 : 401;
-    return res.status(statusCode).json({ message: result.message });
-  }
-
-  return result;
-};
+//   const statusCode = success ? 200 : 401;
+//   return res.status(statusCode).json({ success: success, message: message });
+// };
 
 export const validateAuthToken = async (authToken: string) => {
   if (!authToken) {
     throw new Error(msg.YOU_MUST_TO_LOGIN);
   }
-  const { valid, message } = await verifyToken(authToken);
-  if (!valid) {
+  const { success, message } = await verifyToken(authToken);
+  if (!success) {
     throw new Error(message);
   }
 };

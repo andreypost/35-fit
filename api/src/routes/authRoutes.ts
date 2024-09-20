@@ -4,7 +4,8 @@ import { loginLimiter } from "../middleware/rateLimiter";
 import {
   setAuthToken,
   validateAuthToken,
-  verifyTokenWithResponse,
+  verifyToken,
+  // verifyTokenWithResponse,
 } from "../auth/jsonWebToken";
 import { userRepository } from "../config/database";
 import { msg } from "../constants/messages";
@@ -22,12 +23,18 @@ authRoutes.post(
   async (req: Request, res: Response, next: NextFunction) => {
     const authToken = req?.cookies?.authToken;
     if (authToken) {
-      return await verifyTokenWithResponse(authToken, res);
+      const { success, message } = await verifyToken(authToken);
+
+      const statusCode = success ? 200 : 401;
+      return res
+        .status(statusCode)
+        .json({ success: success, message: message });
+      // return await verifyTokenWithResponse(authToken, res);
     }
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ message: errors.array() });
+      return res.status(400).json({ success: false, message: errors.array() });
     }
 
     try {
@@ -37,17 +44,21 @@ authRoutes.post(
         select: ["id", "name", "email", "password"],
       });
       if (!user) {
-        return res.status(400).json({ message: msg.USER_NOT_FOUND });
+        return res
+          .status(404)
+          .json({ success: false, message: msg.USER_NOT_FOUND });
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
-        return res.status(401).json({ message: msg.INVALID_CREDENTIALS });
+        return res
+          .status(401)
+          .json({ success: false, message: msg.INVALID_CREDENTIALS });
       }
 
       await setAuthToken(user.id, user.email, res);
-      res.status(200).json({ message: msg.LOGIN_SUCCESSFUL });
-    } catch (err) {
+      res.status(201).json({ success: true, message: msg.LOGIN_SUCCESSFUL });
+    } catch (err: any) {
       next(err);
     }
   }
@@ -64,7 +75,7 @@ authRoutes.get(
         select: ["name", "age", "email"],
       });
       res.json(users);
-    } catch (err) {
+    } catch (err: any) {
       next(err);
     }
   }
@@ -72,15 +83,70 @@ authRoutes.get(
 
 authRoutes.post(
   "/create-new-user",
+  body("name").notEmpty().withMessage(msg.NAME_IS_REQUIRED),
+  body("surname").notEmpty().withMessage(msg.NAME_IS_REQUIRED),
+  body("gender").notEmpty().withMessage(msg.NAME_IS_REQUIRED),
+  body("age").isInt({ min: 1, max: 111 }).withMessage(msg.VALID_AGE_REQUIRED),
+  body("country").notEmpty().withMessage(msg.NAME_IS_REQUIRED),
+  body("city").notEmpty().withMessage(msg.NAME_IS_REQUIRED),
+  body("email").isEmail().withMessage(msg.VALID_EMAIL_IS_REQUIRED),
+  body("password")
+    .isLength({ min: 4 })
+    .withMessage(msg.PASSWORD_MUTS_BE_AT_LEAST),
+  body("phone").notEmpty().withMessage(msg.NAME_IS_REQUIRED),
+  loginLimiter,
   async (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, message: errors.array() });
+    }
     try {
-      const { name, age, email, password } = req.body;
-      const user = userRepository.create({ name, age, email, password });
+      const {
+        name,
+        surname,
+        gender,
+        age,
+        country,
+        city,
+        email,
+        password,
+        phone,
+        emergencyName,
+        emergencyPhone,
+      } = req.body;
+      console.log(
+        name,
+        surname,
+        gender,
+        age,
+        country,
+        city,
+        email,
+        password,
+        phone,
+        emergencyName,
+        emergencyPhone
+      );
+      // const user = userRepository.create({
+      //   name,
+      //   surname,
+      //   gender,
+      //   age,
+      //   country,
+      //   city,
+      //   email,
+      //   password,
+      //   phone,
+      //   emergencyName,
+      //   emergencyPhone,
+      // });
+      // await userRepository.save(user);
 
-      await userRepository.save(user);
-      const { password: _, ...userResponse } = user;
+      // await setAuthToken(user.id, email, res);
 
-      res.status(200).json(userResponse);
+      res
+        .status(201)
+        .json({ success: true, message: msg.USER_CREATED_SUCCESSFULLY });
     } catch (err: any) {
       next(err);
     }
