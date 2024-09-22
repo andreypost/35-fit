@@ -79,6 +79,14 @@
     "back_to_team": "Back to Team",
     "dont_sell_yourself": "Don't sell yourself short in life. Give yourself a challenge"
   },
+  "reserve": {
+    "continue": "Continue",
+    "we_know_so_little": "We know so little about you, please keep going.",
+    "you_are_almost_there": "You're almost there!",
+    "new_to_fit": "New to 35FIT ?",
+    "start_training_quicker": "Start training quicker",
+    "as_one_of_our_main_focus": "As one of our main focus is save your time, please fill short information about you, so you can get wristband quicker and start measuring on our Milonizer"
+  },
   "welcome_to": "Welcome to",
   "not_member_yet": "Not a member yet?",
   "book_your_training": "Book your first training",

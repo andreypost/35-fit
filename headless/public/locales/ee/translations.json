@@ -79,6 +79,14 @@
     "back_to_team": "Tagasi Meeskond juurde",
     "dont_sell_yourself": "Ära müü end elus lühikeseks. Esitage endale väljakutse"
   },
+  "reserve": {
+    "continue": "Jätka",
+    "we_know_so_little": "Me teame teist nii vähe, palun jätka.",
+    "you_are_almost_there": "Sa oled peaaegu kohal!",
+    "new_to_fit": "Kas uus 35FIT kasutaja ?",
+    "start_training_quicker": "Alustage treenimist kiiremini",
+    "as_one_of_our_main_focus": "Kuna meie üks peamisi eesmärke on säästa teie aega, täitke lühike teave enda kohta, et saaksite randmepaela kiiremini hankida ja alustada mõõtmist meie Milonizeriga"
+  },
   "welcome_to": "Tere tulemast",
   "not_member_yet": "Mitte veel liige?",
   "book_your_training": "Broneeri oma esimene koolitus",
