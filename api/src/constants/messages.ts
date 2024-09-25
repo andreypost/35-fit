@@ -18,4 +18,7 @@ export const msg = {
   TOO_MANY_LOGIN_ATTEMPTS: "Too many login attempts. Please try again later.",
   YOU_MUST_TO_LOGIN: "You must login first!",
   IMAGES_NOT_FOUND: "Images not found.",
+  USER_DELETED_SUCCESSFULLY: "User deleted successfully!",
+  USER_ALREADY_DELETED_OR_DOES_NOT_EXIST:
+    "User already deleted or does not exist!",
 };

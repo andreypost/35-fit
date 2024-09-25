@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 // import { Link } from 'react-router-dom'
 import { HeaderBanner } from 'HeaderBanner'
 import axios from 'axios'
-import { IAuth } from 'types/interface'
+import { IAuth, IUser } from 'types/interface'
 import { PercentReserveSVG } from 'img/icons'
 
 const Main = styled.main`
@@ -29,9 +29,20 @@ const Main = styled.main`
           color: #b2b2b2;
         }
       }
-      #authForm {
+      #authForm,
+      #deleteForm {
+        .form_subtitle {
+          font-size: 24px;
+          margin-bottom: 40px;
+        }
+        .form_box {
+          display: flex;
+          flex-flow: column;
+          gap: 20px;
+        }
         fieldset {
           box-sizing: border-box;
+          width: 100%;
           max-width: 420px;
           padding: 5px 0 11px 27px;
           border: 2px solid #b2b2b2;
@@ -80,7 +91,8 @@ const Main = styled.main`
             -moz-appearance: textfield;
           }
         }
-        .reserve_submit {
+        .reserve_submit,
+        .reserve_delete {
           box-sizing: border-box;
           height: 42px;
           padding: 0px 40px;
@@ -92,6 +104,9 @@ const Main = styled.main`
             border-color: white;
             background-color: #004;
           }
+        }
+        .reserve_delete {
+          margin-top: 20px;
         }
       }
     }
@@ -115,8 +130,29 @@ const Main = styled.main`
     }
   }
   @media (max-width: 1023px) {
+    .reserver {
+      .reserve_article {
+        #authForm {
+          .form_box {
+            .form_fields {
+              row-gap: 20px;
+              flex-flow: column;
+            }
+          }
+        }
+      }
+    }
   }
   @media (min-width: 1024px) {
+    .reserver {
+      .reserve_article {
+        #authForm {
+          .form_fields {
+            column-gap: 60px;
+          }
+        }
+      }
+    }
   }
 `
 
@@ -134,8 +170,7 @@ const Reserve = () => {
       phone: '',
       emergencyName: '',
       emergencyPhone: '',
-    }),
-    [country, setCountry] = useState('')
+    })
 
   const genderOptions = [
     { value: '', label: 'Select Gender' },
@@ -157,8 +192,7 @@ const Reserve = () => {
     { value: 'warsaw', label: 'Warsaw' },
     { value: 'seattle', label: 'Seattle' },
   ]
-  // useEffect(() => {
-  // }, [])
+  // useEffect(() => {}, [])
 
   const handleChangeAuthData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -182,6 +216,29 @@ const Reserve = () => {
         { withCredentials: true }
       )
       console.log('createNewUser: ', createNewUser)
+    } catch (err: any) {
+      console.error(
+        err?.response?.data?.message || err?.message,
+        err?.response?.data?.success
+      )
+    }
+  }
+
+  const handleDeleteUserByEmail = async <
+    T extends React.FormEvent<HTMLFormElement>
+  >(
+    e: T
+  ): Promise<void> => {
+    e.preventDefault()
+    const deleteForm = new FormData(e.currentTarget)
+    const email = deleteForm.get('email')
+    try {
+      const deletedUser = await axios.post(
+        `${process.env.API_URL}/auth/delete-user-by-email`,
+        { email },
+        { withCredentials: true }
+      )
+      console.log('deletedUser: ', deletedUser)
     } catch (err: any) {
       console.error(
         err?.response?.data?.message || err?.message,
@@ -217,93 +274,128 @@ const Reserve = () => {
             <p>{t('reserve.as_one_of_our_main_focus')}</p>
           </header>
           <form id="authForm" onSubmit={handleAuthSubmit}>
-            <fieldset>
-              <legend>First name:</legend>
-              <input
-                type="text"
-                name="name"
-                placeholder="First name"
-                onChange={handleChangeAuthData}
-                required
-              />
-            </fieldset>
-            <fieldset>
-              <legend>Surname:</legend>
-              <input
-                type="text"
-                name="surname"
-                placeholder="Surname"
-                onChange={handleChangeAuthData}
-                required
-              />
-            </fieldset>
-            <fieldset>
-              <legend>Gender:</legend>
-              <select name="gender" onChange={handleChangeAuthData} required>
-                {genderOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </fieldset>
-            <fieldset>
-              <legend>Age:</legend>
-              <input
-                type="number"
-                name="age"
-                placeholder="Age"
-                min={1}
-                max={111}
-                onChange={handleChangeAuthData}
-                required
-              />
-            </fieldset>
+            <header>
+              <h5 className="b900 form_subtitle blue">
+                {t('reserve.personal_information')}
+              </h5>
 
-            <fieldset>
-              <legend>Country:</legend>
+              <div className="form_box">
+                <div className="form_fields flex">
+                  <fieldset>
+                    <legend>First name:</legend>
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="First name"
+                      onChange={handleChangeAuthData}
+                      required
+                    />
+                  </fieldset>
+                  <fieldset>
+                    <legend>Surname:</legend>
+                    <input
+                      type="text"
+                      name="surname"
+                      placeholder="Surname"
+                      onChange={handleChangeAuthData}
+                      required
+                    />
+                  </fieldset>
+                </div>
+                <div className="form_fields flex">
+                  <fieldset>
+                    <legend>Gender:</legend>
+                    <select
+                      name="gender"
+                      onChange={handleChangeAuthData}
+                      required
+                    >
+                      {genderOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </fieldset>
+                  <fieldset>
+                    <legend>Age:</legend>
+                    <input
+                      type="number"
+                      name="age"
+                      placeholder="Age"
+                      min={1}
+                      max={111}
+                      onChange={handleChangeAuthData}
+                      required
+                    />
+                  </fieldset>
+                </div>
+              </div>
+            </header>
 
-              <select name="country" onChange={handleChangeAuthData} required>
-                {countryOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </fieldset>
+            <header>
+              <h5 className="b900 form_subtitle blue">
+                {t('reserve.contact_information')}
+              </h5>
 
-            <fieldset>
-              <legend>City:</legend>
+              <div className="form_box">
+                <div className="form_fields flex">
+                  <fieldset>
+                    <legend>Country:</legend>
 
-              <select name="city" onChange={handleChangeAuthData} required>
-                {cityOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </fieldset>
+                    <select
+                      name="country"
+                      onChange={handleChangeAuthData}
+                      required
+                    >
+                      {countryOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </fieldset>
 
-            <fieldset>
-              <legend>E-mail:</legend>
-              <input
-                type="email"
-                name="email"
-                placeholder="E-mail address"
-                onChange={handleChangeAuthData}
-                required
-              />
-            </fieldset>
-            <fieldset>
-              <legend>Password:</legend>
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                onChange={handleChangeAuthData}
-                required
-              />
-            </fieldset>
+                  <fieldset>
+                    <legend>City:</legend>
+
+                    <select
+                      name="city"
+                      onChange={handleChangeAuthData}
+                      required
+                    >
+                      {cityOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </fieldset>
+                </div>
+                <div className="form_fields flex">
+                  <fieldset>
+                    <legend>E-mail:</legend>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="E-mail address"
+                      onChange={handleChangeAuthData}
+                      required
+                    />
+                  </fieldset>
+                  <fieldset>
+                    <legend>Password:</legend>
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      onChange={handleChangeAuthData}
+                      required
+                    />
+                  </fieldset>
+                </div>
+              </div>
+            </header>
 
             <fieldset>
               <legend>Phone number:</legend>
@@ -315,13 +407,33 @@ const Reserve = () => {
                 required
               />
             </fieldset>
+
             <button
-              className="flex_center_center reserve_submit b900 white"
+              className="flex_center_center reserve_submit margin_b_60_30 b900 white"
               type="submit"
             >
               {t('reserve.continue')}
             </button>
           </form>
+          {process.env.NODE_ENV === 'development' && (
+            <form id="deleteForm" onSubmit={handleDeleteUserByEmail}>
+              <fieldset>
+                <legend>User email:</legend>
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="Enter email to delete user from database"
+                  required
+                />
+              </fieldset>
+              <button
+                type="submit"
+                className="flex_center_center reserve_delete margin_b_120_80 b900 white"
+              >
+                Delete User By Email
+              </button>
+            </form>
+          )}
         </article>
       </section>
     </Main>

@@ -68,9 +68,10 @@ authRoutes.get(
   "/users",
   loginLimiter,
   async (req: Request, res: Response, next: NextFunction) => {
-    const authToken = req?.cookies?.authToken;
     try {
+      const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken);
+
       const users = await userRepository.find({
         select: ["name", "age", "email"],
       });
@@ -116,7 +117,7 @@ authRoutes.post(
         emergencyName,
         emergencyPhone,
       } = req.body;
-      console.log(
+      const user = userRepository.create({
         name,
         surname,
         gender,
@@ -127,28 +128,46 @@ authRoutes.post(
         password,
         phone,
         emergencyName,
-        emergencyPhone
-      );
-      // const user = userRepository.create({
-      //   name,
-      //   surname,
-      //   gender,
-      //   age,
-      //   country,
-      //   city,
-      //   email,
-      //   password,
-      //   phone,
-      //   emergencyName,
-      //   emergencyPhone,
-      // });
-      // await userRepository.save(user);
+        emergencyPhone,
+      });
+      await userRepository.save(user);
 
-      // await setAuthToken(user.id, email, res);
+      await setAuthToken(user.id, email, res);
 
       res
         .status(201)
         .json({ success: true, message: msg.USER_CREATED_SUCCESSFULLY });
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
+authRoutes.post(
+  "/delete-user-by-email",
+  body("email").isEmail().withMessage(msg.VALID_EMAIL_IS_REQUIRED),
+  async (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, message: errors.array() });
+    }
+    try {
+      const authToken = req?.cookies?.authToken;
+      await validateAuthToken(authToken);
+
+      const { email } = req.body;
+      const { affected } = await userRepository.delete({ email });
+
+      if (affected) {
+        return res
+          .status(200)
+          .json({ success: true, message: msg.USER_DELETED_SUCCESSFULLY });
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: msg.USER_ALREADY_DELETED_OR_DOES_NOT_EXIST,
+        });
+      }
     } catch (err: any) {
       next(err);
     }
