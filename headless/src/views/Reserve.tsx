@@ -218,7 +218,7 @@ const Reserve = () => {
     try {
       const createNewUser = await axios.post(
         `${process.env.API_URL}/auth/create-new-user`,
-        authData,
+        authData
       )
       // { withCredentials: true }
       console.log('createNewUser: ', createNewUser)
