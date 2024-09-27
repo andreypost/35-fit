@@ -7,6 +7,7 @@ import { HeaderBanner } from 'HeaderBanner'
 import axios from 'axios'
 import { IAuth, IUser } from 'types/interface'
 import { PercentReserveSVG } from 'img/icons'
+import { TestingModule } from 'components/TestingModule'
 
 const Main = styled.main`
   /* .reserve_banner { */
@@ -126,6 +127,12 @@ const Main = styled.main`
       .reserve_aside,
       .reserve_article {
         display: inherit;
+        .reserve_descript p {
+          max-width: 240px;
+          font-size: 16px;
+          line-height: 28px;
+          color: #737373;
+        }
       }
     }
   }
@@ -254,17 +261,39 @@ const Reserve = () => {
       <section className="section reserver">
         <aside className="reserve_aside">
           <PercentReserveSVG />
-          <article>
+          <article className="reserve_descript grey">
             <p>{t('reserve.we_know_so_little')}</p>
             <p>{t('reserve.you_are_almost_there')}</p>
           </article>
-          <article>
+          <article className="reserve_descript">
             <p>{t('reserve.we_know_so_little')}</p>
             <p>{t('reserve.you_are_almost_there')}</p>
           </article>
         </aside>
 
         <article className="reserve_article">
+          {process.env.NODE_ENV === 'development' && (
+            <>
+              <TestingModule />
+              <form id="deleteForm" onSubmit={handleDeleteUserByEmail}>
+                <fieldset>
+                  <legend>User email:</legend>
+                  <input
+                    type="text"
+                    name="email"
+                    placeholder="Enter email to delete user from database"
+                    required
+                  />
+                </fieldset>
+                <button
+                  type="submit"
+                  className="flex_center_center reserve_delete margin_b_120_80 b900 white"
+                >
+                  Delete User By Email
+                </button>
+              </form>
+            </>
+          )}
           <header className="grey">
             <h4 className="b900">
               {t('reserve.new_to_fit')}
@@ -415,25 +444,6 @@ const Reserve = () => {
               {t('reserve.continue')}
             </button>
           </form>
-          {process.env.NODE_ENV === 'development' && (
-            <form id="deleteForm" onSubmit={handleDeleteUserByEmail}>
-              <fieldset>
-                <legend>User email:</legend>
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="Enter email to delete user from database"
-                  required
-                />
-              </fieldset>
-              <button
-                type="submit"
-                className="flex_center_center reserve_delete margin_b_120_80 b900 white"
-              >
-                Delete User By Email
-              </button>
-            </form>
-          )}
         </article>
       </section>
     </Main>

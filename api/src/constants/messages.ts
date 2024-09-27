@@ -21,4 +21,6 @@ export const msg = {
   USER_DELETED_SUCCESSFULLY: "User deleted successfully!",
   USER_ALREADY_DELETED_OR_DOES_NOT_EXIST:
     "User already deleted or does not exist!",
+  DATE_IS_REQUIRED: "Data is required!",
+  FILE_WAS_WRITTEN_SUCCESSFULLY: "File was written successfully!",
 };

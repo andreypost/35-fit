@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { RESERVE_ROUTE } from 'utils/routes.constants'
 import { useAppSelector, useAppDispatch } from 'utils/hooks'
@@ -10,11 +10,11 @@ import {
   selectLoginModalActive,
   unsetLoginModal,
 } from 'slices/modal.slice'
-import { IFirebaseProps, IGetImageById, IGetImages } from 'types/interface'
+import { IFirebaseProps } from 'types/interface'
 import { CrossRedSVG } from 'img/icons'
 import axios from 'axios'
-import { useMutation, useQuery } from '@apollo/client'
-import { GET_IMAGES, GET_IMAGE_BY_ID, LOGIN_USER } from 'queries'
+import { useMutation } from '@apollo/client'
+import { LOGIN_USER } from 'queries'
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -160,64 +160,17 @@ const Div = styled(BaseDiv)`
   }
 `
 
-const ImagesList = ({ categoryImages }: any) => {
-  const { loading, error, data } = useQuery<IGetImages>(GET_IMAGES, {
-    variables: { categoryImages },
-    context: { credentials: 'include' },
-  })
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error: {error.message}</p>
-  return (
-    <>
-      {data?.imagesByCategory.map(({ id, title, category, owner, url }) => (
-        <div key={id}>
-          <h3>{title}</h3>
-          <p>Category: {category}</p>
-          <p>Owner: {owner}</p>
-          <img src={url} alt={title} />
-        </div>
-      ))}
-    </>
-  )
-}
-
 export const LoginModal = ({ user, login }: IFirebaseProps) => {
   const dispatch = useAppDispatch(),
     modalState = useAppSelector(selectLoginModalActive),
     { t } = useTranslation(),
     [email, setEmail] = useState(''),
     [password, setPassword] = useState(''),
-    // [errorMessage, setErrorMessage] = useState(''),
     [checkState, setCheckState] = useState(false),
-    [index, setIndex] = useState(0),
-    [selectedImageId, setSelectedImageId] = useState<number>(0),
-    {
-      loading: imageLoading,
-      error: imageError,
-      data: imageData,
-    } = useQuery<IGetImageById>(GET_IMAGE_BY_ID, {
-      variables: { imageId: selectedImageId },
-      skip: !selectedImageId,
-      context: { credentials: 'include' },
-    }),
     [loginUser] = useMutation(LOGIN_USER, {
       context: { credentials: 'include' },
-    })
-
-  const countries = [
-    'Chile',
-    'Netherlands',
-    'France',
-    'United Kingdom',
-    'Ukraine',
-    'United Kingdom',
-    'Mexico',
-    'Spain',
-    'Sweden',
-    'South Korea',
-  ]
-
-  const largeData = 'A'.repeat(1000000)
+    }),
+    location = useLocation()
 
   const authUsersRoutes = async () => {
     try {
@@ -230,22 +183,6 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         { withCredentials: true }
       )
       console.log('/auth/login:', logUserRes)
-      const getAuthAllUsers = await axios.get(
-        `${process.env.API_URL}/auth/users`,
-        { withCredentials: true }
-      )
-      console.log(index, '/auth/users - get all users: ', getAuthAllUsers.data)
-      // const createUserRes = await axios.post(
-      //   `${process.env.API_URL}/auth/create-new-user`,
-      //   {
-      //     name: 'Andrii',
-      //     age: '20 + index',
-      //     email: 'test_08@email.com',
-      //     password: '9999',
-      //   },
-      // )
-      // console.log('/auth/create-new-user:', createUserRes)
-      // console.log('/auth/create-new-user:', createUserRes.data)
     } catch (err: any) {
       console.error(
         err?.response?.data?.message || err?.message,
@@ -255,81 +192,10 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     }
   }
 
-  const authDetailRoutes = async () => {
-    try {
-      // const getAuthUserDetails = await axios.get(
-      //   `${process.env.API_URL}/auth/details`
-      // )
-      // console.log('/auth/details: ', ...getAuthUserDetails.data)
-      // const addNewUserDetails = await axios.post(
-      //   `${process.env.API_URL}/auth/add-new-user-details`,
-      //   {
-      //     earnings: `$${
-      //       Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
-      //     }`,
-      //     country: countries[index],
-      //     name: 'Andrii Postoliuk',
-      //   }
-      // )
-      // console.log(index, '/auth/add-new-user-details:', addNewUserDetails.data)
-      const authDetailByEarnings = await axios.get(
-        `${process.env.API_URL}/auth/average-earnings-by-country`
-      )
-      console.log(
-        '/auth/average-earnings-by-country: ',
-        authDetailByEarnings.data
-      )
-
-      // const getUserCountByCounrtyDetails = await axios.get(
-      //   `${process.env.API_URL}/auth/count-by-country-details`
-      // )
-      // console.log(
-      //   '/auth/count-by-country-details:',
-      //   getUserCountByCounrtyDetails.data
-      // )
-      // nest-api/data/user-collection.json
-      // const detailUsers = await axios.get(`${process.env.API_URL}/detail/users`)
-      // console.log('/detail/users: ', detailUsers.data)
-      // const detailNewUser = await axios.post(
-      //   `${process.env.API_URL}/detail/add-new-user`,
-      //   {
-      //     earnings: `$${
-      //       Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
-      //     }`,
-      //     country: countries[index],
-      //     name: 'Andrii Postoliuk',
-      //   }
-      // )
-      // console.log('/detail/add-new-user: ', detailNewUser)
-      // const detailByCountry = await axios.get(
-      //   `${process.env.API_URL}/detail/count-by-country`
-      // )
-      // console.log('/detail/count-by-country: ', detailByCountry.data)
-      const detailByEarnings = await axios.get(
-        `${process.env.API_URL}/detail/average-earnings-by-country`
-      )
-      console.log(
-        '/detail/average-earnings-by-country: ',
-        detailByEarnings.data
-      )
-      // const detailById = await axios.get(
-      //   `${process.env.API_URL}/detail/users/${detailNewUser.data.id}`
-      // )
-      // console.log('/detail/users/id: ', detailById.data)
-    } catch (err: any) {
-      // console.error(err?.response?.data?.message || err?.message)
-      console.error(
-        err?.response?.data?.message || err?.message,
-        err?.response?.data?.success
-      )
-    }
-  }
-
   useEffect(() => {
-    console.log('LoginModal: ', process.env.API_URL)
-    user && dispatch(unsetLoginModal())
-    setIndex(Math.floor(Math.random() * countries.length))
-  }, [user])
+    ;(user || location.pathname.includes('reserve')) &&
+      dispatch(unsetLoginModal())
+  }, [user, location])
 
   const handleLogin = async <T extends React.FormEvent<HTMLFormElement>>(
     e: T
@@ -358,11 +224,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       })
     }
 
-    authUsersRoutes()
-
-    // authDetailRoutes()
-
-    setIndex(Math.floor(Math.random() * countries.length))
+    // authUsersRoutes()
   }
   return (
     <Div
@@ -377,32 +239,6 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           onClick={() => dispatch(unsetLoginModal())}
         />
         <form id="loginForm" className="flex_str_col" onSubmit={handleLogin}>
-          <ImagesList categoryImages="Coffee" />
-          <p
-            className="grey_button grey"
-            onClick={() => setSelectedImageId(Number(!selectedImageId))}
-          >
-            show image
-          </p>
-          {selectedImageId > 0 && (
-            <>
-              {imageLoading && <p>Loading image details...</p>}
-              {imageError && (
-                <p>Error fetching image details: {imageError.message}</p>
-              )}
-              {imageData && imageData?.imageById && (
-                <div>
-                  <h3>{imageData?.imageById?.title}</h3>
-                  <p>Category: {imageData?.imageById?.category}</p>
-                  <p>Owner: {imageData?.imageById?.owner}</p>
-                  <img
-                    src={imageData?.imageById?.url}
-                    alt={imageData?.imageById?.title}
-                  />
-                </div>
-              )}
-            </>
-          )}
           <h1 className="b900 blue">
             {t('welcome_to')}
             <br />

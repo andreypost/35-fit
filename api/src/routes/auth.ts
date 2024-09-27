@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import { body, validationResult } from "express-validator";
 import { loginLimiter } from "../middleware/rateLimiter";
 import {
+  deleteAuthToken,
   setAuthToken,
   validateAuthToken,
   verifyToken,
@@ -11,9 +12,9 @@ import { userRepository } from "../config/database";
 import { msg } from "../constants/messages";
 import bcrypt from "bcrypt";
 
-const authRoutes = Router();
+const auth = Router();
 
-authRoutes.post(
+auth.post(
   "/login",
   body("email").isEmail().withMessage(msg.VALID_EMAIL_IS_REQUIRED),
   body("password")
@@ -64,7 +65,7 @@ authRoutes.post(
   }
 );
 
-authRoutes.get(
+auth.get(
   "/users",
   loginLimiter,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -75,14 +76,14 @@ authRoutes.get(
       const users = await userRepository.find({
         select: ["name", "age", "email"],
       });
-      res.json(users);
+      res.status(200).json(users);
     } catch (err: any) {
       next(err);
     }
   }
 );
 
-authRoutes.post(
+auth.post(
   "/create-new-user",
   body("name").notEmpty().withMessage(msg.NAME_IS_REQUIRED),
   body("surname").notEmpty().withMessage(msg.SURNAME_IS_REQUIRED),
@@ -143,7 +144,7 @@ authRoutes.post(
   }
 );
 
-authRoutes.post(
+auth.post(
   "/delete-user-by-email",
   body("email").isEmail().withMessage(msg.VALID_EMAIL_IS_REQUIRED),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -159,6 +160,7 @@ authRoutes.post(
       const { affected } = await userRepository.delete({ email });
 
       if (affected) {
+        await deleteAuthToken(res, "authToken");
         return res
           .status(200)
           .json({ success: true, message: msg.USER_DELETED_SUCCESSFULLY });
@@ -174,7 +176,7 @@ authRoutes.post(
   }
 );
 
-export default authRoutes;
+export default auth;
 
 /* import { Request, Response, Router } from "express";
 import User from "../models/User";

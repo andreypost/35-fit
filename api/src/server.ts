@@ -2,9 +2,10 @@ import "reflect-metadata";
 import "./config/env";
 import { env } from "./config/env";
 import express, { Application, Request, Response } from "express";
-// import { logRequestDetails } from "./middleware/logRequestDetails";
+import { logRequestDetails } from "./middleware/logRequestDetails";
 import cors from "cors";
-import authRoutes from "./routes/authRoutes";
+import auth from "./routes/auth";
+import file from "./routes/file";
 import { errorHandler } from "./middleware/errorHandler";
 import cookieParser from "cookie-parser";
 import { GraphQLSchema } from "graphql";
@@ -17,8 +18,6 @@ const app: Application = express();
 
 const HOST = env.HOST || "127.0.0.1";
 const PORT = env.PORT ? parseInt(env.PORT, 10) : 3000;
-
-// app.use(express.json({ limit: "10kb" }));
 
 const allowedOrigins = [
   env.HEADLESS_URL,
@@ -35,13 +34,12 @@ app.use(
     exposedHeaders: ["set-cookie"],
   }),
   cookieParser()
+  // logRequestDetails
 );
 
-// app.use(cookieParser());
+app.use("/auth", auth);
 
-// app.use(logRequestDetails);
-
-app.use("/auth", authRoutes);
+app.use("/file", file);
 
 const startApolloServer = async () => {
   const apolloServer = new ApolloServer({

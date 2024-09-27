@@ -3,7 +3,7 @@ import { sign, verify } from "jsonwebtoken";
 import { msg } from "../constants/messages";
 
 export const SECRET_JWT_KEY = env.JWT_KEY as string;
-export const expiresIn = 360000;
+export const expiresIn = 3600000; // one hour
 
 export const generateToken = async (payload: any) => {
   const options = {
@@ -59,4 +59,12 @@ export const validateAuthToken = async (authToken: string) => {
   if (!success) {
     throw new Error(message);
   }
+};
+
+export const deleteAuthToken = async (res: any, authToken: string) => {
+  return res.clearCookie(authToken, {
+    httpOnly: true,
+    secure: env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
 };
