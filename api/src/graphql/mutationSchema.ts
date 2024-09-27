@@ -45,9 +45,10 @@ export const MutationSchema = new GraphQLObjectType({
         password: { type: GraphQLString },
       },
       resolve: async (parent, { email, password }, { req, res, authToken }) => {
-        if (authToken) {
-          return await verifyToken(authToken);
-        }
+        // if (authToken) {
+        //   return await verifyToken(authToken);
+        // }
+        // this logic to check authToken probably do not need, if token is in Cookies, login will not trigger
 
         const errors = await validateLoginInput(email, password);
 

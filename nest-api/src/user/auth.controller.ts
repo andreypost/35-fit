@@ -8,7 +8,6 @@ import {
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateUserDetailsDto } from './dto/create-user-details.dto';
-import { User } from '../entities/user';
 import { UserDetails } from '../entities/user.details';
 
 @Controller('auth')
@@ -38,7 +37,7 @@ export class AuthController {
   }
 
   @Get('users')
-  async getAllUsers(): Promise<User[]> {
+  async getAllUsers(): Promise<CreateUserDto[]> {
     return this.authService.getAllUsers();
   }
 

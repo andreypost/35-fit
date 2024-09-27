@@ -3,14 +3,14 @@ import { IsNotEmpty, IsUUID, IsOptional } from 'class-validator';
 export class CreateUserDetailsDto {
   @IsUUID()
   @IsOptional()
-  id: string;
+  id?: string;
 
   @IsNotEmpty()
-  earnings: string;
+  earnings!: string;
 
   @IsNotEmpty()
-  country: string;
+  country!: string;
 
   @IsNotEmpty()
-  name: string;
+  name!: string;
 }

@@ -26,7 +26,7 @@ $ npm run start:dev:inspect
 ```bash
 
 # typeorm cache clear
-$ npx typeorm cache:clear
+npm run typeorm cache:clear
 
 # create migration
 npm run typeorm:generate src/migration/YOUR-MIGRATION-NAME

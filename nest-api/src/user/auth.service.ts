@@ -49,7 +49,7 @@ export class AuthService {
     return await this.userRepository.findOne({ where: { email } });
   }
 
-  public async validateUser(details: User): Promise<boolean> {
+  public async validateUser(details: CreateUserDto): Promise<boolean> {
     const { email, password } = details;
     const user = await this.findUserByEmail(email);
     if (user) {
@@ -60,12 +60,12 @@ export class AuthService {
 
   public async createUser(createUserDto: CreateUserDto): Promise<User> {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    const newUser = this.userRepository.create({
-      name: createUserDto.name,
-      age: createUserDto.age,
-      email: createUserDto.email,
+    const newUser = {
+      ...createUserDto,
       password: hashedPassword,
-    });
+    };
+    console.log('createUserDto: ', createUserDto);
+    this.userRepository.create(newUser);
     return await this.userRepository.save(newUser);
   }
 

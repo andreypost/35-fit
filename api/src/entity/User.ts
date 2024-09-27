@@ -11,7 +11,7 @@ import bcrypt from "bcrypt";
 @Entity({ name: "users" })
 export class User {
   @PrimaryGeneratedColumn("uuid")
-  id?: number;
+  id?: string;
 
   @Column()
   name!: string;
@@ -46,6 +46,12 @@ export class User {
   @Column()
   emergencyPhone?: string;
 
+  @CreateDateColumn()
+  created_at?: Date;
+
+  @UpdateDateColumn()
+  updated_at?: Date;
+
   @BeforeInsert()
   async hashPassword() {
     const salt = await bcrypt.genSalt(10);
@@ -55,9 +61,4 @@ export class User {
   async checkPassword(inputPassword: string): Promise<boolean> {
     return bcrypt.compare(inputPassword, this.password);
   }
-  @CreateDateColumn()
-  created_at?: Date;
-
-  @UpdateDateColumn()
-  updated_at?: Date;
 }

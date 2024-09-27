@@ -5,7 +5,7 @@ import {
   deleteAuthToken,
   setAuthToken,
   validateAuthToken,
-  verifyToken,
+  // verifyToken,
   // verifyTokenWithResponse,
 } from "../auth/jsonWebToken";
 import { userRepository } from "../config/database";
@@ -22,16 +22,17 @@ auth.post(
     .withMessage(msg.PASSWORD_MUTS_BE_AT_LEAST),
   loginLimiter,
   async (req: Request, res: Response, next: NextFunction) => {
-    const authToken = req?.cookies?.authToken;
-    if (authToken) {
-      const { success, message } = await verifyToken(authToken);
+    // const authToken = req?.cookies?.authToken;
+    // if (authToken) {
+    //   const { success, message } = await verifyToken(authToken);
 
-      const statusCode = success ? 200 : 401;
-      return res
-        .status(statusCode)
-        .json({ success: success, message: message });
-      // return await verifyTokenWithResponse(authToken, res);
-    }
+    //   const statusCode = success ? 200 : 401;
+    //   return res
+    //     .status(statusCode)
+    //     .json({ success: success, message: message });
+    //   // return await verifyTokenWithResponse(authToken, res);
+    // }
+    // this logic to check authToken probably do not need, if token is in Cookies, login will not trigger
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

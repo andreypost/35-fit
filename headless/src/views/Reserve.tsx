@@ -215,13 +215,12 @@ const Reserve = () => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    console.log('authData: ', authData)
     try {
       const createNewUser = await axios.post(
         `${process.env.API_URL}/auth/create-new-user`,
         authData,
-        { withCredentials: true }
       )
+      // { withCredentials: true }
       console.log('createNewUser: ', createNewUser)
     } catch (err: any) {
       console.error(
