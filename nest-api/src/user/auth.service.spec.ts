@@ -31,12 +31,21 @@ const mockUserDetails = [
 
 const mockUser = {
   id: undefined,
-  name: 'Andrii Postoliuk',
+  name: 'Andrii',
+  surname: 'Postoliuk',
+  gender: 'nonBinary',
   age: 25,
+  country: 'Ukraine',
+  city: 'Kyiv',
   email: 'test@email.com',
   password: 'hashedPassword',
+  phone: '1234567890',
+  emergencyName: '',
+  emergencyPhone: '',
   created_at: new Date(),
   updated_at: new Date(),
+  hashPassword: jest.fn().mockResolvedValue(Promise.resolve()),
+  checkPassword: jest.fn().mockResolvedValue(true),
 };
 
 const mockUserDetailsDto = {
@@ -166,13 +175,7 @@ describe('AuthService', () => {
 
     jest.spyOn(bcrypt, 'hash').mockResolvedValue(hashedPassword as never);
 
-    const createUserDto: CreateUserDto = {
-      id: mockUser.id,
-      name: mockUser.name,
-      age: mockUser.age,
-      email: mockUser.email,
-      password: mockUser.password,
-    };
+    const createUserDto: CreateUserDto = { ...mockUser };
 
     jest.spyOn(userRepository, 'create').mockReturnValue(mockUser);
     jest.spyOn(userRepository, 'save').mockResolvedValue({
@@ -185,10 +188,13 @@ describe('AuthService', () => {
     expect(bcrypt.hash).toHaveBeenCalledWith(mockUser.password, 10);
 
     expect(userRepository.create).toHaveBeenCalledWith({
-      ...createUserDto,
+      ...mockUser,
       password: hashedPassword,
     });
-    expect(userRepository.save).toHaveBeenCalledWith(mockUser);
+    expect(userRepository.save).toHaveBeenCalledWith({
+      ...mockUser,
+      password: hashedPassword,
+    });
 
     expect(result).toEqual({
       ...mockUser,

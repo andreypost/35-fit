@@ -202,13 +202,13 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
   ): Promise<void> => {
     e.preventDefault()
     try {
-      const response = await loginUser({
-        variables: {
-          email: 'test_08@email.com',
-          password: '9999',
-        },
-      })
-      console.log('/graphql loginUser:', response)
+      // const response = await loginUser({
+      //   variables: {
+      //     email: 'test_08@email.com',
+      //     password: '9999',
+      //   },
+      // })
+      // console.log('/graphql loginUser:', response)
     } catch (err: any) {
       console.error(
         err?.response?.data?.message || err?.message,
@@ -224,7 +224,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       })
     }
 
-    // authUsersRoutes()
+    authUsersRoutes()
   }
   return (
     <Div

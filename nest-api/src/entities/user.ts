@@ -20,7 +20,7 @@ export class User {
   @Column()
   surname!: string;
 
-  @Column({ default: 'Non-binary' })
+  @Column({ default: 'nonBinary' })
   gender!: string;
 
   @Column()

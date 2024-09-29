@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
   IsNotEmpty,
   IsEmail,
@@ -26,6 +27,7 @@ export class CreateUserDto {
 
   @IsInt()
   @IsNotEmpty()
+  @Transform(({ value }) => Number(value))
   age!: number;
 
   @IsNotEmpty()
