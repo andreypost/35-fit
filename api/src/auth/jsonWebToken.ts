@@ -1,5 +1,6 @@
 import { env } from "../config/env";
 import { sign, verify } from "jsonwebtoken";
+import { CustomErrorHandler } from "../middleware/errorHandler";
 import { msg } from "../constants/messages";
 
 export const SECRET_JWT_KEY = env.JWT_KEY as string;
@@ -23,7 +24,11 @@ export const setAuthToken = async (
   });
 
   if (!authToken) {
-    throw new Error(msg.FAILED_TO_GENERATE_TOKEN);
+    throw new CustomErrorHandler(
+      msg.FAILED_TO_GENERATE_TOKEN,
+      500,
+      "GenerationTokenError"
+    );
   }
 
   return res.cookie("authToken", authToken, {
@@ -44,20 +49,13 @@ export const verifyToken = async (authToken: string) => {
   }
 };
 
-// export const verifyTokenWithResponse = async (authToken: string, res: any) => {
-//   const { success, message } = await verifyToken(authToken);
-
-//   const statusCode = success ? 200 : 401;
-//   return res.status(statusCode).json({ success: success, message: message });
-// };
-
 export const validateAuthToken = async (authToken: string) => {
   if (!authToken) {
-    throw new Error(msg.YOU_MUST_TO_LOGIN);
+    throw new CustomErrorHandler(msg.YOU_MUST_TO_LOGIN, 401, "LoginError");
   }
   const { success, message } = await verifyToken(authToken);
   if (!success) {
-    throw new Error(message);
+    throw new CustomErrorHandler(message, 401, "ValidationTokenError");
   }
 };
 

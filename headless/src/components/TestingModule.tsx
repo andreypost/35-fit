@@ -34,7 +34,7 @@ const ImagesList = ({ categoryImages }: any) => {
     context: { credentials: 'include' },
   })
   if (loading) return <p>Loading...</p>
-  if (error) return <p>Error: {error.message}</p>
+  if (error) return <p>Error: {error?.message}</p>
   return (
     <>
       {data?.imagesByCategory.map(({ id, title, category, owner, url }) => (
@@ -109,11 +109,7 @@ export const TestingModule = () => {
       })
       console.log('/file/read - read file data: ', getFileData.data.length)
     } catch (err: any) {
-      console.error(
-        err?.response?.data?.message || err?.message,
-        err?.response?.data?.success,
-        err
-      )
+      console.error(err?.response?.data)
     }
   }
 
@@ -236,7 +232,7 @@ export const TestingModule = () => {
         <button type="submit" className="grey_button grey">
           GO
         </button>
-        {/* <ImagesList categoryImages="Coffee" />
+        <ImagesList categoryImages="Coffee" />
         <p
           className="grey_button grey"
           onClick={() => setSelectedImageId(Number(!selectedImageId))}
@@ -261,7 +257,7 @@ export const TestingModule = () => {
               </div>
             )}
           </>
-        )} */}
+        )}
       </form>
     </Div>
   )

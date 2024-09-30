@@ -34,9 +34,13 @@ auth.post(
     // }
     // this logic to check authToken probably do not need, if token is in Cookies, login will not trigger
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ success: false, message: errors.array() });
+    const err = validationResult(req);
+    if (!err.isEmpty()) {
+      next({
+        status: 400,
+        message: err.array(),
+        type: "ValidationDataError",
+      });
     }
 
     try {
@@ -46,20 +50,24 @@ auth.post(
         select: ["id", "name", "email", "password"],
       });
       if (!user) {
-        return res
-          .status(404)
-          .json({ success: false, message: msg.USER_NOT_FOUND });
-      }
+        next({
+          status: 404,
+          message: msg.USER_NOT_FOUND,
+          type: "FindUserError",
+        });
+      } else {
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+          next({
+            status: 401,
+            message: msg.INVALID_CREDENTIALS,
+            type: "CredentialsError",
+          });
+        }
 
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      if (!isPasswordValid) {
-        return res
-          .status(401)
-          .json({ success: false, message: msg.INVALID_CREDENTIALS });
+        await setAuthToken(user.id, user.email, res);
+        res.status(201).json({ success: true, message: msg.LOGIN_SUCCESSFUL });
       }
-
-      await setAuthToken(user.id, user.email, res);
-      res.status(201).json({ success: true, message: msg.LOGIN_SUCCESSFUL });
     } catch (err: any) {
       next(err);
     }
@@ -101,9 +109,13 @@ auth.post(
     .withMessage(msg.PLEASE_ENTER_A_VALID_PHONE),
   loginLimiter,
   async (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ success: false, message: errors.array() });
+    const err = validationResult(req);
+    if (!err.isEmpty()) {
+      next({
+        status: 400,
+        message: err.array(),
+        type: "ValidationDataError",
+      });
     }
     try {
       const {
@@ -140,7 +152,15 @@ auth.post(
         .status(201)
         .json({ success: true, message: msg.USER_CREATED_SUCCESSFULLY });
     } catch (err: any) {
-      next(err);
+      if (err.code === "23505") {
+        next({
+          status: 400,
+          message: msg.EMAIL_ALREADY_EXIST,
+          type: "DatabaseValidationError",
+        });
+      } else {
+        next(err);
+      }
     }
   }
 );
@@ -149,9 +169,13 @@ auth.post(
   "/delete-user-by-email",
   body("email").isEmail().withMessage(msg.VALID_EMAIL_IS_REQUIRED),
   async (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ success: false, message: errors.array() });
+    const err = validationResult(req);
+    if (!err.isEmpty()) {
+      next({
+        status: 400,
+        message: err.array(),
+        type: "ValidationDataError",
+      });
     }
     try {
       const authToken = req?.cookies?.authToken;
@@ -166,9 +190,10 @@ auth.post(
           .status(200)
           .json({ success: true, message: msg.USER_DELETED_SUCCESSFULLY });
       } else {
-        return res.status(404).json({
-          success: false,
+        next({
+          status: 404,
           message: msg.USER_ALREADY_DELETED_OR_DOES_NOT_EXIST,
+          type: "DeletionError",
         });
       }
     } catch (err: any) {

@@ -184,11 +184,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       )
       console.log('/auth/login:', logUserRes)
     } catch (err: any) {
-      console.error(
-        err?.response?.data?.message || err?.message,
-        err?.response?.data?.success,
-        err
-      )
+      console.error(err?.response?.data)
     }
   }
 

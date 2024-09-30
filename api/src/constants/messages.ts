@@ -23,4 +23,5 @@ export const msg = {
     "User already deleted or does not exist!",
   DATE_IS_REQUIRED: "Data is required!",
   FILE_WAS_WRITTEN_SUCCESSFULLY: "File was written successfully!",
+  EMAIL_ALREADY_EXIST: "Email already exists!",
 };

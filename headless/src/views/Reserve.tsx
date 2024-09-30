@@ -218,15 +218,12 @@ const Reserve = () => {
     try {
       const createNewUser = await axios.post(
         `${process.env.API_URL}/auth/create-new-user`,
-        authData
+        authData,
+        { withCredentials: true }
       )
-      // { withCredentials: true }
       console.log('createNewUser: ', createNewUser)
     } catch (err: any) {
-      console.error(
-        err?.response?.data?.message || err?.message,
-        err?.response?.data?.success
-      )
+      console.error(err?.response?.data)
     }
   }
 
@@ -246,10 +243,7 @@ const Reserve = () => {
       )
       console.log('deletedUser: ', deletedUser)
     } catch (err: any) {
-      console.error(
-        err?.response?.data?.message || err?.message,
-        err?.response?.data?.success
-      )
+      console.error(err?.response?.data)
     }
   }
 

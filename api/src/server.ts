@@ -53,14 +53,11 @@ const startApolloServer = async () => {
   return app.use(
     "/graphql",
     expressMiddleware(apolloServer, {
-      context: async ({ req, res }) => {
-        const authToken = req?.cookies?.authToken;
-        return {
-          req,
-          res,
-          authToken,
-        };
-      },
+      context: async ({ req, res }) => ({
+        req,
+        res,
+        authToken: req?.cookies?.authToken,
+      }),
     })
   );
 };
