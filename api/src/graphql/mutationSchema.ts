@@ -1,4 +1,9 @@
-import { GraphQLObjectType, GraphQLString } from "graphql";
+import {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLError,
+  GraphQLBoolean,
+} from "graphql";
 import { userRepository } from "../config/database";
 import bcrypt from "bcrypt";
 import { verifyToken, setAuthToken } from "../auth/jsonWebToken";
@@ -17,7 +22,7 @@ const LoginType = new GraphQLObjectType({
   name: "LoginResponse",
   fields: {
     message: { type: GraphQLString },
-    user: { type: UserType },
+    success: { type: GraphQLBoolean },
   },
 });
 
@@ -62,17 +67,27 @@ export const MutationSchema = new GraphQLObjectType({
         });
 
         if (!user) {
-          return { message: msg.USER_NOT_FOUND };
+          throw new GraphQLError(msg.USER_NOT_FOUND, {
+            extensions: {
+              status: 400,
+              type: "DatabaseSearchError",
+            },
+          });
         }
 
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (!isValidPassword) {
-          return { message: msg.INVALID_CREDENTIALS };
+          throw new GraphQLError(msg.INVALID_CREDENTIALS, {
+            extensions: {
+              status: 401,
+              type: "CredentialsError",
+            },
+          });
         }
 
         await setAuthToken(user.id, user.email, res);
 
-        return { message: msg.LOGIN_SUCCESSFUL, user };
+        return { message: msg.LOGIN_SUCCESSFUL, success: true };
       },
     },
   },

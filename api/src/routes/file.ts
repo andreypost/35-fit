@@ -74,7 +74,7 @@ file.post(
       await writeFileData(filePath, fileData);
       return res
         .status(200)
-        .json({ success: true, message: msg.FILE_WAS_WRITTEN_SUCCESSFULLY });
+        .json({ message: msg.FILE_WAS_WRITTEN_SUCCESSFULLY, success: true });
     } catch (err: any) {
       next(err);
     }

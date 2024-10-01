@@ -169,6 +169,12 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     [checkState, setCheckState] = useState(false),
     [loginUser] = useMutation(LOGIN_USER, {
       context: { credentials: 'include' },
+      onError: (error) => {
+        const { extensions, message } = error.graphQLErrors[0]
+        console.error(
+          `Error: ${message}, status: ${extensions?.status}, type: ${extensions?.type}`
+        )
+      },
     }),
     location = useLocation()
 
@@ -180,7 +186,9 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           email: 'test_08@email.com',
           password: '9999',
         },
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       )
       console.log('/auth/login:', logUserRes)
     } catch (err: any) {
@@ -206,10 +214,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       // })
       // console.log('/graphql loginUser:', response)
     } catch (err: any) {
-      console.error(
-        err?.response?.data?.message || err?.message,
-        err?.response?.data?.success
-      )
+      console.error(err?.response?.data)
     }
     if (process.env.NODE_ENV === 'production') {
       dispatch(unsetLoginModal())

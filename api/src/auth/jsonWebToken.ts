@@ -43,9 +43,9 @@ export const setAuthToken = async (
 export const verifyToken = async (authToken: string) => {
   try {
     verify(authToken, SECRET_JWT_KEY);
-    return { success: true, message: msg.USER_ALREADY_LOGGED_IN };
+    return { message: msg.USER_ALREADY_LOGGED_IN, success: true };
   } catch (error) {
-    return { success: false, message: msg.INVALID_OR_EXPIRED_TOKEN };
+    return { message: msg.INVALID_OR_EXPIRED_TOKEN, success: false };
   }
 };
 
@@ -53,7 +53,7 @@ export const validateAuthToken = async (authToken: string) => {
   if (!authToken) {
     throw new CustomErrorHandler(msg.YOU_MUST_TO_LOGIN, 401, "LoginError");
   }
-  const { success, message } = await verifyToken(authToken);
+  const { message, success } = await verifyToken(authToken);
   if (!success) {
     throw new CustomErrorHandler(message, 401, "ValidationTokenError");
   }

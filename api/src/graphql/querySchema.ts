@@ -3,6 +3,7 @@ import {
   GraphQLList,
   GraphQLObjectType,
   GraphQLString,
+  GraphQLError,
 } from "graphql";
 import { validateAuthToken } from "../auth/jsonWebToken";
 import { msg } from "../constants/messages";
@@ -69,7 +70,12 @@ export const QuerySchema = new GraphQLObjectType({
 
         const image = imagesData.find(({ id }) => id === imageId);
         if (!image) {
-          throw new Error(msg.IMAGES_NOT_FOUND);
+          throw new GraphQLError(msg.IMAGES_NOT_FOUND, {
+            extensions: {
+              status: 404,
+              type: "SearchDataError",
+            },
+          });
         }
         return image;
       },
@@ -87,7 +93,12 @@ export const QuerySchema = new GraphQLObjectType({
             category.toLowerCase() === categoryImages.toLowerCase()
         );
         if (!images?.length) {
-          throw new Error(msg.IMAGES_NOT_FOUND);
+          throw new GraphQLError(msg.IMAGES_NOT_FOUND, {
+            extensions: {
+              status: 404,
+              type: "SearchDataError",
+            },
+          });
         }
 
         return images;

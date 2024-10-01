@@ -6,7 +6,6 @@ import {
   setAuthToken,
   validateAuthToken,
   // verifyToken,
-  // verifyTokenWithResponse,
 } from "../auth/jsonWebToken";
 import { userRepository } from "../config/database";
 import { msg } from "../constants/messages";
@@ -37,8 +36,8 @@ auth.post(
     const err = validationResult(req);
     if (!err.isEmpty()) {
       next({
-        status: 400,
         message: err.array(),
+        status: 400,
         type: "ValidationDataError",
       });
     }
@@ -51,22 +50,22 @@ auth.post(
       });
       if (!user) {
         next({
-          status: 404,
           message: msg.USER_NOT_FOUND,
+          status: 404,
           type: "FindUserError",
         });
       } else {
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
           next({
-            status: 401,
             message: msg.INVALID_CREDENTIALS,
+            status: 401,
             type: "CredentialsError",
           });
         }
 
         await setAuthToken(user.id, user.email, res);
-        res.status(201).json({ success: true, message: msg.LOGIN_SUCCESSFUL });
+        res.status(201).json({ message: msg.LOGIN_SUCCESSFUL, success: true });
       }
     } catch (err: any) {
       next(err);
@@ -112,8 +111,8 @@ auth.post(
     const err = validationResult(req);
     if (!err.isEmpty()) {
       next({
-        status: 400,
         message: err.array(),
+        status: 400,
         type: "ValidationDataError",
       });
     }
@@ -150,12 +149,12 @@ auth.post(
 
       res
         .status(201)
-        .json({ success: true, message: msg.USER_CREATED_SUCCESSFULLY });
+        .json({ message: msg.USER_CREATED_SUCCESSFULLY, success: true });
     } catch (err: any) {
       if (err.code === "23505") {
         next({
-          status: 400,
           message: msg.EMAIL_ALREADY_EXIST,
+          status: 400,
           type: "DatabaseValidationError",
         });
       } else {
@@ -172,8 +171,8 @@ auth.post(
     const err = validationResult(req);
     if (!err.isEmpty()) {
       next({
-        status: 400,
         message: err.array(),
+        status: 400,
         type: "ValidationDataError",
       });
     }
@@ -188,11 +187,11 @@ auth.post(
         await deleteAuthToken(res, "authToken");
         return res
           .status(200)
-          .json({ success: true, message: msg.USER_DELETED_SUCCESSFULLY });
+          .json({ message: msg.USER_DELETED_SUCCESSFULLY, success: true });
       } else {
         next({
-          status: 404,
           message: msg.USER_ALREADY_DELETED_OR_DOES_NOT_EXIST,
+          status: 404,
           type: "DeletionError",
         });
       }
