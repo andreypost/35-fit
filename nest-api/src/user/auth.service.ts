@@ -39,11 +39,11 @@ export class AuthService {
 
   private async setAuthToken(
     email: string,
-    userId: string,
+    id: string,
     res: Response,
   ): Promise<void> {
     try {
-      const authToken = this.jwtService.sign({ email, id: userId });
+      const authToken = this.jwtService.sign({ email, id });
       res.cookie('authToken', authToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -51,7 +51,8 @@ export class AuthService {
         maxAge: 3600000,
         // path: "/",
       });
-    } catch {
+    } catch (error: any) {
+      console.error(error);
       throw new ServiceUnavailableException(
         'Unable to generate and set authToken to cookie!',
       );
@@ -96,9 +97,15 @@ export class AuthService {
         throw new NotFoundException('User not found!');
       }
 
-      try {
-        await bcrypt.compare(password, user.password);
-      } catch {
+      // somehow this block does not catch pass validation error on ubuntu
+      // try {
+      //   await bcrypt.compare(password, user.password);
+      // } catch {
+      //   throw new UnauthorizedException('Password is inalid!');
+      // }
+
+      const isValidPassword = await bcrypt.compare(password, user.password);
+      if (!isValidPassword) {
         throw new UnauthorizedException('Password is inalid!');
       }
 
