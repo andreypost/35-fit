@@ -245,10 +245,9 @@ const Reserve = () => {
     const deleteForm = new FormData(e.currentTarget)
     const email = deleteForm.get('email')
     try {
-      const deletedUser = await axios.post(
+      const deletedUser = await axios.delete(
         `${process.env.API_URL}/auth/delete-user-by-email`,
-        { email },
-        { withCredentials: true }
+        { data: { email }, withCredentials: true }
       )
       console.log('deletedUser: ', deletedUser)
     } catch (err: any) {

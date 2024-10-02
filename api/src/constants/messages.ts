@@ -24,4 +24,6 @@ export const msg = {
   DATE_IS_REQUIRED: "Data is required!",
   FILE_WAS_WRITTEN_SUCCESSFULLY: "File was written successfully!",
   EMAIL_ALREADY_EXIST: "Email already exists!",
+  UNEXPECTED_ERROR: "An unexpected error occurred!",
+  HASHING_PASS_OCCURRED: "Error occurred while hashing the password",
 };

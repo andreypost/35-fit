@@ -63,3 +63,7 @@ export class LoginUserDto extends PickType(CreateUserDto, [
   'email',
   'password',
 ] as const) {}
+
+export class DeleteUserDto extends PickType(CreateUserDto, [
+  'email',
+] as const) {}

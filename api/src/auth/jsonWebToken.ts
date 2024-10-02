@@ -6,7 +6,7 @@ import { SECRET_JWT_KEY } from "../constants/secrets";
 
 export const expiresIn = 3600000; // one hour
 
-export const generateToken = async (payload: any) => {
+export const generateToken = async (payload: any): Promise<string> => {
   const options = {
     expiresIn: expiresIn,
   };
@@ -17,7 +17,7 @@ export const setAuthToken = async (
   id: string | number | undefined,
   email: string,
   res: any
-) => {
+): Promise<any> => {
   const authToken = await generateToken({
     userId: id,
     email: email,
@@ -40,7 +40,7 @@ export const setAuthToken = async (
   });
 };
 
-export const verifyToken = async (authToken: string) => {
+export const verifyToken = async (authToken: string): Promise<any> => {
   try {
     verify(authToken, SECRET_JWT_KEY);
     return { message: msg.USER_ALREADY_LOGGED_IN, success: true };
@@ -49,7 +49,7 @@ export const verifyToken = async (authToken: string) => {
   }
 };
 
-export const validateAuthToken = async (authToken: string) => {
+export const validateAuthToken = async (authToken: string): Promise<any> => {
   if (!authToken) {
     throw new CustomErrorHandler(msg.YOU_MUST_TO_LOGIN, 401, "LoginError");
   }
@@ -59,7 +59,10 @@ export const validateAuthToken = async (authToken: string) => {
   }
 };
 
-export const deleteAuthToken = async (res: any, authToken: string) => {
+export const deleteAuthToken = async (
+  res: any,
+  authToken: string
+): Promise<any> => {
   return res.clearCookie(authToken, {
     httpOnly: true,
     secure: env.NODE_ENV === "production",

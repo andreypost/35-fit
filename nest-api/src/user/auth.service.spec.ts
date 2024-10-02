@@ -203,7 +203,7 @@ describe('AuthService', () => {
       password: hashedPassword,
     });
 
-    result = await authService.createUser(createUserDto, res);
+    result = await authService.createNewUser(createUserDto, res);
 
     expect(bcrypt.hash).toHaveBeenCalledWith(mockUser.password, 10);
 
@@ -214,7 +214,7 @@ describe('AuthService', () => {
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
-      message: 'User was added successfully!',
+      message: 'User created successfully!',
     });
   });
 

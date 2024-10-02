@@ -164,7 +164,7 @@ auth.post(
   }
 );
 
-auth.post(
+auth.delete(
   "/delete-user-by-email",
   body("email").isEmail().withMessage(msg.VALID_EMAIL_IS_REQUIRED),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -184,7 +184,7 @@ auth.post(
       const { affected } = await userRepository.delete({ email });
 
       if (affected) {
-        await deleteAuthToken(res, "authToken");
+        // await deleteAuthToken(res, "authToken"); // probably do not need
         return res
           .status(200)
           .json({ message: msg.USER_DELETED_SUCCESSFULLY, success: true });
