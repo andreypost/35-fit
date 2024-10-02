@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './db/database.module';
+import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { HelloController } from './hello.controller';
 import { DetailController } from './user/detail.controller';
@@ -10,6 +11,7 @@ import { AppService } from './app.service';
 import { AuthService } from './user/auth.service';
 import { DetailService } from './user/detail.service';
 import 'reflect-metadata';
+import { secrets } from './constants/secrets';
 // import { TypeOrmModule } from '@nestjs/typeorm';
 // import { dataSourceOptions, AppDataSource } from './db/dataSource';
 // import { User, UserDetails } from './entities/user';
@@ -20,6 +22,11 @@ import 'reflect-metadata';
       isGlobal: true,
     }),
     DatabaseModule,
+    JwtModule.register({
+      global: true,
+      secret: secrets.JWT_KEY,
+      signOptions: { expiresIn: '3600000s' },
+    }),
   ],
   controllers: [
     AppController,

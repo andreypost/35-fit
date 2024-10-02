@@ -9,6 +9,7 @@ import {
   IsIn,
   IsPhoneNumber,
 } from 'class-validator';
+import { PickType } from '@nestjs/mapped-types';
 
 export class CreateUserDto {
   @IsUUID()
@@ -57,3 +58,8 @@ export class CreateUserDto {
   @IsOptional()
   emergencyPhone?: string;
 }
+
+export class LoginUserDto extends PickType(CreateUserDto, [
+  'email',
+  'password',
+] as const) {}

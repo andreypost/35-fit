@@ -166,18 +166,27 @@ const Main = styled.main`
 const Reserve = () => {
   const { t } = useTranslation(),
     [authData, setAuthData] = useState<IAuth>({
-      name: '',
-      surname: '',
-      gender: '',
-      age: 0,
-      country: '',
-      city: '',
+      name: 'Andrii',
+      surname: 'Postoliuk',
+      gender: 'male',
+      age: 25,
+      country: 'Ukraine',
+      city: 'Kyiv',
       email: '',
-      password: '',
-      phone: '',
+      password: '9999',
+      phone: '0673788612',
       emergencyName: '',
       emergencyPhone: '',
     })
+  // name: '',
+  // surname: '',
+  // gender: '',
+  // age: undefined,
+  // country: '',
+  // city: '',
+  // email: '',
+  // password: '',
+  // phone: '',
 
   const genderOptions = [
     { value: '', label: 'Select Gender' },
@@ -188,16 +197,16 @@ const Reserve = () => {
 
   const countryOptions = [
     { value: '', label: 'Select Country' },
-    { value: 'ukraine', label: 'Ukraine' },
-    { value: 'poland', label: 'Poland' },
-    { value: 'usa', label: 'USA' },
+    { value: 'Ukraine', label: 'Ukraine' },
+    { value: 'Poland', label: 'Poland' },
+    { value: 'USA', label: 'USA' },
   ]
 
   const cityOptions = [
     { value: '', label: 'Select City' },
-    { value: 'kyiv', label: 'Kyiv' },
-    { value: 'warsaw', label: 'Warsaw' },
-    { value: 'seattle', label: 'Seattle' },
+    { value: 'Kyiv', label: 'Kyiv' },
+    { value: 'Warsaw', label: 'Warsaw' },
+    { value: 'Seattle', label: 'Seattle' },
   ]
   // useEffect(() => {}, [])
 
@@ -311,6 +320,7 @@ const Reserve = () => {
                       placeholder="First name"
                       onChange={handleChangeAuthData}
                       required
+                      value={'Andrii'}
                     />
                   </fieldset>
                   <fieldset>
@@ -321,6 +331,7 @@ const Reserve = () => {
                       placeholder="Surname"
                       onChange={handleChangeAuthData}
                       required
+                      value={'Postoliuk'}
                     />
                   </fieldset>
                 </div>
@@ -331,6 +342,7 @@ const Reserve = () => {
                       name="gender"
                       onChange={handleChangeAuthData}
                       required
+                      value={'male'}
                     >
                       {genderOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -349,6 +361,7 @@ const Reserve = () => {
                       max={111}
                       onChange={handleChangeAuthData}
                       required
+                      value={25}
                     />
                   </fieldset>
                 </div>
@@ -364,11 +377,11 @@ const Reserve = () => {
                 <div className="form_fields flex">
                   <fieldset>
                     <legend>Country:</legend>
-
                     <select
                       name="country"
                       onChange={handleChangeAuthData}
                       required
+                      value={'Ukraine'}
                     >
                       {countryOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -385,6 +398,7 @@ const Reserve = () => {
                       name="city"
                       onChange={handleChangeAuthData}
                       required
+                      value={'Kyiv'}
                     >
                       {cityOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -413,6 +427,7 @@ const Reserve = () => {
                       placeholder="Password"
                       onChange={handleChangeAuthData}
                       required
+                      value={'9999'}
                     />
                   </fieldset>
                 </div>
@@ -427,6 +442,7 @@ const Reserve = () => {
                 placeholder="Phone number"
                 onChange={handleChangeAuthData}
                 required
+                value={'0673788612'}
               />
             </fieldset>
 

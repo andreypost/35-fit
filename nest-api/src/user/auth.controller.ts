@@ -1,18 +1,29 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Get,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Controller, Post, Body, Res, Get } from '@nestjs/common';
+import { Response } from 'express';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, LoginUserDto } from './dto/create-user.dto';
 import { CreateUserDetailsDto } from './dto/create-user-details.dto';
 import { UserDetails } from '../entities/user.details';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Post('create-new-user')
+  async handleUser(
+    @Body() createUserDto: CreateUserDto,
+    @Res() res: Response,
+  ): Promise<any> {
+    return await this.authService.createUser(createUserDto, res);
+  }
+
+  @Post('login')
+  async signIn(
+    @Body() { email, password }: LoginUserDto,
+    @Res() res: Response,
+  ): Promise<any> {
+    return await this.authService.validateUser({ email, password }, res);
+  }
 
   @Get('details')
   async findAllUserDetails(): Promise<UserDetails[]> {
@@ -39,23 +50,5 @@ export class AuthController {
   @Get('users')
   async getAllUsers(): Promise<CreateUserDto[]> {
     return this.authService.getAllUsers();
-  }
-
-  @Post('create-new-user')
-  async handleUser(@Body() createUserDto: CreateUserDto): Promise<string> {
-    const user = await this.authService.findUserByEmail(createUserDto.email);
-
-    if (user) {
-      const isPasswordValid =
-        await this.authService.validateUser(createUserDto);
-      if (isPasswordValid) {
-        return 'User validated successfully';
-      } else {
-        throw new UnauthorizedException('Invalid password');
-      }
-    } else {
-      await this.authService.createUser(createUserDto);
-      return 'User created successfully';
-    }
   }
 }

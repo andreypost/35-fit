@@ -2,8 +2,8 @@ import { env } from "../config/env";
 import { sign, verify } from "jsonwebtoken";
 import { CustomErrorHandler } from "../middleware/errorHandler";
 import { msg } from "../constants/messages";
+import { SECRET_JWT_KEY } from "../constants/secrets";
 
-export const SECRET_JWT_KEY = env.JWT_KEY as string;
 export const expiresIn = 3600000; // one hour
 
 export const generateToken = async (payload: any) => {
