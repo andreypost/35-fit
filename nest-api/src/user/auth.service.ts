@@ -33,6 +33,10 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  private async findUserByEmail(email: string): Promise<User | undefined> {
+    return await this.userRepository.findOne({ where: { email } });
+  }
+
   private async setAuthToken(
     email: string,
     userId: string,
@@ -80,10 +84,6 @@ export class AuthService {
 
   public async getAllUsers(): Promise<User[]> {
     return await this.userRepository.find();
-  }
-
-  public async findUserByEmail(email: string): Promise<User | undefined> {
-    return await this.userRepository.findOne({ where: { email } });
   }
 
   public async validateUser(
