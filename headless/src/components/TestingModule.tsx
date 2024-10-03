@@ -66,7 +66,7 @@ export const TestingModule = ({ user }: IUser) => {
       context: { credentials: 'include' },
     }),
     dispatch = useAppDispatch(),
-    { sortedList, fileListloading, fileListerror } =
+    { fileSortedList, fileListLoading, fileListError } =
       useAppSelector(setSortedList)
 
   const countries = [
@@ -265,10 +265,10 @@ export const TestingModule = ({ user }: IUser) => {
   }
   return (
     <Div>
-      {fileListerror && <p>{fileListerror?.message}</p>}
-      {user && sortedList?.length > 0 && (
+      {fileListError && <p>{fileListError?.message}</p>}
+      {user && fileSortedList?.length > 0 && (
         <ol>
-          {sortedList.map(
+          {fileSortedList.map(
             ({ name, country, earnings }: UserData, index: any) => (
               <Fragment key={index}>
                 <li>

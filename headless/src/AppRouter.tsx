@@ -25,7 +25,8 @@ import { LoginModal } from 'modals/LoginModal'
 import { MessageModal } from 'modals/MessageModal'
 import { DashboardModal } from 'modals/DashboardModal'
 import { IAppConfig } from 'types/interface'
-import { GetCurrentWindowScroll } from 'utils/hooks'
+import { GetCurrentWindowScroll, useAppSelector } from 'utils/hooks'
+import { setDatabaseUser } from 'slices/databaseUser.slice'
 // import { createBrowserHistory } from 'history'
 // const history = createBrowserHistory()
 // console.log(history.location.pathname)
@@ -33,13 +34,18 @@ import { GetCurrentWindowScroll } from 'utils/hooks'
 export const AppContext = createContext({} as IAppConfig)
 
 const AppRouter = () => {
-  const { user, login, firebaseAuth } = useContext(FirebaseAuthContext),
+  const {
+      user: firebaseUser,
+      login,
+      firebaseAuth,
+    } = useContext(FirebaseAuthContext),
     { i18n } = useTranslation(),
     [language, setLanguage] = useState(
       localStorage.getItem('i18nextLng') || 'en'
     ),
     winScroll = GetCurrentWindowScroll(),
-    [footerContent, setFooterContent] = useState(false)
+    [footerContent, setFooterContent] = useState(false),
+    { databaseUser } = useAppSelector(setDatabaseUser)
 
   useEffect(() => {
     window.onstorage = (e: StorageEvent) => {
@@ -53,6 +59,8 @@ const AppRouter = () => {
   useEffect(() => {
     winScroll > 80 && setFooterContent(true)
   }, [winScroll])
+
+  const user = firebaseUser || databaseUser
 
   useDebugValue(user)
 

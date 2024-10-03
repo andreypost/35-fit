@@ -12,9 +12,9 @@ import {
 } from 'slices/modal.slice'
 import { IFirebaseProps } from 'types/interface'
 import { CrossRedSVG } from 'img/icons'
-import axios from 'axios'
 import { useMutation } from '@apollo/client'
 import { LOGIN_USER } from 'queries'
+import { loginUserFromDatabase } from 'slices/databaseUser.slice'
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -164,8 +164,10 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
   const dispatch = useAppDispatch(),
     modalState = useAppSelector(selectLoginModalActive),
     { t } = useTranslation(),
-    [email, setEmail] = useState(''),
-    [password, setPassword] = useState(''),
+    [loginData, setLoginData] = useState({
+      email: '',
+      password: '',
+    }),
     [checkState, setCheckState] = useState(false),
     [loginUser] = useMutation(LOGIN_USER, {
       context: { credentials: 'include' },
@@ -178,33 +180,26 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     }),
     location = useLocation()
 
-  const authUsersRoutes = async () => {
-    try {
-      const logUserRes = await axios.post(
-        `${process.env.API_URL}/auth/login`,
-        {
-          email: 'test_08@email.com',
-          password: '9999',
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      console.log('/auth/login:', logUserRes)
-    } catch (err: any) {
-      console.error(err?.response?.data)
-    }
-  }
-
   useEffect(() => {
     ;(user || location.pathname.includes('reserve')) &&
       dispatch(unsetLoginModal())
   }, [user, location])
 
-  const handleLogin = async <T extends React.FormEvent<HTMLFormElement>>(
+  const handleChangeLoginData = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target
+    setLoginData({
+      ...loginData,
+      [name]: value,
+    })
+  }
+
+  const handleLoginSubmit = async <T extends React.FormEvent<HTMLFormElement>>(
     e: T
   ): Promise<void> => {
     e.preventDefault()
+    dispatch(loginUserFromDatabase(loginData))
     try {
       // const response = await loginUser({
       //   variables: {
@@ -224,8 +219,6 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         }, 1500)
       })
     }
-
-    authUsersRoutes()
   }
   return (
     <Div
@@ -239,7 +232,11 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           className="cross_icon absolute"
           onClick={() => dispatch(unsetLoginModal())}
         />
-        <form id="loginForm" className="flex_str_col" onSubmit={handleLogin}>
+        <form
+          id="loginForm"
+          className="flex_str_col"
+          onSubmit={handleLoginSubmit}
+        >
           <h1 className="b900 blue">
             {t('welcome_to')}
             <br />
@@ -250,12 +247,11 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           </label>
           <input
             type="email"
-            name="login"
-            value={email}
+            name="email"
             className="grey_button blue"
             placeholder={t('enter_email_address')}
-            onChange={(e) => setEmail(e.target.value)}
-            // required
+            onChange={handleChangeLoginData}
+            required
           />
           <label htmlFor="password" className="grey_label">
             {t('password')}
@@ -263,11 +259,10 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           <input
             type="password"
             name="password"
-            value={password}
             className="grey_button part_radius blue"
             placeholder={t('enter_password')}
-            onChange={(e) => setPassword(e.target.value)}
-            // required
+            onChange={handleChangeLoginData}
+            required
           />
           <label htmlFor="radio" className="flex_center grey_label check_box">
             <input

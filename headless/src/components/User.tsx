@@ -121,7 +121,7 @@ export const User = ({ user, styleName }: IUser & IStyle) => {
       }
     >
       <p className="user_name b700 green">
-        {user?.displayName || t('nav.login')}
+        {user?.displayName || user?.name || t('nav.login')}
       </p>
       <img
         src={user?.photoURL || empty_user}

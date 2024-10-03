@@ -11,18 +11,18 @@ export interface UserData {
 
 interface FileDataState {
   fileList: UserData[]
-  filteredList: UserData[]
-  sortedList: UserData[]
-  fileListloading: boolean
-  fileListerror: { message: string } | null
+  fileFilteredList: UserData[]
+  fileSortedList: UserData[]
+  fileListLoading: boolean
+  fileListError: { message: string } | null
 }
 
 const initialState: FileDataState = {
   fileList: [],
-  filteredList: [],
-  sortedList: [],
-  fileListloading: false,
-  fileListerror: null,
+  fileFilteredList: [],
+  fileSortedList: [],
+  fileListLoading: false,
+  fileListError: null,
 }
 
 export const fetchFileData = createAsyncThunk<UserData[]>(
@@ -46,20 +46,20 @@ const fileDataSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchFileData.pending, (state) => {
-        state.fileListloading = true
-        state.fileListerror = null
+        state.fileListLoading = true
+        state.fileListError = null
       })
       .addCase(
         fetchFileData.fulfilled,
         (state, action: PayloadAction<UserData[]>) => {
-          state.fileListloading = false
+          state.fileListLoading = false
           state.fileList = action.payload
 
-          state.filteredList = state.fileList.filter(
+          state.fileFilteredList = state.fileList.filter(
             ({ country }) => country !== 'Russian Federation'
           )
 
-          state.sortedList = state.filteredList.sort(
+          state.fileSortedList = state.fileFilteredList.sort(
             (a, b) =>
               parseFloat(a.earnings.replace('$', '')) -
               parseFloat(b.earnings.replace('$', ''))
@@ -67,8 +67,8 @@ const fileDataSlice = createSlice({
         }
       )
       .addCase(fetchFileData.rejected, (state, action) => {
-        state.fileListloading = true
-        state.fileListerror = action.payload as { message: string }
+        state.fileListLoading = true
+        state.fileListError = action.payload as { message: string }
       })
   },
 })

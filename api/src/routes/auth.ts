@@ -21,18 +21,6 @@ auth.post(
     .withMessage(msg.PASSWORD_MUTS_BE_AT_LEAST),
   loginLimiter,
   async (req: Request, res: Response, next: NextFunction) => {
-    // const authToken = req?.cookies?.authToken;
-    // if (authToken) {
-    //   const { success, message } = await verifyToken(authToken);
-
-    //   const statusCode = success ? 200 : 401;
-    //   return res
-    //     .status(statusCode)
-    //     .json({ success: success, message: message });
-    //   // return await verifyTokenWithResponse(authToken, res);
-    // }
-    // this logic to check authToken probably do not need, if token is in Cookies, login will not trigger
-
     const err = validationResult(req);
     if (!err.isEmpty()) {
       next({
@@ -46,7 +34,6 @@ auth.post(
       const { email, password } = req.body;
       const user = await userRepository.findOne({
         where: { email },
-        select: ["id", "name", "email", "password"],
       });
       if (!user) {
         next({
@@ -65,7 +52,7 @@ auth.post(
         }
 
         await setAuthToken(user.id, user.email, res);
-        res.status(201).json({ message: msg.LOGIN_SUCCESSFUL, success: true });
+        res.status(201).json(user);
       }
     } catch (err: any) {
       next(err);

@@ -126,13 +126,6 @@ export class AuthService {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
 
-      // somehow this block does not catch pass validation error on ubuntu
-      // try {
-      //   await bcrypt.compare(password, user.password);
-      // } catch {
-      //   throw new UnauthorizedException(msg.INVALID_CREDENTIALS);
-      // }
-
       const isValidPassword = await bcrypt.compare(password, user.password);
       if (!isValidPassword) {
         throw new UnauthorizedException(msg.INVALID_CREDENTIALS);
@@ -140,9 +133,7 @@ export class AuthService {
 
       await this.setAuthToken(email, user.id, res);
 
-      return res.status(HttpStatus.OK).json({
-        message: msg.LOGIN_SUCCESSFUL,
-      });
+      return res.status(HttpStatus.OK).json(user);
     } catch (error: any) {
       console.error(error);
       if (error instanceof HttpException || error.message) {
