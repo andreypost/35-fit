@@ -35,7 +35,7 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
     'react/react-in-jsx-scope': 'off', // Not necessary with new JSX transform in React 17+
     // 'no-console': 'warn', // Warn on console usage
-    // semi: ['error', 'always'], // Enforce semicolons
+    semi: ['error', 'never'], // Enforce semicolons
     // 'react/prop-types': 'off',
   },
   settings: {

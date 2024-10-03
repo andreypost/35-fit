@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { IGetImageById, IGetImages } from 'types/interface'
+import { IGetImageById, IGetImages, IUser } from 'types/interface'
 import axios from 'axios'
 import { useQuery } from '@apollo/client'
 import { GET_IMAGES, GET_IMAGE_BY_ID } from 'queries'
+import { useAppDispatch, useAppSelector } from 'utils/hooks'
+import { UserData, fetchFileData, setSortedList } from 'slices/fileData.slice'
 
 const Div = styled.div`
   #testingForm {
@@ -49,7 +51,7 @@ const ImagesList = ({ categoryImages }: any) => {
   )
 }
 
-export const TestingModule = () => {
+export const TestingModule = ({ user }: IUser) => {
   const [email, setEmail] = useState(''),
     [password, setPassword] = useState(''),
     [index, setIndex] = useState(0),
@@ -62,7 +64,10 @@ export const TestingModule = () => {
       variables: { imageId: selectedImageId },
       skip: !selectedImageId,
       context: { credentials: 'include' },
-    })
+    }),
+    dispatch = useAppDispatch(),
+    { sortedList, fileListloading, fileListerror } =
+      useAppSelector(setSortedList)
 
   const countries = [
     'Chile',
@@ -109,7 +114,7 @@ export const TestingModule = () => {
       // })
       // console.log('/file/read - read file data: ', getFileData.data.length)
     } catch (err: any) {
-      console.error(err?.response?.data)
+      console.error(err.response?.data)
     }
   }
 
@@ -176,17 +181,69 @@ export const TestingModule = () => {
       // console.log('/detail/users/id: ', detailById.data)
     } catch (err: any) {
       // console.error(err?.response?.data?.message || err?.message)
-      console.error(
-        err?.response?.data?.message || err?.message,
-        err?.response?.data?.success
-      )
+      console.error(err.response?.data)
     }
   }
+
+  useEffect(() => {
+    user && dispatch(fetchFileData())
+  }, [user])
 
   useEffect(() => {
     console.log('TestingModule: ', process.env.API_URL)
     setIndex(Math.floor(Math.random() * countries.length))
   }, [])
+
+  /*
+  const [fileList, setFileList] = useState<UserData[]>([])
+  const [filteredList, setFilteredList] = useState<UserData[]>([])
+  const [sotredList, setSortedList] = useState<UserData[]>([])
+  const cach = useRef(null)
+
+  useEffect(() => {
+    if (!cach.current) {
+      const f = async () => {
+        try {
+          const getFileContent = await axios.get(
+            `${process.env.API_URL}/file/read`,
+            {
+              withCredentials: true,
+            }
+          )
+          const { data } = getFileContent
+          cach.current = data
+          setFileList(data)
+        } catch (error: any) {
+          console.error('Error to read file data: ', error.responce?.data)
+        }
+      }
+      f()
+    } else {
+      setFileList(cach.current)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (fileList?.length) {
+      setFilteredList(
+        fileList.filter(
+          (item: { country: string }) => item?.country !== 'Russian Federation'
+        )
+      )
+    }
+  }, [fileList])
+
+  useEffect(() => {
+    if (filteredList?.length) {
+      setSortedList(
+        filteredList.sort(
+          (item1: { earnings: string }, item2: { earnings: string }) =>
+            +item1?.earnings.replace('$', '') -
+            +item2?.earnings.replace('$', '')
+        )
+      )
+    }
+  }, [filteredList]) */
 
   const handleTesting = async <T extends React.FormEvent<HTMLFormElement>>(
     e: T
@@ -208,6 +265,22 @@ export const TestingModule = () => {
   }
   return (
     <Div>
+      {fileListerror && <p>{fileListerror?.message}</p>}
+      {user && sortedList?.length > 0 && (
+        <ol>
+          {sortedList.map(
+            ({ name, country, earnings }: UserData, index: any) => (
+              <Fragment key={index}>
+                <li>
+                  Name: {name}, &nbsp; Earnings: {earnings}, &nbsp; Country:
+                  {country}
+                </li>
+                <hr />
+              </Fragment>
+            )
+          )}
+        </ol>
+      )}
       <form id="testingForm" className="flex_str_col" onSubmit={handleTesting}>
         <input
           type="email"

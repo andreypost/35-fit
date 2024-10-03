@@ -163,7 +163,7 @@ const Main = styled.main`
   }
 `
 
-const Reserve = () => {
+const Reserve = ({ user }: IUser) => {
   const { t } = useTranslation(),
     [authData, setAuthData] = useState<IAuth>({
       name: 'Andrii',
@@ -178,15 +178,15 @@ const Reserve = () => {
       emergencyName: '',
       emergencyPhone: '',
     })
-  // name: '',
-  // surname: '',
-  // gender: '',
-  // age: undefined,
-  // country: '',
-  // city: '',
-  // email: '',
-  // password: '',
-  // phone: '',
+  /*   name: '',
+  surname: '',
+  gender: '',
+  age: undefined,
+  country: '',
+  city: '',
+  email: '',
+  password: '',
+  phone: '', */
 
   const genderOptions = [
     { value: '', label: 'Select Gender' },
@@ -275,7 +275,7 @@ const Reserve = () => {
         <article className="reserve_article">
           {process.env.NODE_ENV === 'development' && (
             <>
-              <TestingModule />
+              <TestingModule user={user} />
               <form id="deleteForm" onSubmit={handleDeleteUserByEmail}>
                 <fieldset>
                   <legend>User email:</legend>
