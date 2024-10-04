@@ -19,8 +19,8 @@ const Club = () => {
         title="nav.club"
         description="header_banner.training_becomes"
       />
-      <img src={require('../img/patterns/pattern_bg_7_1.png')} alt="" />
-      <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />
+      <img src={require('../img/patterns/pattern_bg_7_1.webp')} alt="" />
+      <img src={require('../img/patterns/pattern_bg_1_3.webp')} alt="" />
       <CommunityArticle
         title="35fit_community"
         subTitle={true}

@@ -68,7 +68,7 @@ const Team = () => {
         ))}
       </section>
 
-      <img src={require('../img/patterns/pattern_bg_7_1.png')} alt="" />
+      <img src={require('../img/patterns/pattern_bg_7_1.webp')} alt="" />
 
       <ImageDescription
         className="right_img"

@@ -259,7 +259,7 @@ const Main = ({ user }: IUser) => {
           </h3>
         </div>
       </div>
-      <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />
+      <img src={require('../img/patterns/pattern_bg_1_3.webp')} alt="" />
       <div className="section main_wow margin_b_60_30 center">
         <article className="flex_center_center blue">
           <h2 className="b900 uppercase">{t('nav.personal_training')}</h2>
@@ -296,7 +296,7 @@ const Main = ({ user }: IUser) => {
         title="main.pick_a_day"
         description="header_banner.training_becomes"
       />
-      <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />
+      <img src={require('../img/patterns/pattern_bg_1_3.webp')} alt="" />
       <CommunityArticle
         title="35fit_community"
         subTitle={true}

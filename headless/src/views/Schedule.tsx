@@ -12,11 +12,6 @@ import { FooterBanner } from 'FooterBanner'
 
 const Schedule = () => {
   // const { t } = useTranslation(),
-  //   [opacity, setOpacity] = useState('')
-
-  // useEffect(() => {
-  //   setOpacity('active')
-  // }, [])
 
   return (
     <main data-aos="fade" className="page_view">
@@ -26,7 +21,7 @@ const Schedule = () => {
         description="header_banner.training_becomes"
       />
 
-      <img src={require('../img/patterns/pattern_bg_7_1.png')} alt="" />
+      <img src={require('../img/patterns/pattern_bg_7_1.webp')} alt="" />
       <ImageDescription
         imgSrc={add_01}
         title="schedule.for_better_results"
@@ -38,7 +33,7 @@ const Schedule = () => {
         title="schedule.for_better_results"
         description="header_banner.training_becomes"
       />
-      <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />
+      <img src={require('../img/patterns/pattern_bg_1_3.webp')} alt="" />
       <CommunityArticle
         title="35fit_community"
         subTitle={true}

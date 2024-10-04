@@ -26,7 +26,7 @@ const Training = () => {
         title="training.built_for_everyone"
         description="training.using_predefined_training"
       />
-      <img src={require('../img/patterns/pattern_bg_1_3.png')} alt="" />
+      <img src={require('../img/patterns/pattern_bg_1_3.webp')} alt="" />
       <FooterBanner
         title="training.trial_foot_banner_title"
         price="17"

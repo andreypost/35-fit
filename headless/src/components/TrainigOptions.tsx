@@ -119,7 +119,7 @@ export const TrainigOptions = () => {
               <img
                 data-aos="fade-up"
                 data-aos-duration="1000"
-                src={require(`../img/adds/add_2_1.png`)}
+                src={require(`../img/adds/add_2_1.webp`)}
                 alt=""
               />
             </div>
@@ -234,7 +234,7 @@ export const TrainigOptions = () => {
           </defs>
         </svg>
         <div>
-          <img src={require(`../img/adds/add_2_2.png`)} alt="" />
+          <img src={require(`../img/adds/add_2_2.webp`)} alt="" />
         </div>
       </DivMinutes>
     </>

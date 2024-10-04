@@ -13,7 +13,7 @@ const Main = styled.main`
   /* .reserve_banner { */
   /* padding-top: 40px;
     padding-bottom: 40px;
-    background: url(${require('../img/patterns/pattern_bg_footer_banner.png')})
+    background: url(${require('../img/patterns/pattern_bg_footer_banner.webp')})
       center 30% / contain no-repeat; */
   /* } */
   .reserver {
@@ -66,9 +66,10 @@ const Main = styled.main`
           }
           input:-webkit-autofill,
           select:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 1000px white inset !important;
+            box-shadow: 0 0 0 1000px white inset !important;
+            -webkit-text-fill-color: #004 !important;
             background-color: transparent !important;
-            -webkit-box-shadow: 0 0 0px 1000px white inset;
-            color: #004 !important;
           }
           select {
             option:first-of-type {
@@ -96,6 +97,7 @@ const Main = styled.main`
         .reserve_delete {
           box-sizing: border-box;
           height: 42px;
+          margin-top: 40px;
           padding: 0px 40px;
           font-size: 16px;
           border-radius: 32px;
@@ -105,9 +107,6 @@ const Main = styled.main`
             border-color: white;
             background-color: #004;
           }
-        }
-        .reserve_delete {
-          margin-top: 20px;
         }
       }
     }
@@ -166,27 +165,18 @@ const Main = styled.main`
 const Reserve = ({ user }: IUser) => {
   const { t } = useTranslation(),
     [authData, setAuthData] = useState<IAuth>({
-      name: 'Andrii',
-      surname: 'Postoliuk',
-      gender: 'male',
-      age: 25,
-      country: 'Ukraine',
-      city: 'Kyiv',
+      name: '',
+      surname: '',
+      gender: '',
+      age: 0,
+      country: '',
+      city: '',
       email: '',
-      password: '9999',
-      phone: '0673788612',
+      password: '',
+      phone: '',
       emergencyName: '',
       emergencyPhone: '',
     })
-  /*   name: '',
-  surname: '',
-  gender: '',
-  age: undefined,
-  country: '',
-  city: '',
-  email: '',
-  password: '',
-  phone: '', */
 
   const genderOptions = [
     { value: '', label: 'Select Gender' },
@@ -319,7 +309,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="First name"
                       onChange={handleChangeAuthData}
                       required
-                      value={'Andrii'}
+                      // value={'Andrii'}
                     />
                   </fieldset>
                   <fieldset>
@@ -330,7 +320,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="Surname"
                       onChange={handleChangeAuthData}
                       required
-                      value={'Postoliuk'}
+                      // value={'Postoliuk'}
                     />
                   </fieldset>
                 </div>
@@ -341,7 +331,10 @@ const Reserve = ({ user }: IUser) => {
                       name="gender"
                       onChange={handleChangeAuthData}
                       required
-                      value={'male'}
+                      style={{
+                        color: authData.gender === '' ? '#6e7071' : '#004',
+                      }}
+                      // value={'male'}
                     >
                       {genderOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -360,7 +353,7 @@ const Reserve = ({ user }: IUser) => {
                       max={111}
                       onChange={handleChangeAuthData}
                       required
-                      value={25}
+                      // value={25}
                     />
                   </fieldset>
                 </div>
@@ -380,7 +373,10 @@ const Reserve = ({ user }: IUser) => {
                       name="country"
                       onChange={handleChangeAuthData}
                       required
-                      value={'Ukraine'}
+                      style={{
+                        color: authData.country === '' ? '#6e7071' : '#004',
+                      }}
+                      // value={'Ukraine'}
                     >
                       {countryOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -397,7 +393,10 @@ const Reserve = ({ user }: IUser) => {
                       name="city"
                       onChange={handleChangeAuthData}
                       required
-                      value={'Kyiv'}
+                      style={{
+                        color: authData.city === '' ? '#6e7071' : '#004',
+                      }}
+                      // value={'Kyiv'}
                     >
                       {cityOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -426,7 +425,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="Password"
                       onChange={handleChangeAuthData}
                       required
-                      value={'9999'}
+                      // value={'9999'}
                     />
                   </fieldset>
                 </div>
@@ -441,7 +440,7 @@ const Reserve = ({ user }: IUser) => {
                 placeholder="Phone number"
                 onChange={handleChangeAuthData}
                 required
-                value={'0673788612'}
+                // value={'0673788612'}
               />
             </fieldset>
 

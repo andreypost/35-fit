@@ -42,7 +42,7 @@ module.exports = {
         use: [{ loader: 'babel-loader' }],
       },
       {
-        test: /\.(?:svg|ico|gif|png|jpg|jpeg)$/i,
+        test: /\.(?:svg|ico|gif|png|jpg|jpeg|webp)$/i,
         type: 'asset/resource',
       },
       // { // @font-face type of connetion fonts is much more slower.

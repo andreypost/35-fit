@@ -10,7 +10,7 @@ const Div = styled.div`
   padding: 0 20px;
   section {
     height: 440px;
-    background: url(${require('../img/patterns/pattern_bg_footer_banner.png')})
+    background: url(${require('../img/patterns/pattern_bg_footer_banner.webp')})
         no-repeat center 360% / cover,
       #fff;
     .fb_rupor {

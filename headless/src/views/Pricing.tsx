@@ -10,7 +10,7 @@ const Main = styled.main`
   .pricing_banner {
     padding-top: 40px;
     padding-bottom: 40px;
-    background: url(${require('../img/patterns/pattern_bg_footer_banner.png')})
+    background: url(${require('../img/patterns/pattern_bg_footer_banner.webp')})
       center 30% / contain no-repeat;
     .section {
       margin-bottom: 20px;
@@ -101,7 +101,7 @@ const Pricing = () => {
         </section>
       </div>
 
-      <img src={require('../img/patterns/pattern_bg_7_1.png')} alt="" />
+      <img src={require('../img/patterns/pattern_bg_7_1.webp')} alt="" />
       <FooterBanner
         title="pricinig.trial_foot_banner_title"
         price="99"

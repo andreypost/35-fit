@@ -32,7 +32,7 @@ const Faq = () => {
         description="header_banner.training_becomes"
       />
       <section className="section faq"></section>
-      <img src={require('../img/patterns/pattern_bg_7_1.png')} alt="" />
+      <img src={require('../img/patterns/pattern_bg_7_1.webp')} alt="" />
       <FooterBanner
         title="faq.trial_foot_banner_title"
         price="99"
