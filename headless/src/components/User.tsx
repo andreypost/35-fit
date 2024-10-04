@@ -55,9 +55,11 @@ const Div = styled.div`
   }
   &.menu_modal {
     @media (max-width: 1023px) {
+      width: 100%;
+      justify-content: space-between;
+      column-gap: 10px;
       padding-left: 8px;
       padding-right: 2px;
-      justify-content: space-between;
       &.loggedIn {
         justify-content: center;
         .user_face {
@@ -67,14 +69,17 @@ const Div = styled.div`
     }
   }
   &.dashboard_modal {
+    width: 100%;
     height: 100%;
     justify-content: space-between;
+    column-gap: 10px;
     border-radius: unset;
     border: unset;
     margin-bottom: 10px;
     padding: 0 20px 16px;
     border-bottom: 2px solid #e8e8e8;
     .user_name {
+      width: 100%;
       order: 2;
       font-size: 16px;
       color: #004;
