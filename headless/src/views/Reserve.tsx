@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 // import './Training.scss'
@@ -31,7 +31,8 @@ const Main = styled.main`
         }
       }
       #authForm,
-      #deleteForm {
+      #deleteForm,
+      #allUsersForm {
         .form_subtitle {
           font-size: 24px;
           margin-bottom: 40px;
@@ -94,7 +95,7 @@ const Main = styled.main`
           }
         }
         .reserve_submit,
-        .reserve_delete {
+        .additional_submit {
           box-sizing: border-box;
           height: 42px;
           margin-top: 40px;
@@ -108,6 +109,10 @@ const Main = styled.main`
             background-color: #004;
           }
         }
+      }
+      .additional_forms {
+        justify-content: space-between;
+        align-items: flex-end;
       }
     }
   }
@@ -165,18 +170,19 @@ const Main = styled.main`
 const Reserve = ({ user }: IUser) => {
   const { t } = useTranslation(),
     [authData, setAuthData] = useState<IAuth>({
-      name: '',
-      surname: '',
-      gender: '',
-      age: 0,
-      country: '',
-      city: '',
+      name: 'Andrii Postoliuk',
+      surname: 'Postoliuk',
+      gender: 'male',
+      age: 25,
+      country: 'Ukraine',
+      city: 'Kyiv',
       email: '',
-      password: '',
-      phone: '',
+      password: '9999',
+      phone: '0673788612',
       emergencyName: '',
       emergencyPhone: '',
-    })
+    }),
+    [users, setAllUsers] = useState<IAuth[]>([])
 
   const genderOptions = [
     { value: '', label: 'Select Gender' },
@@ -221,8 +227,24 @@ const Reserve = ({ user }: IUser) => {
         { withCredentials: true }
       )
       console.log('createNewUser: ', createNewUser)
-    } catch (err: any) {
-      console.error(err?.response?.data)
+    } catch (error: any) {
+      console.error(error?.response?.data)
+    }
+  }
+
+  const handleGetAllUsers = async <T extends React.FormEvent<HTMLFormElement>>(
+    e: T
+  ): Promise<void> => {
+    e.preventDefault()
+    try {
+      const getAuthAllUsers = await axios.get(
+        `${process.env.API_URL}/auth/users`,
+        { withCredentials: true }
+      )
+      console.log('/auth/users - get all users: ', getAuthAllUsers.data)
+      setAllUsers(getAuthAllUsers.data)
+    } catch (error: any) {
+      console.error(error.response?.data)
     }
   }
 
@@ -240,8 +262,8 @@ const Reserve = ({ user }: IUser) => {
         { data: { email }, withCredentials: true }
       )
       console.log('deletedUser: ', deletedUser)
-    } catch (err: any) {
-      console.error(err?.response?.data)
+    } catch (error: any) {
+      console.error(error?.response?.data)
     }
   }
 
@@ -264,26 +286,7 @@ const Reserve = ({ user }: IUser) => {
 
         <article className="reserve_article">
           {process.env.NODE_ENV === 'development' && (
-            <>
-              <TestingModule user={user} />
-              <form id="deleteForm" onSubmit={handleDeleteUserByEmail}>
-                <fieldset>
-                  <legend>User email:</legend>
-                  <input
-                    type="text"
-                    name="email"
-                    placeholder="Enter email to delete user from database"
-                    required
-                  />
-                </fieldset>
-                <button
-                  type="submit"
-                  className="flex_center_center reserve_delete margin_b_120_80 b900 white"
-                >
-                  Delete User By Email
-                </button>
-              </form>
-            </>
+            <TestingModule user={user} />
           )}
           <header className="grey">
             <h4 className="b900">
@@ -309,7 +312,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="First name"
                       onChange={handleChangeAuthData}
                       required
-                      // value={'Andrii'}
+                      value={'Andrii'}
                     />
                   </fieldset>
                   <fieldset>
@@ -320,7 +323,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="Surname"
                       onChange={handleChangeAuthData}
                       required
-                      // value={'Postoliuk'}
+                      value={'Postoliuk'}
                     />
                   </fieldset>
                 </div>
@@ -334,7 +337,7 @@ const Reserve = ({ user }: IUser) => {
                       style={{
                         color: authData.gender === '' ? '#6e7071' : '#004',
                       }}
-                      // value={'male'}
+                      value={'male'}
                     >
                       {genderOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -353,7 +356,7 @@ const Reserve = ({ user }: IUser) => {
                       max={111}
                       onChange={handleChangeAuthData}
                       required
-                      // value={25}
+                      value={25}
                     />
                   </fieldset>
                 </div>
@@ -376,7 +379,7 @@ const Reserve = ({ user }: IUser) => {
                       style={{
                         color: authData.country === '' ? '#6e7071' : '#004',
                       }}
-                      // value={'Ukraine'}
+                      value={'Ukraine'}
                     >
                       {countryOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -396,7 +399,7 @@ const Reserve = ({ user }: IUser) => {
                       style={{
                         color: authData.city === '' ? '#6e7071' : '#004',
                       }}
-                      // value={'Kyiv'}
+                      value={'Kyiv'}
                     >
                       {cityOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -425,7 +428,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="Password"
                       onChange={handleChangeAuthData}
                       required
-                      // value={'9999'}
+                      value={'9999'}
                     />
                   </fieldset>
                 </div>
@@ -440,7 +443,7 @@ const Reserve = ({ user }: IUser) => {
                 placeholder="Phone number"
                 onChange={handleChangeAuthData}
                 required
-                // value={'0673788612'}
+                value={'0673788612'}
               />
             </fieldset>
 
@@ -451,6 +454,46 @@ const Reserve = ({ user }: IUser) => {
               {t('reserve.continue')}
             </button>
           </form>
+          {process.env.NODE_ENV === 'development' && (
+            <>
+              <h3 className="b900 blue">Additional Forms</h3>
+              <div className="additional_forms flex margin_b_120_80">
+                <form id="allUsersForm" onSubmit={handleGetAllUsers}>
+                  <button
+                    type="submit"
+                    className="flex_center_center additional_submit b900 white"
+                  >
+                    Get All Users
+                  </button>
+                </form>
+                <form id="deleteForm" onSubmit={handleDeleteUserByEmail}>
+                  <fieldset>
+                    <legend>User email:</legend>
+                    <input
+                      type="text"
+                      name="email"
+                      placeholder="Enter email to delete user from database"
+                      required
+                    />
+                  </fieldset>
+                  <button
+                    type="submit"
+                    className="flex_center_center additional_submit  b900 white"
+                  >
+                    Delete User By Email
+                  </button>
+                </form>
+              </div>
+              {users?.length > 0 &&
+                users.map(({ name, email }: IAuth, index: any) => (
+                  <Fragment key={index}>
+                    <p>{name}</p>
+                    <p>{email}</p>
+                    <hr />
+                  </Fragment>
+                ))}
+            </>
+          )}
         </article>
       </section>
     </Main>

@@ -6,8 +6,8 @@ import {
   DeleteUserDto,
   LoginUserDto,
 } from './dto/create-user.dto';
-import { CreateUserDetailsDto } from './dto/create-user-details.dto';
-import { UserDetails } from '../entities/user.details';
+// import { CreateUserDetailsDto } from './dto/create-user-details.dto';
+// import { UserDetails } from '../entities/user.details';
 import { User } from 'src/entities/user';
 
 @Controller('auth')
@@ -42,27 +42,5 @@ export class AuthController {
     @Req() req: Request,
   ): Promise<any> {
     return this.authService.deleteUserByEmail(deleteUserDto, res, req);
-  }
-
-  @Get('details')
-  async findAllUserDetails(): Promise<UserDetails[]> {
-    return this.authService.findAllUserDetails();
-  }
-
-  @Post('add-new-user-details')
-  async addNewUserDetails(
-    @Body() createUserDetailsDto: CreateUserDetailsDto,
-  ): Promise<UserDetails> {
-    return this.authService.addNewUserDetails(createUserDetailsDto);
-  }
-
-  @Get('count-by-country-details')
-  async getUserCountByCountryDetails(): Promise<Record<string, number>> {
-    return this.authService.getUserCountByCountryDetails();
-  }
-
-  @Get('average-earnings-by-country')
-  async getAverageEarningsByCountry(): Promise<Record<string, number>> {
-    return this.authService.getAverageEarningsByCountry();
   }
 }

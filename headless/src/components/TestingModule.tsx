@@ -84,110 +84,58 @@ export const TestingModule = ({ user }: IUser) => {
 
   const largeData = 'A'.repeat(1000000)
 
-  const authUsersRoutes = async () => {
+  const fileRoutes = async () => {
     try {
-      const getAuthAllUsers = await axios.get(
-        `${process.env.API_URL}/auth/users`,
-        { withCredentials: true }
+      const addFileData = await axios.post(
+        `${process.env.API_URL}/file/write`,
+        {
+          // data: {
+          id: Math.floor(100 + Math.random() * (200 - 100 + 1)),
+          earnings: `$${
+            Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
+          }`,
+          country: countries[index],
+          name: 'Andrii Postoliuk',
+          // },
+        },
+        {
+          withCredentials: true,
+        }
       )
-      console.log(index, '/auth/users - get all users: ', getAuthAllUsers.data)
-      // const addFileData = await axios.post(
-      //   `${process.env.API_URL}/file/write`,
-      //   {
-      //     data: {
-      //       id: Math.floor(100 + Math.random() * (200 - 100 + 1)),
-      //       earnings: `$${
-      //         Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
-      //       }`,
-      //       country: countries[index],
-      //       name: 'Andrii Postoliuk',
-      //     },
-      //   },
-      //   {
-      //     withCredentials: true,
-      //   }
-      // )
-      // console.log('/file/write - write file data: ', addFileData.data)
+      console.log('/file/write - write file data: ', addFileData.data)
 
       // const getFileData = await axios.get(`${process.env.API_URL}/file/read`, {
       //   withCredentials: true,
       // })
       // console.log('/file/read - read file data: ', getFileData.data.length)
-    } catch (err: any) {
-      console.error(err.response?.data)
-    }
-  }
 
-  const authDetailRoutes = async () => {
-    try {
-      // const getAuthUserDetails = await axios.get(
-      //   `${process.env.API_URL}/auth/details`
-      // )
-      // console.log('/auth/details: ', ...getAuthUserDetails.data)
-      // const addNewUserDetails = await axios.post(
-      //   `${process.env.API_URL}/auth/add-new-user-details`,
-      //   {
-      //     earnings: `$${
-      //       Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
-      //     }`,
-      //     country: countries[index],
-      //     name: 'Andrii Postoliuk',
-      //   }
-      // )
-      // console.log(index, '/auth/add-new-user-details:', addNewUserDetails.data)
-      const authDetailByEarnings = await axios.get(
-        `${process.env.API_URL}/auth/average-earnings-by-country`
-      )
-      console.log(
-        '/auth/average-earnings-by-country: ',
-        authDetailByEarnings.data
-      )
-
-      // const getUserCountByCounrtyDetails = await axios.get(
-      //   `${process.env.API_URL}/auth/count-by-country-details`
-      // )
-      // console.log(
-      //   '/auth/count-by-country-details:',
-      //   getUserCountByCounrtyDetails.data
-      // )
-      // nest-api/data/user-collection.json
-      // const detailUsers = await axios.get(`${process.env.API_URL}/detail/users`)
-      // console.log('/detail/users: ', detailUsers.data)
-      // const detailNewUser = await axios.post(
-      //   `${process.env.API_URL}/detail/add-new-user`,
-      //   {
-      //     earnings: `$${
-      //       Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
-      //     }`,
-      //     country: countries[index],
-      //     name: 'Andrii Postoliuk',
-      //   }
-      // )
-      // console.log('/detail/add-new-user: ', detailNewUser)
       // const detailByCountry = await axios.get(
-      //   `${process.env.API_URL}/detail/count-by-country`
+      //   `${process.env.API_URL}/file/count-by-country`,
+      //   {
+      //     withCredentials: true,
+      //   }
       // )
-      // console.log('/detail/count-by-country: ', detailByCountry.data)
-      const detailByEarnings = await axios.get(
-        `${process.env.API_URL}/detail/average-earnings-by-country`
-      )
-      console.log(
-        '/detail/average-earnings-by-country: ',
-        detailByEarnings.data
-      )
+      // console.log('/file/count-by-country: ', detailByCountry.data)
+
+      // const detailByEarnings = await axios.get(
+      //   `${process.env.API_URL}/file/average-earnings-by-country`,
+      //   { withCredentials: true }
+      // )
+      // console.log('/file/average-earnings-by-country: ', detailByEarnings.data)
+
       // const detailById = await axios.get(
-      //   `${process.env.API_URL}/detail/users/${detailNewUser.data.id}`
+      //   `${process.env.API_URL}/file/users/${addFileData.data.id}`,
+      //   { withCredentials: true }
       // )
-      // console.log('/detail/users/id: ', detailById.data)
+      // console.log('/file/users/id: ', detailById.data)
     } catch (err: any) {
-      // console.error(err?.response?.data?.message || err?.message)
       console.error(err.response?.data)
     }
   }
 
-  useEffect(() => {
-    user && dispatch(fetchFileData())
-  }, [user])
+  // useEffect(() => {
+  //   user && dispatch(fetchFileData())
+  // }, [user])
 
   useEffect(() => {
     console.log('TestingModule: ', process.env.API_URL)
@@ -249,17 +197,8 @@ export const TestingModule = ({ user }: IUser) => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    try {
-    } catch (err: any) {
-      console.error(
-        err?.response?.data?.message || err?.message,
-        err?.response?.data?.success
-      )
-    }
 
-    authUsersRoutes()
-
-    // authDetailRoutes()
+    fileRoutes()
 
     setIndex(Math.floor(Math.random() * countries.length))
   }

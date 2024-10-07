@@ -44,7 +44,7 @@ const databaseUserSlice = createSlice({
       state.databaseUserError = null
     },
   },
-  extraReducers(builder) {
+  extraReducers: (builder) => {
     builder
       .addCase(loginUserFromDatabase.pending, (state) => {
         state.databaseUserLoading = true

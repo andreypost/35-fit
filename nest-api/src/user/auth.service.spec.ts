@@ -2,33 +2,10 @@ import { TestingModule, Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { AuthService } from './auth.service';
 import { Repository } from 'typeorm';
-import { UserDetails } from '../entities/user.details';
 import { User } from '../entities/user';
-import { CreateUserDetailsDto } from './dto/create-user-details.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
-
-const mockUserDetails = [
-  {
-    id: '0fff1a40-078b-4ecd-89a5-bf7bd49e4e63',
-    earnings: '$6300',
-    country: 'Ukraine',
-    name: 'Andrii Postoliuk',
-  },
-  {
-    id: '32838264-888a-49df-b15a-39386b7dc107',
-    earnings: '$6400',
-    country: 'Poland',
-    name: 'Andrii Postoliuk',
-  },
-  {
-    id: '39b4e5d5-5b94-4f1e-839e-d8a831320042',
-    earnings: '$6500',
-    country: 'Ukraine',
-    name: 'Andrii Postoliuk',
-  },
-];
 
 const mockUser = {
   id: undefined,
@@ -49,13 +26,6 @@ const mockUser = {
   checkPassword: jest.fn().mockResolvedValue(true),
 };
 
-const mockUserDetailsDto = {
-  id: undefined,
-  earnings: '$6300',
-  country: 'Chile',
-  name: 'Andrii Postoliuk',
-};
-
 const mockRepository = () => ({
   find: jest.fn(),
   findOne: jest.fn(),
@@ -65,7 +35,6 @@ const mockRepository = () => ({
 
 describe('AuthService', () => {
   let authService: AuthService;
-  let userDetailsRepository: Repository<UserDetails>;
   let userRepository: Repository<User>;
   let result = null;
   let res: any;
@@ -89,14 +58,6 @@ describe('AuthService', () => {
       providers: [
         AuthService,
         {
-          provide: getRepositoryToken(UserDetails),
-          useValue: mockRepository(),
-        },
-        {
-          provide: 'USER_DETAILS_REPOSITORY',
-          useExisting: getRepositoryToken(UserDetails),
-        },
-        {
           provide: getRepositoryToken(User),
           useValue: mockRepository(),
         },
@@ -112,9 +73,6 @@ describe('AuthService', () => {
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
-    userDetailsRepository = module.get<Repository<UserDetails>>(
-      getRepositoryToken(UserDetails),
-    );
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
     res = mockResponse();
   });
@@ -125,55 +83,6 @@ describe('AuthService', () => {
 
   it('authService should be defined', async () => {
     expect(authService).toBeDefined();
-  });
-
-  it('should return an array of user details', async () => {
-    jest
-      .spyOn(userDetailsRepository, 'find')
-      .mockResolvedValue(mockUserDetails);
-
-    result = await authService.findAllUserDetails();
-    expect(result).toEqual(mockUserDetails);
-  });
-
-  it('should create, add and return a new user details', async () => {
-    const createUserDetailsDto: CreateUserDetailsDto = {
-      id: mockUserDetailsDto.id,
-      earnings: mockUserDetailsDto.earnings,
-      country: mockUserDetailsDto.country,
-      name: mockUserDetailsDto.name,
-    };
-
-    jest
-      .spyOn(userDetailsRepository, 'create')
-      .mockReturnValue(createUserDetailsDto);
-    jest
-      .spyOn(userDetailsRepository, 'save')
-      .mockResolvedValue(createUserDetailsDto);
-
-    result = await authService.addNewUserDetails(createUserDetailsDto);
-
-    expect(userDetailsRepository.create).toHaveBeenCalledWith(
-      createUserDetailsDto,
-    );
-    expect(userDetailsRepository.save).toHaveBeenCalledWith(
-      createUserDetailsDto,
-    );
-    expect(result).toEqual(createUserDetailsDto);
-  });
-
-  it('should return the count by country result', async () => {
-    jest
-      .spyOn(userDetailsRepository, 'find')
-      .mockResolvedValue(mockUserDetails);
-
-    result = await authService.getUserCountByCountryDetails();
-
-    expect(userDetailsRepository.find).toHaveBeenCalled();
-    expect(result).toEqual({
-      Ukraine: 2,
-      Poland: 1,
-    });
   });
 
   // it('should return a user if found', async () => {

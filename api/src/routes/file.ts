@@ -52,7 +52,7 @@ file.get("/read", async (req: Request, res: Response, next: NextFunction) => {
 
 file.post(
   "/write",
-  body("data").notEmpty().withMessage(msg.DATE_IS_REQUIRED),
+  body().notEmpty().withMessage(msg.DATE_IS_REQUIRED),
   async (req: Request, res: Response, next: NextFunction) => {
     const err = validationResult(req);
     if (!err.isEmpty()) {
@@ -67,9 +67,9 @@ file.post(
       await validateAuthToken(authToken);
 
       const fileData = await getFileData(filePath);
-      const { data } = req.body;
+      const { body } = req;
 
-      fileData.push(data);
+      fileData.push(body);
 
       await writeFileData(filePath, fileData);
       return res
