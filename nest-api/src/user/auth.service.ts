@@ -7,7 +7,6 @@ import {
   ServiceUnavailableException,
   ConflictException,
   InternalServerErrorException,
-  HttpException,
 } from '@nestjs/common';
 import { config } from 'dotenv';
 import { Repository } from 'typeorm';
@@ -21,6 +20,8 @@ import {
   LoginUserDto,
 } from './dto/create-user.dto';
 import { msg } from '../constants/messages';
+import { nextError } from '../helpers/next.error';
+import { validateAuthToken } from '../utils/validate.token';
 
 config();
 
@@ -59,17 +60,6 @@ export class AuthService {
     }
   }
 
-  public async validateAuthToken(authToken: string): Promise<any> {
-    if (!authToken) {
-      throw new UnauthorizedException(msg.YOU_MUST_TO_LOGIN);
-    }
-    try {
-      return this.jwtService.verify(authToken);
-    } catch (error) {
-      throw new UnauthorizedException(msg.INVALID_OR_EXPIRED_TOKEN);
-    }
-  }
-
   public async createNewUser(
     createUserDto: CreateUserDto,
     res: Response,
@@ -98,18 +88,12 @@ export class AuthService {
         message: msg.USER_CREATED_SUCCESSFULLY,
       });
     } catch (error: any) {
-      console.error(error);
-
       res.clearCookie('authToken', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
       });
-
-      if (error instanceof HttpException || error.message) {
-        throw error;
-      }
-      throw new ServiceUnavailableException(msg.UNEXPECTED_ERROR);
+      nextError(error);
     }
   }
 
@@ -132,26 +116,18 @@ export class AuthService {
 
       return res.status(HttpStatus.OK).json(user);
     } catch (error: any) {
-      console.error(error);
-      if (error instanceof HttpException || error.message) {
-        throw error;
-      }
-      throw new ServiceUnavailableException(msg.UNEXPECTED_ERROR);
+      nextError(error);
     }
   }
 
   public async getAllUsers(req: Request): Promise<User[]> {
     try {
       const authToken = req?.cookies?.authToken;
-      await this.validateAuthToken(authToken);
+      await validateAuthToken(authToken);
 
       return await this.userRepository.find();
     } catch (error: any) {
-      console.error(error);
-      if (error instanceof HttpException || error.message) {
-        throw error;
-      }
-      throw new ServiceUnavailableException(msg.UNEXPECTED_ERROR);
+      nextError(error);
     }
   }
 
@@ -162,7 +138,7 @@ export class AuthService {
   ): Promise<any> {
     try {
       const authToken = req?.cookies?.authToken;
-      await this.validateAuthToken(authToken);
+      await validateAuthToken(authToken);
 
       const { email } = deleteUserDto;
       const { affected } = await this.userRepository.delete({ email });
@@ -176,11 +152,7 @@ export class AuthService {
         });
       }
     } catch (error: any) {
-      console.error(error);
-      if (error instanceof HttpException || error.message) {
-        throw error;
-      }
-      throw new ServiceUnavailableException(msg.UNEXPECTED_ERROR);
+      nextError(error);
     }
   }
 }

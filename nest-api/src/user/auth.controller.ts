@@ -6,7 +6,7 @@ import {
   DeleteUserDto,
   LoginUserDto,
 } from './dto/create-user.dto';
-import { User } from 'src/entities/user';
+import { User } from '../entities/user';
 
 @Controller('auth')
 export class AuthController {

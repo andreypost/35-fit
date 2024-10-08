@@ -1,10 +1,8 @@
 import {
-  HttpException,
   HttpStatus,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
-  ServiceUnavailableException,
 } from '@nestjs/common';
 import { readFile, writeFile } from 'fs/promises';
 import path from 'path';
@@ -15,12 +13,12 @@ import { CreateUserDetailsDto } from '../user/dto/create-user-details.dto';
 import { validateOrReject } from 'class-validator';
 import { countCountryEarnings } from '../helpers/user.collection';
 import { existsSync } from 'fs';
-import { AuthService } from '../user/auth.service';
 import { msg } from '../constants/messages';
+import { nextError } from '../helpers/next.error';
+import { validateAuthToken } from '../utils/validate.token';
 
 @Injectable()
 export class DetailService {
-  constructor(private readonly authService: AuthService) {}
   private userCollection: UserDetails[] = null;
   /*   private readonly filePath: string = path.join(
     process.cwd(),
@@ -39,7 +37,7 @@ export class DetailService {
   public async loadUserCollection(req: Request): Promise<UserDetails[]> {
     try {
       const authToken = req?.cookies?.authToken;
-      await this.authService.validateAuthToken(authToken);
+      await validateAuthToken(authToken);
       // if (this.userCollection) return this.userCollection;
       if (!existsSync(this.filePath)) {
         throw new InternalServerErrorException(
@@ -51,11 +49,8 @@ export class DetailService {
         await readFile(this.filePath, 'utf8'),
       ));
     } catch (error: any) {
-      console.error(error);
-      if (error instanceof HttpException || error.message) {
-        throw error;
-      }
-      throw new ServiceUnavailableException(msg.UNEXPECTED_ERROR);
+      nextError(error);
+      // throw error;
     }
   }
 
@@ -84,11 +79,7 @@ export class DetailService {
         ...createUserDetailsDto,
       });
     } catch (error: any) {
-      console.error(error);
-      if (error instanceof HttpException || error.message) {
-        throw error;
-      }
-      throw new ServiceUnavailableException(msg.UNEXPECTED_ERROR);
+      nextError(error);
     }
   }
 
@@ -107,11 +98,7 @@ export class DetailService {
         {} as Record<string, number>,
       ));
     } catch (error: any) {
-      console.error(error);
-      if (error instanceof HttpException || error.message) {
-        throw error;
-      }
-      throw new ServiceUnavailableException(msg.UNEXPECTED_ERROR);
+      nextError(error);
     }
   }
 
@@ -127,11 +114,7 @@ export class DetailService {
         this.userCollection,
       ));
     } catch (error: any) {
-      console.error(error);
-      if (error instanceof HttpException || error.message) {
-        throw error;
-      }
-      throw new ServiceUnavailableException(msg.UNEXPECTED_ERROR);
+      nextError(error);
     }
   }
 
@@ -144,11 +127,7 @@ export class DetailService {
       if (!user) throw new NotFoundException(`User with id ${id} not found.`);
       return user;
     } catch (error: any) {
-      console.error(error);
-      if (error instanceof HttpException || error.message) {
-        throw error;
-      }
-      throw new ServiceUnavailableException(msg.UNEXPECTED_ERROR);
+      nextError(error);
     }
   }
 }

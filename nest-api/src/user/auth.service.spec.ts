@@ -1,6 +1,8 @@
 import { TestingModule, Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { AuthService } from './auth.service';
+import { Request, Response } from 'express';
+import { validateAuthToken } from '../utils/validate.token';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -26,6 +28,8 @@ const mockUser = {
   checkPassword: jest.fn().mockResolvedValue(true),
 };
 
+jest.mock('../utils/validate.token');
+
 const mockRepository = () => ({
   find: jest.fn(),
   findOne: jest.fn(),
@@ -45,7 +49,7 @@ describe('AuthService', () => {
   };
 
   const mockResponse = () => {
-    const res = {} as any;
+    const res = {} as Partial<Response>;
     res.cookie = jest.fn().mockReturnValue(res);
     res.clearCookie = jest.fn().mockReturnValue(res);
     res.status = jest.fn().mockReturnValue(res);
@@ -154,4 +158,9 @@ describe('AuthService', () => {
     );
     expect(result).toBe(false);
   }); */
+  // it('should return all users', async () => {
+  //   const req: Partial<Request> = { cookies: { authToken: 'valid-token' } };
+  //   (validateAuthToken as jest.Mock).mockResolvedValueOnce(true);
+  //   expect(validateAuthToken).toHaveBeenCalledWith(req.cookies.authToken);
+  // });
 });
