@@ -1,6 +1,6 @@
 import {
-  BadRequestException,
   HttpException,
+  HttpStatus,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -8,10 +8,10 @@ import {
 } from '@nestjs/common';
 import { readFile, writeFile } from 'fs/promises';
 import path from 'path';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { UserDetails } from '../entities/user.details';
 import { CreateUserDetailsDto } from '../user/dto/create-user-details.dto';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import { validateOrReject } from 'class-validator';
 import { countCountryEarnings } from '../helpers/user.collection';
 import { existsSync } from 'fs';
@@ -43,7 +43,8 @@ export class DetailService {
       // if (this.userCollection) return this.userCollection;
       if (!existsSync(this.filePath)) {
         throw new InternalServerErrorException(
-          `File not found: ${this.filePath}`,
+          this.filePath,
+          msg.FILE_DOES_NOT_EXIST,
         );
       }
       return (this.userCollection = JSON.parse(
@@ -58,32 +59,30 @@ export class DetailService {
     }
   }
 
-  public async addNewUser(
+  public async addNewDetailsUser(
     req: Request,
     createUserDetailsDto: CreateUserDetailsDto,
-  ): Promise<UserDetails> {
+    res: Response,
+  ): Promise<any> {
     try {
       await validateOrReject(createUserDetailsDto);
-    } catch {
-      throw new BadRequestException('User data is malformed.');
-    }
-
-    await this.loadUserCollection(req);
-    const id: string = uuidv4();
-    const newUser: UserDetails = {
-      id,
-      ...createUserDetailsDto,
-    };
-
-    this.userCollection.push(newUser);
-    try {
+      await this.loadUserCollection(req);
+      this.userCollection.push(createUserDetailsDto);
+      // const id: string = uuidv4();
+      // const newUser: UserDetails = {
+      //   id,
+      //   ...createUserDetailsDto,
+      // };
       await writeFile(
         this.filePath,
         JSON.stringify(this.userCollection, null, 2),
       );
       this.usersCountCache = {};
       this.averageEarningsCache = {};
-      return newUser;
+      return res.status(HttpStatus.OK).json({
+        message: msg.FILE_WAS_WRITTEN_SUCCESSFULLY,
+        ...createUserDetailsDto,
+      });
     } catch (error: any) {
       console.error(error);
       if (error instanceof HttpException || error.message) {

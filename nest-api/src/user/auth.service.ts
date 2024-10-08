@@ -14,15 +14,12 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 import { Response, Request } from 'express';
-// import { UserDetails } from '../entities/user.details';
 import { User } from '../entities/user';
 import {
   CreateUserDto,
   DeleteUserDto,
   LoginUserDto,
 } from './dto/create-user.dto';
-// import { CreateUserDetailsDto } from './dto/create-user-details.dto';
-// import { countCountryEarnings } from '../helpers/user.collection';
 import { msg } from '../constants/messages';
 
 config();
@@ -159,9 +156,9 @@ export class AuthService {
   }
 
   public async deleteUserByEmail(
+    req: Request,
     deleteUserDto: DeleteUserDto,
     res: Response,
-    req: Request,
   ): Promise<any> {
     try {
       const authToken = req?.cookies?.authToken;

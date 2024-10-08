@@ -8,6 +8,8 @@ export const msg = {
   VALID_EMAIL_IS_REQUIRED: "Valid email is required!",
   PASSWORD_MUTS_BE_AT_LEAST: "Password must be at least 4 characters long!",
   PLEASE_ENTER_A_VALID_PHONE: "Please enter a valid phone number!",
+  ID_IS_REQUIRED: "Id is required!",
+  EARNINGS_IS_REQUIRED: "Earnings is required!",
   FAILED_TO_GENERATE_TOKEN: "Failed to generate auth token.",
   USER_CREATED_SUCCESSFULLY: "User created successfully!",
   USER_ALREADY_LOGGED_IN: "User already logged in!",
@@ -21,7 +23,7 @@ export const msg = {
   USER_DELETED_SUCCESSFULLY: "User deleted successfully!",
   USER_ALREADY_DELETED_OR_DOES_NOT_EXIST:
     "User already deleted or does not exist!",
-  DATE_IS_REQUIRED: "Data is required!",
+  FILE_DOES_NOT_EXIST: "File does not exist!",
   FILE_WAS_WRITTEN_SUCCESSFULLY: "File was written successfully!",
   EMAIL_ALREADY_EXIST: "Email already exists!",
   UNEXPECTED_ERROR: "An unexpected error occurred!",

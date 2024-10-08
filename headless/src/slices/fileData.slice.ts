@@ -34,6 +34,7 @@ export const fetchFileData = createAsyncThunk<UserData[]>(
       })
       return response.data
     } catch (error: any) {
+      console.error(error?.response?.data)
       return rejectWithValue(error.response?.data || 'Error fetching file data')
     }
   }

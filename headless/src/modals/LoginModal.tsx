@@ -200,17 +200,17 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
   ): Promise<void> => {
     e.preventDefault()
     dispatch(loginUserFromDatabase(loginData))
-    try {
-      // const response = await loginUser({
-      //   variables: {
-      //     email: 'test_08@email.com',
-      //     password: '9999',
-      //   },
-      // })
-      // console.log('/graphql loginUser:', response)
-    } catch (err: any) {
-      console.error(err?.response?.data)
-    }
+    /* try {
+      const response = await loginUser({
+        variables: {
+          email: 'test_08@email.com',
+          password: '9999',
+        },
+      })
+      console.log('/graphql loginUser:', response)
+    } catch (error: any) {
+      console.error(error?.response?.data)
+    } */
     if (process.env.NODE_ENV === 'production') {
       dispatch(unsetLoginModal())
       await new Promise((resolve) => {

@@ -1,10 +1,10 @@
 import path from "path";
 import { Router, Request, Response, NextFunction } from "express";
 import { validateAuthToken } from "../auth/jsonWebToken";
-import fs from "fs";
 import { getFileData, writeFileData } from "../helpers/fileStream";
 import { body, validationResult } from "express-validator";
 import { msg } from "../constants/messages";
+import { IFileUserDetails } from "../types/interface";
 
 const file = Router();
 
@@ -14,6 +14,8 @@ const filePath = path.resolve(
   __dirname,
   `../../${fileFolder}/user-collection.json`
 ); // __dirname is usually better because it is directly tied to the file structure
+
+let fileData: IFileUserDetails[] = [];
 
 file.get("/read", async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -32,18 +34,20 @@ file.get("/read", async (req: Request, res: Response, next: NextFunction) => {
     //     })
     // );
 
-    fs.access(
-      fileFolder,
-      (err) =>
-        err &&
-        next({
-          message: err.message,
-          status: 400,
-          type: "AccessFileDirError",
-        })
-    );
+    // fs.access(
+    //   fileFolder,
+    //   (err) =>
+    //     err &&
+    //     next({
+    //       message: err.message,
+    //       status: 400,
+    //       type: "AccessFolderDirError",
+    //     })
+    // );
 
-    const fileData = await getFileData(filePath);
+    if (!fileData?.length) {
+      fileData = await getFileData(filePath, next);
+    }
     return res.status(200).json(fileData);
   } catch (err: any) {
     next(err);
@@ -52,31 +56,39 @@ file.get("/read", async (req: Request, res: Response, next: NextFunction) => {
 
 file.post(
   "/write",
-  body().notEmpty().withMessage(msg.DATE_IS_REQUIRED),
+  body("id").isInt({ min: 1 }).withMessage(msg.ID_IS_REQUIRED),
+  body("earnings").notEmpty().withMessage(msg.EARNINGS_IS_REQUIRED),
+  body("country").notEmpty().withMessage(msg.COUNTRY_IS_REQUIRED),
+  body("name").notEmpty().withMessage(msg.NAME_IS_REQUIRED),
   async (req: Request, res: Response, next: NextFunction) => {
-    const err = validationResult(req);
-    if (!err.isEmpty()) {
-      next({
-        message: err.array(),
-        status: 400,
-        type: "ValidationDataError",
-      });
-    }
     try {
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken);
 
-      const fileData = await getFileData(filePath);
+      const err = validationResult(req);
+      if (!err.isEmpty()) {
+        next({
+          message: err.array(),
+          status: 400,
+          type: "ValidationDataError",
+        });
+      }
+
+      if (!fileData?.length) {
+        fileData = await getFileData(filePath, next);
+      }
+
       const { body } = req;
 
       fileData.push(body);
 
       await writeFileData(filePath, fileData);
+      fileData = [];
       return res
         .status(200)
         .json({ message: msg.FILE_WAS_WRITTEN_SUCCESSFULLY, success: true });
-    } catch (err: any) {
-      next(err);
+    } catch (error: any) {
+      next(error);
     }
   }
 );

@@ -89,14 +89,12 @@ export const TestingModule = ({ user }: IUser) => {
       const addFileData = await axios.post(
         `${process.env.API_URL}/file/write`,
         {
-          // data: {
-          id: Math.floor(100 + Math.random() * (200 - 100 + 1)),
+          id: Math.floor(200 + Math.random() * (1000 - 100 + 1)),
           earnings: `$${
             Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
           }`,
           country: countries[index],
           name: 'Andrii Postoliuk',
-          // },
         },
         {
           withCredentials: true,
@@ -104,30 +102,30 @@ export const TestingModule = ({ user }: IUser) => {
       )
       console.log('/file/write - write file data: ', addFileData.data)
 
-      // const getFileData = await axios.get(`${process.env.API_URL}/file/read`, {
-      //   withCredentials: true,
-      // })
-      // console.log('/file/read - read file data: ', getFileData.data.length)
+      const getFileData = await axios.get(`${process.env.API_URL}/file/read`, {
+        withCredentials: true,
+      })
+      console.log('/file/read - read file data: ', getFileData.data)
 
-      // const detailByCountry = await axios.get(
-      //   `${process.env.API_URL}/file/count-by-country`,
-      //   {
-      //     withCredentials: true,
-      //   }
-      // )
-      // console.log('/file/count-by-country: ', detailByCountry.data)
+      const detailByCountry = await axios.get(
+        `${process.env.API_URL}/file/count-by-country`,
+        {
+          withCredentials: true,
+        }
+      )
+      console.log('/file/count-by-country: ', detailByCountry.data)
 
-      // const detailByEarnings = await axios.get(
-      //   `${process.env.API_URL}/file/average-earnings-by-country`,
-      //   { withCredentials: true }
-      // )
-      // console.log('/file/average-earnings-by-country: ', detailByEarnings.data)
+      const detailByEarnings = await axios.get(
+        `${process.env.API_URL}/file/average-earnings-by-country`,
+        { withCredentials: true }
+      )
+      console.log('/file/average-earnings-by-country: ', detailByEarnings.data)
 
-      // const detailById = await axios.get(
-      //   `${process.env.API_URL}/file/users/${addFileData.data.id}`,
-      //   { withCredentials: true }
-      // )
-      // console.log('/file/users/id: ', detailById.data)
+      const detailById = await axios.get(
+        `${process.env.API_URL}/file/users/${addFileData.data.id}`,
+        { withCredentials: true }
+      )
+      console.log('/file/users/id: ', detailById.data)
     } catch (err: any) {
       console.error(err.response?.data)
     }

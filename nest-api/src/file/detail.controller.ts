@@ -3,11 +3,12 @@ import {
   Controller,
   Get,
   Req,
+  Res,
   Param,
   // ParseUUIDPipe,
   Post,
 } from '@nestjs/common';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { DetailService } from './detail.service';
 import { UserDetails } from '../entities/user.details';
 import { CreateUserDetailsDto } from '../user/dto/create-user-details.dto';
@@ -22,11 +23,12 @@ export class DetailController {
   }
 
   @Post('write')
-  async addNewUser(
+  async addNewDetailsUser(
     @Req() req: Request,
     @Body() createUserDetailsDto: CreateUserDetailsDto,
+    @Res() res: Response,
   ): Promise<UserDetails> {
-    return this.detailService.addNewUser(req, createUserDetailsDto);
+    return this.detailService.addNewDetailsUser(req, createUserDetailsDto, res);
   }
 
   @Get('count-by-country')

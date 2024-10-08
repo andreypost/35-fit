@@ -6,8 +6,6 @@ import {
   DeleteUserDto,
   LoginUserDto,
 } from './dto/create-user.dto';
-// import { CreateUserDetailsDto } from './dto/create-user-details.dto';
-// import { UserDetails } from '../entities/user.details';
 import { User } from 'src/entities/user';
 
 @Controller('auth')
@@ -37,10 +35,10 @@ export class AuthController {
 
   @Delete('delete-user-by-email')
   async deleteUserByEmail(
+    @Req() req: Request,
     @Body() deleteUserDto: DeleteUserDto,
     @Res() res: Response,
-    @Req() req: Request,
   ): Promise<any> {
-    return this.authService.deleteUserByEmail(deleteUserDto, res, req);
+    return this.authService.deleteUserByEmail(req, deleteUserDto, res);
   }
 }

@@ -30,6 +30,7 @@ export const loginUserFromDatabase = createAsyncThunk<
       console.log('/auth/login:', response.data)
       return response.data
     } catch (error: any) {
+      console.error(error?.response?.data)
       return rejectWithValue(error?.response?.data || 'Login failed')
     }
   }

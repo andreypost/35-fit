@@ -2,7 +2,8 @@ import { IsNotEmpty, IsUUID, IsOptional } from 'class-validator';
 
 export class CreateUserDetailsDto {
   // @IsUUID()
-  @IsOptional()
+  // @IsOptional()
+  @IsNotEmpty()
   id?: string;
 
   @IsNotEmpty()
