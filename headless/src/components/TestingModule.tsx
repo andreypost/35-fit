@@ -86,46 +86,46 @@ export const TestingModule = ({ user }: IUser) => {
 
   const fileRoutes = async () => {
     try {
-      const addFileData = await axios.post(
-        `${process.env.API_URL}/file/write`,
-        {
-          id: Math.floor(200 + Math.random() * (1000 - 100 + 1)),
-          earnings: `$${
-            Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
-          }`,
-          country: countries[index],
-          name: 'Andrii Postoliuk',
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      console.log('/file/write - write file data: ', addFileData.data)
+      // const addFileData = await axios.post(
+      //   `${process.env.API_URL}/file/write`,
+      //   {
+      //     id: Math.floor(200 + Math.random() * (1000 - 100 + 1)),
+      //     earnings: `$${
+      //       Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
+      //     }`,
+      //     country: countries[index],
+      //     name: 'Andrii Postoliuk',
+      //   },
+      //   {
+      //     withCredentials: true,
+      //   }
+      // )
+      // console.log('/file/write - write file data: ', addFileData.data)
 
       const getFileData = await axios.get(`${process.env.API_URL}/file/read`, {
         withCredentials: true,
       })
       console.log('/file/read - read file data: ', getFileData.data)
 
-      const detailByCountry = await axios.get(
-        `${process.env.API_URL}/file/count-by-country`,
-        {
-          withCredentials: true,
-        }
-      )
-      console.log('/file/count-by-country: ', detailByCountry.data)
+      // const detailByCountry = await axios.get(
+      //   `${process.env.API_URL}/file/count-by-country`,
+      //   {
+      //     withCredentials: true,
+      //   }
+      // )
+      // console.log('/file/count-by-country: ', detailByCountry.data)
 
-      const detailByEarnings = await axios.get(
-        `${process.env.API_URL}/file/average-earnings-by-country`,
-        { withCredentials: true }
-      )
-      console.log('/file/average-earnings-by-country: ', detailByEarnings.data)
+      // const detailByEarnings = await axios.get(
+      //   `${process.env.API_URL}/file/average-earnings-by-country`,
+      //   { withCredentials: true }
+      // )
+      // console.log('/file/average-earnings-by-country: ', detailByEarnings.data)
 
-      const detailById = await axios.get(
-        `${process.env.API_URL}/file/users/${addFileData.data.id}`,
-        { withCredentials: true }
-      )
-      console.log('/file/users/id: ', detailById.data)
+      // const detailById = await axios.get(
+      //   `${process.env.API_URL}/file/users/${addFileData.data.id}`,
+      //   { withCredentials: true }
+      // )
+      // console.log('/file/users/id: ', detailById.data)
     } catch (err: any) {
       console.error(err.response?.data)
     }
@@ -205,6 +205,7 @@ export const TestingModule = ({ user }: IUser) => {
       {fileListError && <p>{fileListError?.message}</p>}
       {user && fileSortedList?.length > 0 && (
         <ol>
+          <p>Users: {fileSortedList.length}</p>
           {fileSortedList.map(
             ({ name, country, earnings }: UserData, index: any) => (
               <Fragment key={index}>
@@ -219,35 +220,15 @@ export const TestingModule = ({ user }: IUser) => {
         </ol>
       )}
       <form id="testingForm" className="flex_str_col" onSubmit={handleTesting}>
-        <input
-          type="email"
-          name="login"
-          value={email}
-          className="grey_button blue"
-          placeholder="enter data"
-          onChange={(e) => setEmail(e.target.value)}
-          // required
-        />
-
-        <input
-          type="password"
-          name="password"
-          value={password}
-          className="grey_button part_radius blue"
-          placeholder="enter data"
-          onChange={(e) => setPassword(e.target.value)}
-          // required
-        />
-
         <button type="submit" className="grey_button grey">
           GO
         </button>
-        {/* <ImagesList categoryImages="Coffee" /> */}
+        <ImagesList categoryImages="Coffee" />
         <p
           className="grey_button grey"
           onClick={() => setSelectedImageId(Number(!selectedImageId))}
         >
-          show image
+          Show the image with GraphQl query
         </p>
         {selectedImageId > 0 && (
           <>

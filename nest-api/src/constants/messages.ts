@@ -21,6 +21,7 @@ export const msg = {
   YOU_MUST_TO_LOGIN: 'You must login first!',
   IMAGES_NOT_FOUND: 'Images not found.',
   USER_DELETED_SUCCESSFULLY: 'User deleted successfully!',
+  TOKEN_WAS__DELETED_SUCCESSFULLY: 'Token was deleted successfully!',
   USER_ALREADY_DELETED_OR_DOES_NOT_EXIST:
     'User already deleted or does not exist!',
   FILE_DOES_NOT_EXIST: 'File does not exist!',

@@ -111,8 +111,16 @@ const Main = styled.main`
         }
       }
       .additional_forms {
+        width: 100%;
         justify-content: space-between;
         align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 40px;
+        button,
+        input {
+          width: 100%;
+          max-width: 360px;
+        }
       }
     }
   }

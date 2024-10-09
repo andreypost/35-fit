@@ -42,8 +42,14 @@ export const setAuthToken = async (
 
 export const verifyToken = async (authToken: string): Promise<any> => {
   try {
-    verify(authToken, SECRET_JWT_KEY);
-    return { message: msg.USER_ALREADY_LOGGED_IN, success: true };
+    const decoded = verify(authToken, SECRET_JWT_KEY);
+    if (decoded && typeof decoded !== "string") {
+      return {
+        message: msg.USER_ALREADY_LOGGED_IN,
+        success: true,
+        email: decoded.email,
+      };
+    }
   } catch (error) {
     return { message: msg.INVALID_OR_EXPIRED_TOKEN, success: false };
   }
@@ -53,17 +59,16 @@ export const validateAuthToken = async (authToken: string): Promise<any> => {
   if (!authToken) {
     throw new CustomErrorHandler(msg.YOU_MUST_TO_LOGIN, 401, "LoginError");
   }
-  const { message, success } = await verifyToken(authToken);
+  const { message, success, email } = await verifyToken(authToken);
   if (!success) {
     throw new CustomErrorHandler(message, 401, "ValidationTokenError");
+  } else if (success) {
+    return { message: msg.USER_ALREADY_LOGGED_IN, success: true, email };
   }
 };
 
-export const deleteAuthToken = async (
-  res: any,
-  authToken: string
-): Promise<any> => {
-  return res.clearCookie(authToken, {
+export const deleteAuthToken = async (res: any): Promise<any> => {
+  return res.clearCookie("authToken", {
     httpOnly: true,
     secure: env.NODE_ENV === "production",
     sameSite: "strict",

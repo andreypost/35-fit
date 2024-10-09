@@ -8,7 +8,7 @@ import { NavigationLinks } from 'components/NavigationLinks'
 import { profileLinks } from 'utils/routes.constants'
 import { IFirebaseProps } from 'types/interface'
 import { User } from 'components/User'
-import { logoutDatabaseUser } from 'slices/databaseUser.slice'
+import { logoutUserWithAuthToken } from 'slices/databaseUser.slice'
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -75,7 +75,7 @@ export const DashboardModal = ({
             className="signout grey"
             onClick={() => (
               firebaseAuth.signOut(),
-              dispatch(logoutDatabaseUser()),
+              dispatch(logoutUserWithAuthToken()),
               dispatch(unsetDashModal())
             )}
           >

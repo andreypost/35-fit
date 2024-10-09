@@ -5,7 +5,6 @@ import {
   deleteAuthToken,
   setAuthToken,
   validateAuthToken,
-  // verifyToken,
 } from "../auth/jsonWebToken";
 import { userRepository } from "../config/database";
 import { msg } from "../constants/messages";
@@ -73,16 +72,16 @@ auth.post(
       res
         .status(201)
         .json({ message: msg.USER_CREATED_SUCCESSFULLY, success: true });
-    } catch (err: any) {
-      await deleteAuthToken(res, "authToken");
-      if (err.code === "23505") {
+    } catch (error: any) {
+      await deleteAuthToken(res);
+      if (error.code === "23505") {
         next({
           message: msg.EMAIL_ALREADY_EXIST,
           status: 400,
           type: "DatabaseValidationError",
         });
       } else {
-        next(err);
+        next(error);
       }
     }
   }
@@ -129,8 +128,8 @@ auth.post(
         await setAuthToken(user.id, user.email, res);
         res.status(201).json(user);
       }
-    } catch (err: any) {
-      next(err);
+    } catch (error: any) {
+      next(error);
     }
   }
 );
@@ -147,8 +146,8 @@ auth.get(
         select: ["name", "age", "email"],
       });
       res.status(200).json(users);
-    } catch (err: any) {
-      next(err);
+    } catch (error: any) {
+      next(error);
     }
   }
 );
@@ -173,7 +172,7 @@ auth.delete(
       const { affected } = await userRepository.delete({ email });
 
       if (affected) {
-        // await deleteAuthToken(res, "authToken"); // probably do not need
+        // await deleteAuthToken(res); // probably do not need
         return res
           .status(200)
           .json({ message: msg.USER_DELETED_SUCCESSFULLY, success: true });
@@ -184,8 +183,48 @@ auth.delete(
           type: "DeletionError",
         });
       }
-    } catch (err: any) {
-      next(err);
+    } catch (error: any) {
+      next(error);
+    }
+  }
+);
+
+auth.get(
+  "/validate",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const authToken = req?.cookies?.authToken;
+      const { email } = await validateAuthToken(authToken);
+
+      const user = await userRepository.findOne({
+        where: { email },
+      });
+
+      if (!user) {
+        await deleteAuthToken(res);
+        return next({
+          message: msg.USER_NOT_FOUND,
+          status: 404,
+          type: "FindUserError",
+        });
+      }
+      return res.status(200).json(user);
+    } catch (error: any) {
+      next(error);
+    }
+  }
+);
+
+auth.post(
+  "/logout",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await deleteAuthToken(res);
+      return res
+        .status(200)
+        .json({ message: msg.TOKEN_WAS__DELETED_SUCCESSFULLY, success: true });
+    } catch (error: any) {
+      next(error);
     }
   }
 );

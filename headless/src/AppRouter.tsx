@@ -6,7 +6,7 @@ import {
   useState,
   useDebugValue,
 } from 'react'
-
+import { onAuthStateChanged } from 'firebase/auth'
 import {
   HashRouter,
   // BrowserRouter,
@@ -25,8 +25,12 @@ import { LoginModal } from 'modals/LoginModal'
 import { MessageModal } from 'modals/MessageModal'
 import { DashboardModal } from 'modals/DashboardModal'
 import { IAppConfig } from 'types/interface'
-import { GetCurrentWindowScroll, useAppSelector } from 'utils/hooks'
-import { setDatabaseUser } from 'slices/databaseUser.slice'
+import {
+  GetCurrentWindowScroll,
+  useAppDispatch,
+  useAppSelector,
+} from 'utils/hooks'
+import { setDatabaseUser, validateAuthToken } from 'slices/databaseUser.slice'
 // import { createBrowserHistory } from 'history'
 // const history = createBrowserHistory()
 // console.log(history.location.pathname)
@@ -45,7 +49,9 @@ const AppRouter = () => {
     ),
     winScroll = GetCurrentWindowScroll(),
     [footerContent, setFooterContent] = useState(false),
-    { databaseUser } = useAppSelector(setDatabaseUser)
+    { databaseUser } = useAppSelector(setDatabaseUser),
+    [firebaseLoading, setFirebaseLoading] = useState(true),
+    dispatch = useAppDispatch()
 
   useEffect(() => {
     window.onstorage = (e: StorageEvent) => {
@@ -57,12 +63,25 @@ const AppRouter = () => {
   }, [])
 
   useEffect(() => {
-    winScroll > 80 && setFooterContent(true)
-  }, [winScroll])
+    const unsubscribe = onAuthStateChanged(firebaseAuth, () =>
+      setFirebaseLoading(false)
+    )
+    return () => unsubscribe()
+  }, [])
 
   const user = firebaseUser || databaseUser
 
   useDebugValue(user)
+
+  useEffect(() => {
+    if (!user && !firebaseLoading) {
+      dispatch(validateAuthToken())
+    }
+  }, [user, firebaseLoading, dispatch])
+
+  useEffect(() => {
+    winScroll > 80 && setFooterContent(true)
+  }, [winScroll])
 
   return (
     <AppContext.Provider value={{ language, setLanguage }}>
