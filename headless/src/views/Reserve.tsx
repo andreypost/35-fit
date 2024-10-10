@@ -1,13 +1,13 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-// import './Training.scss'
-// import { Link } from 'react-router-dom'
 import { HeaderBanner } from 'HeaderBanner'
 import axios from 'axios'
 import { IAuth, IUser } from 'types/interface'
 import { PercentReserveSVG } from 'img/icons'
 import { TestingModule } from 'components/TestingModule'
+import { useAppDispatch } from 'utils/hooks'
+import { validateAuthToken } from 'slices/databaseUser.slice'
 
 const Main = styled.main`
   /* .reserve_banner { */
@@ -190,7 +190,8 @@ const Reserve = ({ user }: IUser) => {
       emergencyName: '',
       emergencyPhone: '',
     }),
-    [users, setAllUsers] = useState<IAuth[]>([])
+    [users, setAllUsers] = useState<IAuth[]>([]),
+    dispatch = useAppDispatch()
 
   const genderOptions = [
     { value: '', label: 'Select Gender' },
@@ -212,7 +213,6 @@ const Reserve = ({ user }: IUser) => {
     { value: 'Warsaw', label: 'Warsaw' },
     { value: 'Seattle', label: 'Seattle' },
   ]
-  // useEffect(() => {}, [])
 
   const handleChangeAuthData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -235,6 +235,7 @@ const Reserve = ({ user }: IUser) => {
         { withCredentials: true }
       )
       console.log('createNewUser: ', createNewUser)
+      dispatch(validateAuthToken())
     } catch (error: any) {
       console.error(error?.response?.data)
     }

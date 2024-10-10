@@ -223,13 +223,13 @@ export const TestingModule = ({ user }: IUser) => {
         <button type="submit" className="grey_button grey">
           GO
         </button>
-        <ImagesList categoryImages="Coffee" />
+        {/* <ImagesList categoryImages="Coffee" />
         <p
           className="grey_button grey"
           onClick={() => setSelectedImageId(Number(!selectedImageId))}
         >
           Show the image with GraphQl query
-        </p>
+        </p> */}
         {selectedImageId > 0 && (
           <>
             {imageLoading && <p>Loading image details...</p>}

@@ -55,12 +55,16 @@ export const verifyToken = async (authToken: string): Promise<any> => {
   }
 };
 
-export const validateAuthToken = async (authToken: string): Promise<any> => {
+export const validateAuthToken = async (
+  authToken: string,
+  res: any
+): Promise<any> => {
   if (!authToken) {
     throw new CustomErrorHandler(msg.YOU_MUST_TO_LOGIN, 401, "LoginError");
   }
   const { message, success, email } = await verifyToken(authToken);
   if (!success) {
+    deleteAuthToken(res);
     throw new CustomErrorHandler(message, 401, "ValidationTokenError");
   } else if (success) {
     return { message: msg.USER_ALREADY_LOGGED_IN, success: true, email };

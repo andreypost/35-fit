@@ -65,8 +65,8 @@ export const QuerySchema = new GraphQLObjectType({
       args: {
         imageId: { type: GraphQLInt },
       },
-      resolve: async (parent, { imageId }, { authToken }) => {
-        await validateAuthToken(authToken);
+      resolve: async (_, { imageId }, { authToken, res }) => {
+        await validateAuthToken(authToken, res);
 
         const image = imagesData.find(({ id }) => id === imageId);
         if (!image) {
@@ -85,8 +85,8 @@ export const QuerySchema = new GraphQLObjectType({
       args: {
         categoryImages: { type: GraphQLString },
       },
-      resolve: async (parent, { categoryImages }, { authToken }) => {
-        await validateAuthToken(authToken);
+      resolve: async (_, { categoryImages }, { authToken, res }) => {
+        await validateAuthToken(authToken, res);
 
         const images = imagesData.filter(
           ({ category }) =>

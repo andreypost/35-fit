@@ -140,7 +140,7 @@ auth.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const authToken = req?.cookies?.authToken;
-      await validateAuthToken(authToken);
+      await validateAuthToken(authToken, res);
 
       const users = await userRepository.find({
         select: ["name", "age", "email"],
@@ -166,7 +166,7 @@ auth.delete(
     }
     try {
       const authToken = req?.cookies?.authToken;
-      await validateAuthToken(authToken);
+      await validateAuthToken(authToken, res);
 
       const { email } = req.body;
       const { affected } = await userRepository.delete({ email });
@@ -194,7 +194,7 @@ auth.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const authToken = req?.cookies?.authToken;
-      const { email } = await validateAuthToken(authToken);
+      const { email } = await validateAuthToken(authToken, res);
 
       const user = await userRepository.findOne({
         where: { email },

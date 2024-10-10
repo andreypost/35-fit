@@ -166,7 +166,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     { t } = useTranslation(),
     [loginData, setLoginData] = useState({
       email: '',
-      password: '',
+      password: '9999',
     }),
     [checkState, setCheckState] = useState(false),
     [loginUser] = useMutation(LOGIN_USER, {
@@ -262,7 +262,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
             className="grey_button part_radius blue"
             placeholder={t('enter_password')}
             onChange={handleChangeLoginData}
-            required
+            // required
           />
           <label htmlFor="radio" className="flex_center grey_label check_box">
             <input
