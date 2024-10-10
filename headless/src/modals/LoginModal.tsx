@@ -167,8 +167,8 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     [loginData, setLoginData] = useState({
       email: '',
       password: '9999',
+      keepLoggedIn: false,
     }),
-    [checkState, setCheckState] = useState(false),
     [loginUser] = useMutation(LOGIN_USER, {
       context: { credentials: 'include' },
       onError: (error) => {
@@ -188,10 +188,11 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
   const handleChangeLoginData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target
+    const target = e.target as HTMLInputElement
+    const { name, value, type, checked } = target
     setLoginData({
       ...loginData,
-      [name]: value,
+      [name]: type === 'checkbox' ? checked : value,
     })
   }
 
@@ -266,14 +267,16 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
             onChange={handleChangeLoginData}
             // required
           />
-          <label htmlFor="radio" className="flex_center grey_label check_box">
+          <label
+            htmlFor="checkbox"
+            className="flex_center grey_label check_box"
+          >
             <input
-              type="radio"
-              name="radio"
+              type="checkbox"
+              name="keepLoggedIn"
               className="grey_button absolute"
-              checked={checkState}
-              readOnly
-              onClick={() => setCheckState(!checkState)}
+              // checked={loginData.keepLoggedIn}
+              onChange={handleChangeLoginData}
             />
             <span className="checkmark flex_center_center" />
             {t('keep_me_logged_in')}

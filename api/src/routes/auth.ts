@@ -105,7 +105,7 @@ auth.post(
     }
 
     try {
-      const { email, password } = req.body;
+      const { email, password, keepLoggedIn } = req.body;
       const user = await userRepository.findOne({
         where: { email },
       });
@@ -125,7 +125,7 @@ auth.post(
           });
         }
 
-        await setAuthToken(user.id, user.email, res);
+        await setAuthToken(user.id, user.email, res, keepLoggedIn);
         return res.status(201).json(user);
       }
     } catch (error: any) {

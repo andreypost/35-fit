@@ -4,11 +4,16 @@ import { CustomErrorHandler } from "../middleware/errorHandler";
 import { msg } from "../constants/messages";
 import { SECRET_JWT_KEY } from "../constants/secrets";
 
-export const expiresIn = 3600000; // one hour
+export const expiresInHour = 3600000; // one hour
+export const expiresInMonth = 2600000000; // one hour
 
-export const generateToken = async (payload: any): Promise<string> => {
+export const generateToken = async (
+  payload: any,
+  keepLoggedIn: boolean
+): Promise<string> => {
+  console.log("keepLoggedIn: ", keepLoggedIn);
   const options = {
-    expiresIn: expiresIn,
+    expiresIn: keepLoggedIn ? expiresInMonth : expiresInHour,
   };
   return sign(payload, SECRET_JWT_KEY, options);
 };
@@ -16,12 +21,16 @@ export const generateToken = async (payload: any): Promise<string> => {
 export const setAuthToken = async (
   id: string | number | undefined,
   email: string,
-  res: any
+  res: any,
+  keepLoggedIn: boolean = false
 ): Promise<any> => {
-  const authToken = await generateToken({
-    userId: id,
-    email: email,
-  });
+  const authToken = await generateToken(
+    {
+      userId: id,
+      email: email,
+    },
+    keepLoggedIn
+  );
 
   if (!authToken) {
     throw new CustomErrorHandler(
@@ -35,7 +44,7 @@ export const setAuthToken = async (
     httpOnly: true,
     secure: env.NODE_ENV === "production",
     sameSite: "strict",
-    maxAge: expiresIn,
+    maxAge: keepLoggedIn ? expiresInMonth : expiresInHour,
     // path: "/",
   });
 };
