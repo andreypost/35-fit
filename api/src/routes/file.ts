@@ -50,7 +50,7 @@ file.get("/read", async (req: Request, res: Response, next: NextFunction) => {
     }
     return res.status(200).json(fileData);
   } catch (err: any) {
-    next(err);
+    return next(err);
   }
 });
 
@@ -67,7 +67,7 @@ file.post(
 
       const err = validationResult(req);
       if (!err.isEmpty()) {
-        next({
+        return next({
           message: err.array(),
           status: 400,
           type: "ValidationDataError",
@@ -88,7 +88,7 @@ file.post(
         .status(200)
         .json({ message: msg.FILE_WAS_WRITTEN_SUCCESSFULLY, success: true });
     } catch (error: any) {
-      next(error);
+      return next(error);
     }
   }
 );

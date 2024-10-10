@@ -31,7 +31,7 @@ auth.post(
   async (req: Request, res: Response, next: NextFunction) => {
     const err = validationResult(req);
     if (!err.isEmpty()) {
-      next({
+      return next({
         message: err.array(),
         status: 400,
         type: "ValidationDataError",
@@ -75,13 +75,13 @@ auth.post(
     } catch (error: any) {
       await deleteAuthToken(res);
       if (error.code === "23505") {
-        next({
+        return next({
           message: msg.EMAIL_ALREADY_EXIST,
           status: 400,
           type: "DatabaseValidationError",
         });
       } else {
-        next(error);
+        return next(error);
       }
     }
   }
@@ -97,7 +97,7 @@ auth.post(
   async (req: Request, res: Response, next: NextFunction) => {
     const err = validationResult(req);
     if (!err.isEmpty()) {
-      next({
+      return next({
         message: err.array(),
         status: 400,
         type: "ValidationDataError",
@@ -110,7 +110,7 @@ auth.post(
         where: { email },
       });
       if (!user) {
-        next({
+        return next({
           message: msg.USER_NOT_FOUND,
           status: 404,
           type: "FindUserError",
@@ -118,7 +118,7 @@ auth.post(
       } else {
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-          next({
+          return next({
             message: msg.INVALID_CREDENTIALS,
             status: 401,
             type: "CredentialsError",
@@ -126,10 +126,10 @@ auth.post(
         }
 
         await setAuthToken(user.id, user.email, res);
-        res.status(201).json(user);
+        return res.status(201).json(user);
       }
     } catch (error: any) {
-      next(error);
+      return next(error);
     }
   }
 );
@@ -145,9 +145,9 @@ auth.get(
       const users = await userRepository.find({
         select: ["name", "age", "email"],
       });
-      res.status(200).json(users);
+      return res.status(200).json(users);
     } catch (error: any) {
-      next(error);
+      return next(error);
     }
   }
 );
@@ -158,7 +158,7 @@ auth.delete(
   async (req: Request, res: Response, next: NextFunction) => {
     const err = validationResult(req);
     if (!err.isEmpty()) {
-      next({
+      return next({
         message: err.array(),
         status: 400,
         type: "ValidationDataError",
@@ -177,14 +177,14 @@ auth.delete(
           .status(200)
           .json({ message: msg.USER_DELETED_SUCCESSFULLY, success: true });
       } else {
-        next({
+        return next({
           message: msg.USER_ALREADY_DELETED_OR_DOES_NOT_EXIST,
           status: 404,
           type: "DeletionError",
         });
       }
     } catch (error: any) {
-      next(error);
+      return next(error);
     }
   }
 );
@@ -210,7 +210,7 @@ auth.get(
       }
       return res.status(200).json(user);
     } catch (error: any) {
-      next(error);
+      return next(error);
     }
   }
 );
@@ -224,7 +224,7 @@ auth.post(
         .status(200)
         .json({ message: msg.TOKEN_WAS__DELETED_SUCCESSFULLY, success: true });
     } catch (error: any) {
-      next(error);
+      return next(error);
     }
   }
 );
