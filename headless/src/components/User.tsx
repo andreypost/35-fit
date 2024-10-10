@@ -33,23 +33,15 @@ const Div = styled.div`
   &.header_nav {
     @media (max-width: 1023px) {
       width: 120px;
-      /* justify-content: center; */
-      /* .user_name {
-        display: none;
-      } */
     }
-    /* @media (min-width: 1024px) { */
     width: 140px;
     padding-left: 8px;
     padding-right: 2px;
     justify-content: space-between;
-    /* } */
     &.loggedIn {
-      @media (min-width: 1024px) {
-        justify-content: center;
-        .user_face {
-          display: none;
-        }
+      justify-content: center;
+      .user_face {
+        display: none;
       }
     }
   }

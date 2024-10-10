@@ -11,12 +11,6 @@ import { validateAuthToken } from 'slices/databaseUser.slice'
 import { messageModal } from 'slices/modal.slice'
 
 const Main = styled.main`
-  /* .reserve_banner { */
-  /* padding-top: 40px;
-    padding-bottom: 40px;
-    background: url(${require('../img/patterns/pattern_bg_footer_banner.webp')})
-      center 30% / contain no-repeat; */
-  /* } */
   .reserver {
     .reserve_article {
       header {
