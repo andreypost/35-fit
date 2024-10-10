@@ -117,5 +117,9 @@
     "Careers": "Karjäär",
     "Privacy": "Privaatsuspoliitika",
     "Terms": "Tingimused"
+  },
+  "messages": {
+    "sorry_but_it_is_not_possible": "Kahjuks ei ole praegu võimalik andmeid saata. Proovige hiljem uuesti!",
+    "your_account_was_created": "Teie konto on loodud ja tellimine õnnestus!"
   }
 }

@@ -6,7 +6,7 @@ import { RESERVE_ROUTE } from 'utils/routes.constants'
 import { useAppSelector, useAppDispatch } from 'utils/hooks'
 import { BaseDiv } from './MenuModal'
 import {
-  messageErrorModal,
+  messageModal,
   selectLoginModalActive,
   unsetLoginModal,
 } from 'slices/modal.slice'
@@ -215,7 +215,9 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
       dispatch(unsetLoginModal())
       await new Promise((resolve) => {
         setTimeout(() => {
-          resolve(dispatch(messageErrorModal()))
+          resolve(
+            dispatch(messageModal(t('messages.sorry_but_it_is_not_possible')))
+          )
         }, 1500)
       })
     }

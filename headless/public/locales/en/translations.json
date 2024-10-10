@@ -117,5 +117,9 @@
     "Careers": "Careers",
     "Privacy": "Privacy policy",
     "Terms": "Terms and conditions"
+  },
+  "messages": {
+    "sorry_but_it_is_not_possible": "Sorry, but it is not possible to send data at this time. Please try again later!",
+    "your_account_was_created": "Your account was created and successfully subscribed!"
   }
 }

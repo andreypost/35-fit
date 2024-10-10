@@ -7,7 +7,6 @@ import { LoginModal } from './LoginModal'
 import {
   selectLoginModalActive,
   unsetLoginModal,
-  messageErrorModal,
 } from 'slices/modal.slice'
 import { loginUserFromDatabase } from 'slices/databaseUser.slice'
 import { LOGIN_USER } from 'queries'

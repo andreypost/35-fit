@@ -8,6 +8,7 @@ import { PercentReserveSVG } from 'img/icons'
 import { TestingModule } from 'components/TestingModule'
 import { useAppDispatch } from 'utils/hooks'
 import { validateAuthToken } from 'slices/databaseUser.slice'
+import { messageModal } from 'slices/modal.slice'
 
 const Main = styled.main`
   /* .reserve_banner { */
@@ -236,6 +237,7 @@ const Reserve = ({ user }: IUser) => {
       )
       console.log('createNewUser: ', createNewUser)
       dispatch(validateAuthToken())
+      dispatch(messageModal(t('messages.your_account_was_created')))
     } catch (error: any) {
       console.error(error?.response?.data)
     }

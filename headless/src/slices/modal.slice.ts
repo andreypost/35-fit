@@ -38,14 +38,9 @@ export const modalSlice = createSlice({
       state.dashActive = ''
       state.burger = ''
     },
-    messageSuccessModal: (state) => {
-      ;(state.messageActive = 'messageActive'),
-        (state.messageValue = 'You have successfully subscribed!.')
-    },
-    messageErrorModal: (state) => {
-      ;(state.messageActive = 'messageActive'),
-        (state.messageValue =
-          'Sorry, but it is not possible to send data at this time. Please try again later!')
+    messageModal: (state, action) => {
+      state.messageActive = 'messageActive'
+      state.messageValue = action.payload
     },
     unsetMessageModal: (state) => {
       state.messageActive = ''
@@ -70,8 +65,7 @@ export const {
   dashModal,
   unsetDashModal,
   unsetAllModal,
-  messageSuccessModal,
-  messageErrorModal,
+  messageModal,
   unsetMessageModal,
 } = modalSlice.actions
 

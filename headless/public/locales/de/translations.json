@@ -117,5 +117,9 @@
     "Careers": "Karriere",
     "Privacy": "Datenschutz-Bestimmungen",
     "Terms": "Geschäftsbedingungen"
+  },
+  "messages": {
+    "sorry_but_it_is_not_possible": "Leider ist es derzeit nicht möglich, Daten zu senden. Bitte versuchen Sie es später noch einmal!",
+    "your_account_was_created": "Ihr Konto wurde erstellt und erfolgreich angemeldet!"
   }
 }
