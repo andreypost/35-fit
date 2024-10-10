@@ -42,6 +42,7 @@ app.use("/auth", auth);
 app.use("/file", file);
 
 const startApolloServer = async () => {
+  console.time();
   const apolloServer = new ApolloServer({
     schema: new GraphQLSchema({
       query: QuerySchema,
@@ -50,6 +51,7 @@ const startApolloServer = async () => {
   });
 
   await apolloServer.start();
+  console.timeEnd();
   return app.use(
     "/graphql",
     expressMiddleware(apolloServer, {
@@ -72,20 +74,3 @@ app.use(errorHandler);
 app.listen(PORT, HOST, () =>
   console.log(`Server is running on port http://${HOST}:${PORT}`)
 );
-
-// import sequelize from "./config/database";
-
-// const startServer = async () => {
-//   try {
-//     await sequelize.authenticate();
-//     console.log("Connection has been established successfully.");
-
-//     app.listen(PORT, HOST, () => {
-//       console.log(`Server is running on http://${HOST}:${PORT}`);
-//     });
-//   } catch (err) {
-//     console.error("Unable to connect to the database:", err);
-//   }
-// };
-
-// startServer();

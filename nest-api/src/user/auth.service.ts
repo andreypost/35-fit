@@ -21,7 +21,7 @@ import {
 } from './dto/create-user.dto';
 import { msg } from '../constants/messages';
 import { nextError } from '../helpers/next.error';
-import { validateAuthToken } from '../utils/validate.token';
+import { deleteAuthToken, validateAuthToken } from '../utils/validate.token';
 
 config();
 
@@ -88,11 +88,7 @@ export class AuthService {
         message: msg.USER_CREATED_SUCCESSFULLY,
       });
     } catch (error: any) {
-      res.clearCookie('authToken', {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-      });
+      await deleteAuthToken(res);
       nextError(error);
     }
   }
@@ -151,6 +147,36 @@ export class AuthService {
           message: msg.USER_ALREADY_DELETED_OR_DOES_NOT_EXIST,
         });
       }
+    } catch (error: any) {
+      nextError(error);
+    }
+  }
+
+  public async validateUserByAuthToken(
+    req: Request,
+    res: Response,
+  ): Promise<any> {
+    try {
+      const authToken = req?.cookies?.authToken;
+      const email = await validateAuthToken(authToken);
+
+      const user = await this.findUserByEmail(email);
+      if (!user) {
+        await deleteAuthToken(res);
+        throw new NotFoundException(msg.USER_NOT_FOUND);
+      }
+      return res.status(HttpStatus.OK).json(user);
+    } catch (error: any) {
+      nextError(error);
+    }
+  }
+
+  public async logoutUser(res: Response): Promise<any> {
+    try {
+      await deleteAuthToken(res);
+      return res
+        .status(HttpStatus.OK)
+        .json({ message: msg.TOKEN_WAS__DELETED_SUCCESSFULLY, success: true });
     } catch (error: any) {
       nextError(error);
     }

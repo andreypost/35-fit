@@ -41,4 +41,17 @@ export class AuthController {
   ): Promise<any> {
     return this.authService.deleteUserByEmail(req, deleteUserDto, res);
   }
+
+  @Get('validate')
+  async validateUserByAuthToken(
+    @Req() req: Request,
+    @Res() res: Response,
+  ): Promise<any> {
+    return this.authService.validateUserByAuthToken(req, res);
+  }
+
+  @Post('logout')
+  async logoutUser(@Res() res: Response): Promise<any> {
+    return this.authService.logoutUser(res);
+  }
 }
