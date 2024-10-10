@@ -6,17 +6,8 @@ import {
 } from "graphql";
 import { userRepository } from "../config/database";
 import bcrypt from "bcrypt";
-import { verifyToken, setAuthToken } from "../auth/jsonWebToken";
+import { setAuthToken } from "../auth/jsonWebToken";
 import { msg } from "../constants/messages";
-
-const UserType = new GraphQLObjectType({
-  name: "User",
-  fields: {
-    id: { type: GraphQLString },
-    name: { type: GraphQLString },
-    email: { type: GraphQLString },
-  },
-});
 
 const LoginType = new GraphQLObjectType({
   name: "LoginResponse",
@@ -48,13 +39,9 @@ export const MutationSchema = new GraphQLObjectType({
       args: {
         email: { type: GraphQLString },
         password: { type: GraphQLString },
+        keepLoggedIn: { type: GraphQLBoolean },
       },
-      resolve: async (parent, { email, password }, { req, res, authToken }) => {
-        // if (authToken) {
-        //   return await verifyToken(authToken);
-        // }
-        // this logic to check authToken probably do not need, if token is in Cookies, login will not trigger
-
+      resolve: async (parent, { email, password, keepLoggedIn }, { res }) => {
         const errors = await validateLoginInput(email, password);
 
         if (errors.length > 0) {
@@ -85,7 +72,7 @@ export const MutationSchema = new GraphQLObjectType({
           });
         }
 
-        await setAuthToken(user.id, user.email, res);
+        await setAuthToken(user.id, user.email, res, keepLoggedIn);
 
         return { message: msg.LOGIN_SUCCESSFUL, success: true };
       },

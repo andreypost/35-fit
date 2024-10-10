@@ -14,7 +14,10 @@ import { IFirebaseProps } from 'types/interface'
 import { CrossRedSVG } from 'img/icons'
 import { useMutation } from '@apollo/client'
 import { LOGIN_USER } from 'queries'
-import { loginUserFromDatabase } from 'slices/databaseUser.slice'
+import {
+  loginUserFromDatabase,
+  validateAuthToken,
+} from 'slices/databaseUser.slice'
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -172,10 +175,14 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     [loginUser] = useMutation(LOGIN_USER, {
       context: { credentials: 'include' },
       onError: (error) => {
-        const { extensions, message } = error.graphQLErrors[0]
-        console.error(
-          `Error: ${message}, status: ${extensions?.status}, type: ${extensions?.type}`
-        )
+        if (error?.graphQLErrors?.length > 0) {
+          const { extensions, message } = error.graphQLErrors[0]
+          console.error(
+            `Error: ${message}, status: ${extensions?.status}, type: ${extensions?.type}`
+          )
+        } else {
+          console.error('GraphQL error:', error)
+        }
       },
     }),
     location = useLocation()
@@ -201,17 +208,15 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
   ): Promise<void> => {
     e.preventDefault()
     dispatch(loginUserFromDatabase(loginData))
-    /* try {
-      const response = await loginUser({
-        variables: {
-          email: 'test_08@email.com',
-          password: '9999',
-        },
-      })
-      console.log('/graphql loginUser:', response)
-    } catch (error: any) {
-      console.error(error?.response?.data)
-    } */
+    // try {
+    //   const response = await loginUser({
+    //     variables: loginData,
+    //   })
+    //   console.log('/graphql loginUser:', response)
+    //   dispatch(validateAuthToken())
+    // } catch (error: any) {
+    //   console.error(error?.response?.data)
+    // }
     if (process.env.NODE_ENV === 'production') {
       dispatch(unsetLoginModal())
       await new Promise((resolve) => {

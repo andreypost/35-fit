@@ -5,13 +5,12 @@ import { msg } from "../constants/messages";
 import { SECRET_JWT_KEY } from "../constants/secrets";
 
 export const expiresInHour = 3600000; // one hour
-export const expiresInMonth = 2600000000; // one hour
+export const expiresInMonth = 2600000000; // one month
 
 export const generateToken = async (
   payload: any,
   keepLoggedIn: boolean
 ): Promise<string> => {
-  console.log("keepLoggedIn: ", keepLoggedIn);
   const options = {
     expiresIn: keepLoggedIn ? expiresInMonth : expiresInHour,
   };

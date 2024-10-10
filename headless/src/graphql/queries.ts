@@ -26,8 +26,12 @@ export const GET_IMAGE_BY_ID = gql`
 `
 
 export const LOGIN_USER = gql`
-  mutation loginUser($email: String!, $password: String!) {
-    loginUser(email: $email, password: $password) {
+  mutation loginUser(
+    $email: String!
+    $password: String!
+    $keepLoggedIn: Boolean!
+  ) {
+    loginUser(email: $email, password: $password, keepLoggedIn: $keepLoggedIn) {
       message
       success
     }

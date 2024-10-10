@@ -65,7 +65,7 @@ export const QuerySchema = new GraphQLObjectType({
       args: {
         imageId: { type: GraphQLInt },
       },
-      resolve: async (_, { imageId }, { authToken, res }) => {
+      resolve: async (_, { imageId }, { res, authToken }) => {
         await validateAuthToken(authToken, res);
 
         const image = imagesData.find(({ id }) => id === imageId);
@@ -85,7 +85,7 @@ export const QuerySchema = new GraphQLObjectType({
       args: {
         categoryImages: { type: GraphQLString },
       },
-      resolve: async (_, { categoryImages }, { authToken, res }) => {
+      resolve: async (_, { categoryImages }, { res, authToken }) => {
         await validateAuthToken(authToken, res);
 
         const images = imagesData.filter(
