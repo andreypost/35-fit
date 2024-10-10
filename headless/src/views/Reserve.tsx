@@ -179,20 +179,30 @@ const Main = styled.main`
 const Reserve = ({ user }: IUser) => {
   const { t } = useTranslation(),
     [authData, setAuthData] = useState<IAuth>({
-      name: 'Andrii Postoliuk',
-      surname: 'Postoliuk',
-      gender: 'male',
-      age: 25,
-      country: 'Ukraine',
-      city: 'Kyiv',
+      name: '',
+      surname: '',
+      gender: '',
+      age: 0,
+      country: '',
+      city: '',
       email: '',
-      password: '9999',
-      phone: '0673788612',
+      password: '',
+      phone: '',
       emergencyName: '',
       emergencyPhone: '',
     }),
     [users, setAllUsers] = useState<IAuth[]>([]),
     dispatch = useAppDispatch()
+
+  // name: 'Andrii Postoliuk',
+  // surname: 'Postoliuk',
+  // gender: 'male',
+  // age: 25,
+  // country: 'Ukraine',
+  // city: 'Kyiv',
+  // email: '',
+  // password: '9999',
+  // phone: '0673788612',
 
   const genderOptions = [
     { value: '', label: 'Select Gender' },
@@ -229,6 +239,15 @@ const Reserve = ({ user }: IUser) => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
+    if (process.env.NODE_ENV === 'production') {
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(
+            dispatch(messageModal(t('messages.sorry_but_it_is_not_possible')))
+          )
+        }, 1500)
+      })
+    }
     try {
       const createNewUser = await axios.post(
         `${process.env.API_URL}/auth/create-new-user`,
@@ -323,7 +342,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="First name"
                       onChange={handleChangeAuthData}
                       required
-                      value={'Andrii'}
+                      // value={'Andrii'}
                     />
                   </fieldset>
                   <fieldset>
@@ -334,7 +353,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="Surname"
                       onChange={handleChangeAuthData}
                       required
-                      value={'Postoliuk'}
+                      // value={'Postoliuk'}
                     />
                   </fieldset>
                 </div>
@@ -348,7 +367,7 @@ const Reserve = ({ user }: IUser) => {
                       style={{
                         color: authData.gender === '' ? '#6e7071' : '#004',
                       }}
-                      value={'male'}
+                      // value={'male'}
                     >
                       {genderOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -367,7 +386,7 @@ const Reserve = ({ user }: IUser) => {
                       max={111}
                       onChange={handleChangeAuthData}
                       required
-                      value={25}
+                      // value={25}
                     />
                   </fieldset>
                 </div>
@@ -390,7 +409,7 @@ const Reserve = ({ user }: IUser) => {
                       style={{
                         color: authData.country === '' ? '#6e7071' : '#004',
                       }}
-                      value={'Ukraine'}
+                      // value={'Ukraine'}
                     >
                       {countryOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -410,7 +429,7 @@ const Reserve = ({ user }: IUser) => {
                       style={{
                         color: authData.city === '' ? '#6e7071' : '#004',
                       }}
-                      value={'Kyiv'}
+                      // value={'Kyiv'}
                     >
                       {cityOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -439,7 +458,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="Password"
                       onChange={handleChangeAuthData}
                       required
-                      value={'9999'}
+                      // value={'9999'}
                     />
                   </fieldset>
                 </div>
@@ -454,7 +473,7 @@ const Reserve = ({ user }: IUser) => {
                 placeholder="Phone number"
                 onChange={handleChangeAuthData}
                 required
-                value={'0673788612'}
+                // value={'0673788612'}
               />
             </fieldset>
 
