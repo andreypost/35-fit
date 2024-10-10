@@ -66,6 +66,9 @@ const Main = styled.main`
             background-color: transparent;
             color: #004;
           }
+          input::placeholder {
+            color: #7fcbae;
+          }
           input:-webkit-autofill,
           select:-webkit-autofill {
             -webkit-box-shadow: 0 0 0 1000px white inset !important;
@@ -74,9 +77,6 @@ const Main = styled.main`
             background-color: transparent !important;
           }
           select {
-            option:first-of-type {
-              color: #6e7071 !important;
-            }
             &:hover {
               cursor: pointer;
             }
@@ -365,7 +365,7 @@ const Reserve = ({ user }: IUser) => {
                       onChange={handleChangeAuthData}
                       required
                       style={{
-                        color: authData.gender === '' ? '#6e7071' : '#004',
+                        color: authData.gender === '' ? '#7fcbae' : '#004',
                       }}
                       // value={'male'}
                     >
@@ -407,7 +407,7 @@ const Reserve = ({ user }: IUser) => {
                       onChange={handleChangeAuthData}
                       required
                       style={{
-                        color: authData.country === '' ? '#6e7071' : '#004',
+                        color: authData.country === '' ? '#7fcbae' : '#004',
                       }}
                       // value={'Ukraine'}
                     >
@@ -427,7 +427,7 @@ const Reserve = ({ user }: IUser) => {
                       onChange={handleChangeAuthData}
                       required
                       style={{
-                        color: authData.city === '' ? '#6e7071' : '#004',
+                        color: authData.city === '' ? '#7fcbae' : '#004',
                       }}
                       // value={'Kyiv'}
                     >
