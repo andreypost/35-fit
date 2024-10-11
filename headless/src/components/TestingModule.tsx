@@ -86,21 +86,21 @@ export const TestingModule = ({ user }: IUser) => {
 
   const fileRoutes = async () => {
     try {
-      // const addFileData = await axios.post(
-      //   `${process.env.API_URL}/file/write`,
-      //   {
-      //     id: Math.floor(200 + Math.random() * (1000 - 100 + 1)),
-      //     earnings: `$${
-      //       Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
-      //     }`,
-      //     country: countries[index],
-      //     name: 'Andrii Postoliuk',
-      //   },
-      //   {
-      //     withCredentials: true,
-      //   }
-      // )
-      // console.log('/file/write - write file data: ', addFileData.data)
+      const addFileData = await axios.post(
+        `${process.env.API_URL}/file/write`,
+        {
+          id: Math.floor(200 + Math.random() * (1000 - 100 + 1)),
+          earnings: `$${
+            Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
+          }`,
+          country: countries[index],
+          name: 'Andrii Postoliuk',
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      console.log('/file/write - write file data: ', addFileData.data)
 
       const getFileData = await axios.get(`${process.env.API_URL}/file/read`, {
         withCredentials: true,

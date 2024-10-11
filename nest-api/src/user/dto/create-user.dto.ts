@@ -16,6 +16,9 @@ export class CreateUserDto {
   @IsOptional()
   id?: string;
 
+  @IsOptional()
+  keepLoggedIn?: boolean;
+
   @IsNotEmpty()
   name!: string;
 
@@ -62,6 +65,7 @@ export class CreateUserDto {
 export class LoginUserDto extends PickType(CreateUserDto, [
   'email',
   'password',
+  'keepLoggedIn',
 ] as const) {}
 
 export class DeleteUserDto extends PickType(CreateUserDto, [

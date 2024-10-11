@@ -22,10 +22,13 @@ export class AuthController {
 
   @Post('login')
   async loginUser(
-    @Body() { email, password }: LoginUserDto,
+    @Body() { email, password, keepLoggedIn }: LoginUserDto,
     @Res() res: Response,
   ): Promise<any> {
-    return await this.authService.validateLoginUser({ email, password }, res);
+    return await this.authService.validateLoginUser(
+      { email, password, keepLoggedIn },
+      res,
+    );
   }
 
   @Get('users')

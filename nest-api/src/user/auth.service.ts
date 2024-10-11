@@ -22,6 +22,7 @@ import {
 import { msg } from '../constants/messages';
 import { nextError } from '../helpers/next.error';
 import { deleteAuthToken, validateAuthToken } from '../utils/validate.token';
+import { secrets } from '../constants/secrets';
 
 config();
 
@@ -44,14 +45,16 @@ export class AuthService {
     email: string,
     id: string,
     res: Response,
+    keepLoggedIn: boolean = false,
   ): Promise<void> {
     try {
+      secrets.EXPIRES_IN = keepLoggedIn ? 2600000000 : 3600000;
       const authToken = this.jwtService.sign({ email, id });
       res.cookie('authToken', authToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        maxAge: 3600000,
+        maxAge: secrets.EXPIRES_IN,
         // path: "/",
       });
     } catch (error: any) {
@@ -94,9 +97,10 @@ export class AuthService {
   }
 
   public async validateLoginUser(
-    { email, password }: LoginUserDto,
+    { email, password, keepLoggedIn }: LoginUserDto,
     res: Response,
   ): Promise<any> {
+    console.log('keepLoggedIn: ', keepLoggedIn);
     try {
       const user = await this.findUserByEmail(email);
       if (!user) {
@@ -108,7 +112,7 @@ export class AuthService {
         throw new UnauthorizedException(msg.INVALID_CREDENTIALS);
       }
 
-      await this.setAuthToken(email, user.id, res);
+      await this.setAuthToken(email, user.id, res, keepLoggedIn);
 
       return res.status(HttpStatus.OK).json(user);
     } catch (error: any) {

@@ -10,7 +10,6 @@ import { Request, Response } from 'express';
 import { UserDetails } from '../entities/user.details';
 import { CreateUserDetailsDto } from '../user/dto/create-user-details.dto';
 // import { v4 as uuidv4 } from 'uuid';
-import { validateOrReject } from 'class-validator';
 import { countCountryEarnings } from '../helpers/user.collection';
 import { existsSync } from 'fs';
 import { msg } from '../constants/messages';
@@ -60,7 +59,6 @@ export class DetailService {
     res: Response,
   ): Promise<any> {
     try {
-      await validateOrReject(createUserDetailsDto);
       await this.loadUserCollection(req);
       this.userCollection.push(createUserDetailsDto);
       // const id: string = uuidv4();
