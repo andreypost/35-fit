@@ -32,6 +32,12 @@ const Foot = styled.footer`
               font-weight: 400;
               color: #e8e8e8;
             }
+            &:-webkit-autofill {
+              -webkit-box-shadow: 0 0 0 1000px #004 inset !important;
+              box-shadow: 0 0 0 1000px #004 inset !important;
+              -webkit-text-fill-color: white !important;
+              background-color: transparent !important;
+            }
           }
         }
         button {
@@ -142,6 +148,10 @@ const Foot = styled.footer`
         flex-flow: unset;
       }
     }
+  }
+  .light_grey_button:hover:not(input[type='email']) {
+    background-color: #7fcbae !important;
+    color: #000044;
   }
 `
 
