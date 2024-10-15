@@ -42,6 +42,12 @@ const Div = styled(BaseDiv)`
           font-weight: 400;
           color: #6e7071;
         }
+        &:-webkit-autofill {
+          -webkit-box-shadow: 0 0 0 1000px white inset !important;
+          box-shadow: 0 0 0 1000px white inset !important;
+          -webkit-text-fill-color: #004 !important;
+          background-color: transparent !important;
+        }
       }
       .check_box {
         margin-bottom: unset;
