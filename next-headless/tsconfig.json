@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noEmit": true,
+    "incremental": true,
+    "module": "esnext",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    // "forceConsistentCasingInFileNames": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "icons": ["public/img/icons"],
+      "components/*": ["src/components/*"],
+      "HeaderBanner": ["src/components/HeaderBanner"],
+      "Spinner": ["src/components/Spinner"],
+      "FooterBanner": ["src/components/FooterBanner"],
+      "Footer": ["src/components/Footer"],
+      "Nav": ["src/components/Nav"],
+      "constants/*": ["src/constants/*"],
+      "graphql/*": ["src/graphql/*"],
+      "hooks/*": ["src/hooks/*"],
+      "modals/*": ["src/modals/*"],
+      "slices/*": ["src/slices/*"],
+      "store": ["src/store/root.store"],
+      "reducer": ["src/store/root.reducer"],
+      "types/*": ["src/types/*"],
+      "utils/*": ["src/utils/*"],
+      "isBrowser": ["src/utils/isBrowser"]
+      //   "@/*": ["*"]
+    }
+  },
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}

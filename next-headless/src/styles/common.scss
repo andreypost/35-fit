@@ -1,0 +1,333 @@
+@import "mixins";
+
+body {
+  font-family: $montserrat-font-family;
+  user-select: none;
+}
+
+.page_view {
+  position: relative;
+  z-index: 9;
+}
+
+.section {
+  max-width: 1280px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ul,
+li,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+ul {
+  list-style-type: none;
+  padding-inline-start: unset;
+  padding: 0;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea {
+  border: none;
+}
+
+a,
+a:hover {
+  text-decoration: none;
+}
+
+a,
+button {
+  cursor: not-allowed;
+}
+
+textarea {
+  resize: none;
+}
+
+a:focus,
+button:focus,
+label:focus,
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+* {
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: #c1c1c1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.flex {
+  @include flex;
+}
+
+.flex_center {
+  @include flex_center;
+}
+
+.flex_center_center {
+  @include flex_center_center;
+}
+
+.flex_center_bet {
+  @include flex_center_bet;
+}
+
+.flex_center_around {
+  @include flex_center_around;
+}
+
+.flex_start_bet {
+  @include flex_start_bet;
+}
+
+.flex_center_end_col {
+  @include flex_center_end_col;
+}
+
+.flex_center_center_col {
+  @include flex_center_center_col;
+}
+
+.flex_center_bet_col {
+  @include flex_center_center_col;
+}
+.flex_str_col {
+  @include flex_str_col;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.self_start {
+  align-self: flex-start;
+}
+
+.margin_b_60_30 {
+  margin-bottom: 30px;
+  @media (min-width: 1024px) {
+    margin-bottom: 60px;
+  }
+}
+
+.margin_b_120_80 {
+  margin-bottom: 80px;
+  @media (min-width: 1024px) {
+    margin-bottom: 120px;
+  }
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.b700 {
+  font-weight: 700 !important;
+}
+
+.b900 {
+  font-weight: 900 !important;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.center {
+  text-align: center;
+}
+
+.left {
+  text-align: left;
+}
+
+.white {
+  color: #fff;
+}
+
+.blue {
+  color: $blue_color;
+}
+
+.green {
+  color: $green_color;
+}
+
+.grey {
+  color: $grey_color;
+}
+
+.shadow_radius {
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.grey_label {
+  @include label_styles;
+  background-color: white;
+  color: #6e7071;
+}
+
+.label_styles {
+  @include label_styles;
+}
+
+.grey_button {
+  @include input_styles;
+  border-color: #b2b2b2;
+}
+
+.light_grey_button {
+  @include input_styles;
+  border-color: $light_grey_color;
+  transition: background-color 0.4s, color 0.4s;
+}
+
+.hover_green_white {
+  &:hover {
+    background-color: $green_color;
+    color: #fff;
+  }
+}
+
+.part_radius {
+  width: 95%;
+  border-radius: 26px 0 0 32px;
+  border-top: none;
+  border-right: none;
+}
+
+.green_button {
+  max-width: 260px;
+  min-width: 220px;
+  height: 54px;
+  font-size: 15px;
+  padding: 0 20px;
+  border-radius: 32px;
+  text-align: center;
+  background-color: #59b894;
+  transition: all 0.4s;
+  &:hover {
+    background-color: #ff6376;
+  }
+}
+.login_book {
+  background: url(/img/patterns/lines_login_man.webp) no-repeat 0 100% / contain
+    #7fcbae;
+  @media (min-width: 1024px) {
+    background-position: 0% 0%;
+  }
+}
+
+.header_banner.main {
+  background: url(/img/patterns/main_header.svg) no-repeat center center / cover;
+}
+
+.header_banner.train {
+  background: url(/img/banner/train.webp) no-repeat 90% center / cover;
+}
+
+.header_banner.price {
+  background: url(/img/banner/price.webp) no-repeat 80% center / cover;
+}
+
+.header_banner.schedule {
+  background: url(/img/banner/schedule.webp) no-repeat 80% center / cover;
+}
+
+.header_banner.team {
+  background: url(/img/banner/team.webp) no-repeat center center / cover;
+}
+
+.header_banner.club {
+  background: url(/img/banner/club.webp) no-repeat 30% center / cover;
+}
+
+.header_banner.faq {
+  background: url(/img/banner/faq.webp) no-repeat 70% center / cover;
+}
+
+.header_banner.reserve,
+.header_banner.coach {
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.0001) 0%,
+    #f1f1f1 100%
+  );
+  background: linear-gradient(0deg, hsla(0, 0%, 100%, 0.303244), #f1f1f1);
+}
+
+.footer_touch {
+  background: url(/img/patterns/lines_footer.webp) no-repeat center 90% /
+    contain #00003a;
+  @media (max-width: 1023px) {
+    background-position-y: 70%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .green_button {
+    height: 64px;
+    font-size: 18px;
+  }
+}
+
+@media (hover: hover) {
+  a,
+  button {
+    cursor: pointer;
+  }
+}
+
+// @media (orientation: landscape) {
+//   &_desk {
+//     display: flex;
+//   }
+// }
+
+// @media (orientation: portrait) {
+//   &_desk {
+//     display: block;
+//   }
+// }
