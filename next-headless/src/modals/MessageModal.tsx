@@ -1,12 +1,12 @@
-import styled from 'styled-components'
-import { useAppDispatch, useAppSelector } from 'utils/hooks'
-import { BaseDiv } from './MenuModal'
+import styled from "styled-components";
+import { useAppDispatch, useAppSelector } from "hooks/redux";
+import { BaseDiv } from "./MenuModal";
 import {
   selectMessageModalActive,
   selectMessageModalValue,
   unsetMessageModal,
-} from 'slices/modal.slice'
-import { CrossRedSVG } from 'img/icons'
+} from "slices/modal.slice";
+import { CrossRedSVG } from "icons";
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -22,14 +22,15 @@ const Div = styled(BaseDiv)`
       background-color: #59b894;
     }
   }
-`
+`;
 
 export const MessageModal = () => {
   const dispatch = useAppDispatch(),
     messageState = useAppSelector(selectMessageModalActive),
-    messageValue = useAppSelector(selectMessageModalValue)
+    messageValue = useAppSelector(selectMessageModalValue);
   return (
     <Div
+      // data-aos="fade"
       className={messageState}
       onClick={(e) =>
         e.target === e.currentTarget && dispatch(unsetMessageModal())
@@ -44,5 +45,5 @@ export const MessageModal = () => {
         <hr />
       </nav>
     </Div>
-  )
-}
+  );
+};

@@ -216,7 +216,7 @@ export const Footer = () => {
               <a href="mailto:info@35fit.com" className="flex_center_bet email">
                 - info@35fit.com
               </a>
-              <Link href="/Faq" className="light_grey_button">
+              <Link href="/faq" className="light_grey_button">
                 {t("footer.Careers")}
                 <LangArrowSVG />
               </Link>
@@ -232,7 +232,7 @@ export const Footer = () => {
               >
                 - gonsiori@35fit.com
               </a>
-              <Link href="/Faq" className="light_grey_button">
+              <Link href="/faq" className="light_grey_button">
                 {t("footer.contacts")}
                 <LangArrowSVG />
               </Link>
@@ -241,7 +241,7 @@ export const Footer = () => {
           <article className="partners">
             <h6 className="green uppercase">{t("footer.partners")}</h6>
             <p>{t("footer.search_engine")}</p>
-            <Link href="/Faq" className="light_grey_button">
+            <Link href="/faq" className="light_grey_button">
               {t("footer.become_partner")}
               <LangArrowSVG />
             </Link>
@@ -249,7 +249,7 @@ export const Footer = () => {
         </div>
         <ul className="section flex_center_end_col b700 careers_terms">
           <li>
-            <Link href="/Faq">{t("footer.Careers")}</Link>
+            <Link href="/faq">{t("footer.Careers")}</Link>
           </li>
           <li>
             <Link href="/">{t("footer.Privacy")}</Link>

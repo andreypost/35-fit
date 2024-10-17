@@ -1,14 +1,14 @@
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
-import { useAppDispatch, useAppSelector } from 'utils/hooks'
-import { selectDashModalActive, unsetDashModal } from 'slices/modal.slice'
-import { BaseDiv } from './MenuModal'
-import { NavigationLinks } from 'components/NavigationLinks'
-import { profileLinks } from 'utils/routes.constants'
-import { IFirebaseProps } from 'types/interface'
-import { User } from 'components/User'
-import { logoutUserWithAuthToken } from 'slices/databaseUser.slice'
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "styled-components";
+import { useAppDispatch, useAppSelector } from "hooks/redux";
+import { selectDashModalActive, unsetDashModal } from "slices/modal.slice";
+import { BaseDiv } from "./MenuModal";
+import { NavigationLinks } from "components/NavigationLinks";
+import { profileLinks } from "constants/routes";
+import { IFirebaseProps } from "types/interface";
+import { User } from "components/User";
+import { logoutUserWithAuthToken } from "slices/databaseUser.slice";
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -44,7 +44,7 @@ const Div = styled(BaseDiv)`
       }
     }
   }
-`
+`;
 
 export const DashboardModal = ({
   user,
@@ -53,10 +53,11 @@ export const DashboardModal = ({
 }: IFirebaseProps) => {
   const { t } = useTranslation(),
     modalState = useAppSelector(selectDashModalActive),
-    dispatch = useAppDispatch()
+    dispatch = useAppDispatch();
 
   return (
     <Div
+      // data-aos="fade"
       className={modalState}
       onClick={(e) =>
         e.target === e.currentTarget && dispatch(unsetDashModal())
@@ -79,10 +80,10 @@ export const DashboardModal = ({
               dispatch(unsetDashModal())
             )}
           >
-            {t('nav.sign_out')}
+            {t("nav.sign_out")}
           </li>
         </ul>
       </nav>
     </Div>
-  )
-}
+  );
+};

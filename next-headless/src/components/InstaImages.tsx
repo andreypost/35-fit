@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
+import Link from "next/link";
 import comm_1 from "public/img/adds/comm_1.jpg";
 import comm_2 from "public/img/adds/comm_2.jpg";
 import comm_3 from "public/img/adds/comm_3.jpg";
@@ -41,9 +42,9 @@ export const InstaImages = () => (
         />
       ))}
     </div>
-    <a href="/" className="flex_center_end_col b900 green">
+    <Link href="/" className="flex_center_end_col b900 green">
       <InstaSVG />
       @35fit_club
-    </a>
+    </Link>
   </Div>
 );

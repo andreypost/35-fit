@@ -72,7 +72,7 @@ export const HeaderBanner = ({
       document.removeEventListener("keydown", keyDownHandler);
       dispatch(unsetAllModal());
     };
-  }, []);
+  });
 
   return (
     <Div className={`header_banner ${className}`}>

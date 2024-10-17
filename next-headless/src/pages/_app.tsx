@@ -18,7 +18,6 @@ import { getFirestore } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "../i18n";
 import { useTranslation } from "react-i18next";
-import AOS from "aos";
 import "../globals.css";
 import "../styles/normalize.css";
 import "../styles/common.scss";
@@ -35,6 +34,10 @@ import { useAppSelector } from "hooks/redux";
 import { GetCurrentWindowScroll } from "hooks/scroll";
 import { setDatabaseUser } from "slices/databaseUser.slice";
 import { Footer } from "components/Footer";
+import { MenuModal } from "modals/MenuModal";
+import { LoginModal } from "modals/LoginModal";
+import { DashboardModal } from "modals/DashboardModal";
+import { MessageModal } from "modals/MessageModal";
 
 initializeApp({
   // apiKey: "AIzaSyCTa3IM55ISUwQjFY2cCblix4X1IVM-OeY",
@@ -82,7 +85,7 @@ const App = ({ Component, pageProps }) => {
     };
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+  });
 
   useEffect(() => {
     winScroll > 80 && setFooterContent(true);
@@ -111,6 +114,34 @@ const App = ({ Component, pageProps }) => {
                   )}
                   <Component {...pageProps} />
                   {useMemo(() => footerContent && <Footer />, [footerContent])}
+                  {useMemo(
+                    () => (
+                      <MenuModal user={user} />
+                    ),
+                    [user]
+                  )}
+                  {useMemo(
+                    () => (
+                      <LoginModal user={user} login={login} />
+                    ),
+                    [user]
+                  )}
+                  {useMemo(
+                    () => (
+                      <DashboardModal
+                        user={user}
+                        login={login}
+                        firebaseAuth={firebaseAuth}
+                      />
+                    ),
+                    [user]
+                  )}
+                  {useMemo(
+                    () => (
+                      <MessageModal />
+                    ),
+                    []
+                  )}
                 </React.StrictMode>
               </Provider>
             </AppContext.Provider>

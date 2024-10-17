@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { Link, useLocation } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { RESERVE_ROUTE } from 'utils/routes.constants'
-import { useAppSelector, useAppDispatch } from 'utils/hooks'
-import { BaseDiv } from './MenuModal'
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
+import { RESERVE_ROUTE } from "constants/routes";
+import { useAppSelector, useAppDispatch } from "hooks/redux";
+import { BaseDiv } from "./MenuModal";
 import {
   messageModal,
   selectLoginModalActive,
   unsetLoginModal,
-} from 'slices/modal.slice'
-import { IFirebaseProps } from 'types/interface'
-import { CrossRedSVG } from 'img/icons'
-import { useMutation } from '@apollo/client'
-import { LOGIN_USER } from 'queries'
+} from "slices/modal.slice";
+import { IFirebaseProps } from "types/interface";
+import { CrossRedSVG } from "icons";
+import { useMutation } from "@apollo/client";
+import { LOGIN_USER } from "graphql/login";
 import {
   loginUserFromDatabase,
   validateAuthToken,
-} from 'slices/databaseUser.slice'
+} from "slices/databaseUser.slice";
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -35,8 +36,8 @@ const Div = styled(BaseDiv)`
       max-width: 330px;
       margin-left: auto;
       margin-right: auto;
-      input[type='email'],
-      input[type='password'] {
+      input[type="email"],
+      input[type="password"] {
         margin-bottom: 20px;
         &::placeholder {
           font-weight: 400;
@@ -75,7 +76,7 @@ const Div = styled(BaseDiv)`
         input:checked ~ .checkmark {
           background-color: white;
           &::after {
-            content: '';
+            content: "";
             width: 34px;
             height: 34px;
             border-radius: 50%;
@@ -167,53 +168,52 @@ const Div = styled(BaseDiv)`
       }
     }
   }
-`
+`;
 
 export const LoginModal = ({ user, login }: IFirebaseProps) => {
   const dispatch = useAppDispatch(),
     modalState = useAppSelector(selectLoginModalActive),
     { t } = useTranslation(),
     [loginData, setLoginData] = useState({
-      email: '',
-      password: '9999',
+      email: "",
+      password: "9999",
       keepLoggedIn: false,
     }),
     [loginUser] = useMutation(LOGIN_USER, {
-      context: { credentials: 'include' },
+      context: { credentials: "include" },
       onError: (error) => {
         if (error?.graphQLErrors?.length > 0) {
-          const { extensions, message } = error.graphQLErrors[0]
+          const { extensions, message } = error.graphQLErrors[0];
           console.error(
             `Error: ${message}, status: ${extensions?.status}, type: ${extensions?.type}`
-          )
+          );
         } else {
-          console.error('GraphQL error:', error)
+          console.error("GraphQL error:", error);
         }
       },
     }),
-    location = useLocation()
+    { pathname } = useRouter();
 
   useEffect(() => {
-    ;(user || location.pathname.includes('reserve')) &&
-      dispatch(unsetLoginModal())
-  }, [user, location])
+    (user || pathname.includes("reserve")) && dispatch(unsetLoginModal());
+  }, [user, pathname, dispatch]);
 
   const handleChangeLoginData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const target = e.target as HTMLInputElement
-    const { name, value, type, checked } = target
+    const target = e.target as HTMLInputElement;
+    const { name, value, type, checked } = target;
     setLoginData({
       ...loginData,
-      [name]: type === 'checkbox' ? checked : value,
-    })
-  }
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
 
   const handleLoginSubmit = async <T extends React.FormEvent<HTMLFormElement>>(
     e: T
   ): Promise<void> => {
-    e.preventDefault()
-    dispatch(loginUserFromDatabase(loginData))
+    e.preventDefault();
+    dispatch(loginUserFromDatabase(loginData));
     // try {
     //   const response = await loginUser({
     //     variables: loginData,
@@ -223,19 +223,20 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     // } catch (error: any) {
     //   console.error(error?.response?.data)
     // }
-    if (process.env.NODE_ENV === 'production') {
-      dispatch(unsetLoginModal())
+    if (process.env.NODE_ENV === "production") {
+      dispatch(unsetLoginModal());
       await new Promise((resolve) => {
         setTimeout(() => {
           resolve(
-            dispatch(messageModal(t('messages.sorry_but_it_is_not_possible')))
-          )
-        }, 1500)
-      })
+            dispatch(messageModal(t("messages.sorry_but_it_is_not_possible")))
+          );
+        }, 1500);
+      });
     }
-  }
+  };
   return (
     <Div
+      // data-aos="fade"
       className={modalState}
       onClick={(e) =>
         e.target === e.currentTarget && dispatch(unsetLoginModal())
@@ -252,29 +253,29 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           onSubmit={handleLoginSubmit}
         >
           <h1 className="b900 blue">
-            {t('welcome_to')}
+            {t("welcome_to")}
             <br />
             35 FIT
           </h1>
           <label htmlFor="login" className="grey_label">
-            {t('email_address')}
+            {t("email_address")}
           </label>
           <input
             type="email"
             name="email"
             className="grey_button blue"
-            placeholder={t('enter_email_address')}
+            placeholder={t("enter_email_address")}
             onChange={handleChangeLoginData}
             required
           />
           <label htmlFor="password" className="grey_label">
-            {t('password')}
+            {t("password")}
           </label>
           <input
             type="password"
             name="password"
             className="grey_button part_radius blue"
-            placeholder={t('enter_password')}
+            placeholder={t("enter_password")}
             onChange={handleChangeLoginData}
             // required
           />
@@ -290,24 +291,27 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
               onChange={handleChangeLoginData}
             />
             <span className="checkmark flex_center_center" />
-            {t('keep_me_logged_in')}
+            {t("keep_me_logged_in")}
           </label>
           <button type="submit" className="grey_button grey">
-            {t('nav.login')}
+            {t("nav.login")}
           </button>
           <p className="use_google b700 green" onClick={() => login()}>
-            {t('use_google_account_sign_in')}
+            {t("use_google_account_sign_in")}
           </p>
         </form>
         <div className="login_book">
           <article>
-            <h2 className="b900 white">{t('not_member_yet')}</h2>
-            <Link className="flex_center_center b700 white" to={RESERVE_ROUTE}>
-              {t('book_your_training')}
+            <h2 className="b900 white">{t("not_member_yet")}</h2>
+            <Link
+              className="flex_center_center b700 white"
+              href={RESERVE_ROUTE}
+            >
+              {t("book_your_training")}
             </Link>
           </article>
         </div>
       </nav>
     </Div>
-  )
-}
+  );
+};
