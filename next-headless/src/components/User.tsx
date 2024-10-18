@@ -123,6 +123,8 @@ export const User = ({ user, styleName }: IUser & IStyle) => {
       </p>
       <Image
         src={user?.photoURL || empty_user}
+        width={36}
+        height={36}
         onError={(e: any) => (
           (e.target.onerror = null), (e.target.src = empty_user)
         )}

@@ -3,14 +3,16 @@ import React, {
   useState,
   useEffect,
   Suspense,
-  lazy,
   useMemo,
+  useTransition,
+  useContext,
 } from "react";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import {
   getAuth,
   GoogleAuthProvider,
+  onAuthStateChanged,
   signInWithPopup,
   // createUserWithEmailAndPassword,
 } from "firebase/auth";
@@ -30,9 +32,9 @@ import { ApolloAppProvider } from "src/ApolloAppProvider";
 import { HeaderNavigate } from "components/HeaderNavigate";
 import RootLayout from "src/RootLayout";
 import { isBrowser } from "isBrowser";
-import { useAppSelector } from "hooks/redux";
+import { useAppDispatch, useAppSelector } from "hooks/redux";
 import { GetCurrentWindowScroll } from "hooks/scroll";
-import { setDatabaseUser } from "slices/databaseUser.slice";
+import { setDatabaseUser, validateAuthToken } from "slices/databaseUser.slice";
 import { Footer } from "components/Footer";
 import { MenuModal } from "modals/MenuModal";
 import { LoginModal } from "modals/LoginModal";
@@ -62,6 +64,79 @@ const firestore = getFirestore();
 export const FirebaseAuthContext = createContext({} as IFirebaseProps);
 export const AppContext = createContext({} as IAppConfig);
 
+const AppRootLevel = ({ Component, pageProps }) => {
+  const {
+      user: firebaseUser,
+      login,
+      firebaseAuth,
+    } = useContext(FirebaseAuthContext),
+    { databaseUser } = useAppSelector(setDatabaseUser),
+    [firebaseLoading, setFirebaseLoading] = useState(true),
+    dispatch = useAppDispatch(),
+    [footerContent, setFooterContent] = useState(false);
+  const winScroll = GetCurrentWindowScroll();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, () =>
+      setFirebaseLoading(false)
+    );
+    return () => unsubscribe();
+  }, []);
+
+  const user = firebaseUser || databaseUser;
+
+  useEffect(() => {
+    if (!user && !firebaseLoading) {
+      dispatch(validateAuthToken());
+    }
+  }, [user, firebaseLoading, dispatch]);
+
+  useEffect(() => {
+    winScroll > 80 && setFooterContent(true);
+  }, [winScroll]);
+
+  return (
+    <>
+      {useMemo(
+        () => (
+          <HeaderNavigate user={user} />
+        ),
+        [user]
+      )}
+      <Component {...pageProps} />;
+      {useMemo(() => footerContent && <Footer />, [footerContent])}
+      {useMemo(
+        () => (
+          <MenuModal user={user} />
+        ),
+        [user]
+      )}
+      {useMemo(
+        () => (
+          <LoginModal user={user} login={login} />
+        ),
+        [user]
+      )}
+      {useMemo(
+        () => (
+          <DashboardModal
+            user={user}
+            login={login}
+            firebaseAuth={firebaseAuth}
+          />
+        ),
+        [user]
+      )}
+      {useMemo(
+        () => (
+          <MessageModal />
+        ),
+        []
+      )}
+    </>
+  );
+};
+
 const App = ({ Component, pageProps }) => {
   const [user] = useAuthState(firebaseAuth);
   const login = async () => {
@@ -72,9 +147,6 @@ const App = ({ Component, pageProps }) => {
   const [language, setLanguage] = useState(
     isBrowser() ? localStorage.getItem("i18nextLng") || "en" : "en"
   );
-  const winScroll = GetCurrentWindowScroll();
-  const [footerContent, setFooterContent] = useState(false);
-  // const { databaseUser } = useAppSelector(setDatabaseUser);
 
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
@@ -87,13 +159,9 @@ const App = ({ Component, pageProps }) => {
     return () => window.removeEventListener("storage", handleStorageChange);
   });
 
-  useEffect(() => {
-    winScroll > 80 && setFooterContent(true);
-  }, [winScroll]);
-
   return (
-    <RootLayout>
-      <Suspense fallback={<Spinner />}>
+    <Suspense fallback={<Spinner />}>
+      <RootLayout>
         <ApolloAppProvider>
           <FirebaseAuthContext.Provider
             value={{
@@ -106,49 +174,17 @@ const App = ({ Component, pageProps }) => {
             <AppContext.Provider value={{ language, setLanguage }}>
               <Provider store={store}>
                 <React.StrictMode>
-                  {useMemo(
-                    () => (
-                      <HeaderNavigate user={user} />
-                    ),
-                    [user]
-                  )}
-                  <Component {...pageProps} />
-                  {useMemo(() => footerContent && <Footer />, [footerContent])}
-                  {useMemo(
-                    () => (
-                      <MenuModal user={user} />
-                    ),
-                    [user]
-                  )}
-                  {useMemo(
-                    () => (
-                      <LoginModal user={user} login={login} />
-                    ),
-                    [user]
-                  )}
-                  {useMemo(
-                    () => (
-                      <DashboardModal
-                        user={user}
-                        login={login}
-                        firebaseAuth={firebaseAuth}
-                      />
-                    ),
-                    [user]
-                  )}
-                  {useMemo(
-                    () => (
-                      <MessageModal />
-                    ),
-                    []
-                  )}
+                  <AppRootLevel
+                    Component={Component || (() => null)}
+                    {...pageProps}
+                  />
                 </React.StrictMode>
               </Provider>
             </AppContext.Provider>
           </FirebaseAuthContext.Provider>
         </ApolloAppProvider>
-      </Suspense>
-    </RootLayout>
+      </RootLayout>
+    </Suspense>
   );
 };
 

@@ -9,6 +9,7 @@ import { selectMenuModalActive, unsetMenuModal } from "slices/modal.slice";
 import { User } from "components/User";
 import { NavigationLinks } from "components/NavigationLinks";
 import { CrossRedSVG } from "icons";
+import useAos from "hooks/aos";
 
 export const BaseDiv = styled.div`
   opacity: 0;
@@ -103,6 +104,7 @@ export const MenuModal = ({ user }: IUser) => {
 
   return (
     <Div
+      ref={useAos()}
       // data-aos="fade"
       className={modalState}
       onClick={(e) =>
