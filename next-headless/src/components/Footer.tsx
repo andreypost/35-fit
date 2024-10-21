@@ -1,6 +1,8 @@
-import Link from "next/link";
-import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
+import { GetCurrentWindowScroll } from "hooks/scroll";
+import Link from "next/link";
 import { FacebookSVG, InstaSVG, LangArrowSVG, YoutubeSVG } from "icons";
 
 const Foot = styled.footer`
@@ -157,108 +159,121 @@ const Foot = styled.footer`
 
 export const Footer = () => {
   const { t } = useTranslation();
+  const [isVisible, setIsVisible] = useState(false);
+  const isAboveThreshold = GetCurrentWindowScroll(80);
+  useEffect(() => {
+    if (isAboveThreshold) {
+      setIsVisible(isAboveThreshold);
+    }
+  });
+
   return (
-    <Foot data-aos="fade">
-      <div className="footer_connected">
-        <div className="section connected">
-          <article className="stay">
-            <h2 className="b900 white">{t("footer.stay_connected")}</h2>
-          </article>
-          <article>
-            <h6 className="green uppercase">{t("footer.newsletter")}</h6>
-            <p>{t("footer.be_first_queue")}</p>
-            <form action="" id="newsForm" className="flex_center_bet">
-              <div className="input_box">
-                <label htmlFor="email" className="label_styles white">
-                  {t("email_address")}
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  className="light_grey_button part_radius white"
-                  placeholder={t("enter_email_address")}
-                  required
-                />
-              </div>
-              <button type="submit" className="light_grey_button green">
-                {t("footer.subscribe")}
-              </button>
-            </form>
-          </article>
-          <article className="social">
-            <h6 className="green uppercase">{t("footer.social")}</h6>
-            <a href="" className="flex_center_bet">
-              <FacebookSVG />
-              <span />
-            </a>
-            <a href="" className="flex_center_bet">
-              <InstaSVG />
-              <span />
-            </a>
-            <a href="" className="flex_center_bet">
-              <YoutubeSVG />
-              <span />
-            </a>
-          </article>
-        </div>
-      </div>
-      <div className="footer_touch">
-        <div className="section touch">
-          <article className="get">
-            <h2 className="b900 white">{t("footer.get_in_touch")}</h2>
-          </article>
-          <div className="contacts">
-            <article>
-              <h6 className="green uppercase">{t("footer.general")}</h6>
-              <a href="tel:+3726669999" className="flex_center_bet phone">
-                - 372 666 9999
-              </a>
-              <a href="mailto:info@35fit.com" className="flex_center_bet email">
-                - info@35fit.com
-              </a>
-              <Link href="/faq" className="light_grey_button">
-                {t("footer.Careers")}
-                <LangArrowSVG />
-              </Link>
+    isVisible && (
+      <Foot data-aos="fade">
+        <div className="footer_connected">
+          <div className="section connected">
+            <article className="stay">
+              <h2 className="b900 white">{t("footer.stay_connected")}</h2>
             </article>
             <article>
-              <h6 className="green uppercase">{t("nav.club")}</h6>
-              <a href="tel:+3726669999" className="flex_center_bet phone">
-                - 372 666 9999
+              <h6 className="green uppercase">{t("footer.newsletter")}</h6>
+              <p>{t("footer.be_first_queue")}</p>
+              <form action="" id="newsForm" className="flex_center_bet">
+                <div className="input_box">
+                  <label htmlFor="email" className="label_styles white">
+                    {t("email_address")}
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="light_grey_button part_radius white"
+                    placeholder={t("enter_email_address")}
+                    required
+                  />
+                </div>
+                <button type="submit" className="light_grey_button green">
+                  {t("footer.subscribe")}
+                </button>
+              </form>
+            </article>
+            <article className="social">
+              <h6 className="green uppercase">{t("footer.social")}</h6>
+              <a href="" className="flex_center_bet">
+                <FacebookSVG />
+                <span />
               </a>
-              <a
-                href="mailto:gonsiori@35fit.com"
-                className="flex_center_bet email"
-              >
-                - gonsiori@35fit.com
+              <a href="" className="flex_center_bet">
+                <InstaSVG />
+                <span />
               </a>
+              <a href="" className="flex_center_bet">
+                <YoutubeSVG />
+                <span />
+              </a>
+            </article>
+          </div>
+        </div>
+        <div className="footer_touch">
+          <div className="section touch">
+            <article className="get">
+              <h2 className="b900 white">{t("footer.get_in_touch")}</h2>
+            </article>
+            <div className="contacts">
+              <article>
+                <h6 className="green uppercase">{t("footer.general")}</h6>
+                <a href="tel:+3726669999" className="flex_center_bet phone">
+                  - 372 666 9999
+                </a>
+                <a
+                  href="mailto:info@35fit.com"
+                  className="flex_center_bet email"
+                >
+                  - info@35fit.com
+                </a>
+                <Link href="/faq" className="light_grey_button">
+                  {t("footer.Careers")}
+                  <LangArrowSVG />
+                </Link>
+              </article>
+              <article>
+                <h6 className="green uppercase">{t("nav.club")}</h6>
+                <a href="tel:+3726669999" className="flex_center_bet phone">
+                  - 372 666 9999
+                </a>
+                <a
+                  href="mailto:gonsiori@35fit.com"
+                  className="flex_center_bet email"
+                >
+                  - gonsiori@35fit.com
+                </a>
+                <Link href="/faq" className="light_grey_button">
+                  {t("footer.contacts")}
+                  <LangArrowSVG />
+                </Link>
+              </article>
+            </div>
+            <article className="partners">
+              <h6 className="green uppercase">{t("footer.partners")}</h6>
+              <p>{t("footer.search_engine")}</p>
               <Link href="/faq" className="light_grey_button">
-                {t("footer.contacts")}
+                {t("footer.become_partner")}
                 <LangArrowSVG />
               </Link>
             </article>
           </div>
-          <article className="partners">
-            <h6 className="green uppercase">{t("footer.partners")}</h6>
-            <p>{t("footer.search_engine")}</p>
-            <Link href="/faq" className="light_grey_button">
-              {t("footer.become_partner")}
-              <LangArrowSVG />
-            </Link>
-          </article>
+          <ul className="section flex_center_end_col b700 careers_terms">
+            <li>
+              <Link href="/faq">{t("footer.Careers")}</Link>
+            </li>
+            <li>
+              <Link href="/">{t("footer.Privacy")}</Link>
+            </li>
+            <li>
+              <Link href="/">{t("footer.Terms")}</Link>
+            </li>
+          </ul>
         </div>
-        <ul className="section flex_center_end_col b700 careers_terms">
-          <li>
-            <Link href="/faq">{t("footer.Careers")}</Link>
-          </li>
-          <li>
-            <Link href="/">{t("footer.Privacy")}</Link>
-          </li>
-          <li>
-            <Link href="/">{t("footer.Terms")}</Link>
-          </li>
-        </ul>
-      </div>
-    </Foot>
+      </Foot>
+    )
   );
 };

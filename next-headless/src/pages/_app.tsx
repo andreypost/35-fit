@@ -230,13 +230,6 @@ const AppRootLevel = ({ Component, pageProps }) => {
     }
   }, [currentUser, firebaseLoading, dispatch]);
 
-  const [footerContent, setFooterContent] = useState(false);
-  const winScroll = GetCurrentWindowScroll();
-
-  useEffect(() => {
-    winScroll > 80 && setFooterContent(true);
-  }, [winScroll]);
-
   return (
     <>
       {useMemo(
@@ -246,7 +239,12 @@ const AppRootLevel = ({ Component, pageProps }) => {
         [currentUser]
       )}
       <Component {...pageProps} />;
-      {useMemo(() => footerContent && <Footer />, [footerContent])}
+      {useMemo(
+        () => (
+          <Footer />
+        ),
+        []
+      )}
       {useMemo(
         () => (
           <MenuModal user={currentUser} />

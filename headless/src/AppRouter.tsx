@@ -25,11 +25,7 @@ import { LoginModal } from 'modals/LoginModal'
 import { MessageModal } from 'modals/MessageModal'
 import { DashboardModal } from 'modals/DashboardModal'
 import { IAppConfig } from 'types/interface'
-import {
-  GetCurrentWindowScroll,
-  useAppDispatch,
-  useAppSelector,
-} from 'utils/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { setDatabaseUser, validateAuthToken } from 'slices/databaseUser.slice'
 // import { createBrowserHistory } from 'history'
 // const history = createBrowserHistory()
@@ -38,17 +34,11 @@ import { setDatabaseUser, validateAuthToken } from 'slices/databaseUser.slice'
 export const AppContext = createContext({} as IAppConfig)
 
 const AppRouter = () => {
-  const {
-      user: firebaseUser,
-      login,
-      firebaseAuth,
-    } = useContext(FirebaseAuthContext),
+  const { user, login, firebaseAuth } = useContext(FirebaseAuthContext),
     { i18n } = useTranslation(),
     [language, setLanguage] = useState(
       localStorage.getItem('i18nextLng') || 'en'
     ),
-    winScroll = GetCurrentWindowScroll(),
-    [footerContent, setFooterContent] = useState(false),
     { databaseUser } = useAppSelector(setDatabaseUser),
     [firebaseLoading, setFirebaseLoading] = useState(true),
     dispatch = useAppDispatch()
@@ -69,19 +59,15 @@ const AppRouter = () => {
     return () => unsubscribe()
   }, [])
 
-  const user = firebaseUser || databaseUser
+  const currentUser = user || databaseUser
 
-  useDebugValue(user)
+  useDebugValue(currentUser)
 
   useEffect(() => {
-    if (!user && !firebaseLoading) {
+    if (!currentUser && !firebaseLoading) {
       dispatch(validateAuthToken())
     }
-  }, [user, firebaseLoading, dispatch])
-
-  useEffect(() => {
-    winScroll > 80 && setFooterContent(true)
-  }, [winScroll])
+  }, [currentUser, firebaseLoading, dispatch])
 
   return (
     <AppContext.Provider value={{ language, setLanguage }}>
@@ -89,9 +75,9 @@ const AppRouter = () => {
         {/* <BrowserRouter basename="/"> */}
         {useMemo(
           () => (
-            <HeaderNavigate user={user} />
+            <HeaderNavigate user={currentUser} />
           ),
-          [user]
+          [currentUser]
         )}
         <Switch>
           {publicRoutes.map(({ path, Component }) => (
@@ -101,39 +87,44 @@ const AppRouter = () => {
               exact={true}
               // component={Component}
             >
-              <Component user={user} />
+              <Component user={currentUser} />
             </Route>
           ))}
-          {user &&
+          {currentUser &&
             privatRoutes.map(({ path, Component }) => (
               <Route key={path} path={path} exact={true}>
-                <Component user={user} />
+                <Component user={currentUser} />
               </Route>
             ))}
           <Redirect to={MAIN_ROUTE} />
         </Switch>
-        {useMemo(() => footerContent && <Footer />, [footerContent])}
         {useMemo(
           () => (
-            <MenuModal user={user} />
+            <Footer />
           ),
-          [user]
+          []
         )}
         {useMemo(
           () => (
-            <LoginModal user={user} login={login} />
+            <MenuModal user={currentUser} />
           ),
-          [user]
+          [currentUser]
+        )}
+        {useMemo(
+          () => (
+            <LoginModal user={currentUser} login={login} />
+          ),
+          [currentUser]
         )}
         {useMemo(
           () => (
             <DashboardModal
-              user={user}
+              user={currentUser}
               login={login}
               firebaseAuth={firebaseAuth}
             />
           ),
-          [user]
+          [currentUser]
         )}
         {useMemo(
           () => (

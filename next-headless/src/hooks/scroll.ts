@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
+import { isBrowser } from "utils/isBrowser";
 
-export const GetCurrentWindowScroll = () => {
-  const [winScroll, getWinScroll] = useState(0);
-  const setState = () => {
-    getWinScroll(document.body.scrollTop || document.documentElement.scrollTop);
-  };
+export const GetCurrentWindowScroll = (threshold: number) => {
+  const [winScroll, setWinScroll] = useState(0);
+  const handleScroll = () =>
+    setWinScroll(document.body.scrollTop || document.documentElement.scrollTop);
   useEffect(() => {
-    window.addEventListener("scroll", setState);
-    return () => window.removeEventListener("scroll", setState);
+    if (isBrowser()) {
+      setWinScroll(
+        document.body.scrollTop || document.documentElement.scrollTop
+      );
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
   }, []);
-  return winScroll;
+  return winScroll > threshold;
 };
