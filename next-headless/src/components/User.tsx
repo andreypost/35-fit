@@ -122,6 +122,7 @@ export const User = ({ user, styleName }: IUser & IStyle) => {
         {user?.displayName || user?.name || t("nav.login")}
       </p>
       <Image
+        priority={true}
         src={user?.photoURL || empty_user}
         width={36}
         height={36}

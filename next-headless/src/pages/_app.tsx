@@ -178,7 +178,6 @@ import { HeaderNavigate } from "components/HeaderNavigate";
 import RootLayout from "src/RootLayout";
 import { isBrowser } from "isBrowser";
 import { useAppDispatch, useAppSelector } from "hooks/redux";
-import { GetCurrentWindowScroll } from "hooks/scroll";
 import { setDatabaseUser, validateAuthToken } from "slices/databaseUser.slice";
 import { Footer } from "components/Footer";
 import { MenuModal } from "modals/MenuModal";
@@ -187,20 +186,12 @@ import { DashboardModal } from "modals/DashboardModal";
 import { MessageModal } from "modals/MessageModal";
 
 initializeApp({
-  // apiKey: "AIzaSyCTa3IM55ISUwQjFY2cCblix4X1IVM-OeY",
-  // authDomain: "sobima-fb29d.firebaseapp.com",
-  // projectId: "sobima-fb29d",
-  // storageBucket: "sobima-fb29d.appspot.com",
-  // messagingSenderId: "856275227807",
-  // appId: "1:856275227807:web:653767d7c6e5d4e1363eaa",
-  // measurementId: "G-DQ7VMC727X",
-  apiKey: "AIzaSyBPesv7njcfFIF02eJ48ZlCNLZExe-2S7M",
-  authDomain: "sobima-52422.firebaseapp.com",
-  projectId: "sobima-52422",
-  storageBucket: "sobima-52422.appspot.com",
-  messagingSenderId: "421210112802",
-  appId: "1:421210112802:web:d8898587e980e257c99b7b",
-  measurementId: "G-X6GQMLPTMS",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: "fit-35.firebaseapp.com",
+  projectId: "fit-35",
+  storageBucket: "fit-35.appspot.com",
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 });
 
 const firebaseAuth = getAuth();
@@ -209,7 +200,7 @@ const firestore = getFirestore();
 export const FirebaseAuthContext = createContext({} as IFirebaseProps);
 export const AppContext = createContext({} as IAppConfig);
 
-const AppRootLevel = ({ Component, pageProps }) => {
+const RootWrapper = ({ Component, pageProps }) => {
   const { user, login, firebaseAuth } = useContext(FirebaseAuthContext);
   const { databaseUser } = useAppSelector(setDatabaseUser);
   const [firebaseLoading, setFirebaseLoading] = useState(true);
@@ -238,7 +229,7 @@ const AppRootLevel = ({ Component, pageProps }) => {
         ),
         [currentUser]
       )}
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
       {useMemo(
         () => (
           <Footer />
@@ -277,7 +268,7 @@ const AppRootLevel = ({ Component, pageProps }) => {
   );
 };
 
-const App = ({ Component, pageProps }) => {
+const RootApp = ({ Component, pageProps }) => {
   const { i18n } = useTranslation();
   const [language, setLanguage] = useState(
     isBrowser() ? localStorage.getItem("i18nextLng") || "en" : "en"
@@ -315,7 +306,7 @@ const App = ({ Component, pageProps }) => {
             <AppContext.Provider value={{ language, setLanguage }}>
               <Provider store={store}>
                 <React.StrictMode>
-                  <AppRootLevel
+                  <RootWrapper
                     Component={Component || (() => null)}
                     {...pageProps}
                   />
@@ -329,4 +320,4 @@ const App = ({ Component, pageProps }) => {
   );
 };
 
-export default App;
+export default RootApp;

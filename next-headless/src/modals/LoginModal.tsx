@@ -236,7 +236,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
   };
   return (
     <Div
-      // data-aos="fade"
+      style={{ opacity: 0 }}
       className={modalState}
       onClick={(e) =>
         e.target === e.currentTarget && dispatch(unsetLoginModal())

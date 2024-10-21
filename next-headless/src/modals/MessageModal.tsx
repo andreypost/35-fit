@@ -30,7 +30,7 @@ export const MessageModal = () => {
     messageValue = useAppSelector(selectMessageModalValue);
   return (
     <Div
-      // data-aos="fade"
+      style={{ opacity: 0 }}
       className={messageState}
       onClick={(e) =>
         e.target === e.currentTarget && dispatch(unsetMessageModal())

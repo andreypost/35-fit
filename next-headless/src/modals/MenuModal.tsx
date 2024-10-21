@@ -1,18 +1,17 @@
 import { useMemo } from "react";
+import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 import { IUser } from "types/interface";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
-import styled from "styled-components";
 import { publicLinks, RESERVE_ROUTE } from "constants/routes";
 import { useAppDispatch, useAppSelector } from "hooks/redux";
 import { selectMenuModalActive, unsetMenuModal } from "slices/modal.slice";
 import { User } from "components/User";
 import { NavigationLinks } from "components/NavigationLinks";
 import { CrossRedSVG } from "icons";
-import useAos from "hooks/aos";
 
 export const BaseDiv = styled.div`
-  opacity: 0;
+  /* opacity: 0; */
   position: fixed;
   z-index: -99;
   left: 0;
@@ -54,7 +53,7 @@ export const BaseDiv = styled.div`
   &.loginActive,
   &.messageActive {
     z-index: 99;
-    opacity: 1;
+    opacity: 1 !important;
     transition: z-index 0.1s, opacity 0.4s 0.1s;
     nav {
       transform: scale(1);
@@ -97,15 +96,13 @@ const Div = styled(BaseDiv)`
 `;
 
 export const MenuModal = ({ user }: IUser) => {
-  const { t } = useTranslation(),
-    modalState = useAppSelector(selectMenuModalActive),
-    dispatch = useAppDispatch();
-  // console.log('MenuModal: ')
+  const { t } = useTranslation();
+  const modalState = useAppSelector(selectMenuModalActive);
+  const dispatch = useAppDispatch();
 
   return (
     <Div
-      ref={useAos()}
-      // data-aos="fade"
+      style={{ opacity: 0 }}
       className={modalState}
       onClick={(e) =>
         e.target === e.currentTarget && dispatch(unsetMenuModal())
