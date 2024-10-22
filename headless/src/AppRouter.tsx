@@ -65,7 +65,7 @@ const AppRouter = () => {
 
   useEffect(() => {
     if (!currentUser && !firebaseLoading) {
-      dispatch(validateAuthToken())
+      dispatch(validateAuthToken({ firstLoad: true }))
     }
   }, [currentUser, firebaseLoading, dispatch])
 

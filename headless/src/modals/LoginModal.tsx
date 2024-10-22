@@ -18,6 +18,7 @@ import {
   loginUserFromDatabase,
   validateAuthToken,
 } from 'slices/databaseUser.slice'
+import { errorModalMessage } from 'utils/errorModalMessage'
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -213,16 +214,6 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    dispatch(loginUserFromDatabase(loginData))
-    // try {
-    //   const response = await loginUser({
-    //     variables: loginData,
-    //   })
-    //   console.log('/graphql loginUser:', response)
-    //   dispatch(validateAuthToken())
-    // } catch (error: any) {
-    //   console.error(error?.response?.data)
-    // }
     if (process.env.NODE_ENV === 'production') {
       dispatch(unsetLoginModal())
       await new Promise((resolve) => {
@@ -232,6 +223,19 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           )
         }, 1500)
       })
+    }
+    // dispatch(loginUserFromDatabase(loginData))
+    try {
+      const response = await loginUser({
+        variables: loginData,
+      })
+      console.log('/graphql loginUser:', response)
+      if (response?.data) {
+        dispatch(validateAuthToken({ firstLoad: false }))
+      }
+    } catch (error: any) {
+      console.error(error?.response?.data)
+      // errorModalMessage(error)
     }
   }
   return (

@@ -48,8 +48,8 @@ auth.post(
         email,
         password,
         phone,
-        emergencyName,
-        emergencyPhone,
+        emergencyName = "",
+        emergencyPhone = "",
       } = req.body;
       const user = userRepository.create({
         name,

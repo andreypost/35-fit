@@ -9,6 +9,7 @@ import { TestingModule } from 'components/TestingModule'
 import { useAppDispatch } from 'utils/hooks'
 import { validateAuthToken } from 'slices/databaseUser.slice'
 import { messageModal } from 'slices/modal.slice'
+import { errorModalMessage } from 'utils/errorModalMessage'
 
 const Main = styled.main`
   .reserver {
@@ -248,16 +249,10 @@ const Reserve = ({ user }: IUser) => {
         { withCredentials: true }
       )
       console.log('createNewUser: ', createNewUser)
-      dispatch(validateAuthToken())
+      dispatch(validateAuthToken({ firstLoad: false }))
       dispatch(messageModal(t('messages.your_account_was_created')))
     } catch (error: any) {
-      console.error(error?.response?.data)
-      const { message } = error?.response?.data
-      let msgString = ''
-      if (message && Array.isArray(message) && message?.length > 0) {
-        msgString = message.map((i: any) => (i?.msg ? i.msg : i)).join(', ')
-      }
-      dispatch(messageModal(msgString || message || 'Unexpected Error!'))
+      errorModalMessage(error)
     }
   }
 
@@ -341,7 +336,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="First name"
                       onChange={handleChangeAuthData}
                       required
-                      // value={'Andrii'}
+                      value={'Andrii'}
                     />
                   </fieldset>
                   <fieldset>
@@ -352,7 +347,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="Surname"
                       onChange={handleChangeAuthData}
                       required
-                      // value={'Postoliuk'}
+                      value={'Postoliuk'}
                     />
                   </fieldset>
                 </div>
@@ -366,7 +361,7 @@ const Reserve = ({ user }: IUser) => {
                       style={{
                         color: authData.gender === '' ? '#7fcbae' : '#004',
                       }}
-                      // value={'male'}
+                      value={'male'}
                     >
                       {genderOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -385,7 +380,7 @@ const Reserve = ({ user }: IUser) => {
                       max={111}
                       onChange={handleChangeAuthData}
                       required
-                      // value={25}
+                      value={25}
                     />
                   </fieldset>
                 </div>
@@ -408,7 +403,7 @@ const Reserve = ({ user }: IUser) => {
                       style={{
                         color: authData.country === '' ? '#7fcbae' : '#004',
                       }}
-                      // value={'Ukraine'}
+                      value={'Ukraine'}
                     >
                       {countryOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -428,7 +423,7 @@ const Reserve = ({ user }: IUser) => {
                       style={{
                         color: authData.city === '' ? '#7fcbae' : '#004',
                       }}
-                      // value={'Kyiv'}
+                      value={'Kyiv'}
                     >
                       {cityOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -457,7 +452,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="Password"
                       onChange={handleChangeAuthData}
                       required
-                      // value={'9999'}
+                      value={'9999'}
                     />
                   </fieldset>
                 </div>
@@ -472,7 +467,7 @@ const Reserve = ({ user }: IUser) => {
                 placeholder="Phone number"
                 onChange={handleChangeAuthData}
                 required
-                // value={'0673788612'}
+                value={'0673788612'}
               />
             </fieldset>
 
