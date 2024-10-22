@@ -171,32 +171,22 @@ const Div = styled(BaseDiv)`
 `;
 
 export const LoginModal = ({ user, login }: IFirebaseProps) => {
-  const dispatch = useAppDispatch(),
-    modalState = useAppSelector(selectLoginModalActive),
-    { t } = useTranslation(),
-    [loginData, setLoginData] = useState({
-      email: "",
-      password: "9999",
-      keepLoggedIn: false,
-    }),
-    [loginUser] = useMutation(LOGIN_USER, {
-      context: { credentials: "include" },
-      onError: (error) => {
-        if (error?.graphQLErrors?.length > 0) {
-          const { extensions, message } = error.graphQLErrors[0];
-          console.error(
-            `Error: ${message}, status: ${extensions?.status}, type: ${extensions?.type}`
-          );
-        } else {
-          console.error("GraphQL error:", error);
-        }
-      },
-    }),
-    { pathname } = useRouter();
+  const dispatch = useAppDispatch();
+  const modalState = useAppSelector(selectLoginModalActive);
+  const { t } = useTranslation();
+  const [loginData, setLoginData] = useState({
+    email: "email",
+    password: "9999",
+    keepLoggedIn: false,
+  });
+  const [loginUser] = useMutation(LOGIN_USER, {
+    context: { credentials: "include" },
+  });
+  const { pathname } = useRouter();
 
-  useEffect(() => {
-    (user || pathname.includes("reserve")) && dispatch(unsetLoginModal());
-  }, [user, pathname, dispatch]);
+  // useEffect(() => {
+  //   (user || pathname.includes("reserve")) && dispatch(unsetLoginModal());
+  // }, [user, pathname, dispatch]);
 
   const handleChangeLoginData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -213,17 +203,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     e: T
   ): Promise<void> => {
     e.preventDefault();
-    dispatch(loginUserFromDatabase(loginData));
-    // try {
-    //   const response = await loginUser({
-    //     variables: loginData,
-    //   })
-    //   console.log('/graphql loginUser:', response)
-    //   dispatch(validateAuthToken())
-    // } catch (error: any) {
-    //   console.error(error?.response?.data)
-    // }
-    if (process.env.NODE_ENV === "production") {
+    if (process.env.NEXT_PUBLIC_NODE_ENV === "production") {
       dispatch(unsetLoginModal());
       await new Promise((resolve) => {
         setTimeout(() => {
@@ -232,6 +212,15 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
           );
         }, 1500);
       });
+    }
+    // dispatch(loginUserFromDatabase(loginData));
+    try {
+      await loginUser({
+        variables: loginData,
+      });
+      dispatch(validateAuthToken({ firstLoad: false }));
+    } catch (error: any) {
+      console.error(error);
     }
   };
   return (
@@ -266,7 +255,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
             className="grey_button blue"
             placeholder={t("enter_email_address")}
             onChange={handleChangeLoginData}
-            required
+            // required
           />
           <label htmlFor="password" className="grey_label">
             {t("password")}

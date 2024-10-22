@@ -25,9 +25,14 @@ const Div = styled(BaseDiv)`
 `;
 
 export const MessageModal = () => {
-  const dispatch = useAppDispatch(),
-    messageState = useAppSelector(selectMessageModalActive),
-    messageValue = useAppSelector(selectMessageModalValue);
+  const dispatch = useAppDispatch();
+  const messageState = useAppSelector(selectMessageModalActive);
+  const messageValue = useAppSelector(selectMessageModalValue);
+
+  // useEffect(() => {
+  //   console.log("messageState: ", messageState);
+  // }, [messageState]);
+
   return (
     <Div
       style={{ opacity: 0 }}

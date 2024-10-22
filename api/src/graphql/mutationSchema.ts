@@ -45,7 +45,12 @@ export const MutationSchema = new GraphQLObjectType({
         const errors = await validateLoginInput(email, password);
 
         if (errors.length > 0) {
-          return { message: errors.join(", ") };
+          throw new GraphQLError(errors.join(", "), {
+            extensions: {
+              status: 400,
+              type: "ValidationDataError",
+            },
+          });
         }
 
         const user = await userRepository.findOne({

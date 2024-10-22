@@ -3,6 +3,7 @@ import axios from 'axios'
 import { RootState } from 'reducer'
 import { IAuth } from 'types/interface'
 import { errorModalMessage } from 'utils/errorModalMessage'
+import { messageModal } from './modal.slice'
 
 interface DatabaseUserState {
   databaseUser: IAuth | null
@@ -27,6 +28,7 @@ export const loginUserFromDatabase = createAsyncThunk<
       credentials,
       { withCredentials: true }
     )
+    dispatch(messageModal(response?.data?.message || 'Login successful.'))
     return response.data
   } catch (error: any) {
     errorModalMessage(error)
@@ -39,15 +41,16 @@ export const validateAuthToken = createAsyncThunk<
   { rejectValue: { message: string } }
 >(
   'databaseUser/validateAuthToken',
-  async ({ firstLoad }, { rejectWithValue }) => {
+  async ({ firstLoad }, { rejectWithValue, dispatch }) => {
     try {
       const response = await axios.get(`${process.env.API_URL}/auth/validate`, {
         withCredentials: true,
       })
+      !firstLoad &&
+        dispatch(messageModal(response?.data?.message || 'Login successful.'))
       return response.data
     } catch (error: any) {
-      // !firstLoad && errorModalMessage(error)
-      console.error(error?.response?.data)
+      !firstLoad && errorModalMessage(error)
       return rejectWithValue(error?.response?.data || 'Token validation failed')
     }
   }
@@ -55,17 +58,22 @@ export const validateAuthToken = createAsyncThunk<
 
 export const logoutUserWithAuthToken = createAsyncThunk<
   void,
+  void,
   { rejectValue: { message: string } }
->('databaseUser/logoutUserFromDatabase', async (_, { rejectWithValue }) => {
-  try {
-    await axios.post(`${process.env.API_URL}/auth/logout`, null, {
-      withCredentials: true,
-    })
-  } catch (error: any) {
-    console.error(error?.response?.data)
-    return rejectWithValue(error?.response?.data || 'Logout failed')
+>(
+  'databaseUser/logoutUserFromDatabase',
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      await axios.post(`${process.env.API_URL}/auth/logout`, null, {
+        withCredentials: true,
+      })
+      dispatch(messageModal('You have successfully logged out.'))
+    } catch (error: any) {
+      console.error(error?.response?.data)
+      return rejectWithValue(error?.response?.data || 'Logout failed')
+    }
   }
-})
+)
 
 const databaseUserSlice = createSlice({
   name: 'databaseUser',

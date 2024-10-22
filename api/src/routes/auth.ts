@@ -126,7 +126,7 @@ auth.post(
         }
 
         await setAuthToken(user.id, user.email, res, keepLoggedIn);
-        return res.status(201).json(user);
+        return res.status(201).json({ message: msg.LOGIN_SUCCESSFUL, ...user });
       }
     } catch (error: any) {
       return next(error);

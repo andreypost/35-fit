@@ -70,7 +70,7 @@ const RootWrapper = ({ Component, pageProps }) => {
 
   useEffect(() => {
     if (!currentUser && !firebaseLoading) {
-      dispatch(validateAuthToken());
+      dispatch(validateAuthToken({ firstLoad: true }));
     }
   }, [currentUser, firebaseLoading, dispatch]);
 
@@ -143,6 +143,10 @@ const RootApp = ({ Component, pageProps }) => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(firebaseAuth, provider);
   };
+
+  // store.subscribe(() => { // debug redux actions
+  //   console.log("Action dispatched:", store.getState());
+  // });
 
   return (
     <Suspense fallback={<Spinner />}>
