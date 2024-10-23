@@ -29,8 +29,6 @@ export const MessageModal = () => {
   const messageState = useAppSelector(selectMessageModalActive);
   const messageValue = useAppSelector(selectMessageModalValue);
 
-  console.log("MessageModal: ", messageState);
-
   return (
     <Div
       style={{ opacity: 0 }}
