@@ -128,13 +128,12 @@ const AppRouter = () => {
           ),
           [currentUser]
         )}
-        {/* {useMemo(
+        {useMemo(
           () => (
             <MessageModal />
           ),
           []
-        )} */}
-        <MessageModal />
+        )}
         {/* </BrowserRouter> */}
       </HashRouter>
     </AppContext.Provider>

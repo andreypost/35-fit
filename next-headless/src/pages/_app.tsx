@@ -111,13 +111,12 @@ const RootWrapper = ({ Component, pageProps }) => {
         ),
         [currentUser]
       )}
-      {/* {useMemo(
+      {useMemo(
         () => (
           <MessageModal />
         ),
         []
-      )} */}
-      <MessageModal />
+      )}
     </>
   );
 };
