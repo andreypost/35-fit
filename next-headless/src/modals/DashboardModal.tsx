@@ -51,9 +51,9 @@ export const DashboardModal = ({
   login,
   firebaseAuth,
 }: IFirebaseProps) => {
-  const { t } = useTranslation(),
-    modalState = useAppSelector(selectDashModalActive),
-    dispatch = useAppDispatch();
+  const { t } = useTranslation();
+  const modalState = useAppSelector(selectDashModalActive);
+  const dispatch = useAppDispatch();
 
   return (
     <Div

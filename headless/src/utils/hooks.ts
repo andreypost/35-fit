@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import type { RootState } from 'reducer'
-import type { AppDispatch } from 'store'
+import type { AppDispatch, RootState } from 'store'
 import { isBrowser } from './isBrowser'
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()

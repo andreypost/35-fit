@@ -1,4 +1,4 @@
-import store from "store";
+import { store } from "store";
 import { unsetAllModal, messageModal } from "slices/modal.slice";
 
 export const errorModalMessage = (error: any) => {
@@ -10,6 +10,6 @@ export const errorModalMessage = (error: any) => {
     ? message.map((i: any) => i?.msg ?? i).join(", ")
     : message;
   store.dispatch(unsetAllModal());
-  setTimeout(() => store.dispatch(messageModal(msgString)), 100);
+  store.dispatch(messageModal(msgString));
   console.error("errorModalMessage: ", error?.response?.data);
 };

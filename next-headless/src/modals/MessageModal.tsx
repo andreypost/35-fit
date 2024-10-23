@@ -1,13 +1,12 @@
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "hooks/redux";
 import { BaseDiv } from "./MenuModal";
+import { useAppDispatch, useAppSelector } from "hooks/redux";
 import {
   selectMessageModalActive,
   selectMessageModalValue,
   unsetMessageModal,
 } from "slices/modal.slice";
 import { CrossRedSVG } from "icons";
-import { useEffect } from "react";
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -29,10 +28,6 @@ export const MessageModal = () => {
   const dispatch = useAppDispatch();
   const messageState = useAppSelector(selectMessageModalActive);
   const messageValue = useAppSelector(selectMessageModalValue);
-
-  useEffect(() => {
-    console.log("messageState: ", messageState);
-  }, [messageState]);
 
   return (
     <Div

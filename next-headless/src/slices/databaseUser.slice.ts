@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { RootState } from "reducer";
+import { AppDispatch, RootState } from "store";
 import { IAuth } from "types/interface";
 import { errorModalMessage } from "utils/errorModalMessage";
 import { messageModal } from "./modal.slice";
@@ -19,7 +19,8 @@ const initialState: DatabaseUserState = {
 
 export const loginUserFromDatabase = createAsyncThunk<
   IAuth,
-  { email: string; password: string }
+  { email: string; password: string },
+  { dispatch: AppDispatch }
 >("databaseUser/loginUserFromDatabase", async (credentials, { dispatch }) => {
   try {
     const response = await axios.post(
@@ -27,51 +28,37 @@ export const loginUserFromDatabase = createAsyncThunk<
       credentials,
       { withCredentials: true }
     );
-    // Needs to have a delay for the modal rendering only in Next.js
-    setTimeout(
-      () =>
-        dispatch(messageModal(response?.data?.message || "Login successful.")),
-      100
-    );
+    dispatch(messageModal(response?.data?.message || "Login successful."));
     return response.data;
   } catch (error: any) {
     errorModalMessage(error);
+    throw error;
   }
 });
 
 export const validateAuthToken = createAsyncThunk<
   IAuth,
   { firstLoad: boolean },
-  { rejectValue: { message: string } }
->(
-  "databaseUser/validateAuthToken",
-  async ({ firstLoad }, { rejectWithValue, dispatch }) => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/validate`,
-        {
-          withCredentials: true,
-        }
-      );
-      !firstLoad &&
-        setTimeout(
-          () =>
-            dispatch(
-              messageModal(response?.data?.message || "Login successful.")
-            ),
-          100
-        );
-      return response.data;
-    } catch (error: any) {
-      !firstLoad && errorModalMessage(error);
-      return rejectWithValue(
-        error?.response?.data || "Token validation failed"
-      );
-    }
+  { dispatch: AppDispatch }
+>("databaseUser/validateAuthToken", async ({ firstLoad }, { dispatch }) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/validate`,
+      {
+        withCredentials: true,
+      }
+    );
+    !firstLoad &&
+      dispatch(messageModal(response?.data?.message || "Login successful."));
+    return response.data;
+  } catch (error: any) {
+    !firstLoad && errorModalMessage(error);
+    throw error;
   }
-);
+});
 
 export const logoutUserWithAuthToken = createAsyncThunk<
+  void,
   void,
   { rejectValue: { message: string } }
 >(
@@ -81,11 +68,7 @@ export const logoutUserWithAuthToken = createAsyncThunk<
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, null, {
         withCredentials: true,
       });
-
-      setTimeout(
-        () => dispatch(messageModal("You have successfully logged out.")),
-        100
-      );
+      dispatch(messageModal("You have successfully logged out."));
     } catch (error: any) {
       console.error(error?.response?.data);
       return rejectWithValue(error?.response?.data || "Logout failed");

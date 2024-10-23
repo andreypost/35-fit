@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { RootState } from 'reducer'
+import { RootState } from 'store'
 
 export interface UserData {
   name: string

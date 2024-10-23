@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "reducer";
+// import { RootState } from "reducer";
+import { RootState } from "store";
 
 export const actionSlice = createSlice({
   name: "action",

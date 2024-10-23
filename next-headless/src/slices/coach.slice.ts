@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "reducer";
+import { RootState } from "store";
 
 export const coachSlice = createSlice({
   name: "coach",

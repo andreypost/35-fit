@@ -13,6 +13,4 @@ export const rootReducer = combineReducers({
   databaseUser: databaseUserSlice,
 })
 
-export type RootState = ReturnType<typeof rootReducer>
-
 export default rootReducer

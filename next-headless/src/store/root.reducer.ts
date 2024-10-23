@@ -1,9 +1,9 @@
-import { combineReducers } from '@reduxjs/toolkit'
-import modalSlice from 'slices/modal.slice'
-import coachSlice from 'slices/coach.slice'
-import actionSlice from 'slices/action.slice'
-import fileDataSlice from 'slices/fileData.slice'
-import databaseUserSlice from 'slices/databaseUser.slice'
+import { combineReducers } from "@reduxjs/toolkit";
+import modalSlice from "slices/modal.slice";
+import coachSlice from "slices/coach.slice";
+import actionSlice from "slices/action.slice";
+import fileDataSlice from "slices/fileData.slice";
+import databaseUserSlice from "slices/databaseUser.slice";
 
 export const rootReducer = combineReducers({
   modal: modalSlice,
@@ -11,8 +11,6 @@ export const rootReducer = combineReducers({
   coach: coachSlice,
   fileData: fileDataSlice,
   databaseUser: databaseUserSlice,
-})
+});
 
-export type RootState = ReturnType<typeof rootReducer>
-
-export default rootReducer
+export default rootReducer;

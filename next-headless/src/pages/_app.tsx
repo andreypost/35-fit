@@ -25,7 +25,7 @@ import "aos/dist/aos.css";
 import { IAppConfig, IFirebaseProps } from "types/interface";
 import { Spinner } from "Spinner";
 import { Provider } from "react-redux";
-import store from "store";
+import { store } from "store";
 import { ApolloAppProvider } from "src/ApolloAppProvider";
 import { HeaderNavigate } from "components/HeaderNavigate";
 import RootLayout from "src/RootLayout";
@@ -64,7 +64,7 @@ const RootWrapper = ({ Component, pageProps }) => {
       setFirebaseLoading(false)
     );
     return () => unsubscribe();
-  });
+  }, []);
 
   const currentUser = user || databaseUser;
 
@@ -136,17 +136,13 @@ const RootApp = ({ Component, pageProps }) => {
     };
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
-  });
+  }, []);
 
   const [user] = useAuthState(firebaseAuth);
   const login = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(firebaseAuth, provider);
   };
-
-  // store.subscribe(() => { // debug redux actions
-  //   console.log("Action dispatched:", store.getState());
-  // });
 
   return (
     <Suspense fallback={<Spinner />}>

@@ -13,7 +13,7 @@ import {
 import { getFirestore } from 'firebase/firestore'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Provider } from 'react-redux'
-import store from './store/root.store'
+import { store } from './store/root.store'
 import './styles/normalize.css'
 import './styles/common.scss'
 import './i18n'

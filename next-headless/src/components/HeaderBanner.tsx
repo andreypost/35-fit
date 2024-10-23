@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-// import { useAppDispatch } from 'utils/hooks'
 import { useAppDispatch } from "hooks/redux";
 import { unsetAllModal } from "slices/modal.slice";
 import { IChildrenTitleDescrip } from "types/interface";
@@ -72,7 +71,7 @@ export const HeaderBanner = ({
       document.removeEventListener("keydown", keyDownHandler);
       dispatch(unsetAllModal());
     };
-  });
+  }, []);
 
   return (
     <Div className={`header_banner ${className}`}>

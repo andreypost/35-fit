@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const Div = styled.div`
   width: 80px;
@@ -15,7 +15,7 @@ const Div = styled.div`
     transform-origin: 40px 40px;
 
     &::after {
-      content: ' ';
+      content: " ";
       display: block;
       position: absolute;
       width: 7px;
@@ -106,7 +106,7 @@ const Div = styled.div`
       transform: rotate(360deg);
     }
   }
-`
+`;
 
 export const Spinner = () => (
   <Div>
@@ -119,4 +119,4 @@ export const Spinner = () => (
     <div></div>
     <div></div>
   </Div>
-)
+);

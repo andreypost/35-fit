@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { RootState } from 'reducer'
+import { AppDispatch, RootState } from 'store'
 import { IAuth } from 'types/interface'
 import { errorModalMessage } from 'utils/errorModalMessage'
 import { messageModal } from './modal.slice'
@@ -19,7 +19,8 @@ const initialState: DatabaseUserState = {
 
 export const loginUserFromDatabase = createAsyncThunk<
   IAuth,
-  { email: string; password: string }
+  { email: string; password: string },
+  { dispatch: AppDispatch }
 >('databaseUser/loginUserFromDatabase', async (credentials, { dispatch }) => {
   // dispatch is able in this obj
   try {
@@ -32,29 +33,27 @@ export const loginUserFromDatabase = createAsyncThunk<
     return response.data
   } catch (error: any) {
     errorModalMessage(error)
+    throw error
   }
 })
 
 export const validateAuthToken = createAsyncThunk<
   IAuth,
   { firstLoad: boolean },
-  { rejectValue: { message: string } }
->(
-  'databaseUser/validateAuthToken',
-  async ({ firstLoad }, { rejectWithValue, dispatch }) => {
-    try {
-      const response = await axios.get(`${process.env.API_URL}/auth/validate`, {
-        withCredentials: true,
-      })
-      !firstLoad &&
-        dispatch(messageModal(response?.data?.message || 'Login successful.'))
-      return response.data
-    } catch (error: any) {
-      !firstLoad && errorModalMessage(error)
-      return rejectWithValue(error?.response?.data || 'Token validation failed')
-    }
+  { dispatch: AppDispatch }
+>('databaseUser/validateAuthToken', async ({ firstLoad }, { dispatch }) => {
+  try {
+    const response = await axios.get(`${process.env.API_URL}/auth/validate`, {
+      withCredentials: true,
+    })
+    !firstLoad &&
+      dispatch(messageModal(response?.data?.message || 'Login successful.'))
+    return response.data
+  } catch (error: any) {
+    !firstLoad && errorModalMessage(error)
+    throw error
   }
-)
+})
 
 export const logoutUserWithAuthToken = createAsyncThunk<
   void,

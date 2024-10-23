@@ -1,4 +1,4 @@
-import store from 'store'
+import { store } from 'store'
 import { unsetAllModal, messageModal } from 'slices/modal.slice'
 
 export const errorModalMessage = (error: any) => {
