@@ -7,6 +7,7 @@ import {
   unsetMessageModal,
 } from "slices/modal.slice";
 import { CrossRedSVG } from "icons";
+import { useEffect } from "react";
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -29,9 +30,9 @@ export const MessageModal = () => {
   const messageState = useAppSelector(selectMessageModalActive);
   const messageValue = useAppSelector(selectMessageModalValue);
 
-  // useEffect(() => {
-  //   console.log("messageState: ", messageState);
-  // }, [messageState]);
+  useEffect(() => {
+    console.log("messageState: ", messageState);
+  }, [messageState]);
 
   return (
     <Div

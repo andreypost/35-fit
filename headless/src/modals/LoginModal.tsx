@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { RESERVE_ROUTE } from 'utils/routes.constants'
 import { useAppSelector, useAppDispatch } from 'utils/hooks'
@@ -181,12 +181,10 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
   const [loginUser] = useMutation(LOGIN_USER, {
     context: { credentials: 'include' },
   })
-  const location = useLocation()
 
   useEffect(() => {
-    ;(user || location.pathname.includes('reserve')) &&
-      dispatch(unsetLoginModal())
-  }, [user, location])
+    user && dispatch(unsetLoginModal())
+  }, [user])
 
   const handleChangeLoginData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

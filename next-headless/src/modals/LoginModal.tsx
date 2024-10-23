@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { RESERVE_ROUTE } from "constants/routes";
 import { useAppSelector, useAppDispatch } from "hooks/redux";
@@ -182,7 +182,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
   const [loginUser] = useMutation(LOGIN_USER, {
     context: { credentials: "include" },
   });
-  const { pathname } = useRouter();
+  // const { pathname } = useRouter();
 
   // useEffect(() => {
   //   (user || pathname.includes("reserve")) && dispatch(unsetLoginModal());
