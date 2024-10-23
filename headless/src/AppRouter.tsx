@@ -44,12 +44,14 @@ const AppRouter = () => {
     dispatch = useAppDispatch()
 
   useEffect(() => {
-    window.onstorage = (e: StorageEvent) => {
+    const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'i18nextLng' && e.newValue) {
         setLanguage(e.newValue)
         i18n.changeLanguage(e.newValue)
       }
     }
+    window.addEventListener('storage', handleStorageChange)
+    return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
 
   useEffect(() => {
@@ -126,12 +128,13 @@ const AppRouter = () => {
           ),
           [currentUser]
         )}
-        {useMemo(
+        {/* {useMemo(
           () => (
             <MessageModal />
           ),
           []
-        )}
+        )} */}
+        <MessageModal />
         {/* </BrowserRouter> */}
       </HashRouter>
     </AppContext.Provider>
