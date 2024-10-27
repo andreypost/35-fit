@@ -1,7 +1,8 @@
 // import { useState, useEffect } from 'react'
-// import { useTranslation } from 'react-i18next'
-// import i18n from "../i18n";
 import styled from "styled-components";
+// import { useTranslation } from "next-i18next";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import useAos from "hooks/aos";
 import { HeaderBanner } from "HeaderBanner";
 import Image from "next/image";
@@ -43,4 +44,11 @@ const Faq = () => {
     </Main>
   );
 };
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? "en", ["common"])),
+  },
+});
+
 export default Faq;

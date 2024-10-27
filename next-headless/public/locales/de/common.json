@@ -1,4 +1,18 @@
 {
+  "common": {
+    "welcome_to": "Willkommen zu",
+    "not_member_yet": "Noch kein Mitglied?",
+    "book_your_training": "Buchen Sie Ihr erstes Training",
+    "use_google_account_sign_in": "Verwenden Sie Ihr Google-Konto, um sich anzumelden",
+    "email_address": "E-Mail-Addresse:",
+    "enter_email_address": "E-Mail Adresse eingeben",
+    "password": "Passwort:",
+    "enter_password": "Passwort eingeben",
+    "keep_me_logged_in": "Eingeloggt bleiben",
+    "35fit_community": "35FIT Gemeinschaft",
+    "connected_to": "mitergebnissen",
+    "results": "verbunden"
+  },
   "nav": {
     "training": "Übung",
     "personal_training": "Persönlich ausbildung",
@@ -89,18 +103,6 @@
     "personal_information": "Persönliche Informationen",
     "contact_information": "Kontaktinformationen"
   },
-  "welcome_to": "Willkommen zu",
-  "not_member_yet": "Noch kein Mitglied?",
-  "book_your_training": "Buchen Sie Ihr erstes Training",
-  "use_google_account_sign_in": "Verwenden Sie Ihr Google-Konto, um sich anzumelden",
-  "email_address": "E-Mail-Addresse:",
-  "enter_email_address": "E-Mail Adresse eingeben",
-  "password": "Passwort:",
-  "enter_password": "Passwort eingeben",
-  "keep_me_logged_in": "Eingeloggt bleiben",
-  "35fit_community": "35FIT Gemeinschaft",
-  "connected_to": "mitergebnissen",
-  "results": "verbunden",
   "footer": {
     "stay_connected": "In Verbindung bleiben",
     "get_in_touch": "In Kontakt kommen",

@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { useAppDispatch, useAppSelector } from "hooks/redux";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { useMutation } from "@apollo/client";
 import { LoginModal } from "./LoginModal";
 import { selectLoginModalActive, unsetLoginModal } from "slices/modal.slice";

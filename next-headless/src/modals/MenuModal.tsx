@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import styled from "styled-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { IUser } from "types/interface";
-import Link from "next/link";
-import { publicLinks, RESERVE_ROUTE } from "constants/routes";
 import { useAppDispatch, useAppSelector } from "hooks/redux";
 import { selectMenuModalActive, unsetMenuModal } from "slices/modal.slice";
+import Link from "next/link";
+import { publicLinks, RESERVE_ROUTE } from "constants/routes";
 import { User } from "components/User";
 import { NavigationLinks } from "components/NavigationLinks";
 import { CrossRedSVG } from "icons";
@@ -96,7 +96,7 @@ const Div = styled(BaseDiv)`
 `;
 
 export const MenuModal = ({ user }: IUser) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
   const modalState = useAppSelector(selectMenuModalActive);
   const dispatch = useAppDispatch();
 

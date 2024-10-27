@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { useTranslation } from "next-i18next";
 import { useAppDispatch, useAppSelector } from "hooks/redux";
 import { selectDashModalActive, unsetDashModal } from "slices/modal.slice";
 import { BaseDiv } from "./MenuModal";
@@ -51,7 +51,7 @@ export const DashboardModal = ({
   login,
   firebaseAuth,
 }: IFirebaseProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
   const modalState = useAppSelector(selectDashModalActive);
   const dispatch = useAppDispatch();
 

@@ -1,7 +1,7 @@
 import { useContext, useRef, useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import { AppContext } from "src/pages/_app";
+import { useTranslation } from "next-i18next";
+// import { AppContext } from "src/pages/_app";
 import { LangArrowSVG } from "icons";
 
 const Ul = styled.ul`
@@ -47,11 +47,11 @@ const Ul = styled.ul`
 `;
 
 export const Language = () => {
-  const { i18n } = useTranslation(),
-    { language, setLanguage } = useContext(AppContext),
-    versions = ["en", "ee", "de"],
-    [langList, setLangList] = useState(false),
-    langRef = useRef<HTMLUListElement>(null);
+  // const { i18n } = useTranslation("common");
+  // { language, setLanguage } = useContext(AppContext)
+  const versions = ["en", "ee", "de"];
+  const [langList, setLangList] = useState(false);
+  const langRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     const handleMouseEnter = () => setLangList(true);
@@ -69,7 +69,7 @@ export const Language = () => {
     }
   }, []);
 
-  useEffect(() => setLangList(false), [language]);
+  // useEffect(() => setLangList(false), [language]);
 
   return (
     <Ul
@@ -78,10 +78,10 @@ export const Language = () => {
       }`}
       ref={langRef}
     >
-      <li className="lang_base">{language.toLocaleUpperCase()}</li>
+      {/* <li className="lang_base">{language.toLocaleUpperCase()}</li> */}
       <li className="lang_list absolute">
         <ul>
-          {versions.splice(versions.indexOf(language), 1) &&
+          {/* {versions.splice(versions.indexOf(language), 1) &&
             versions.map((item) => (
               <li
                 key={item}
@@ -91,7 +91,7 @@ export const Language = () => {
               >
                 {item.toLocaleUpperCase()}
               </li>
-            ))}
+            ))} */}
         </ul>
       </li>
       <li className="lang_arrow">

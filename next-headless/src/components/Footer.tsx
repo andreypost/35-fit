@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { GetCurrentWindowScroll } from "hooks/scroll";
 import Link from "next/link";
 import { FacebookSVG, InstaSVG, LangArrowSVG, YoutubeSVG } from "icons";
@@ -158,9 +158,10 @@ const Foot = styled.footer`
 `;
 
 export const Footer = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
   const [isVisible, setIsVisible] = useState(false);
   const isAboveThreshold = GetCurrentWindowScroll(80);
+
   useEffect(() => {
     if (isAboveThreshold) {
       setIsVisible(isAboveThreshold);
@@ -181,13 +182,13 @@ export const Footer = () => {
               <form action="" id="newsForm" className="flex_center_bet">
                 <div className="input_box">
                   <label htmlFor="email" className="label_styles white">
-                    {t("email_address")}
+                    {t("common.email_address")}
                   </label>
                   <input
                     type="email"
                     name="email"
                     className="light_grey_button part_radius white"
-                    placeholder={t("enter_email_address")}
+                    placeholder={t("common.enter_email_address")}
                     required
                   />
                 </div>

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { useTranslation } from "next-i18next";
 import { useAppDispatch } from "hooks/redux";
 import { unsetAllModal } from "slices/modal.slice";
 import { IChildrenTitleDescrip } from "types/interface";
@@ -57,8 +57,8 @@ export const HeaderBanner = ({
   title = "",
   description = "",
 }: IChildrenTitleDescrip) => {
-  const dispatch = useAppDispatch(),
-    { t } = useTranslation();
+  const { t } = useTranslation("common");
+  const dispatch = useAppDispatch();
 
   const keyDownHandler = (e: { key: string }) => {
     e.key === "Escape" && dispatch(unsetAllModal());

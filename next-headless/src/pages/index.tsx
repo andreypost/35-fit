@@ -1,10 +1,12 @@
-import { useRef, useEffect } from "react";
+// import { useRef, useEffect, useState } from "react";
+import styled from "styled-components";
+import { useTranslation } from "next-i18next";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { IUser } from "types/interface";
 import useAos from "hooks/aos";
 import Image from "next/image";
-import { IUser } from "types/interface";
-import { useTranslation } from "react-i18next";
 import Link from "next/link";
-import styled from "styled-components";
 import { RESERVE_ROUTE, PRICE_ROUTE, TRAIN_ROUTE } from "constants/routes";
 import { HeaderBanner } from "HeaderBanner";
 import { GreenButton } from "components/ui/GreenButton";
@@ -179,7 +181,8 @@ const MainBlock = styled.main`
 `;
 
 const Main = ({ user }: IUser) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
+
   return (
     <MainBlock data-aos="fade" ref={useAos()} className="page_view">
       <HeaderBanner className="main" title="nav.personal_training">
@@ -274,7 +277,7 @@ const Main = ({ user }: IUser) => {
       />
       <Image src={pattern_bg_1_3} alt="" />
       <CommunityArticle
-        title="35fit_community"
+        title="common.35fit_community"
         subTitle={true}
         description="header_banner.training_becomes"
       />
@@ -287,4 +290,11 @@ const Main = ({ user }: IUser) => {
     </MainBlock>
   );
 };
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? "en", ["common"])),
+  },
+});
+
 export default Main;

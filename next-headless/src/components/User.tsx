@@ -1,8 +1,8 @@
-import { IUser, IStyle } from "types/interface";
-import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { useTranslation } from "next-i18next";
 import { useAppDispatch } from "hooks/redux";
 import { loginModal, dashModal, unsetDashModal } from "slices/modal.slice";
+import { IUser, IStyle } from "types/interface";
 import Image from "next/image";
 import empty_user from "public/img/empty_user.png";
 import { LangArrowSVG } from "icons";
@@ -102,8 +102,8 @@ const Div = styled.div`
 `;
 
 export const User = ({ user, styleName }: IUser & IStyle) => {
-  const dispatch = useAppDispatch(),
-    { t } = useTranslation();
+  const { t } = useTranslation("common");
+  const dispatch = useAppDispatch();
 
   return (
     <Div

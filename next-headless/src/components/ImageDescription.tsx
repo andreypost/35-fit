@@ -1,6 +1,6 @@
-import { useTranslation } from "react-i18next";
-import Link from "next/link";
 import styled from "styled-components";
+import { useTranslation } from "next-i18next";
+import Link from "next/link";
 import { IImageLinkTitleDescrip } from "types/interface";
 import Image from "next/image";
 
@@ -47,7 +47,7 @@ export const ImageDescription = ({
   description = "",
   link,
 }: IImageLinkTitleDescrip) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <Div

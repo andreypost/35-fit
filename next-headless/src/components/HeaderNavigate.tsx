@@ -1,10 +1,10 @@
 import { useMemo } from "react";
-import { IUser } from "types/interface";
-import Link from "next/link";
-import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { useTranslation } from "next-i18next";
 import { useAppDispatch, useAppSelector } from "hooks/redux";
 import { selectBurgerValue, menuModal } from "slices/modal.slice";
+import { IUser } from "types/interface";
+import Link from "next/link";
 import { MAIN_ROUTE, publicLinks, RESERVE_ROUTE } from "constants/routes";
 import { Language } from "./Language";
 import { User } from "./User";
@@ -159,9 +159,9 @@ const Header = styled.header`
 `;
 
 export const HeaderNavigate = ({ user }: IUser) => {
-  const { t } = useTranslation(),
-    dispatch = useAppDispatch(),
-    burgerState = useAppSelector(selectBurgerValue);
+  const { t } = useTranslation("common");
+  const dispatch = useAppDispatch();
+  const burgerState = useAppSelector(selectBurgerValue);
 
   return (
     <Header

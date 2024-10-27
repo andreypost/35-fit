@@ -1,7 +1,7 @@
-import { ILinks } from "types/interface";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { ILinks } from "types/interface";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
 
 export const NavigationLinks = ({
   links,
@@ -12,8 +12,8 @@ export const NavigationLinks = ({
   bold: string;
   color: string;
 }) => {
-  const { pathname } = useRouter(),
-    { t } = useTranslation();
+  const { pathname } = useRouter();
+  const { t } = useTranslation("common");
   return (
     <>
       {links.map(({ route, dictionary }) => (

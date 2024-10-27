@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { useTranslation } from "next-i18next";
 import { IPlanPricesBoxRoute } from "types/interface";
 import { GreenButton } from "./GreenButton";
 import { GreenGreyLine } from "./GreenGreyLine";
@@ -120,7 +120,7 @@ export const PlanPricesBox = ({
   sales = 0,
   button = "",
 }: IPlanPricesBoxRoute) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
   return (
     <Div
       className={`plan_prices_box shadow_radius flex ${

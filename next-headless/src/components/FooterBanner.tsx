@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { useTranslation } from "next-i18next";
 import { IRoutePriceTitle } from "types/interface";
 import { RedRuporSVG } from "icons";
 import { GreenButton } from "./ui/GreenButton";
@@ -58,7 +58,7 @@ export const FooterBanner = ({
   subTitle = "",
   route = "/reserve",
 }: IRoutePriceTitle) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <Div data-aos="fade" className={`footer_banner relative ${className}`}>

@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { useTranslation } from "next-i18next";
 import { ICoachTitleDescrip } from "types/interface";
 
 const Article = styled.article`
@@ -37,7 +37,7 @@ export const CommunityArticle = ({
   description = "",
   coach,
 }: ICoachTitleDescrip) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <Article
@@ -53,8 +53,8 @@ export const CommunityArticle = ({
         {subTitle && (
           <>
             <br />
-            <span>#{t("connected_to")}</span>
-            <span className="green">{t("results")}</span>
+            <span>#{t("common.connected_to")}</span>
+            <span className="green">{t("common.results")}</span>
           </>
         )}
         {coach && (
