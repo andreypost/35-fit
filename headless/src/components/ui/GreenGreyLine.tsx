@@ -27,7 +27,10 @@ const Div = styled.div`
 export const GreenGreyLine = ({ sales }: IPlanPricesBoxRoute) => {
   return (
     <Div className="green_grey_line">
-      <div className="green_line" style={{ '--sales-width': `${sales}%` }} />
+      <div
+        className="green_line"
+        style={{ '--sales-width': `${sales}%` } as React.CSSProperties}
+      />
     </Div>
   )
 }
