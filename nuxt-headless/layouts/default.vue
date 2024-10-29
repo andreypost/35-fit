@@ -1,5 +1,5 @@
 <template>
-  <div class="section default_styles">
+  <div class="section default_styles login_book">
     <Nuxt />
   </div>
 </template>

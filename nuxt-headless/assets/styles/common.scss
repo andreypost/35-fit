@@ -251,39 +251,40 @@ textarea:focus {
   }
 }
 .login_book {
-  background: url(/img/patterns/lines_login_man.webp) no-repeat 0 100% / contain
-    #7fcbae;
+  background: url(~assets/img/patterns/lines_login_man.webp) no-repeat 0 100% /
+    contain #7fcbae;
   @media (min-width: 1024px) {
     background-position: 0% 0%;
   }
 }
 
 .header_banner.main {
-  background: url(/img/patterns/main_header.svg) no-repeat center center / cover;
+  background: url(~assets/img/patterns/main_header.svg) no-repeat center center /
+    cover;
 }
 
 .header_banner.train {
-  background: url(/img/banner/train.webp) no-repeat 90% center / cover;
+  background: url(~assets/img/banner/train.webp) no-repeat 90% center / cover;
 }
 
 .header_banner.price {
-  background: url(/img/banner/price.webp) no-repeat 80% center / cover;
+  background: url(~assets/img/banner/price.webp) no-repeat 80% center / cover;
 }
 
 .header_banner.schedule {
-  background: url(/img/banner/schedule.webp) no-repeat 80% center / cover;
+  background: url(~assets/img/banner/schedule.webp) no-repeat 80% center / cover;
 }
 
 .header_banner.team {
-  background: url(/img/banner/team.webp) no-repeat center center / cover;
+  background: url(~assets/img/banner/team.webp) no-repeat center center / cover;
 }
 
 .header_banner.club {
-  background: url(/img/banner/club.webp) no-repeat 30% center / cover;
+  background: url(~assets/img/banner/club.webp) no-repeat 30% center / cover;
 }
 
 .header_banner.faq {
-  background: url(/img/banner/faq.webp) no-repeat 70% center / cover;
+  background: url(~assets/img/banner/faq.webp) no-repeat 70% center / cover;
 }
 
 .header_banner.reserve,
@@ -297,7 +298,7 @@ textarea:focus {
 }
 
 .footer_touch {
-  background: url(/img/patterns/lines_footer.webp) no-repeat center 90% /
+  background: url(~assets/img/patterns/lines_footer.webp) no-repeat center 90% /
     contain #00003a;
   @media (max-width: 1023px) {
     background-position-y: 70%;

@@ -2,7 +2,7 @@ export default {
   target: 'static',
   ssr: false,
   head: {
-    title: 'nuxt-headless',
+    title: '35-fit',
     htmlAttrs: {
       lang: 'en',
     },
@@ -26,5 +26,46 @@ export default {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
   },
-  build: {},
+  build: {
+    extend(config) {
+      const svgRule = config.module.rules.find((rule) => rule.test.test('.svg'))
+      svgRule.test = /\.(png|jpe?g|gif|webp)$/
+
+      config.module.rules.push({
+        test: /\.svg$/,
+        oneOf: [
+          {
+            // Use vue-svg-loader for SVGs with the `?inline` query, so they can be imported as Vue components
+            resourceQuery: /inline/,
+            use: ['babel-loader', 'vue-svg-loader'],
+          },
+          {
+            //   // Use file-loader for SVGs without `?inline`, for example, background images in CSS
+            use: ['file-loader'],
+          },
+          // {
+          //   use: [
+          //     {
+          //       loader: 'file-loader',
+          //       options: {
+          //         name: 'assets/[name].[hash:8].[ext]',
+          //       },
+          //     },
+          //   ],
+          // },
+        ],
+      })
+    },
+
+    // extend: (config) => {
+    //   const svgRule = config.module.rules.find((rule) => rule.test.test('.svg'))
+
+    //   svgRule.test = /\.(png|jpe?g|gif|webp)$/
+
+    //   config.module.rules.push({
+    //     test: /\.svg$/,
+    //     use: ['babel-loader', 'vue-svg-loader'],
+    //   })
+    // },
+  },
 }

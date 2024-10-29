@@ -17,5 +17,6 @@
     },
     "types": ["@nuxt/types", "@nuxtjs/axios", "@types/node"]
   },
+  // "include": ["svg.d.ts"],
   "exclude": ["node_modules", ".nuxt", "dist"]
 }
