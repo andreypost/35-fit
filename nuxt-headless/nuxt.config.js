@@ -1,5 +1,6 @@
 export default {
   target: 'static',
+  ssr: false,
   head: {
     title: 'nuxt-headless',
     htmlAttrs: {
@@ -13,18 +14,16 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
-
-  css: [],
-
+  css: ['~/assets/styles/normalize.css', '~/assets/styles/common.scss'],
+  styleResources: {
+    scss: ['~/assets/styles/_mixins.scss'],
+  },
   plugins: [],
-
   components: true,
-
-  buildModules: ['@nuxt/typescript-build', '@nuxtjs/tailwindcss'],
-
+  buildModules: ['@nuxtjs/style-resources', '@nuxt/typescript-build'],
   modules: ['@nuxtjs/axios'],
-
   axios: {
+    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
   },
   build: {},

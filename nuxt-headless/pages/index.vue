@@ -1,7 +1,6 @@
 <template>
   <div>
     <NuxtLink to="/faq">faq</NuxtLink>
-    <Tutorial />
   </div>
 </template>
 

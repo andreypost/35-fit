@@ -1,0 +1,145 @@
+// @font-face {
+//     font-family: 'Merriweather';
+//     src        : url(../fonts/Merriweather-Regular.ttf);
+// }
+// @font-face type of connetion fonts is much more slower.
+
+$montserrat-font-family: 'Montserrat', sans-serif;
+
+$blue_color: #004;
+$green_color: #59b894;
+$grey_color: #737373;
+$light_grey_color: #e8e8e8;
+$tes: #b2b2b2;
+$red_color: #ff6376;
+
+@mixin flex {
+  display: flex;
+}
+
+@mixin flex_str_col {
+  @include flex;
+  align-items: stretch;
+  flex-flow: column;
+}
+
+@mixin flex_center {
+  @include flex;
+  align-items: center;
+}
+
+@mixin flex_start_bet {
+  @include flex;
+  justify-content: space-between;
+}
+
+// @mixin flex_start_end_col {
+//   @include flex_start;
+//   justify-content: flex-end;
+//   flex-flow      : column;
+// }
+
+@mixin flex_center_bet {
+  @include flex_center;
+  justify-content: space-between;
+}
+
+@mixin flex_center_center {
+  @include flex_center;
+  justify-content: center;
+}
+
+@mixin flex_center_around {
+  @include flex_center;
+  justify-content: space-around;
+}
+
+@mixin flex_center_end_col {
+  @include flex_center;
+  justify-content: flex-end;
+  flex-flow: column;
+}
+
+@mixin flex_center_center_col {
+  @include flex_center_center;
+  flex-flow: column;
+}
+
+@mixin flex_center_bet_col {
+  @include flex_center_bet;
+  flex-flow: column;
+}
+
+@mixin font_14 {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+@mixin label_styles {
+  @include font_14;
+  position: relative;
+  width: fit-content;
+  margin-bottom: -2px;
+  margin-left: 26px;
+  padding-left: 8px;
+  padding-right: 2px;
+}
+
+@mixin input_styles {
+  @include font_14;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 32px;
+}
+
+@mixin hover_active {
+  transition: transform 0.4s;
+
+  @media (min-width: 1024px) {
+    &:hover {
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5),
+        inset 0px -4px 0px rgba(0, 0, 0, 0.25);
+      transform: translateY(-5px);
+    }
+  }
+
+  &:active {
+    box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.25%);
+  }
+}
+
+@mixin input_inset {
+  @include button;
+  box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.25);
+  background: #ffffff;
+}
+
+@mixin input_outset {
+  @include input_inset;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@mixin grid_state {
+  display: grid;
+  grid-gap: 30px;
+  justify-content: space-between;
+}
+
+@mixin h5_styles {
+  @media (max-width: 1023px) {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+}
