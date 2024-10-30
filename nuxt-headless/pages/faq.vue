@@ -5,6 +5,16 @@
 <script lang="ts">
 export default {
   name: 'FaqPage',
+  async asyncData({ env, $axios }: any) {
+    try {
+      const getAuthAllUsers = await $axios.get(`${env.apiUrl}/auth/users`, {
+        withCredentials: true,
+      })
+      console.log('/auth/users - get all users: ', getAuthAllUsers.data)
+    } catch (error: any) {
+      console.error(error)
+    }
+  },
 }
 </script>
 

@@ -1,6 +1,6 @@
 export default {
-  target: 'static',
-  ssr: false,
+  // target: 'static',
+  // ssr: false,
   head: {
     title: '35-fit',
     htmlAttrs: {
@@ -25,6 +25,9 @@ export default {
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
+  },
+  env: {
+    apiUrl: process.env.API_URL,
   },
   build: {
     extend(config) {
