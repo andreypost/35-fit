@@ -19,8 +19,8 @@ let fileData: IFileUserDetails[] = [];
 
 file.get("/read", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const authToken = req?.cookies?.authToken;
-    await validateAuthToken(authToken, res);
+    // const authToken = req?.cookies?.authToken;
+    // await validateAuthToken(authToken, res);
 
     // fs.rename(
     //   fileFolder,

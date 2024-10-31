@@ -139,8 +139,8 @@ auth.get(
   loginLimiter,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const authToken = req?.cookies?.authToken;
-      await validateAuthToken(authToken, res);
+      // const authToken = req?.cookies?.authToken;
+      // await validateAuthToken(authToken, res);
 
       const users = await userRepository.find({
         select: ["name", "age", "email"],

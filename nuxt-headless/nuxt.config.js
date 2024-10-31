@@ -18,7 +18,12 @@ export default {
   styleResources: {
     scss: ['~/assets/styles/_mixins.scss'],
   },
-  plugins: [],
+  plugins: [
+    {
+      src: '~/plugins/aos.js',
+      mode: 'client',
+    },
+  ],
   components: true,
   buildModules: ['@nuxtjs/style-resources', '@nuxt/typescript-build'],
   modules: ['@nuxtjs/axios'],

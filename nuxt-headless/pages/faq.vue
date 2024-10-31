@@ -1,5 +1,8 @@
 <template>
-  <h1 class="faq">Hello from FAQ page!</h1>
+  <div>
+    <h1 class="faq">Hello from FAQ page!</h1>
+    <h1>I am rendered on {{ renderedOn }}</h1>
+  </div>
 </template>
 
 <script lang="ts">
@@ -14,6 +17,7 @@ export default {
     } catch (error: any) {
       console.error(error)
     }
+    return { renderedOn: process.client ? 'client' : 'server' }
   },
 }
 </script>
