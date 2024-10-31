@@ -1,24 +1,31 @@
 <template>
-  <header class="header_styles" data-aos="fade">
+  <header data-aos="fade" class="header_nav section flex_center_bet relative">
     <NuxtLink to="/" class="navigate_logo">
       <Logo />
     </NuxtLink>
+    <NavigationLinks :links="publicLinks" bold="b700" color="#737373" />
   </header>
 </template>
 
 <script>
 import Logo from '~/assets/icons/logo.svg?inline'
+import { publicLinks } from '~/constants/routes'
 
 export default {
   name: 'HeaderNavigate',
   components: {
     Logo,
   },
+  data() {
+    return {
+      publicLinks,
+    }
+  },
 }
 </script>
 
 <style lang="scss">
-.header_styles {
+.header_nav {
   max-width: 1440px;
   margin-bottom: -64px;
   z-index: 99;

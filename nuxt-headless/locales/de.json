@@ -1,0 +1,127 @@
+{
+  "common": {
+    "welcome_to": "Willkommen zu",
+    "not_member_yet": "Noch kein Mitglied?",
+    "book_your_training": "Buchen Sie Ihr erstes Training",
+    "use_google_account_sign_in": "Verwenden Sie Ihr Google-Konto, um sich anzumelden",
+    "email_address": "E-Mail-Addresse:",
+    "enter_email_address": "E-Mail Adresse eingeben",
+    "password": "Passwort:",
+    "enter_password": "Passwort eingeben",
+    "keep_me_logged_in": "Eingeloggt bleiben",
+    "35fit_community": "35FIT Gemeinschaft",
+    "connected_to": "mitergebnissen",
+    "results": "verbunden"
+  },
+  "nav": {
+    "training": "Übung",
+    "personal_training": "Persönlich ausbildung",
+    "pricing": "Preisbildung",
+    "schedule": "Zeitplan",
+    "team": "Die Mannschaft",
+    "club": "Verein",
+    "faq": "FAQ",
+    "reservation": "Reservierung",
+    "coach": "coach",
+    "login": "Anmeldung",
+    "sign_out": "Ausloggen",
+    "buy": "Probestunde kaufen",
+    "dashboard": "Instrumententafel",
+    "classes": "Klassen",
+    "progress": "Fortschritt",
+    "contract": "Vertrag",
+    "profile": "Profil"
+  },
+  "header_banner": {
+    "new_standard": "Neuer Standard",
+    "month": "Monat",
+    "35_minute_high": "35-minütiges hochintensives Intervalltraining an Milon-Geräten mit angeleiteter Anleitung.",
+    "training_becomes": "Durch die Intensität wird das Training effektiv. Der Club ist engagiert und 3 mal pro Woche und 2 mal in 10 Tagen."
+  },
+  "main": {
+    "classes": "Klassen",
+    "register_trial": "Registrieren Sie sich für eine Testversion",
+    "connected_results": "Verbunden mit Ergebnissen",
+    "book_class": "Buchen Sie die nächste Klasse",
+    "number_memberships": "Anzahl der Mitgliedschaften ist begrenzt!",
+    "sold": "verkauft",
+    "discover_more": "Entdecke mehr",
+    "never_before_has_digital": "Noch nie war digitales Training so intelligent: Geräte bilden zusammen mit der Trainingssteuerungssoftware ein ausgeklügeltes Connected Training System Modul.",
+    "connected_training_system": "Verbundenes Trainingssystem",
+    "training_by_science": "Ausbildung durch die Wissenschaft",
+    "the_milonizer_can_determine": "Der milonizer kann die Körpermaße des Nutzers ermitteln in Sekundenschnelle durch ein innovatives Scansystem auf Basis biometrischer Marker.",
+    "more_time_for_personal": "Mehr Zeit für die persönliche Betreuung",
+    "35_minutes_to_better": "35 Minuten zum besseren Trainingserfolg",
+    "versatile_training_incentives": "Vielfältige Trainingsanreize für den Erfolg",
+    "how_is_it_possible": "Wie ist das jetzt möglich?",
+    "pick_a_day": "Wählen Sie einen Tag aus und probieren Sie es aus!",
+    "trial_foot_banner_title": "Persönliches Probetraining"
+  },
+  "training": {
+    "always_the_right": "Immer die richtige Geräteeinstellung",
+    "thanks_to_the_user": "Dank Benutzererkennung passt sich das smarte Gerät automatisch und sekundenschnell an die Größe, das Trainingsmotiv und die jeweiligen Bedürfnisse des Benutzers an.",
+    "keeping_training_exciting": "Das Training spannend halten",
+    "with_milon_training": "Mit dem milon Training erreichen Sie jedes Ziel fokussiert. Egal ob Muskelaufbau, Gewichtsabnahme oder Schmerzlinderung.",
+    "making_achievement_fun": "So macht Leistung Spaß",
+    "the_gamification_elements": "Die Gamification-Elemente auf dem Display fördern den Spieltrieb der Benutzer und sorgen für mehr Spaß beim Training – was motivierend und inspirierend wirkt.",
+    "more_time": "Mehr Zeit",
+    "patented_training_visualization": "Patentierte Trainingsvisualisierung. Das Milon Pendel zeigt dem Anwender den Bewegungsrhythmus an und gibt direktes Live-Feedback während des Trainings. Die Bedienung des Pendels erfolgt äußerst intuitiv durch Tippen und Wischen (wie bei einem Tablet).",
+    "built_for_everyone": "Gebaut für alle",
+    "using_predefined_training": "Anhand vordefinierter Trainingsregime passen sich alle Trainingsparameter dem individuellen Trainingsziel und -stil an.",
+    "trial_foot_banner_title": "Milon-Tests"
+  },
+  "pricinig": {
+    "trial_foot_banner_title": "Diagnostische Tests",
+    "milons_broad_range": "Das breite Angebot an Trainingszirkeln von Milon deckt jeden Bedarf und jedes Leistungsniveau ab: vom gesundheitsorientierten Grundlagentraining bis zum gezielten Krafttraining.",
+    "details": "Einzelheiten"
+  },
+  "schedule": {
+    "for_better_results": "Für bessere Ergebnisse halte dich an den Trainingsplan",
+    "trial_foot_banner_title": "Trugge Sportwasser"
+  },
+  "team": {
+    "we_do_have_coaches": "Wir haben Trainer im Club",
+    "trial_foot_banner_title": "Persönliches Probetraining"
+  },
+  "club": {
+    "trial_foot_banner_title": "Trugge Sportwasser"
+  },
+  "faq": {
+    "trial_foot_banner_title": "Dynostics-Tests"
+  },
+  "coach": {
+    "back_to_team": "Zurück zum Team",
+    "dont_sell_yourself": "Verkaufen Sie sich im Leben nicht unter Wert. Fordern Sie sich selbst heraus"
+  },
+  "reserve": {
+    "continue": "Weitermachen",
+    "we_know_so_little": "Wir wissen so wenig über Sie. Machen Sie bitte weiter.",
+    "you_are_almost_there": "Sie haben es fast geschafft!",
+    "new_to_fit": "Neu bei 35FIT ?",
+    "start_training_quicker": "Schneller mit dem Training beginnen",
+    "as_one_of_our_main_focus": "Da es uns besonders wichtig ist, Ihnen Zeit zu sparen, geben Sie bitte kurz Ihre persönlichen Daten ein, damit Sie schneller ein Armband erhalten und mit der Messung auf unserem Milonizer beginnen können",
+    "personal_information": "Persönliche Informationen",
+    "contact_information": "Kontaktinformationen"
+  },
+  "footer": {
+    "stay_connected": "In Verbindung bleiben",
+    "get_in_touch": "In Kontakt kommen",
+    "newsletter": "Newsletter",
+    "be_first_queue": "Seien Sie der Erste in der Warteschlange! Holen Sie sich unsere neuesten Nachrichten direkt in Ihren Posteingang.",
+    "subscribe": "Abonnieren",
+    "social": "Sozial",
+    "general": "Allgemeines",
+    "partners": "Partner",
+    "contacts": "Kontakte",
+    "search_engine": "Suchmaschinenoptimierung und Werbung",
+    "become_partner": "Ein Partner werden",
+
+    "Careers": "Karriere",
+    "Privacy": "Datenschutz-Bestimmungen",
+    "Terms": "Geschäftsbedingungen"
+  },
+  "messages": {
+    "sorry_but_it_is_not_possible": "Leider ist es derzeit nicht möglich, Daten zu senden. Bitte versuchen Sie es später noch einmal!",
+    "your_account_was_created": "Ihr Konto wurde erstellt und erfolgreich angemeldet!"
+  }
+}

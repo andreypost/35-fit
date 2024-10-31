@@ -1,5 +1,8 @@
 <template>
-  <HeaderNavigate />
+  <div>
+    <HeaderNavigate />
+    <Nuxt />
+  </div>
 </template>
 
 <script>

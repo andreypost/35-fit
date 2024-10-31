@@ -1,0 +1,128 @@
+{
+  "common": {
+    "welcome_to": "Welcome to",
+    "not_member_yet": "Not a member yet?",
+    "book_your_training": "Book your first training",
+    "use_google_account_sign_in": "Use your Google Account to sign in",
+    "email_address": "E-mail address:",
+    "enter_email_address": "Enter e-mail address",
+    "password": "Password:",
+    "enter_password": "Enter password",
+    "keep_me_logged_in": "Keep me logged in",
+    "35fit_community": "35FIT Community",
+    "connected_to": "connectedto",
+    "results": "results"
+  },
+  "nav": {
+    "training": "Training",
+    "personal_training": "Personal training",
+    "pricing": "Pricing",
+    "schedule": "Schedule",
+    "team": "The Team",
+    "club": "Club",
+    "faq": "FAQ",
+    "reservation": "Reservation",
+    "coach": "coach",
+    "login": "Login",
+    "sign_out": "Sign out",
+    "buy": "Buy a class",
+    "dashboard": "Dashboard",
+    "classes": "Classes",
+    "progress": "Progress",
+    "contract": "Contract",
+    "profile": "Profile"
+  },
+  "header_banner": {
+    "new_standard": "New standard",
+    "month": "Month",
+    "35_minute_high": "35-minute high intensity interval training workout done on Milon equipment with guided instruction.",
+    "training_becomes": "Training becomes effective due to intensity. The club is engaged and 3 times a week, and 2 times in 10 days."
+  },
+  "main": {
+    "classes": "classes",
+    "register_trial": "Register for trial",
+    "connected_results": "Connected to Results",
+    "book_class": "Book next class",
+    "number_memberships": "Number of memberships is limited!",
+    "sold": "Sold",
+    "discover_more": "Discover more",
+    "never_before_has_digital": "Never before has digital training been so intelligent: Together with training control software, equipment represents a sophisticated Connected Training System module.",
+    "connected_training_system": "Connected Training System",
+    "training_by_science": "Training by science",
+    "the_milonizer_can_determine": "The milonizer can determine the user’s body measurements in a matter of seconds using an innovative scan system based on biometric markers.",
+    "more_time_for_personal": "More time for personal support",
+    "35_minutes_to_better": "35 minutes to better training success",
+    "versatile_training_incentives": "Versatile training incentives for success",
+    "how_is_it_possible": "How is it possible now?",
+    "pick_a_day": "Pick a day and give it a try!",
+    "trial_foot_banner_title": "Personal trial training"
+  },
+  "training": {
+    "always_the_right": "Always the right equipment setting",
+    "thanks_to_the_user": "Thanks to the user recognition feature, the smart equipment adjusts automatically and within seconds to the user’s size, training motive, and related needs.",
+    "keeping_training_exciting": "Keeping training exciting",
+    "with_milon_training": "With milon training, you can achieve any goal in a focused way. Whether it’s muscle building, losing weight, or reducing pain.",
+    "making_achievement_fun": "Making achievement fun",
+    "the_gamification_elements": "The gamification elements on the display encourage users’ instinct to play and make training more fun – which has a motivating and inspiring effect.",
+    "more_time": "More time",
+    "patented_training_visualization": "Patented training visualization. The milon pendulum displays the movement rhythm to the user and provides direct live feedback during training. Using the pendulum is extremely intuitive by tapping and swiping (like a tablet).",
+    "built_for_everyone": "Built for everyone",
+    "using_predefined_training": "Using predefined training regimes, all training parameters adjust according to the individual training objective and style.",
+    "trial_foot_banner_title": "Milon tests"
+  },
+  "pricinig": {
+    "trial_foot_banner_title": "Diagnostics tests",
+    "milons_broad_range": "Milon’s broad range of training circuits spans every need and every performance level: from health-oriented basic training to specifically targeted strength training.",
+    "details": "Details"
+  },
+  "schedule": {
+    "for_better_results": "For better results stick to training plan",
+    "trial_foot_banner_title": "Trugge sport water"
+  },
+  "team": {
+    "we_do_have_coaches": "We do have coaches in club",
+    "trial_foot_banner_title": "Personal trial training"
+  },
+  "club": {
+    "trial_foot_banner_title": "Trugge sport water"
+  },
+  "faq": {
+    "trial_foot_banner_title": "Dynostics tests"
+  },
+  "coach": {
+    "back_to_team": "Back to Team",
+    "dont_sell_yourself": "Don't sell yourself short in life. Give yourself a challenge"
+  },
+  "reserve": {
+    "continue": "Continue",
+    "we_know_so_little": "We know so little about you, please keep going.",
+    "you_are_almost_there": "You're almost there!",
+    "new_to_fit": "New to 35FIT ?",
+    "start_training_quicker": "Start training quicker",
+    "as_one_of_our_main_focus": "As one of our main focus is save your time, please fill short information about you, so you can get wristband quicker and start measuring on our Milonizer",
+    "personal_information": "Personal information",
+    "contact_information": "Contact information"
+  },
+
+  "footer": {
+    "stay_connected": "Stay connected",
+    "get_in_touch": "Get in touch",
+    "newsletter": "Newsletter",
+    "be_first_queue": "Be first in the queue! Get our latest news straight to your inbox.",
+    "subscribe": "Subscribe",
+    "social": "Social",
+    "general": "General",
+    "partners": "Partners",
+    "contacts": "Contacts",
+    "search_engine": "Search Engine Optimization And Advertising",
+    "become_partner": "Become a partner",
+
+    "Careers": "Careers",
+    "Privacy": "Privacy policy",
+    "Terms": "Terms and conditions"
+  },
+  "messages": {
+    "sorry_but_it_is_not_possible": "Sorry, but it is not possible to send data at this time. Please try again later!",
+    "your_account_was_created": "Your account was created and successfully subscribed!"
+  }
+}

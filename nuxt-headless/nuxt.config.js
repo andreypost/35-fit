@@ -23,6 +23,7 @@ export default {
       src: '~/plugins/aos.js',
       mode: 'client',
     },
+    '~/plugins/i18n.js',
   ],
   components: true,
   buildModules: ['@nuxtjs/style-resources', '@nuxt/typescript-build'],
@@ -34,6 +35,7 @@ export default {
   env: {
     apiUrl: process.env.API_URL,
   },
+
   build: {
     extend(config) {
       const svgRule = config.module.rules.find((rule) => rule.test.test('.svg'))
@@ -64,16 +66,5 @@ export default {
         ],
       })
     },
-
-    // extend: (config) => {
-    //   const svgRule = config.module.rules.find((rule) => rule.test.test('.svg'))
-
-    //   svgRule.test = /\.(png|jpe?g|gif|webp)$/
-
-    //   config.module.rules.push({
-    //     test: /\.svg$/,
-    //     use: ['babel-loader', 'vue-svg-loader'],
-    //   })
-    // },
   },
 }

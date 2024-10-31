@@ -5,6 +5,7 @@
       Call fetch method
     </button> -->
     <h1>I am rendered on {{ renderedOn }}</h1>
+    <p @click="changeLocale" v-html="$t('common.book_your_training')"></p>
   </div>
 </template>
 
@@ -14,7 +15,7 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'IndexPage',
   async asyncData(context) {
-    console.log('asyncData contex: ', 'context')
+    console.log('asyncData contex: ', context)
     try {
       const getFileData = await context.$axios.$get(
         `${context.env.apiUrl}/file/read`
@@ -48,6 +49,9 @@ export default Vue.extend({
   methods: {
     refresh() {
       this.$nuxt.refresh()
+    },
+    changeLocale() {
+      this.$i18n.locale = 'de'
     },
   },
   mounted() {

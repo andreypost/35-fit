@@ -1,0 +1,127 @@
+{
+  "common": {
+    "welcome_to": "Tere tulemast",
+    "not_member_yet": "Mitte veel liige?",
+    "book_your_training": "Broneeri oma esimene koolitus",
+    "use_google_account_sign_in": "Kasutage oma Google'i kontot sisse logimiseks",
+    "email_address": "E-posti aadress:",
+    "enter_email_address": "Sisesta e-posti aadress",
+    "password": "Parool:",
+    "enter_password": "Sisestage parool",
+    "keep_me_logged_in": "Hoia mind sisse logituna",
+    "35fit_community": "35FIT Kogukond",
+    "connected_to": "seotud",
+    "results": "tulemustega"
+  },
+  "nav": {
+    "training": "Koolitus",
+    "personal_training": "Personali koolitus",
+    "pricing": "Hinnakujundus",
+    "schedule": "Ajakava",
+    "team": "Meeskond",
+    "club": "Klubi",
+    "faq": "FAQ",
+    "reservation": "Reserveerimine",
+    "coach": "coach",
+    "login": "Logi sisse",
+    "sign_out": "Logi välja",
+    "buy": "Osta klass",
+    "dashboard": "Armatuurlaud",
+    "classes": "Klassid",
+    "progress": "Edusammud",
+    "contract": "Leping",
+    "profile": "Profiil"
+  },
+  "header_banner": {
+    "new_standard": "Uus standard",
+    "month": "Kuu",
+    "35_minute_high": "35-minutiline kõrge intensiivsusega intervalltreening Miloni seadmetel koos juhendatud juhendamisega.",
+    "training_becomes": "Treening muutub efektiivseks tänu intensiivsusele. Klubi on kihlatud ja 3 korda nädalas ja 2 korda 10 päeva jooksul."
+  },
+  "main": {
+    "classes": "klassid",
+    "register_trial": "Registreeruge proovile",
+    "connected_results": "Tulemustega ühendatud",
+    "book_class": "Broneeri järgmine tund",
+    "number_memberships": "Liikmete arv on piiratud!",
+    "sold": "müüdud",
+    "discover_more": "Avastage rohkem",
+    "never_before_has_digital": "Kunagi varem pole digitaalne koolitus olnud nii intelligentne: koos treeningujuhtimistarkvaraga esindavad seadmed keerukat ühendatud treeningsüsteemi moodulit.",
+    "connected_training_system": "Ühendatud treeningsüsteem",
+    "training_by_science": "Koolitus teaduse järgi",
+    "the_milonizer_can_determine": "Milonisaator saab määrata kasutaja kehamõõtmised mõne sekundiga, kasutades biomeetrilistel markeritel põhinevat uuenduslikku skaneerimissüsteemi.",
+    "more_time_for_personal": "Rohkem aega isiklikuks toeks",
+    "35_minutes_to_better": "35 minutit parema treeningu edu saavutamiseks",
+    "versatile_training_incentives": "Mitmekülgsed koolitusstiimulid edu saavutamiseks",
+    "how_is_it_possible": "Kuidas see nüüd võimalik on?",
+    "pick_a_day": "Valige päev ja proovige!",
+    "trial_foot_banner_title": "Personaalne proovitreening"
+  },
+  "training": {
+    "always_the_right": "Alati õige varustuse seadistus",
+    "thanks_to_the_user": "Tänu kasutajatuvastusfunktsioonile nutikatele seadmetele kohandub automaatselt ja mõne sekundi jooksul kasutaja suuruse järgi, koolituse motiiv ja sellega seotud vajadused.",
+    "keeping_training_exciting": "Treeningu põnevana hoidmine",
+    "with_milon_training": "Miloni treeninguga saavutad mis tahes eesmärgi keskendunult. Olgu selleks siis lihaste kasvatamine, kaalu langetamine või valu vähendamine.",
+    "making_achievement_fun": "Saavutamise lõbusaks tegemine",
+    "the_gamification_elements": "Mängulised elemendid ekraanil julgustavad kasutajaid instinkt mängida ja muuta treenimine lõbusamaks – millel on a motiveeriv ja inspireeriv mõju.",
+    "more_time": "Rohkem aega",
+    "patented_training_visualization": "Patenteeritud treeningu visualiseerimine. Miloni pendel kuvab kasutajale liikumisrütmi ja annab otsest reaalajas tagasisidet treeningu ajal. Pendli kasutamine on äärmiselt intuitiivne koputamine ja pühkimine (nagu tahvelarvuti).",
+    "built_for_everyone": "Ehitatud kõigile",
+    "using_predefined_training": "Eelmääratletud treeningrežiimide abil kohandatakse kõiki treeningparameetreid vastavalt individuaalsele treeningueesmärgile ja -stiilile.",
+    "trial_foot_banner_title": "Miloni testid"
+  },
+  "pricinig": {
+    "trial_foot_banner_title": "Diagnostilised testid",
+    "milons_broad_range": "Miloni lai valik treeningringe katab kõik vajadused ja jõudlustasemed: alates tervisele orienteeritud baastreeningust kuni konkreetselt suunatud jõutreeninguni.",
+    "details": "Üksikasjad"
+  },
+  "schedule": {
+    "for_better_results": "Paremate tulemuste saavutamiseks järgige treeningplaani",
+    "trial_foot_banner_title": "Trugge spordivesi"
+  },
+  "team": {
+    "we_do_have_coaches": "Meil on klubis treenerid",
+    "trial_foot_banner_title": "Personaalne proovitreening"
+  },
+  "club": {
+    "trial_foot_banner_title": "Trugge spordivesi"
+  },
+  "faq": {
+    "trial_foot_banner_title": "Dünostika testid"
+  },
+  "coach": {
+    "back_to_team": "Tagasi Meeskond juurde",
+    "dont_sell_yourself": "Ära müü end elus lühikeseks. Esitage endale väljakutse"
+  },
+  "reserve": {
+    "continue": "Jätka",
+    "we_know_so_little": "Me teame teist nii vähe, palun jätka.",
+    "you_are_almost_there": "Sa oled peaaegu kohal!",
+    "new_to_fit": "Kas uus 35FIT kasutaja ?",
+    "start_training_quicker": "Alustage treenimist kiiremini",
+    "as_one_of_our_main_focus": "Kuna meie üks peamisi eesmärke on säästa teie aega, täitke lühike teave enda kohta, et saaksite randmepaela kiiremini hankida ja alustada mõõtmist meie Milonizeriga",
+    "personal_information": "Isiklikud andmed",
+    "contact_information": "Kontaktandmed"
+  },
+  "footer": {
+    "stay_connected": "Püsi ühenduses",
+    "get_in_touch": "Ühendust võtma",
+    "newsletter": "Uudiskiri",
+    "be_first_queue": "Ole järjekorras esimene! Hankige meie viimased uudised otse oma postkasti.",
+    "subscribe": "Telli",
+    "social": "Sotsiaalne",
+    "general": "Kindral",
+    "partners": "Partnerid",
+    "contacts": "Kontaktid",
+    "search_engine": "Otsingumootori optimeerimine ja reklaam",
+    "become_partner": "Hakka partneriks",
+
+    "Careers": "Karjäär",
+    "Privacy": "Privaatsuspoliitika",
+    "Terms": "Tingimused"
+  },
+  "messages": {
+    "sorry_but_it_is_not_possible": "Kahjuks ei ole praegu võimalik andmeid saata. Proovige hiljem uuesti!",
+    "your_account_was_created": "Teie konto on loodud ja tellimine õnnestus!"
+  }
+}
