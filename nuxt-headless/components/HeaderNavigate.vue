@@ -4,6 +4,9 @@
       <Logo />
     </NuxtLink>
     <NavigationLinks :links="publicLinks" bold="b700" color="#737373" />
+    <div class="navigate_menu">
+      <LanguageSwitch />
+    </div>
   </header>
 </template>
 

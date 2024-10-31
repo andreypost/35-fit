@@ -9,9 +9,6 @@ function loadLocaleMessages() {
     true,
     /[A-Za-z0-9-_,\s]+\.json$/i
   )
-  if (process.client) {
-    console.log(window)
-  }
   const messages = {}
   locales.keys().forEach((key) => {
     const locale = key.match(/([A-Za-z0-9-_]+)\./i)[1]
@@ -20,9 +17,17 @@ function loadLocaleMessages() {
   return messages
 }
 
+const getSavedLocale = () => {
+  if (process.client) {
+    console.log(localStorage.getItem('i18nextLng'))
+    return localStorage.getItem('i18nextLng') || 'en'
+  }
+  return 'en'
+}
+
 export default ({ app }) => {
   app.i18n = new VueI18n({
-    // locale: 'en',
+    locale: getSavedLocale(),
     fallbackLocale: 'en',
     messages: loadLocaleMessages(),
   })
