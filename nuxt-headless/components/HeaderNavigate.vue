@@ -6,13 +6,24 @@
     <NavigationLinks :links="publicLinks" bold="b700" color="#737373" />
     <div class="navigate_menu">
       <LanguageSwitch />
+      <User />
+      <NuxtLink
+        :to="RESERVE_ROUTE"
+        class="flex_center_center navigate_buy b700 white"
+      >
+        {{ $t('nav.buy') }}
+      </NuxtLink>
+      <div :class="['navigate_burger flex_center_center', 'burgerState']">
+        <!-- onClick={() => dispatch(menuModal())} -->
+        <span></span>
+      </div>
     </div>
   </header>
 </template>
 
 <script>
 import Logo from '~/assets/icons/logo.svg?inline'
-import { publicLinks } from '~/constants/routes'
+import { publicLinks, RESERVE_ROUTE } from '~/constants/routes'
 
 export default {
   name: 'HeaderNavigate',
@@ -22,6 +33,7 @@ export default {
   data() {
     return {
       publicLinks,
+      RESERVE_ROUTE,
     }
   },
 }
