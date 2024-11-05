@@ -2,16 +2,30 @@
   <div>
     <HeaderNavigate />
     <Nuxt />
+    <Footer />
+    <MenuModal />
   </div>
 </template>
 
 <script>
-import Logo from '~/assets/icons/logo.svg?inline'
+import MenuModal from '~/modals/MenuModal.vue'
 
 export default {
   name: 'DefaultLayout',
+  scrollToTop: true,
   components: {
-    Logo,
+    MenuModal,
+  },
+  methods: {
+    keyDownHandler(e) {
+      e.key === 'Escape' && this.$store.commit('unsetAllModal')
+    },
+  },
+  mounted() {
+    window.addEventListener('keydown', this.keyDownHandler)
+  },
+  beforeDestroy() {
+    window.removeEventListener('keydown', this.keyDownHandler)
   },
 }
 </script>

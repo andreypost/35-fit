@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <!-- <div>
     <h1 class="faq">Hello from FAQ page!</h1>
     <h1>I am rendered on {{ renderedOn }}</h1>
-  </div>
+  </div> -->
 </template>
 
 <script lang="ts">

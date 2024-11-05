@@ -4,6 +4,8 @@
       'lang_box flex_center_center b700 grey relative',
       langList && 'active',
     ]"
+    @mouseenter="handleMouseEnter()"
+    @mouseleave="handleMouseLeave()"
   >
     <li class="lang_base">{{ language.toLocaleUpperCase() }}</li>
     <li class="lang_list absolute">
@@ -23,37 +25,58 @@
   </ul>
 </template>
 
-<script>
-import LangArrow from '~/assets/icons/lang-arrow.svg?inline'
+<script lang="ts">
+import LangArrow from '~/assets/icons/LangArrow.svg?inline'
+
+interface LanguageSwitchData {
+  langList: boolean
+  language: string
+  versions: string[]
+}
 
 export default {
   name: 'LanguageSwitch',
   components: {
     LangArrow,
   },
-  data() {
+  data(): LanguageSwitchData {
     return {
-      langList: 'false',
-      language: this.$i18n.locale,
+      langList: false,
+      language: (this as any).$i18n.locale,
       versions: ['en', 'ee', 'de'],
     }
   },
   computed: {
-    filteredVersions() {
+    filteredVersions(this: LanguageSwitchData): string[] {
       return this.versions.filter((lang) => lang !== this.language)
     },
   },
   methods: {
-    changeLanguage(lang) {
+    // changeLanguage(lang: string) {
+    changeLanguage(
+      this: LanguageSwitchData & { $i18n: any },
+      lang: string
+    ): void {
       this.$i18n.locale = lang
       this.language = lang
       window.localStorage.setItem('i18nextLng', lang)
+    },
+    handleMouseEnter(this: LanguageSwitchData) {
+      this.langList = true
+    },
+    handleMouseLeave(this: LanguageSwitchData) {
+      this.langList = false
+    },
+  },
+  watch: {
+    language: function (this: LanguageSwitchData) {
+      this.langList = false
     },
   },
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .lang_box {
   margin-left: auto;
   font-size: 20px;

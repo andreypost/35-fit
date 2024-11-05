@@ -13,8 +13,15 @@
   </ul>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  props: { links: [], bold: '', color: '' },
+  props: {
+    links: {
+      type: Array as () => { route: string; dictionary: string }[],
+      required: true,
+    },
+    bold: { type: String, default: '' },
+    color: { type: String, default: '' },
+  },
 }
 </script>

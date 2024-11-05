@@ -6,23 +6,25 @@
     <NavigationLinks :links="publicLinks" bold="b700" color="#737373" />
     <div class="navigate_menu">
       <LanguageSwitch />
-      <User />
+      <User :user="$store.state.user" styleName="user_header_nav" />
       <NuxtLink
         :to="RESERVE_ROUTE"
         class="flex_center_center navigate_buy b700 white"
       >
         {{ $t('nav.buy') }}
       </NuxtLink>
-      <div :class="['navigate_burger flex_center_center', 'burgerState']">
-        <!-- onClick={() => dispatch(menuModal())} -->
+      <div
+        :class="['navigate_burger flex_center_center', $store.state.burger]"
+        @click="$store.commit('menuModal')"
+      >
         <span></span>
       </div>
     </div>
   </header>
 </template>
 
-<script>
-import Logo from '~/assets/icons/logo.svg?inline'
+<script lang="ts">
+import Logo from '~/assets/icons/Logo.svg?inline'
 import { publicLinks, RESERVE_ROUTE } from '~/constants/routes'
 
 export default {
@@ -39,7 +41,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .header_nav {
   max-width: 1440px;
   margin-bottom: -64px;

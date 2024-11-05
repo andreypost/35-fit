@@ -5,15 +5,14 @@
       styleName,
       user ? ' loggedOut' : ' loggedIn',
     ]"
+    @click="
+      styleName === 'dashboard_modal'
+        ? $store.commit('unsetDashModal')
+        : user
+        ? $store.commit('dashModal')
+        : $store.commit('loginModal')
+    "
   >
-    <!-- onClick={() =>
-        styleName === 'dashboard_modal'
-          ? dispatch(unsetDashModal())
-          : user
-          ? dispatch(dashModal())
-          : dispatch(loginModal())
-      } -->
-
     <p class="user_name b700 green">
       {{ user?.displayName || user?.name || $t('nav.login') }}
     </p>
@@ -27,25 +26,28 @@
   </div>
 </template>
 
-<script>
-import LangArrow from '~/assets/icons/lang-arrow.svg?inline'
+<script lang="ts">
+import LangArrow from '~/assets/icons/LangArrow.svg?inline'
 
 export default {
   name: 'User',
-  props: { user: null, styleName: '' },
+  props: {
+    user: { type: Object, default: null },
+    styleName: { type: String, default: '' },
+  },
   components: {
     LangArrow,
   },
-//   methods: {
-//     handleError(event) {
-//       event.target.onerror = null
-//       event.target.src = '@/assets/img/empty_user.png'
-//     },
-//   },
+  //   methods: {
+  //     handleError(event) {
+  //       event.target.onerror = null
+  //       event.target.src = '@/assets/img/empty_user.png'
+  //     },
+  //   },
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .user_box {
   .user_name {
     white-space: nowrap;
@@ -70,10 +72,7 @@ export default {
       color: white;
     }
   }
-  &.header_nav {
-    @media (max-width: 1023px) {
-      width: 120px;
-    }
+  &.user_header_nav {
     width: 140px;
     padding-left: 8px;
     padding-right: 2px;
@@ -83,6 +82,9 @@ export default {
       .user_face {
         display: none;
       }
+    }
+    @media (max-width: 1023px) {
+      width: 120px;
     }
   }
   &.menu_modal {

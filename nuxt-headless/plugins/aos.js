@@ -4,5 +4,6 @@ import 'aos/dist/aos.css'
 export default ({ app }) => {
   app.AOS = AOS.init({
     duration: 2000,
+    // once: true,
   })
 }
