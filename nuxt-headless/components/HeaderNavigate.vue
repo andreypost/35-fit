@@ -17,7 +17,7 @@
         :class="['navigate_burger flex_center_center', $store.state.burger]"
         @click="$store.commit('menuModal')"
       >
-        <span></span>
+        <span />
       </div>
     </div>
   </header>

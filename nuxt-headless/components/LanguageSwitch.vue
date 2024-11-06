@@ -52,14 +52,14 @@ export default {
     },
   },
   methods: {
-    // changeLanguage(lang: string) {
     changeLanguage(
-      this: LanguageSwitchData & { $i18n: any },
+      this: LanguageSwitchData & { $i18n: any; $router: any },
       lang: string
     ): void {
       this.$i18n.locale = lang
       this.language = lang
       window.localStorage.setItem('i18nextLng', lang)
+      // this.$router.go(0)
     },
     handleMouseEnter(this: LanguageSwitchData) {
       this.langList = true

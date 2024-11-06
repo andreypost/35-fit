@@ -1,13 +1,16 @@
 <template>
-  <!-- <div>
-    <h1 class="faq">Hello from FAQ page!</h1>
-    <h1>I am rendered on {{ renderedOn }}</h1>
-  </div> -->
+  <main data-aos="fade" class="faq_page page_view">
+    <!-- <div>
+      <h1 class="faq">Hello from FAQ page!</h1>
+      <h1>I am rendered on {{ renderedOn }}</h1>
+    </div> -->
+  </main>
 </template>
 
 <script lang="ts">
 export default {
   name: 'FaqPage',
+  scrollToTop: true,
   async asyncData({ env, $axios }: any) {
     try {
       const getAuthAllUsers = await $axios.get(`${env.apiUrl}/auth/users`, {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="default_layout">
     <HeaderNavigate />
     <Nuxt />
     <Footer />
@@ -7,25 +7,32 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 import MenuModal from '~/modals/MenuModal.vue'
 
 export default {
   name: 'DefaultLayout',
-  scrollToTop: true,
+  // scrollToTop: true,
   components: {
     MenuModal,
   },
   methods: {
-    keyDownHandler(e) {
-      e.key === 'Escape' && this.$store.commit('unsetAllModal')
+    keyDownHandler(this: any, event: KeyboardEvent) {
+      event.key === 'Escape' && this.$store.commit('unsetAllModal')
     },
   },
-  mounted() {
+  mounted(this: any) {
     window.addEventListener('keydown', this.keyDownHandler)
   },
-  beforeDestroy() {
+  beforeDestroy(this: any) {
     window.removeEventListener('keydown', this.keyDownHandler)
+  },
+  watch: {
+    '$i18n.locale'() {
+      setTimeout(() => AOS.refresh(), 0)
+    },
   },
 }
 </script>

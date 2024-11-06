@@ -11,16 +11,10 @@
           <span class="header_month">/{{ $t('header_banner.month') }}</span>
         </p>
       </div>
+      <!-- <button class="green_button" @click="refresh">Refresh the page</button>
+      <h1>I am rendered on {{ renderedOn }}</h1> -->
     </HeaderBanner>
   </main>
-  <!-- <div>
-    <button class="green_button" @click="refresh">Refresh the page</button> -->
-  <!-- <button v-if="renderedOn === 'client'" class="grey_button" @click="$fetch">
-      Call fetch method
-    </button> -->
-  <!-- <h1>I am rendered on {{ renderedOn }}</h1>
-    <p @click="changeLocale" v-html="$t('common.book_your_training')"></p>
-  </div> -->
 </template>
 
 <script lang="ts">
@@ -29,6 +23,7 @@ import TieFit from '~/assets/icons/TieFit.svg?inline'
 
 export default Vue.extend({
   name: 'IndexPage',
+  scrollToTop: true,
   components: {
     TieFit,
   },
@@ -64,22 +59,19 @@ export default Vue.extend({
   created() {
     // console.log('on created: ', this.renderedOn)
   },
-  methods: {
-    refresh() {
-      this.$nuxt.refresh()
-    },
-    changeLocale() {
-      this.$i18n.locale = 'de'
-    },
-  },
-  mounted() {
-    // console.log('on mounted: ', this.renderedOn)
-    // console.log('on mounted: ', this, window)
-    this.$nextTick(() => {
-      this.$nuxt.$loading.start()
-      setTimeout(() => this.$nuxt.$loading.finish(), 1000)
-    })
-  },
+  // methods: {
+  //   refresh() {
+  //     this.$nuxt.refresh()
+  //   },
+  // },
+  // mounted() {
+  // console.log('on mounted: ', this.renderedOn)
+  // console.log('on mounted: ', this, window)
+  // this.$nextTick(() => {
+  //   this.$nuxt.$loading.start()
+  //   setTimeout(() => this.$nuxt.$loading.finish(), 1000)
+  // })
+  // },
 })
 </script>
 

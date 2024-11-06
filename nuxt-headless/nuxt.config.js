@@ -21,10 +21,14 @@ export default {
   plugins: [
     {
       src: '~/plugins/aos.js',
-      mode: 'client',
+      ssr: false,
     },
     '~/plugins/i18n.js',
   ],
+  // pageTransition: {
+  //   name: 'fade',
+  //   mode: 'out-in',
+  // },
   components: true,
   buildModules: ['@nuxtjs/style-resources', '@nuxt/typescript-build'],
   modules: ['@nuxtjs/axios'],
@@ -35,7 +39,6 @@ export default {
   env: {
     apiUrl: process.env.API_URL,
   },
-
   build: {
     extend(config) {
       const svgRule = config.module.rules.find((rule) => rule.test.test('.svg'))
