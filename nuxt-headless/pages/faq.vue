@@ -27,7 +27,7 @@ export default {
 
 <style lang="scss" scoped>
 .faq {
-  background: url(~/assets/icons/logo.svg);
+  background: url(~/assets/icons/Logo.svg);
   background: url('~assets/img/patterns/main_header.svg') no-repeat center
     center / cover;
 }

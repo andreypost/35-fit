@@ -3,7 +3,12 @@
     <NuxtLink to="/" class="navigate_logo">
       <Logo />
     </NuxtLink>
-    <NavigationLinks :links="publicLinks" bold="b700" color="#737373" />
+    <NavigationLinks
+      styleName="navigate_routes"
+      :links="publicLinks"
+      bold="b700"
+      color="#737373"
+    />
     <div class="navigate_menu">
       <LanguageSwitch />
       <User :user="$store.state.user" styleName="user_header_nav" />

@@ -1,5 +1,5 @@
 <template>
-  <ul v-if="links.length" class="navigate_routes">
+  <ul v-if="links.length" :class="styleName">
     <li v-for="{ route, dictionary } in links" :key="dictionary">
       <NuxtLink
         :class="bold"
@@ -16,6 +16,7 @@
 <script lang="ts">
 export default {
   props: {
+    styleName: { type: String, default: '' },
     links: {
       type: Array as () => { route: string; dictionary: string }[],
       required: true,

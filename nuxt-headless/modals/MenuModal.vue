@@ -11,7 +11,7 @@
         @click="$store.commit('unsetMenuModal')"
       />
       <ul class="flex_center_bet_col center">
-        <NavigationLinks :links="publicLinks" bold="b700" color="#737373" />
+        <NavigationLinks :links="publicLinks" bold="b900" color="#737373" />
         <li :class="['login', $store.state.user ? 'signOut' : 'signIn']">
           <User :user="$store.state.user" styleName="menu_modal" />
         </li>
@@ -43,9 +43,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .menu_modal_styles {
-  nav ul {
+  nav > ul {
     padding: 40px;
     li {
       width: 100%;
