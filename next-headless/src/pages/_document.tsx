@@ -1,10 +1,8 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import i18nextConfig from "../../next-i18next.config";
 
-export default function Document() {
-  const currentLocale = i18nextConfig.i18n.defaultLocale || "en"; // #TO DO does not work
+export default function Document({ __NEXT_DATA__ }) {
   return (
-    <Html lang={currentLocale}>
+    <Html lang={__NEXT_DATA__.locale}>
       <Head>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link

@@ -53,16 +53,21 @@ export const Language = () => {
   const [langList, setLangList] = useState(false);
   const langRef = useRef<HTMLUListElement>(null);
 
+  const setLanguageHandler = (lng: string) => {
+    i18n.changeLanguage(lng);
+    setLanguage(lng);
+    document.documentElement.lang = lng;
+  };
+
   useEffect(() => {
     if (isBrowser()) {
       const i18nextLng = localStorage.getItem("i18nextLng");
       if (i18nextLng && versions.includes(i18nextLng)) {
-        i18n.changeLanguage(i18nextLng);
-        setLanguage(i18nextLng);
+        setLanguageHandler(i18nextLng);
       }
     }
     // if (i18n.language !== i18n.resolvedLanguage) {
-    //   i18n.changeLanguage("en");
+    //   setLanguageHandler("en");
     // }
   }, [i18n]);
 
@@ -86,8 +91,7 @@ export const Language = () => {
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === "i18nextLng" && versions.includes(e.newValue)) {
-        setLanguage(e.newValue);
-        i18n.changeLanguage(e.newValue);
+        setLanguageHandler(e.newValue);
       }
     };
     window.addEventListener("storage", handleStorageChange);
@@ -113,8 +117,7 @@ export const Language = () => {
               <li
                 key={item}
                 onClick={() => (
-                  i18n.changeLanguage(item),
-                  setLanguage(item),
+                  setLanguageHandler(item),
                   localStorage.setItem("i18nextLng", item)
                 )}
               >
