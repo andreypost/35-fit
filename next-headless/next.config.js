@@ -2,9 +2,9 @@
 
 /** @type {import('next').NextConfig} */
 
-import nextI18NextConfig from "./next-i18next.config.js";
+const { i18n } = require("./next-i18next.config");
 
-const nextConfig = {
+module.exports = {
   compiler: {
     styledComponents: true,
   },
@@ -20,7 +20,5 @@ const nextConfig = {
     ],
     // domains: ["lh3.googleusercontent.com"], // deprecated
   },
-  i18n: nextI18NextConfig.i18n,
+  i18n,
 };
-
-export default nextConfig;

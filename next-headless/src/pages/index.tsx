@@ -1,9 +1,8 @@
 // import { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useTranslation } from "next-i18next";
-import { GetStaticProps } from "next";
+// import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { IUser } from "types/interface";
 import useAos from "hooks/aos";
 import Image from "next/image";
 import Link from "next/link";
@@ -180,7 +179,7 @@ const MainBlock = styled.main`
   }
 `;
 
-const Main = ({ user }: IUser) => {
+const Main = () => {
   const { t } = useTranslation("common");
 
   return (
@@ -291,10 +290,23 @@ const Main = ({ user }: IUser) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale ?? "en", ["common"])),
-  },
-});
+// export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+//   props: {
+//     ...(await serverSideTranslations(locale ?? "en", ["common"])),
+//   },
+// });
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      // ...(await serverSideTranslations(locale, "common")),
+      ...(await serverSideTranslations(locale, "common", null, [
+        "en",
+        "ee",
+        "de",
+      ])),
+    },
+  };
+}
 
 export default Main;

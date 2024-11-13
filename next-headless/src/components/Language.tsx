@@ -2,6 +2,7 @@ import { useContext, useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import { useTranslation } from "next-i18next";
 import { AppContext } from "src/pages/_app";
+import { isBrowser } from "utils/isBrowser";
 import { LangArrowSVG } from "icons";
 
 const Ul = styled.ul`
@@ -48,10 +49,24 @@ const Ul = styled.ul`
 
 export const Language = () => {
   const { i18n } = useTranslation("common");
-  const { language, setLanguage } = useContext(AppContext);
+  // const { language, setLanguage } = useContext(AppContext);
+  const [language, setLanguage] = useState(
+    isBrowser() ? localStorage.getItem("i18nextLng") || "en" : "en"
+  );
   const versions = ["en", "ee", "de"];
   const [langList, setLangList] = useState(false);
   const langRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (isBrowser() && localStorage.getItem("i18nextLng")) {
+      // console.log("localStorage: ", localStorage.getItem("i18nextLng"));
+      i18n.changeLanguage(localStorage.getItem("i18nextLng"));
+    }
+    console.log("i18n: ", i18n.language, i18n.resolvedLanguage);
+    // if (i18n.language !== i18n.resolvedLanguage) {
+    //   i18n.changeLanguage("en");
+    // }
+  }, [i18n]);
 
   useEffect(() => {
     const handleMouseEnter = () => setLangList(true);
@@ -69,7 +84,19 @@ export const Language = () => {
     }
   }, []);
 
-  useEffect(() => setLangList(false), [language]);
+  // this logic handles simultaneous setting language from another open page
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "i18nextLng" && e.newValue) {
+        setLanguage(e.newValue);
+        i18n.changeLanguage(e.newValue);
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
+  useEffect(() => setLangList(false), [language]); // important for tap device
 
   return (
     <Ul
@@ -78,21 +105,25 @@ export const Language = () => {
       }`}
       ref={langRef}
     >
-      <li className="lang_base">{language.toLocaleUpperCase()}</li>
+      {/* <li className="lang_base">{language.toLocaleUpperCase()}</li> */}
       <li className="lang_list absolute">
-        <ul>
-          {versions.splice(versions.indexOf(language), 1) &&
-            versions.map((item) => (
-              <li
-                key={item}
-                onClick={() => (
-                  i18n.changeLanguage(item), setLanguage(i18n.language)
-                )}
-              >
-                {item.toLocaleUpperCase()}
-              </li>
-            ))}
-        </ul>
+        {/* <ul>
+          {isBrowser() &&
+            versions
+              .filter((i) => i !== language)
+              .map((item) => (
+                <li
+                  key={item}
+                  onClick={() => (
+                    i18n.changeLanguage(item),
+                    setLanguage(item),
+                    localStorage.setItem("i18nextLng", item)
+                  )}
+                >
+                  {item.toLocaleUpperCase()}
+                </li>
+              ))}
+        </ul> */}
       </li>
       <li className="lang_arrow">
         <LangArrowSVG />

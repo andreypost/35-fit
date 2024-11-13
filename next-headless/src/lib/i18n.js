@@ -6,30 +6,32 @@ import nextI18NextConfig from "../../next-i18next.config";
 
 if (isBrowser()) {
   const LanguageDetector = require("i18next-browser-languagedetector").default;
-  i18n.use(LanguageDetector);
+  i18n.use(LanguageDetector).init({
+    detection: {
+      order: isBrowser()
+        ? [
+            // "cookie",
+            "localStorage",
+            // "navigator",
+            // "htmlTag",
+            // "path",
+            // "subdomain",
+          ]
+        : [],
+      lookupLocalStorage: "i18nextLng",
+      caches: isBrowser()
+        ? [
+            // "cookie",
+            "localStorage",
+          ]
+        : [],
+    },
+  });
 }
 
-i18n.use(initReactI18next).init({
-  ...nextI18NextConfig,
-  fallbackLng: "en",
-  detection: {
-    order: isBrowser()
-      ? [
-          // "cookie",
-          "localStorage",
-          // "navigator",
-          // "htmlTag",
-          // "path",
-          // "subdomain",
-        ]
-      : [],
-    caches: isBrowser()
-      ? [
-          // "cookie",
-          "localStorage",
-        ]
-      : [],
-  },
-});
+// i18n.use(initReactI18next).init({
+//   ...nextI18NextConfig,
+//   // fallbackLng: "en",
+// });
 
 export default i18n;
