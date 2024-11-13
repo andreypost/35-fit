@@ -6,9 +6,7 @@ import React, {
   useMemo,
   useContext,
 } from "react";
-import { appWithTranslation, useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-// import "../lib/i18n";
+import { appWithTranslation } from "next-i18next";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -23,14 +21,13 @@ import "../globals.css";
 import "../styles/normalize.css";
 import "../styles/common.scss";
 import "aos/dist/aos.css";
-import { IAppConfig, IFirebaseProps } from "types/interface";
+import { IFirebaseProps } from "types/interface";
 import { Spinner } from "Spinner";
 import { Provider } from "react-redux";
 import { store } from "store";
 import { ApolloAppProvider } from "src/ApolloAppProvider";
 import { HeaderNavigate } from "components/HeaderNavigate";
 import RootLayout from "src/RootLayout";
-import { isBrowser } from "isBrowser";
 import { useAppDispatch, useAppSelector } from "hooks/redux";
 import { setDatabaseUser, validateAuthToken } from "slices/databaseUser.slice";
 import { Footer } from "components/Footer";
@@ -52,7 +49,7 @@ const firebaseAuth = getAuth();
 const firestore = getFirestore();
 
 export const FirebaseAuthContext = createContext({} as IFirebaseProps);
-export const AppContext = createContext({} as IAppConfig);
+// export const AppContext = createContext({} as IAppConfig);
 
 const RootWrapper = ({ Component, pageProps }) => {
   const { user, login, firebaseAuth } = useContext(FirebaseAuthContext);
@@ -123,33 +120,6 @@ const RootWrapper = ({ Component, pageProps }) => {
 };
 
 const RootApp = ({ Component, pageProps }) => {
-  // const { i18n } = useTranslation("common");
-  // const [language, setLanguage] = useState(
-  //   isBrowser() ? localStorage.getItem("i18nextLng") || "en" : "en"
-  // );
-
-  // useEffect(() => {
-  //   if (isBrowser() && localStorage.getItem("i18nextLng")) {
-  //     console.log("e.newValue: ", localStorage.getItem("i18nextLng"));
-  //     i18n.changeLanguage(localStorage.getItem("i18nextLng"));
-  //   }
-  //   if (i18n.language !== i18n.resolvedLanguage) {
-  //     i18n.changeLanguage(i18n.resolvedLanguage);
-  //   }
-  // }, [i18n]);
-
-  // this logic handles simultaneous setting language from another open page
-  // useEffect(() => {
-  //   const handleStorageChange = (e: StorageEvent) => {
-  //     if (e.key === "i18nextLng" && e.newValue) {
-  //       // setLanguage(e.newValue);
-  //       i18n.changeLanguage(e.newValue);
-  //     }
-  //   };
-  //   window.addEventListener("storage", handleStorageChange);
-  //   return () => window.removeEventListener("storage", handleStorageChange);
-  // }, []);
-
   const [user] = useAuthState(firebaseAuth);
   const login = async () => {
     const provider = new GoogleAuthProvider();
@@ -184,18 +154,5 @@ const RootApp = ({ Component, pageProps }) => {
     </Suspense>
   );
 };
-
-// export async function getStaticProps({ locale }) {
-//   return {
-//     props: {
-//       // ...(await serverSideTranslations(locale, "common")),
-//       ...(await serverSideTranslations(locale, "common", null, [
-//         "en",
-//         "ee",
-//         "de",
-//       ])),
-//     },
-//   };
-// }
 
 export default appWithTranslation(RootApp);

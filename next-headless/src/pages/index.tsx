@@ -1,7 +1,6 @@
 // import { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useTranslation } from "next-i18next";
-// import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import useAos from "hooks/aos";
 import Image from "next/image";
@@ -290,16 +289,9 @@ const Main = () => {
   );
 };
 
-// export const getStaticProps: GetStaticProps = async ({ locale }) => ({
-//   props: {
-//     ...(await serverSideTranslations(locale ?? "en", ["common"])),
-//   },
-// });
-
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      // ...(await serverSideTranslations(locale, "common")),
       ...(await serverSideTranslations(locale, "common", null, [
         "en",
         "ee",

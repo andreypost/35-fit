@@ -213,15 +213,15 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
         }, 1500);
       });
     }
-    dispatch(loginUserFromDatabase(loginData));
-    // try {
-    //   await loginUser({
-    //     variables: loginData,
-    //   });
-    //   dispatch(validateAuthToken({ firstLoad: false }));
-    // } catch (error: any) {
-    //   console.error(error);
-    // }
+    // dispatch(loginUserFromDatabase(loginData));
+    try {
+      await loginUser({
+        variables: loginData,
+      });
+      dispatch(validateAuthToken({ firstLoad: false }));
+    } catch (error: any) {
+      console.error(error);
+    }
   };
   return (
     <Div
