@@ -12,7 +12,7 @@
         </p>
       </div>
       <!-- <button class="green_button" @click="refresh">Refresh the page</button>
-      <h1>I am rendered on {{ renderedOn }}</h1> -->
+      <h1 :[dataAos]="attr">I am rendered on {{ renderedOn }}</h1> -->
     </HeaderBanner>
   </main>
 </template>
@@ -26,6 +26,12 @@ export default Vue.extend({
   scrollToTop: true,
   components: {
     TieFit,
+  },
+  data() {
+    return {
+      dataAos: 'data-aos',
+      attr: 'off',
+    }
   },
   async asyncData(context) {
     // console.log('asyncData contex: ', context)
@@ -59,11 +65,21 @@ export default Vue.extend({
   created() {
     // console.log('on created: ', this.renderedOn)
   },
-  // methods: {
-  //   refresh() {
-  //     this.$nuxt.refresh()
-  //   },
-  // },
+  computed: {
+    // message() {
+    //   return 'Hello!!!'.split('').reverse().join('') + ' ' + Date.now()
+    // },
+  },
+  methods: {
+    // message() {
+    //   return 'Hello!!!'.split('').reverse().join('') + ' ' + Date.now()
+    // },
+    // refresh() {
+    //   this.attr = 'on'
+    //   this.dataAos = 'data'
+    //   this.$nuxt.refresh()
+    // },
+  },
   // mounted() {
   // console.log('on mounted: ', this.renderedOn)
   // console.log('on mounted: ', this, window)
