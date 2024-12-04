@@ -27,7 +27,9 @@ export class DetailService {
 
   private readonly filePath: string = path.resolve(
     __dirname,
-    '../../../../jsonData/user-collection.json',
+    process.platform === 'win32'
+      ? '..\\..\\..\\..\\jsonData\\user-collection.json' // Windows-specific path
+      : '../../../../jsonData/user-collection.json', // POSIX-specific path
   );
 
   private usersCountCache: Record<string, number> = {};

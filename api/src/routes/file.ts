@@ -8,12 +8,14 @@ import { IFileUserDetails } from "../types/interface";
 
 const file = Router();
 
-const fileFolder = "../jsonData";
-// const filePath = path.resolve(process.cwd(), fileFolder, "user-collection.json");
+// const filePath = path.resolve(process.cwd(), "../jsonData", "user-collection.json");
+// __dirname is usually better because it is directly tied to the file structure
 const filePath = path.resolve(
   __dirname,
-  `../../${fileFolder}/user-collection.json`
-); // __dirname is usually better because it is directly tied to the file structure
+  process.platform === "win32"
+    ? "..\\..\\..\\jsonData\\user-collection.json" // Windows-specific path
+    : "../../../jsonData/user-collection.json" // POSIX-specific path
+);
 
 let fileData: IFileUserDetails[] = [];
 
