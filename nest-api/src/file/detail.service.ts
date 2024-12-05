@@ -88,8 +88,9 @@ export class DetailService {
   ): Promise<Record<string, number>> {
     try {
       await this.loadUserCollection(req);
-      if (Object.keys(this.usersCountCache)?.length)
+      if (Object.keys(this.usersCountCache)?.length) {
         return this.usersCountCache;
+      }
       return (this.usersCountCache = this.userCollection.reduce(
         (acc, { country }) => {
           !acc[country] ? (acc[country] = 1) : ++acc[country];
@@ -107,8 +108,9 @@ export class DetailService {
   ): Promise<Record<string, number>> {
     try {
       await this.loadUserCollection(req);
-      if (Object.keys(this.averageEarningsCache)?.length)
+      if (Object.keys(this.averageEarningsCache)?.length) {
         return this.averageEarningsCache;
+      }
 
       return (this.averageEarningsCache = countCountryEarnings(
         this.userCollection,
