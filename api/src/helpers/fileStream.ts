@@ -1,9 +1,9 @@
-import fs from "fs";
+import { existsSync, createReadStream, createWriteStream } from "fs";
 import { msg } from "../constants/messages";
 
 export const getFileData = (path: string, next: any): Promise<any> => {
   try {
-    if (!fs.existsSync(path)) {
+    if (!existsSync(path)) {
       next({
         message: msg.FILE_DOES_NOT_EXIST,
         status: 404,
@@ -16,7 +16,7 @@ export const getFileData = (path: string, next: any): Promise<any> => {
 
   return new Promise((res, rej) => {
     let jsonData = "";
-    fs.createReadStream(path, "utf-8")
+    createReadStream(path, "utf-8")
       .on("data", (chunk) => (jsonData += chunk))
       .on("end", () => {
         try {
@@ -34,7 +34,7 @@ export const writeFileData = (path: string, data: any): Promise<void> => {
   return new Promise((res, rej) => {
     const jsonString = JSON.stringify(data, null, 2);
 
-    const writeStream = fs.createWriteStream(path, {
+    const writeStream = createWriteStream(path, {
       encoding: "utf-8",
       // flags: "r+", // this flag does not create a new file if does not exists
     });

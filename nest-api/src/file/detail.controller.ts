@@ -19,7 +19,8 @@ export class DetailController {
 
   @Get('read')
   async loadUserCollection(@Req() req: Request): Promise<UserDetails[]> {
-    return this.detailService.loadUserCollection(req);
+    return this.detailService.getStreamFile(req);
+    // return this.detailService.loadUserCollection(req);
   }
 
   @Post('write')
