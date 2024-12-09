@@ -5,6 +5,7 @@ import { getFileData, writeFileData } from "../helpers/fileStream";
 import { body, validationResult } from "express-validator";
 import { msg } from "../constants/messages";
 import { IFileUserDetails } from "../types/interface";
+import { countCountryEarnings } from "../helpers/userCollection";
 
 const file = Router();
 
@@ -18,11 +19,13 @@ const filePath = path.resolve(
 );
 
 let fileData: IFileUserDetails[] = [];
+let fileCountCache: Record<string, number> = {};
+let fileEarningsCache: Record<string, number> = {};
 
 file.get("/read", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // const authToken = req?.cookies?.authToken;
-    // await validateAuthToken(authToken, res);
+    const authToken = req?.cookies?.authToken;
+    await validateAuthToken(authToken, res);
 
     // fs.rename(
     //   fileFolder,
@@ -51,8 +54,8 @@ file.get("/read", async (req: Request, res: Response, next: NextFunction) => {
       fileData = await getFileData(filePath, next);
     }
     return res.status(200).json(fileData);
-  } catch (err: any) {
-    return next(err);
+  } catch (error: any) {
+    return next(error);
   }
 });
 
@@ -86,9 +89,84 @@ file.post(
 
       await writeFileData(filePath, fileData);
       fileData = [];
-      return res
-        .status(200)
-        .json({ message: msg.FILE_WAS_WRITTEN_SUCCESSFULLY, success: true });
+      fileCountCache = {};
+      return res.status(200).json({
+        message: msg.FILE_WAS_WRITTEN_SUCCESSFULLY,
+        success: true,
+        ...body,
+      });
+    } catch (error: any) {
+      return next(error);
+    }
+  }
+);
+
+file.get(
+  "/count-by-country",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const authToken = req?.cookies?.authToken;
+      await validateAuthToken(authToken, res);
+
+      if (Object.keys(fileCountCache)?.length) {
+        return res.status(200).json(fileCountCache);
+      }
+      if (!fileData?.length) {
+        fileData = await getFileData(filePath, next);
+      }
+      fileCountCache = fileData.reduce((acc, { country }) => {
+        !acc[country] ? (acc[country] = 1) : ++acc[country];
+        return acc;
+      }, {} as Record<string, number>);
+
+      return res.status(200).json(fileCountCache);
+    } catch (error: any) {
+      return next(error);
+    }
+  }
+);
+
+file.get(
+  "/average-earnings-by-country",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const authToken = req?.cookies?.authToken;
+      await validateAuthToken(authToken, res);
+
+      if (Object.keys(fileEarningsCache)?.length) {
+        return res.status(200).json(fileEarningsCache);
+      }
+      if (!fileData?.length) {
+        fileData = await getFileData(filePath, next);
+      }
+      fileEarningsCache = await countCountryEarnings(fileData);
+
+      return res.status(200).json(fileEarningsCache);
+    } catch (error: any) {
+      return next(error);
+    }
+  }
+);
+
+file.get(
+  "/users/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const authToken = req?.cookies?.authToken;
+      await validateAuthToken(authToken, res);
+
+      const { id } = req.params;
+      if (!id) {
+        return res.status(400).json({ message: "ID is required" });
+      }
+      if (!fileData?.length) {
+        fileData = await getFileData(filePath, next);
+      }
+      const user = fileData.find((user) => user.id === +id);
+      if (!user) {
+        return res.status(404).json(msg.USER_NOT_FOUND);
+      }
+      return res.status(200).json(user);
     } catch (error: any) {
       return next(error);
     }

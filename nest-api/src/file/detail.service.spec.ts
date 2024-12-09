@@ -53,9 +53,7 @@ describe('DetailService', () => {
       throw error;
     });
 
-    await expect(
-      detailService.loadUserCollection(req as Request),
-    ).rejects.toThrow(
+    await expect(detailService.getStreamFile(req as Request)).rejects.toThrow(
       new InternalServerErrorException(
         detailService['filePath'],
         msg.FILE_DOES_NOT_EXIST,
@@ -98,7 +96,7 @@ describe('DetailService', () => {
       JSON.stringify(mockUserCollection),
     );
 
-    const result = await detailService.loadUserCollection(req as Request);
+    const result = await detailService.getStreamFile(req as Request);
 
     expect(result).toEqual(mockUserCollection);
     expect(validateAuthToken).toHaveBeenCalledWith(req.cookies.authToken);
@@ -111,9 +109,9 @@ describe('DetailService', () => {
 
     (validateAuthToken as jest.Mock).mockRejectedValueOnce(mockError);
 
-    await expect(
-      detailService.loadUserCollection(req as Request),
-    ).rejects.toThrow(mockError);
+    await expect(detailService.getStreamFile(req as Request)).rejects.toThrow(
+      mockError,
+    );
 
     expect(nextError).toHaveBeenCalledWith(mockError);
   });

@@ -133,7 +133,7 @@ export class DetailService {
         return this.averageEarningsCache;
       }
 
-      return (this.averageEarningsCache = countCountryEarnings(
+      return (this.averageEarningsCache = await countCountryEarnings(
         this.userCollection,
       ));
     } catch (error: any) {
