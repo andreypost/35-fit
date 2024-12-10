@@ -1,5 +1,6 @@
 import { Controller, Post, Body, Res, Get, Delete, Req } from '@nestjs/common';
 import { Response, Request } from 'express';
+import { Public } from '../utils/public';
 import { AuthService } from './auth.service';
 import {
   CreateUserDto,
@@ -12,6 +13,7 @@ import { User } from '../entities/user';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Post('create-new-user')
   async createNewUser(
     @Body() createUserDto: CreateUserDto,
@@ -20,6 +22,7 @@ export class AuthController {
     return await this.authService.createNewUser(createUserDto, res);
   }
 
+  @Public()
   @Post('login')
   async loginUser(
     @Body() { email, password, keepLoggedIn }: LoginUserDto,
@@ -32,19 +35,19 @@ export class AuthController {
   }
 
   @Get('users')
-  async getAllUsers(@Req() req: Request): Promise<User[]> {
-    return this.authService.getAllUsers(req);
+  async getAllUsers(): Promise<User[]> {
+    return this.authService.getAllUsers();
   }
 
   @Delete('delete-user-by-email')
   async deleteUserByEmail(
-    @Req() req: Request,
     @Body() deleteUserDto: DeleteUserDto,
     @Res() res: Response,
   ): Promise<any> {
-    return this.authService.deleteUserByEmail(req, deleteUserDto, res);
+    return this.authService.deleteUserByEmail(deleteUserDto, res);
   }
 
+  @Public()
   @Get('validate')
   async validateUserByAuthToken(
     @Req() req: Request,

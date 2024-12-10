@@ -3,11 +3,13 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './db/database.module';
 import { JwtModule } from '@nestjs/jwt';
+import { APP_GUARD } from '@nestjs/core';
 import { secrets } from './constants/secrets';
 import { AppController } from './app.controller';
 import { HelloController } from './hello.controller';
 import { DetailController } from './file/detail.controller';
 import { AuthController } from './user/auth.controller';
+import { AuthGuard } from './utils/auth.guard';
 import { userProviders, userDetailsProviders } from './user/auth.provider';
 import { AppService } from './app.service';
 import { AuthService } from './user/auth.service';
@@ -34,6 +36,7 @@ import { DetailService } from './file/detail.service';
     DetailController,
   ],
   providers: [
+    { provide: APP_GUARD, useClass: AuthGuard },
     ...userProviders,
     ...userDetailsProviders,
     AppService,

@@ -48,13 +48,12 @@ export class AuthService {
     keepLoggedIn: boolean = false,
   ): Promise<void> {
     try {
-      secrets.EXPIRES_IN = keepLoggedIn ? 2600000000 : 3600000;
       const authToken = this.jwtService.sign({ email, id });
       res.cookie('authToken', authToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        maxAge: secrets.EXPIRES_IN,
+        maxAge: keepLoggedIn ? secrets.LONG_EXPIRES_IN : secrets.EXPIRES_IN,
         // path: "/",
       });
     } catch (error: any) {
@@ -100,7 +99,6 @@ export class AuthService {
     { email, password, keepLoggedIn }: LoginUserDto,
     res: Response,
   ): Promise<any> {
-    console.log('keepLoggedIn: ', keepLoggedIn);
     try {
       const user = await this.findUserByEmail(email);
       if (!user) {
@@ -120,11 +118,8 @@ export class AuthService {
     }
   }
 
-  public async getAllUsers(req: Request): Promise<User[]> {
+  public async getAllUsers(): Promise<User[]> {
     try {
-      const authToken = req?.cookies?.authToken;
-      await validateAuthToken(authToken);
-
       return await this.userRepository.find();
     } catch (error: any) {
       nextError(error);
@@ -132,14 +127,10 @@ export class AuthService {
   }
 
   public async deleteUserByEmail(
-    req: Request,
     deleteUserDto: DeleteUserDto,
     res: Response,
   ): Promise<any> {
     try {
-      const authToken = req?.cookies?.authToken;
-      await validateAuthToken(authToken);
-
       const { email } = deleteUserDto;
       const { affected } = await this.userRepository.delete({ email });
       if (affected) {

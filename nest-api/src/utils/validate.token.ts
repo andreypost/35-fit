@@ -1,7 +1,7 @@
 import { UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { msg } from '../constants/messages';
 import { secrets } from '../constants/secrets';
-import { JwtService } from '@nestjs/jwt';
 
 export const validateAuthToken = async (authToken: string): Promise<any> => {
   if (!authToken) {
@@ -10,7 +10,7 @@ export const validateAuthToken = async (authToken: string): Promise<any> => {
   try {
     const jwtService = new JwtService({
       secret: secrets.JWT_KEY,
-      signOptions: { expiresIn: '3600000s' },
+      signOptions: { expiresIn: secrets.EXPIRES_IN },
     });
     const { email } = jwtService.verify(authToken);
     return email;

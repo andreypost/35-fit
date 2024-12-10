@@ -181,17 +181,8 @@ const Reserve = ({ user }: IUser) => {
       // country: 'Ukraine',
       // city: 'Kyiv',
       // email: '',
-      // password: '9999',
-      // phone: '0673788612',
-      name: '',
-      surname: '',
-      gender: '',
-      age: 0,
-      country: '',
-      city: '',
-      email: '',
-      password: '',
-      phone: '',
+      // password: '',
+      // phone: '',
       emergencyName: '',
       emergencyPhone: '',
     }),
@@ -249,8 +240,8 @@ const Reserve = ({ user }: IUser) => {
         { withCredentials: true }
       )
       console.log('createNewUser: ', createNewUser)
-      dispatch(validateAuthToken({ firstLoad: false }))
       dispatch(messageModal(t('messages.your_account_was_created')))
+      dispatch(validateAuthToken({ firstLoad: true }))
     } catch (error: any) {
       errorModalMessage(error)
     }

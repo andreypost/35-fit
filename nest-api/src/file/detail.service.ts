@@ -10,9 +10,8 @@ import {
 } from 'path';
 // import { existsSync } from 'fs';
 // import { readFile, writeFile } from 'fs/promises';
-import { Request, Response } from 'express';
-import { getFileData, writeFileData } from 'src/helpers/fileStream';
-import { validateAuthToken } from '../utils/validate.token';
+import { Response } from 'express';
+import { getFileData, writeFileData } from 'src/helpers/file.stream';
 import { UserDetails } from '../entities/user.details';
 import { CreateUserDetailsDto } from '../user/dto/create-user-details.dto';
 // import { v4 as uuidv4 } from 'uuid';
@@ -40,7 +39,7 @@ export class DetailService {
   private usersCountCache: Record<string, number> = {};
   private averageEarningsCache: Record<string, number> = {};
 
-  public async getStreamFile(req: Request): Promise<UserDetails[]> {
+  public async getStreamFile(): Promise<UserDetails[]> {
     try {
       if (!this.userCollection?.length) {
         return (this.userCollection = await getFileData(this.filePath));
@@ -72,12 +71,11 @@ export class DetailService {
   } */
 
   public async addNewDetailsUser(
-    req: Request,
     createUserDetailsDto: CreateUserDetailsDto,
     res: Response,
   ): Promise<any> {
     try {
-      await this.getStreamFile(req);
+      await this.getStreamFile();
       // await this.loadUserCollection(req);
       this.userCollection.push(createUserDetailsDto);
       // const id: string = uuidv4();
@@ -102,11 +100,9 @@ export class DetailService {
     }
   }
 
-  public async getUsersCountByCountry(
-    req: Request,
-  ): Promise<Record<string, number>> {
+  public async getUsersCountByCountry(): Promise<Record<string, number>> {
     try {
-      await this.getStreamFile(req);
+      await this.getStreamFile();
       // await this.loadUserCollection(req);
       if (Object.keys(this.usersCountCache)?.length) {
         return this.usersCountCache;
@@ -123,11 +119,9 @@ export class DetailService {
     }
   }
 
-  public async getAverageEarningsByCountry(
-    req: Request,
-  ): Promise<Record<string, number>> {
+  public async getAverageEarningsByCountry(): Promise<Record<string, number>> {
     try {
-      await this.getStreamFile(req);
+      await this.getStreamFile();
       // await this.loadUserCollection(req);
       if (Object.keys(this.averageEarningsCache)?.length) {
         return this.averageEarningsCache;
@@ -141,9 +135,9 @@ export class DetailService {
     }
   }
 
-  public async findUserById(req: Request, id: string): Promise<UserDetails> {
+  public async findUserById(id: string): Promise<UserDetails> {
     try {
-      await this.getStreamFile(req);
+      await this.getStreamFile();
       // await this.loadUserCollection(req);
       const user: UserDetails = this.userCollection.find(
         (user) => user.id == id,
