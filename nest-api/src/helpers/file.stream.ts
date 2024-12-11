@@ -38,7 +38,8 @@ export const writeFileData = (path: string, data: any): Promise<void> => {
       .on('error', (err) => rej(err.message))
       .on('finish', () => res());
 
-    writeStream.write(JSON.stringify(data, null, 2));
-    writeStream.end();
+    // writeStream.write(JSON.stringify(data, null, 2));
+    // The end function on streams can also take in some optional data to send as the last bit of data on the stream
+    writeStream.end(JSON.stringify(data, null, 2));
   });
 };
