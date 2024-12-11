@@ -15,6 +15,7 @@ export const getFileData = (path: string): Promise<any> => {
   return new Promise((res, rej) => {
     let jsonData = '';
     createReadStream(path, 'utf-8')
+      .on('error', (err) => rej(`Error parsing JSON: ${err.message}`))
       .on('data', (chunk) => (jsonData += chunk))
       .on('end', () => {
         try {
@@ -23,25 +24,21 @@ export const getFileData = (path: string): Promise<any> => {
         } catch (err: any) {
           rej(`Error parsing JSON: ${err}`);
         }
-      })
-      .on('error', (err) => rej(`Error parsing JSON: ${err}`));
+      });
   });
 };
 
 export const writeFileData = (path: string, data: any): Promise<void> => {
   return new Promise((res, rej) => {
-    const jsonString = JSON.stringify(data, null, 2);
-
     const writeStream = createWriteStream(path, {
       encoding: 'utf-8',
+      flags: 'w', // Ensures file creation if it doesn't exist
       // flags: "r+", // this flag does not create a new file if does not exists
-    });
+    })
+      .on('error', (err) => rej(err.message))
+      .on('finish', () => res());
 
-    writeStream.write(jsonString);
-
-    writeStream
-      .end()
-      .on('finish', () => res())
-      .on('error', (err) => rej(`Error writing file: ${err}`));
+    writeStream.write(JSON.stringify(data, null, 2));
+    writeStream.end();
   });
 };
