@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import bcrypt from "bcrypt";
 
-@Entity({ name: "users" })
+@Entity({ name: "user" })
 export class User {
   @PrimaryGeneratedColumn("uuid")
   id?: string;

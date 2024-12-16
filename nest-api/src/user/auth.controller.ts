@@ -1,12 +1,12 @@
 import { Controller, Post, Body, Res, Get, Delete, Req } from '@nestjs/common';
 import { Response, Request } from 'express';
-import { Public } from '../utils/public';
+import { Public } from '../auth/public';
 import { AuthService } from './auth.service';
 import {
   CreateUserDto,
   DeleteUserDto,
   LoginUserDto,
-} from './dto/create-user.dto';
+} from './dto/create.user.dto';
 import { User } from '../entities/user';
 
 @Controller('auth')

@@ -13,7 +13,7 @@ import {
 import { Response } from 'express';
 import { getFileData, writeFileData } from 'src/helpers/file.stream';
 import { UserDetails } from '../entities/user.details';
-import { CreateUserDetailsDto } from '../user/dto/create-user-details.dto';
+import { CreateUserDetailsDto } from '../user/dto/create.user.details.dto';
 // import { v4 as uuidv4 } from 'uuid';
 import { countCountryEarnings } from '../helpers/user.collection';
 import { msg } from '../constants/messages';

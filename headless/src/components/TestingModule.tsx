@@ -200,6 +200,36 @@ export const TestingModule = ({ user }: IUser) => {
 
     setIndex(Math.floor(Math.random() * countries.length))
   }
+
+  const makeScooterOrder = async () => {
+    try {
+      const createScooterOrder = await axios.post(
+        `${process.env.API_URL}/order/create`,
+        {
+          totalAmount: 2,
+          status: 'Pending',
+        },
+        { withCredentials: true }
+      )
+      console.log('/order/create: ', createScooterOrder)
+    } catch (err: any) {
+      console.error(err.response?.data)
+    }
+  }
+
+  const getScooterOrders = async () => {
+    try {
+      const scooterOrders = await axios.get(
+        `${process.env.API_URL}/order/orders`,
+        {
+          withCredentials: true,
+        }
+      )
+      console.log('/order/orders: ', scooterOrders)
+    } catch (err: any) {
+      console.error(err.response?.data)
+    }
+  }
   return (
     <Div>
       {fileListError && <p>{fileListError?.message}</p>}
@@ -220,8 +250,22 @@ export const TestingModule = ({ user }: IUser) => {
         </ol>
       )}
       <form id="testingForm" className="flex_str_col" onSubmit={handleTesting}>
+        <button
+          type="button"
+          className="grey_button grey"
+          onClick={makeScooterOrder}
+        >
+          Make Scooter Order
+        </button>
+        <button
+          type="button"
+          className="grey_button grey"
+          onClick={getScooterOrders}
+        >
+          Get Scooter Orders
+        </button>
         <button type="submit" className="grey_button grey">
-          GO
+          Stream File Data
         </button>
         {/* <ImagesList categoryImages="Coffee" />
         <p

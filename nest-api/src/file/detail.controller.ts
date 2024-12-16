@@ -12,7 +12,7 @@ import { Response } from 'express';
 // import { AuthGuard } from '../utils/auth.guard';
 import { DetailService } from './detail.service';
 import { UserDetails } from '../entities/user.details';
-import { CreateUserDetailsDto } from '../user/dto/create-user-details.dto';
+import { CreateUserDetailsDto } from '../user/dto/create.user.details.dto';
 
 // @UseGuards(AuthGuard) // add authToken check to all this routes
 @Controller('file')

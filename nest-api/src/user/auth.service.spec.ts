@@ -2,10 +2,10 @@ import { TestingModule, Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
-import { validateAuthToken } from '../utils/validate.token';
+import { validateAuthToken } from '../auth/validate.token';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto } from './dto/create.user.dto';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 

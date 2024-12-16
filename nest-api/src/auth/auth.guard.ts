@@ -1,5 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { validateAuthToken } from './validate.token';
+import { validateAuthToken } from '../auth/validate.token';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './public';
 
@@ -12,8 +12,8 @@ export class AuthGuard implements CanActivate {
       context.getClass(),
     ]);
     if (isPublic) return true;
-    const request = context.switchToHttp().getRequest();
-    const { authToken } = request?.cookies;
-    return await validateAuthToken(authToken);
+    const request = await context.switchToHttp().getRequest();
+    const { authToken } = await request?.cookies;
+    return (request.userEmail = await validateAuthToken(authToken));
   }
 }

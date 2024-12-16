@@ -37,6 +37,9 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Run Database Migrations
+        run: npm run typeorm:run
+
       - name: Run lint
         run: npm run lint
 

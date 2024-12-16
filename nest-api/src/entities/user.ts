@@ -5,11 +5,13 @@ import {
   BeforeInsert,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { Transform } from 'class-transformer';
 import bcrypt from 'bcrypt';
+import { Order } from './order';
 
-@Entity({ name: 'users' })
+@Entity({ name: 'user' })
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
@@ -48,12 +50,6 @@ export class User {
   @Column()
   emergencyPhone?: string;
 
-  @CreateDateColumn()
-  created_at?: Date;
-
-  @UpdateDateColumn()
-  updated_at?: Date;
-
   @BeforeInsert()
   async hashPassword() {
     const salt = await bcrypt.genSalt(10);
@@ -63,4 +59,13 @@ export class User {
   async checkPassword(inputPassword: string): Promise<boolean> {
     return bcrypt.compare(inputPassword, this.password);
   }
+
+  @OneToMany(() => Order, (order) => order.user, { cascade: true })
+  orders!: Order[];
+
+  @CreateDateColumn({ name: 'created_at' })
+  created_at!: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updated_at!: Date;
 }

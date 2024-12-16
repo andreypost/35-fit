@@ -18,10 +18,10 @@ import {
   CreateUserDto,
   DeleteUserDto,
   LoginUserDto,
-} from './dto/create-user.dto';
+} from './dto/create.user.dto';
 import { msg } from '../constants/messages';
 import { nextError } from '../helpers/next.error';
-import { deleteAuthToken, validateAuthToken } from '../utils/validate.token';
+import { deleteAuthToken, validateAuthToken } from '../auth/validate.token';
 import { secrets } from '../constants/secrets';
 
 config();
@@ -37,7 +37,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  private async findUserByEmail(email: string): Promise<User> {
+  public async findUserByEmail(email: string): Promise<User> {
     return await this.userRepository.findOne({ where: { email } });
   }
 
