@@ -11,6 +11,7 @@ import { validateAuthToken } from 'slices/databaseUser.slice'
 import { messageModal } from 'slices/modal.slice'
 import { errorModalMessage } from 'utils/errorModalMessage'
 import { dev } from 'config'
+import { callApiAndpoint } from 'utils/endpointApiCall'
 
 const Main = styled.main`
   .reserver {
@@ -252,16 +253,7 @@ const Reserve = ({ user }: IUser) => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    try {
-      const getAuthAllUsers = await axios.get(
-        `${process.env.API_URL}/auth/users`,
-        { withCredentials: true }
-      )
-      console.log('/auth/users - get all users: ', getAuthAllUsers.data)
-      setAllUsers(getAuthAllUsers.data)
-    } catch (error: any) {
-      console.error(error.response?.data)
-    }
+    await callApiAndpoint('get', 'auth/users')
   }
 
   const handleDeleteUserByEmail = async <

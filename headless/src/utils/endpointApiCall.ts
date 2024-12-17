@@ -20,7 +20,6 @@ export const callApiAndpoint = async (
     console.log(route, result)
     return result
   } catch (error: any) {
-    console.error(error.response?.data)
     errorModalMessage(error)
   }
 }
