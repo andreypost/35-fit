@@ -25,5 +25,5 @@ export const AppDataSource = new DataSource({
   //     ? []
   //     : ['dist/src/db/migrations/**/*.js'],
   migrations: ['dist/src/db/migrations/**/*.js'],
-  migrationsRun: true,
+  // migrationsRun: true, // triggers migrations just after start the project, after creating new migrations and so on
 });

@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { IGetImageById, IGetImages, IUser } from 'types/interface'
-import axios from 'axios'
 import { useQuery } from '@apollo/client'
 import { GET_IMAGES, GET_IMAGE_BY_ID } from 'queries'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { UserData, fetchFileData, setSortedList } from 'slices/fileData.slice'
+import { callApiAndpoint } from 'utils/endpointApiCall'
 
 const Div = styled.div`
   #testingForm {
@@ -84,53 +84,6 @@ export const TestingModule = ({ user }: IUser) => {
 
   const largeData = 'A'.repeat(1000000)
 
-  const fileRoutes = async () => {
-    try {
-      const addFileData = await axios.post(
-        `${process.env.API_URL}/file/write`,
-        {
-          id: Math.floor(200 + Math.random() * (1000 - 100 + 1)),
-          earnings: `$${
-            Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
-          }`,
-          country: countries[index],
-          name: 'Andrii Postoliuk',
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      console.log('/file/write - write file data: ', addFileData.data)
-
-      const getFileData = await axios.get(`${process.env.API_URL}/file/read`, {
-        withCredentials: true,
-      })
-      console.log('/file/read - read file data: ', getFileData.data)
-
-      const detailByCountry = await axios.get(
-        `${process.env.API_URL}/file/count-by-country`,
-        {
-          withCredentials: true,
-        }
-      )
-      console.log('/file/count-by-country: ', detailByCountry.data)
-
-      const detailByEarnings = await axios.get(
-        `${process.env.API_URL}/file/average-earnings-by-country`,
-        { withCredentials: true }
-      )
-      console.log('/file/average-earnings-by-country: ', detailByEarnings.data)
-
-      const detailById = await axios.get(
-        `${process.env.API_URL}/file/users/${addFileData.data.id}`,
-        { withCredentials: true }
-      )
-      console.log('/file/users/id: ', detailById.data)
-    } catch (err: any) {
-      console.error(err.response?.data)
-    }
-  }
-
   // useEffect(() => {
   //   user && dispatch(fetchFileData())
   // }, [user])
@@ -196,40 +149,26 @@ export const TestingModule = ({ user }: IUser) => {
   ): Promise<void> => {
     e.preventDefault()
 
-    fileRoutes()
+    const addFileData: any = await callApiAndpoint('post', 'file/write', {
+      id: Math.floor(200 + Math.random() * (1000 - 100 + 1)),
+      earnings: `$${
+        Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
+      }`,
+      country: countries[index],
+      name: 'Andrii Postoliuk',
+    })
+
+    await callApiAndpoint('get', 'file/read')
+
+    await callApiAndpoint('get', 'file/count-by-country')
+
+    await callApiAndpoint('get', 'file/average-earnings-by-country')
+
+    await callApiAndpoint('get', `file/users/${addFileData?.data?.id}`)
 
     setIndex(Math.floor(Math.random() * countries.length))
   }
 
-  const makeScooterOrder = async () => {
-    try {
-      const createScooterOrder = await axios.post(
-        `${process.env.API_URL}/order/create`,
-        {
-          totalAmount: 2,
-          status: 'Pending',
-        },
-        { withCredentials: true }
-      )
-      console.log('/order/create: ', createScooterOrder)
-    } catch (err: any) {
-      console.error(err.response?.data)
-    }
-  }
-
-  const getScooterOrders = async () => {
-    try {
-      const scooterOrders = await axios.get(
-        `${process.env.API_URL}/order/orders`,
-        {
-          withCredentials: true,
-        }
-      )
-      console.log('/order/orders: ', scooterOrders)
-    } catch (err: any) {
-      console.error(err.response?.data)
-    }
-  }
   return (
     <Div>
       {fileListError && <p>{fileListError?.message}</p>}
@@ -253,14 +192,19 @@ export const TestingModule = ({ user }: IUser) => {
         <button
           type="button"
           className="grey_button grey"
-          onClick={makeScooterOrder}
+          onClick={() =>
+            callApiAndpoint('post', 'order/create', {
+              totalAmount: 2,
+              status: 'Pending',
+            })
+          }
         >
           Make Scooter Order
         </button>
         <button
           type="button"
           className="grey_button grey"
-          onClick={getScooterOrders}
+          onClick={() => callApiAndpoint('get', 'order/orders')}
         >
           Get Scooter Orders
         </button>
