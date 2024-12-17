@@ -8,6 +8,7 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
+      config: path.resolve(__dirname, '../src/config.ts'),
       components: path.resolve(__dirname, '../src/components'),
       HeaderBanner$: path.resolve(
         __dirname,

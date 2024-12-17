@@ -10,6 +10,7 @@ import { useAppDispatch } from 'utils/hooks'
 import { validateAuthToken } from 'slices/databaseUser.slice'
 import { messageModal } from 'slices/modal.slice'
 import { errorModalMessage } from 'utils/errorModalMessage'
+import { dev } from 'config'
 
 const Main = styled.main`
   .reserver {
@@ -174,15 +175,15 @@ const Main = styled.main`
 const Reserve = ({ user }: IUser) => {
   const { t } = useTranslation(),
     [authData, setAuthData] = useState<IAuth>({
-      name: 'Andrii Postoliuk',
-      surname: 'Postoliuk',
-      gender: 'male',
-      age: 25,
-      country: 'Ukraine',
-      city: 'Kyiv',
+      name: dev ? 'Andrii Postoliuk' : '',
+      surname: dev ? 'Postoliuk' : '',
+      gender: dev ? 'male' : '',
+      age: dev ? 25 : '',
+      country: dev ? 'Ukraine' : '',
+      city: dev ? 'Kyiv' : '',
       email: '',
-      password: '9999',
-      phone: '0673788612',
+      password: dev ? '9999' : '',
+      phone: dev ? '0673788612' : '',
       emergencyName: '',
       emergencyPhone: '',
     }),
@@ -300,9 +301,7 @@ const Reserve = ({ user }: IUser) => {
         </aside>
 
         <article className="reserve_article">
-          {process.env.NODE_ENV === 'development' && (
-            <TestingModule user={user} />
-          )}
+          {dev && <TestingModule user={user} />}
           <header className="grey">
             <h4 className="b900">
               {t('reserve.new_to_fit')}
@@ -327,7 +326,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="First name"
                       onChange={handleChangeAuthData}
                       required
-                      value={'Andrii'}
+                      value={dev ? 'Andrii' : ''}
                     />
                   </fieldset>
                   <fieldset>
@@ -338,7 +337,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="Surname"
                       onChange={handleChangeAuthData}
                       required
-                      value={'Postoliuk'}
+                      value={dev ? 'Postoliuk' : ''}
                     />
                   </fieldset>
                 </div>
@@ -352,7 +351,7 @@ const Reserve = ({ user }: IUser) => {
                       style={{
                         color: authData.gender === '' ? '#7fcbae' : '#004',
                       }}
-                      value={'male'}
+                      value={dev ? 'male' : ''}
                     >
                       {genderOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -371,7 +370,7 @@ const Reserve = ({ user }: IUser) => {
                       max={111}
                       onChange={handleChangeAuthData}
                       required
-                      value={25}
+                      value={dev ? 25 : ''}
                     />
                   </fieldset>
                 </div>
@@ -394,7 +393,7 @@ const Reserve = ({ user }: IUser) => {
                       style={{
                         color: authData.country === '' ? '#7fcbae' : '#004',
                       }}
-                      value={'Ukraine'}
+                      value={dev ? 'Ukraine' : ''}
                     >
                       {countryOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -414,7 +413,7 @@ const Reserve = ({ user }: IUser) => {
                       style={{
                         color: authData.city === '' ? '#7fcbae' : '#004',
                       }}
-                      value={'Kyiv'}
+                      value={dev ? 'Kyiv' : ''}
                     >
                       {cityOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -443,7 +442,7 @@ const Reserve = ({ user }: IUser) => {
                       placeholder="Password"
                       onChange={handleChangeAuthData}
                       required
-                      value={'9999'}
+                      value={dev ? '9999' : ''}
                     />
                   </fieldset>
                 </div>
@@ -458,7 +457,7 @@ const Reserve = ({ user }: IUser) => {
                 placeholder="Phone number"
                 onChange={handleChangeAuthData}
                 required
-                value={'0673788612'}
+                value={dev ? '0673788612' : ''}
               />
             </fieldset>
 
@@ -469,7 +468,7 @@ const Reserve = ({ user }: IUser) => {
               {t('reserve.continue')}
             </button>
           </form>
-          {process.env.NODE_ENV === 'development' && (
+          {dev && (
             <>
               <h3 className="b900 blue">Additional Forms</h3>
               <div className="additional_forms flex margin_b_120_80">

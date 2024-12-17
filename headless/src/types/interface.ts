@@ -2,7 +2,7 @@ export interface IAuth {
   name?: string
   surname?: string
   gender?: string
-  age?: number
+  age?: number | ''
   country?: string
   city?: string
   email?: string
