@@ -14,11 +14,7 @@ import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 import { Response, Request } from 'express';
 import { User } from '../entities/user';
-import {
-  CreateUserDto,
-  DeleteUserDto,
-  LoginUserDto,
-} from './dto/create.user.dto';
+import { CreateUserDto, LoginUserDto } from './dto/create.user.dto';
 import { msg } from '../constants/messages';
 import { nextError } from '../helpers/next.error';
 import { deleteAuthToken, validateAuthToken } from '../auth/validate.token';
@@ -126,27 +122,6 @@ export class AuthService {
     }
   }
 
-  public async deleteUserByEmail(
-    deleteUserDto: DeleteUserDto,
-    res: Response,
-  ): Promise<any> {
-    try {
-      const { email } = deleteUserDto;
-      const { affected } = await this.userRepository.delete({ email });
-      if (affected) {
-        return res.status(HttpStatus.OK).json({
-          message: msg.USER_DELETED_SUCCESSFULLY,
-        });
-      } else {
-        return res.status(HttpStatus.NOT_FOUND).json({
-          message: msg.USER_ALREADY_DELETED_OR_DOES_NOT_EXIST,
-        });
-      }
-    } catch (error: any) {
-      nextError(error);
-    }
-  }
-
   public async validateUserByAuthToken(
     req: Request,
     res: Response,
@@ -166,8 +141,25 @@ export class AuthService {
     }
   }
 
-  public async logoutUser(res: Response): Promise<any> {
+  public async logoutUser(
+    deleteAccount: boolean,
+    email: string,
+    res: Response,
+  ): Promise<any> {
     try {
+      if (deleteAccount) {
+        const { affected } = await this.userRepository.delete({ email });
+        if (affected) {
+          await deleteAuthToken(res);
+          return res.status(HttpStatus.OK).json({
+            message: msg.USER_DELETED_SUCCESSFULLY,
+          });
+        } else {
+          return res.status(HttpStatus.NOT_FOUND).json({
+            message: msg.USER_ALREADY_DELETED_OR_DOES_NOT_EXIST,
+          });
+        }
+      }
       await deleteAuthToken(res);
       return res
         .status(HttpStatus.OK)

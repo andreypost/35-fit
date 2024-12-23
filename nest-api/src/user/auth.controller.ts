@@ -1,13 +1,10 @@
-import { Controller, Post, Body, Res, Get, Delete, Req } from '@nestjs/common';
+import { Controller, Post, Body, Res, Get, Req } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { Public } from '../auth/public';
 import { AuthService } from './auth.service';
-import {
-  CreateUserDto,
-  DeleteUserDto,
-  LoginUserDto,
-} from './dto/create.user.dto';
+import { CreateUserDto, LoginUserDto } from './dto/create.user.dto';
 import { User } from '../entities/user';
+import { CurrentUserEmail } from '../auth/current.user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -39,14 +36,6 @@ export class AuthController {
     return this.authService.getAllUsers();
   }
 
-  @Delete('delete-user-by-email')
-  async deleteUserByEmail(
-    @Body() deleteUserDto: DeleteUserDto,
-    @Res() res: Response,
-  ): Promise<any> {
-    return this.authService.deleteUserByEmail(deleteUserDto, res);
-  }
-
   @Public()
   @Get('validate')
   async validateUserByAuthToken(
@@ -57,7 +46,11 @@ export class AuthController {
   }
 
   @Post('logout')
-  async logoutUser(@Res() res: Response): Promise<any> {
-    return this.authService.logoutUser(res);
+  async logoutUser(
+    @Body() { deleteAccount }: { deleteAccount: boolean },
+    @CurrentUserEmail() email: string,
+    @Res() res: Response,
+  ): Promise<any> {
+    return this.authService.logoutUser(deleteAccount, email, res);
   }
 }

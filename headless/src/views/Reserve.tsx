@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
@@ -11,7 +11,7 @@ import { validateAuthToken } from 'slices/databaseUser.slice'
 import { messageModal } from 'slices/modal.slice'
 import { errorModalMessage } from 'utils/errorModalMessage'
 import { dev } from 'config'
-import { callApiAndpoint } from 'utils/endpointApiCall'
+import { apiEndpointCall } from 'utils/endpointApiCall'
 
 const Main = styled.main`
   .reserver {
@@ -175,19 +175,7 @@ const Main = styled.main`
 
 const Reserve = ({ user }: IUser) => {
   const { t } = useTranslation(),
-    [authData, setAuthData] = useState<IAuth>({
-      name: dev ? 'Andrii Postoliuk' : '',
-      surname: dev ? 'Postoliuk' : '',
-      gender: dev ? 'male' : '',
-      age: dev ? 25 : '',
-      country: dev ? 'Ukraine' : '',
-      city: dev ? 'Kyiv' : '',
-      email: '',
-      password: dev ? '9999' : '',
-      phone: dev ? '0673788612' : '',
-      emergencyName: '',
-      emergencyPhone: '',
-    }),
+    [authData, setAuthData] = useState<IAuth>({}),
     [users, setAllUsers] = useState<IAuth[]>([]),
     dispatch = useAppDispatch()
 
@@ -212,6 +200,23 @@ const Reserve = ({ user }: IUser) => {
     { value: 'Seattle', label: 'Seattle' },
   ]
 
+  useEffect(() => {
+    dev &&
+      setAuthData({
+        name: 'Andrii Postoliuk',
+        surname: 'Postoliuk',
+        gender: 'male',
+        age: 25,
+        country: 'Ukraine',
+        city: 'Kyiv',
+        email: '',
+        password: '9999',
+        phone: '0673788612',
+        emergencyName: '',
+        emergencyPhone: '',
+      })
+  }, [dev])
+
   const handleChangeAuthData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -226,7 +231,7 @@ const Reserve = ({ user }: IUser) => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    if (process.env.NODE_ENV === 'production') {
+    if (!dev) {
       await new Promise((resolve) => {
         setTimeout(() => {
           resolve(
@@ -234,18 +239,19 @@ const Reserve = ({ user }: IUser) => {
           )
         }, 1500)
       })
-    }
-    try {
-      const createNewUser = await axios.post(
-        `${process.env.API_URL}/auth/create-new-user`,
-        authData,
-        { withCredentials: true }
-      )
-      console.log('createNewUser: ', createNewUser)
-      dispatch(messageModal(t('messages.your_account_was_created')))
-      dispatch(validateAuthToken({ firstLoad: true }))
-    } catch (error: any) {
-      errorModalMessage(error)
+    } else {
+      try {
+        const createNewUser = await axios.post(
+          `${process.env.API_URL}/auth/create-new-user`,
+          authData,
+          { withCredentials: true }
+        )
+        console.log('createNewUser: ', createNewUser)
+        dispatch(messageModal(t('messages.your_account_was_created')))
+        dispatch(validateAuthToken({ firstLoad: true }))
+      } catch (error: any) {
+        errorModalMessage(error)
+      }
     }
   }
 
@@ -253,26 +259,14 @@ const Reserve = ({ user }: IUser) => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    await callApiAndpoint('get', 'auth/users')
+    const response = await apiEndpointCall('get', 'auth/users')
+    if (response?.data) {
+      setAllUsers(response?.data)
+    }
   }
 
-  const handleDeleteUserByEmail = async <
-    T extends React.FormEvent<HTMLFormElement>
-  >(
-    e: T
-  ): Promise<void> => {
-    e.preventDefault()
-    const deleteForm = new FormData(e.currentTarget)
-    const email = deleteForm.get('email')
-    try {
-      const deletedUser = await axios.delete(
-        `${process.env.API_URL}/auth/delete-user-by-email`,
-        { data: { email }, withCredentials: true }
-      )
-      console.log('deletedUser: ', deletedUser)
-    } catch (error: any) {
-      console.error(error?.response?.data)
-    }
+  const setFieldColor = <T extends string | undefined>(field: T): string => {
+    return !field ? '#7fcbae' : '#004'
   }
 
   return (
@@ -317,8 +311,7 @@ const Reserve = ({ user }: IUser) => {
                       name="name"
                       placeholder="First name"
                       onChange={handleChangeAuthData}
-                      required
-                      value={dev ? 'Andrii' : ''}
+                      required={dev ? false : true}
                     />
                   </fieldset>
                   <fieldset>
@@ -328,8 +321,7 @@ const Reserve = ({ user }: IUser) => {
                       name="surname"
                       placeholder="Surname"
                       onChange={handleChangeAuthData}
-                      required
-                      value={dev ? 'Postoliuk' : ''}
+                      required={dev ? false : true}
                     />
                   </fieldset>
                 </div>
@@ -339,11 +331,10 @@ const Reserve = ({ user }: IUser) => {
                     <select
                       name="gender"
                       onChange={handleChangeAuthData}
-                      required
+                      required={dev ? false : true}
                       style={{
-                        color: authData.gender === '' ? '#7fcbae' : '#004',
+                        color: setFieldColor(authData.gender),
                       }}
-                      value={dev ? 'male' : ''}
                     >
                       {genderOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -361,8 +352,7 @@ const Reserve = ({ user }: IUser) => {
                       min={1}
                       max={111}
                       onChange={handleChangeAuthData}
-                      required
-                      value={dev ? 25 : ''}
+                      required={dev ? false : true}
                     />
                   </fieldset>
                 </div>
@@ -381,11 +371,10 @@ const Reserve = ({ user }: IUser) => {
                     <select
                       name="country"
                       onChange={handleChangeAuthData}
-                      required
+                      required={dev ? false : true}
                       style={{
-                        color: authData.country === '' ? '#7fcbae' : '#004',
+                        color: setFieldColor(authData.country),
                       }}
-                      value={dev ? 'Ukraine' : ''}
                     >
                       {countryOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -401,11 +390,10 @@ const Reserve = ({ user }: IUser) => {
                     <select
                       name="city"
                       onChange={handleChangeAuthData}
-                      required
+                      required={dev ? false : true}
                       style={{
-                        color: authData.city === '' ? '#7fcbae' : '#004',
+                        color: setFieldColor(authData.city),
                       }}
-                      value={dev ? 'Kyiv' : ''}
                     >
                       {cityOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -433,8 +421,7 @@ const Reserve = ({ user }: IUser) => {
                       name="password"
                       placeholder="Password"
                       onChange={handleChangeAuthData}
-                      required
-                      value={dev ? '9999' : ''}
+                      required={dev ? false : true}
                     />
                   </fieldset>
                 </div>
@@ -448,8 +435,7 @@ const Reserve = ({ user }: IUser) => {
                 name="phone"
                 placeholder="Phone number"
                 onChange={handleChangeAuthData}
-                required
-                value={dev ? '0673788612' : ''}
+                required={dev ? false : true}
               />
             </fieldset>
 
@@ -463,30 +449,13 @@ const Reserve = ({ user }: IUser) => {
           {dev && (
             <>
               <h3 className="b900 blue">Additional Forms</h3>
-              <div className="additional_forms flex margin_b_120_80">
+              <div className="additional_forms margin_b_120_80">
                 <form id="allUsersForm" onSubmit={handleGetAllUsers}>
                   <button
                     type="submit"
                     className="flex_center_center additional_submit b900 white"
                   >
                     Get All Users
-                  </button>
-                </form>
-                <form id="deleteForm" onSubmit={handleDeleteUserByEmail}>
-                  <fieldset>
-                    <legend>User email:</legend>
-                    <input
-                      type="text"
-                      name="email"
-                      placeholder="Enter email to delete user from database"
-                      required
-                    />
-                  </fieldset>
-                  <button
-                    type="submit"
-                    className="flex_center_center additional_submit  b900 white"
-                  >
-                    Delete User By Email
                   </button>
                 </form>
               </div>

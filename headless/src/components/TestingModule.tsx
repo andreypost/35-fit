@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/client'
 import { GET_IMAGES, GET_IMAGE_BY_ID } from 'queries'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { UserData, fetchFileData, setSortedList } from 'slices/fileData.slice'
-import { callApiAndpoint } from 'utils/endpointApiCall'
+import { apiEndpointCall } from 'utils/endpointApiCall'
 
 const Div = styled.div`
   #testingForm {
@@ -82,7 +82,7 @@ export const TestingModule = ({ user }: IUser) => {
     'South Korea',
   ]
 
-  const largeData = 'A'.repeat(1000000)
+  // const largeData = 'A'.repeat(1000000)
 
   // useEffect(() => {
   //   user && dispatch(fetchFileData())
@@ -149,7 +149,7 @@ export const TestingModule = ({ user }: IUser) => {
   ): Promise<void> => {
     e.preventDefault()
 
-    const addFileData: any = await callApiAndpoint('post', 'file/write', {
+    const addFileData: any = await apiEndpointCall('post', 'file/write', {
       id: Math.floor(200 + Math.random() * (1000 - 100 + 1)),
       earnings: `$${
         Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
@@ -158,13 +158,13 @@ export const TestingModule = ({ user }: IUser) => {
       name: 'Andrii Postoliuk',
     })
 
-    await callApiAndpoint('get', 'file/read')
+    await apiEndpointCall('get', 'file/read')
 
-    await callApiAndpoint('get', 'file/count-by-country')
+    await apiEndpointCall('get', 'file/count-by-country')
 
-    await callApiAndpoint('get', 'file/average-earnings-by-country')
+    await apiEndpointCall('get', 'file/average-earnings-by-country')
 
-    await callApiAndpoint('get', `file/users/${addFileData?.data?.id}`)
+    await apiEndpointCall('get', `file/users/${addFileData?.data?.id}`)
 
     setIndex(Math.floor(Math.random() * countries.length))
   }
@@ -193,7 +193,7 @@ export const TestingModule = ({ user }: IUser) => {
           type="button"
           className="grey_button grey"
           onClick={() =>
-            callApiAndpoint('post', 'order/create', {
+            apiEndpointCall('post', 'order/create', {
               totalAmount: 2,
               status: 'Pending',
             })
@@ -204,7 +204,7 @@ export const TestingModule = ({ user }: IUser) => {
         <button
           type="button"
           className="grey_button grey"
-          onClick={() => callApiAndpoint('get', 'order/orders')}
+          onClick={() => apiEndpointCall('get', 'order/orders')}
         >
           Get Scooter Orders
         </button>

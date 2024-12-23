@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
@@ -29,15 +29,55 @@ const Div = styled(BaseDiv)`
           }
         }
       }
-      .signout {
-        font-size: 18px;
+      .logout {
         margin-top: 10px;
         padding-top: 20px;
         border-top: 1px solid #e8e8e8;
-        transition: color 0.2s;
-        @media (hover: hover) {
-          cursor: pointer;
+
+        .check_box_delete {
+          margin-right: auto;
+          margin-bottom: 8px;
+          margin-left: auto;
+          padding-right: unset;
+          padding-left: unset;
+          font-size: 12px;
+          text-decoration: underline;
+          color: #ff6376;
+          user-select: none;
+          transition: all 0.2s;
+          input {
+            width: 100%;
+            height: 18px;
+            opacity: 0;
+            cursor: pointer;
+            &:checked ~ .delete_checkmark::after {
+              content: '';
+              width: 8px;
+              height: 8px;
+              border-radius: 1px;
+              background-color: #ca2538;
+            }
+          }
+          .delete_checkmark {
+            box-sizing: border-box;
+            height: 14px;
+            width: 14px;
+            margin-right: 8px;
+            border: 2px solid #737373;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+          }
           &:hover {
+            color: #ca2538;
+          }
+        }
+        .signout {
+          font-size: 18px;
+          transition: color 0.2s;
+        }
+        @media (hover: hover) {
+          .signout:hover {
+            cursor: pointer;
             color: #ff6376;
           }
         }
@@ -51,9 +91,10 @@ export const DashboardModal = ({
   login,
   firebaseAuth,
 }: IFirebaseProps) => {
-  const { t } = useTranslation(),
-    modalState = useAppSelector(selectDashModalActive),
-    dispatch = useAppDispatch()
+  const { t } = useTranslation()
+  const modalState = useAppSelector(selectDashModalActive)
+  const dispatch = useAppDispatch()
+  const [deleteAccount, setDeleteAccount] = useState(false)
 
   return (
     <Div
@@ -71,15 +112,30 @@ export const DashboardModal = ({
             [user]
           )}
           <NavigationLinks links={profileLinks} bold="b900" color="#59b894" />
-          <li
-            className="signout grey"
-            onClick={() => (
-              firebaseAuth.signOut(),
-              dispatch(logoutUserWithAuthToken()),
-              dispatch(unsetDashModal())
-            )}
-          >
-            {t('nav.sign_out')}
+          <li className="logout">
+            <label
+              htmlFor="checkbox"
+              className="flex_center grey_label check_box_delete"
+            >
+              <input
+                type="checkbox"
+                name="deleteAccount"
+                className="grey_button absolute"
+                onChange={(e) => setDeleteAccount(e.target.checked)}
+              />
+              <span className="delete_checkmark flex_center_center" />
+              {t('nav.also_delete_my_account')}
+            </label>
+            <span
+              className="signout grey"
+              onClick={() => (
+                firebaseAuth.signOut(),
+                dispatch(logoutUserWithAuthToken({ deleteAccount })),
+                dispatch(unsetDashModal())
+              )}
+            >
+              {t('nav.sign_out')}
+            </span>
           </li>
         </ul>
       </nav>

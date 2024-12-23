@@ -57,19 +57,28 @@ export const validateAuthToken = createAsyncThunk<
 
 export const logoutUserWithAuthToken = createAsyncThunk<
   void,
-  void,
+  { deleteAccount: boolean },
   { rejectValue: { message: string } }
 >(
   'databaseUser/logoutUserFromDatabase',
-  async (_, { rejectWithValue, dispatch }) => {
+  async ({ deleteAccount }, { rejectWithValue, dispatch }) => {
+    const message = deleteAccount
+      ? 'User deleted successfully!'
+      : 'You have successfully logged out.'
     try {
-      await axios.post(`${process.env.API_URL}/auth/logout`, null, {
-        withCredentials: true,
-      })
-      dispatch(messageModal('You have successfully logged out.'))
+      await axios.post(
+        `${process.env.API_URL}/auth/logout`,
+        { deleteAccount },
+        {
+          withCredentials: true,
+        }
+      )
+      dispatch(messageModal(message))
     } catch (error: any) {
       console.error(error?.response?.data)
-      return rejectWithValue(error?.response?.data || 'Logout failed')
+      return rejectWithValue(
+        error?.response?.data || { message: 'Logout failed' }
+      )
     }
   }
 )

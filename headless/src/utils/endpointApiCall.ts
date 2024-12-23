@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { errorModalMessage } from './errorModalMessage'
 
-export const callApiAndpoint = async (
+export const apiEndpointCall = async (
   method: 'get' | 'post' | 'put' | 'delete',
   route: string,
   body: any = null
@@ -20,6 +20,6 @@ export const callApiAndpoint = async (
     console.log(route, result)
     return result
   } catch (error: any) {
-    errorModalMessage(error)
+    throw errorModalMessage(error)
   }
 }
