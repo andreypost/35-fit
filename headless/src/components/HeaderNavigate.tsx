@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { IUser } from 'types/interface'
+// import { IUser } from 'types/interface'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -158,10 +158,10 @@ const Header = styled.header`
   }
 `
 
-export const HeaderNavigate = ({ user }: IUser) => {
-  const { t } = useTranslation(),
-    dispatch = useAppDispatch(),
-    burgerState = useAppSelector(selectBurgerValue)
+export const HeaderNavigate = () => {
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+  const burgerState = useAppSelector(selectBurgerValue)
 
   return (
     <Header
@@ -181,12 +181,13 @@ export const HeaderNavigate = ({ user }: IUser) => {
           ),
           []
         )}
-        {useMemo(
+        {/* {useMemo(
           () => (
             <User user={user} styleName="header_nav" />
           ),
           [user]
-        )}
+        )} */}
+        <User styleName="header_nav" />
         <Link
           to={RESERVE_ROUTE}
           className="flex_center_center navigate_buy b700 white"

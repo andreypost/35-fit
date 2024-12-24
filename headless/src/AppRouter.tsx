@@ -24,7 +24,7 @@ import { MenuModal } from 'modals/MenuModal'
 import { LoginModal } from 'modals/LoginModal'
 import { MessageModal } from 'modals/MessageModal'
 import { DashboardModal } from 'modals/DashboardModal'
-import { IAppConfig } from 'types/interface'
+import { IAppConfig, IAuth, IUser } from 'types/interface'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { setDatabaseUser, validateAuthToken } from 'slices/databaseUser.slice'
 // import { createBrowserHistory } from 'history'
@@ -34,14 +34,15 @@ import { setDatabaseUser, validateAuthToken } from 'slices/databaseUser.slice'
 export const AppContext = createContext({} as IAppConfig)
 
 const AppRouter = () => {
-  const { user, login, firebaseAuth } = useContext(FirebaseAuthContext),
-    { i18n } = useTranslation(),
-    [language, setLanguage] = useState(
-      localStorage.getItem('i18nextLng') || 'en'
-    ),
-    { databaseUser } = useAppSelector(setDatabaseUser),
-    [firebaseLoading, setFirebaseLoading] = useState(true),
-    dispatch = useAppDispatch()
+  const { user, login, firebaseAuth } = useContext(FirebaseAuthContext)
+  const { i18n } = useTranslation()
+  const [language, setLanguage] = useState(
+    localStorage.getItem('i18nextLng') || 'en'
+  )
+  const { databaseUser } = useAppSelector(setDatabaseUser)
+  const [firebaseLoading, setFirebaseLoading] = useState(true)
+  const dispatch = useAppDispatch()
+  const [currentUser, setCurrentUser] = useState<IAuth | null>(null)
 
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
@@ -61,7 +62,11 @@ const AppRouter = () => {
     return () => unsubscribe()
   }, [])
 
-  const currentUser = user || databaseUser
+  useEffect(() => {
+    setCurrentUser(user || databaseUser)
+  }, [user, databaseUser])
+
+  // const currentUser = user || databaseUser
 
   useDebugValue(currentUser)
 
@@ -72,15 +77,18 @@ const AppRouter = () => {
   }, [currentUser, firebaseLoading, dispatch])
 
   return (
-    <AppContext.Provider value={{ language, setLanguage }}>
+    <AppContext.Provider
+      value={{ language, setLanguage, currentUser, setCurrentUser }}
+    >
       <HashRouter basename="/">
         {/* <BrowserRouter basename="/"> */}
-        {useMemo(
+        <HeaderNavigate />
+        {/* {useMemo(
           () => (
             <HeaderNavigate user={currentUser} />
           ),
-          [currentUser]
-        )}
+          []
+        )} */}
         <Switch>
           {publicRoutes.map(({ path, Component }) => (
             <Route
@@ -89,36 +97,35 @@ const AppRouter = () => {
               exact={true}
               // component={Component}
             >
-              <Component user={currentUser} />
+              {/* <Component user={currentUser} /> */}
+              <Component />
             </Route>
           ))}
           {currentUser &&
             privatRoutes.map(({ path, Component }) => (
               <Route key={path} path={path} exact={true}>
-                <Component user={currentUser} />
+                {/* <Component user={currentUser} /> */}
+                <Component />
               </Route>
             ))}
           <Redirect to={MAIN_ROUTE} />
         </Switch>
-        {useMemo(
-          () => (
-            <Footer />
-          ),
-          []
-        )}
-        {useMemo(
+        <Footer />
+        {/* {useMemo(
           () => (
             <MenuModal user={currentUser} />
-          ),
-          [currentUser]
-        )}
-        {useMemo(
+            ),
+            [currentUser]
+            )} */}
+        <MenuModal />
+        {/* {useMemo(
           () => (
             <LoginModal user={currentUser} login={login} />
           ),
           [currentUser]
-        )}
-        {useMemo(
+        )} */}
+        <LoginModal />
+        {/* {useMemo(
           () => (
             <DashboardModal
               user={currentUser}
@@ -127,13 +134,15 @@ const AppRouter = () => {
             />
           ),
           [currentUser]
-        )}
-        {useMemo(
+        )} */}
+        <DashboardModal />
+        {/* {useMemo(
           () => (
             <MessageModal />
           ),
           []
-        )}
+        )} */}
+        <MessageModal />
         {/* </BrowserRouter> */}
       </HashRouter>
     </AppContext.Provider>

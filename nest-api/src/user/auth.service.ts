@@ -127,8 +127,8 @@ export class AuthService {
     res: Response,
   ): Promise<any> {
     try {
-      const authToken = req?.cookies?.authToken;
-      const email = await validateAuthToken(authToken);
+      const { authToken } = req?.cookies;
+      const email = await validateAuthToken(authToken, res);
 
       const user = await this.findUserByEmail(email);
       if (!user) {
@@ -147,23 +147,22 @@ export class AuthService {
     res: Response,
   ): Promise<any> {
     try {
+      let repoResponse = null;
       if (deleteAccount) {
-        const { affected } = await this.userRepository.delete({ email });
-        if (affected) {
-          await deleteAuthToken(res);
-          return res.status(HttpStatus.OK).json({
-            message: msg.USER_DELETED_SUCCESSFULLY,
-          });
-        } else {
+        repoResponse = await this.userRepository.delete({ email });
+        if (!repoResponse?.affected) {
           return res.status(HttpStatus.NOT_FOUND).json({
             message: msg.USER_ALREADY_DELETED_OR_DOES_NOT_EXIST,
           });
         }
       }
       await deleteAuthToken(res);
-      return res
-        .status(HttpStatus.OK)
-        .json({ message: msg.TOKEN_WAS__DELETED_SUCCESSFULLY, success: true });
+      return res.status(HttpStatus.OK).json({
+        message: repoResponse?.affected
+          ? msg.USER_DELETED_SUCCESSFULLY
+          : msg.LOGGED_OUT_SUCCESSFUL,
+        success: true,
+      });
     } catch (error: any) {
       nextError(error);
     }

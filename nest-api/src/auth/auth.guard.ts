@@ -14,6 +14,9 @@ export class AuthGuard implements CanActivate {
     if (isPublic) return true;
     const request = await context.switchToHttp().getRequest();
     const { authToken } = await request?.cookies;
-    return (request.userEmail = await validateAuthToken(authToken));
+    return (request.userEmail = await validateAuthToken(
+      authToken,
+      context.switchToHttp().getResponse(),
+    ));
   }
 }

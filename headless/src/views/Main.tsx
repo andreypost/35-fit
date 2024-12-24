@@ -1,5 +1,4 @@
 // import { useState, useEffect } from 'react'
-import { IUser } from 'types/interface'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -177,7 +176,7 @@ const MainBlock = styled.main`
   }
 `
 
-const Main = ({ user }: IUser) => {
+const Main = () => {
   const { t } = useTranslation()
   // winScroll = GetCurrentWindowScroll(),
   // [content, setContent] = useState({

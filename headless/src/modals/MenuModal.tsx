@@ -1,5 +1,4 @@
-import { useMemo } from 'react'
-import { IUser } from 'types/interface'
+import { useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -9,6 +8,7 @@ import { selectMenuModalActive, unsetMenuModal } from 'slices/modal.slice'
 import { User } from 'components/User'
 import { NavigationLinks } from 'components/NavigationLinks'
 import { CrossRedSVG } from 'img/icons'
+import { AppContext } from '../AppRouter'
 
 export const BaseDiv = styled.div`
   opacity: 0;
@@ -95,10 +95,11 @@ const Div = styled(BaseDiv)`
   }
 `
 
-export const MenuModal = ({ user }: IUser) => {
-  const { t } = useTranslation(),
-    modalState = useAppSelector(selectMenuModalActive),
-    dispatch = useAppDispatch()
+export const MenuModal = () => {
+  const { t } = useTranslation()
+  const { currentUser } = useContext(AppContext)
+  const modalState = useAppSelector(selectMenuModalActive)
+  const dispatch = useAppDispatch()
   // console.log('MenuModal: ')
 
   return (
@@ -115,13 +116,14 @@ export const MenuModal = ({ user }: IUser) => {
         />
         <ul className="flex_center_bet_col center">
           <NavigationLinks links={publicLinks} bold="b900" color="#737373" />
-          <li className={'login ' + (user ? 'signOut' : 'signIn')}>
-            {useMemo(
+          <li className={'login ' + (currentUser ? 'signOut' : 'signIn')}>
+            {/* {useMemo(
               () => (
                 <User user={user} styleName="menu_modal" />
               ),
               [user]
-            )}
+            )} */}
+            <User styleName="menu_modal" />
           </li>
           <li className="buyСlass">
             <Link to={RESERVE_ROUTE} className="flex_center_center b700 white">

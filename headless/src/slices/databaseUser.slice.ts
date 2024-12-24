@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { AppDispatch, RootState } from 'store'
-import { IAuth } from 'types/interface'
+import { IAuth, IUser } from 'types/interface'
 import { errorModalMessage } from 'utils/errorModalMessage'
 import { messageModal } from './modal.slice'
 
@@ -40,12 +40,14 @@ export const loginUserFromDatabase = createAsyncThunk<
 export const validateAuthToken = createAsyncThunk<
   IAuth,
   { firstLoad: boolean },
+  // { firstLoad: boolean, message: 'Login successful.' },
   { dispatch: AppDispatch }
 >('databaseUser/validateAuthToken', async ({ firstLoad }, { dispatch }) => {
   try {
     const response = await axios.get(`${process.env.API_URL}/auth/validate`, {
       withCredentials: true,
     })
+    console.log('validateAuthToken: ', response)
     !firstLoad &&
       dispatch(messageModal(response?.data?.message || 'Login successful.'))
     return response.data
@@ -62,18 +64,15 @@ export const logoutUserWithAuthToken = createAsyncThunk<
 >(
   'databaseUser/logoutUserFromDatabase',
   async ({ deleteAccount }, { rejectWithValue, dispatch }) => {
-    const message = deleteAccount
-      ? 'User deleted successfully!'
-      : 'You have successfully logged out.'
     try {
-      await axios.post(
+      const logoutResponse = await axios.post(
         `${process.env.API_URL}/auth/logout`,
         { deleteAccount },
         {
           withCredentials: true,
         }
       )
-      dispatch(messageModal(message))
+      dispatch(messageModal(logoutResponse?.data?.message))
     } catch (error: any) {
       console.error(error?.response?.data)
       return rejectWithValue(

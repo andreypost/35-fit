@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -18,6 +18,9 @@ import {
   loginUserFromDatabase,
   validateAuthToken,
 } from 'slices/databaseUser.slice'
+import { dev } from 'config'
+import { AppContext } from '../AppRouter'
+import { FirebaseAuthContext } from '../index'
 
 const Div = styled(BaseDiv)`
   display: block;
@@ -169,7 +172,9 @@ const Div = styled(BaseDiv)`
   }
 `
 
-export const LoginModal = ({ user, login }: IFirebaseProps) => {
+export const LoginModal = () => {
+  const { currentUser } = useContext(AppContext)
+  const { login } = useContext(FirebaseAuthContext)
   const dispatch = useAppDispatch()
   const modalState = useAppSelector(selectLoginModalActive)
   const { t } = useTranslation()
@@ -183,8 +188,8 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
   })
 
   useEffect(() => {
-    user && dispatch(unsetLoginModal())
-  }, [user])
+    currentUser && dispatch(unsetLoginModal())
+  }, [currentUser])
 
   const handleChangeLoginData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -201,7 +206,7 @@ export const LoginModal = ({ user, login }: IFirebaseProps) => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    if (process.env.NODE_ENV === 'production') {
+    if (!dev) {
       dispatch(unsetLoginModal())
       await new Promise((resolve) => {
         setTimeout(() => {

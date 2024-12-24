@@ -5,6 +5,8 @@ import { useAppDispatch } from 'utils/hooks'
 import { loginModal, dashModal, unsetDashModal } from 'slices/modal.slice'
 import empty_user from '../img/empty_user.png'
 import { LangArrowSVG } from 'img/icons'
+import { useContext } from 'react'
+import { AppContext } from '../AppRouter'
 
 const Div = styled.div`
   .user_name {
@@ -100,28 +102,30 @@ const Div = styled.div`
   }
 `
 
-export const User = ({ user, styleName }: IUser & IStyle) => {
-  const dispatch = useAppDispatch(),
-    { t } = useTranslation()
-
+export const User = ({ styleName }: IStyle) => {
+  const dispatch = useAppDispatch()
+  const { t } = useTranslation()
+  const { currentUser } = useContext(AppContext)
   return (
     <Div
       className={
-        'light_grey_button ' + styleName + (user ? ' loggedOut' : ' loggedIn')
+        'light_grey_button ' +
+        styleName +
+        (currentUser ? ' loggedOut' : ' loggedIn')
       }
       onClick={() =>
         styleName === 'dashboard_modal'
           ? dispatch(unsetDashModal())
-          : user
+          : currentUser
           ? dispatch(dashModal())
           : dispatch(loginModal())
       }
     >
       <p className="user_name b700 green">
-        {user?.displayName || user?.name || t('nav.login')}
+        {currentUser?.displayName || currentUser?.name || t('nav.login')}
       </p>
       <img
-        src={user?.photoURL || empty_user}
+        src={currentUser?.photoURL || empty_user}
         onError={(e: any) => (
           (e.target.onerror = null), (e.target.src = empty_user)
         )}

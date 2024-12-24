@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import { IUser } from 'types/interface'
 // import { createStore, applyMiddleware } from 'redux'
 // import { configureStore } from '@reduxjs/toolkit'
 // import thunk from 'redux-thunk'
 // import axios from 'axios'
 import empty from 'img/empty_user.png'
 
-const Flower = ({ user }: IUser) => {
+const Flower = () => {
   // function curry(f: { (a: any, b: any, c: any): any; length?: any; apply?: any }) {
   //     return function curried(this: any, ...args: any[]) {
   //         if (args.length >= f.length) {

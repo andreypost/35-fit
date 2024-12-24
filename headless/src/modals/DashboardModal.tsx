@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { FirebaseAuthContext } from '../index'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectDashModalActive, unsetDashModal } from 'slices/modal.slice'
 import { BaseDiv } from './MenuModal'
@@ -86,11 +87,8 @@ const Div = styled(BaseDiv)`
   }
 `
 
-export const DashboardModal = ({
-  user,
-  login,
-  firebaseAuth,
-}: IFirebaseProps) => {
+export const DashboardModal = () => {
+  const { firebaseAuth } = useContext(FirebaseAuthContext)
   const { t } = useTranslation()
   const modalState = useAppSelector(selectDashModalActive)
   const dispatch = useAppDispatch()
@@ -105,12 +103,13 @@ export const DashboardModal = ({
     >
       <nav className="shadow_radius">
         <ul className="b900">
-          {useMemo(
+          {/* {useMemo(
             () => (
               <User user={user} styleName="dashboard_modal" />
             ),
             [user]
-          )}
+          )} */}
+          <User styleName="dashboard_modal" />
           <NavigationLinks links={profileLinks} bold="b900" color="#59b894" />
           <li className="logout">
             <label

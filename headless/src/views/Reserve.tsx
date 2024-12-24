@@ -7,7 +7,10 @@ import { IAuth, IUser } from 'types/interface'
 import { PercentReserveSVG } from 'img/icons'
 import { TestingModule } from 'components/TestingModule'
 import { useAppDispatch } from 'utils/hooks'
-import { validateAuthToken } from 'slices/databaseUser.slice'
+import {
+  logoutUserWithAuthToken,
+  validateAuthToken,
+} from 'slices/databaseUser.slice'
 import { messageModal } from 'slices/modal.slice'
 import { errorModalMessage } from 'utils/errorModalMessage'
 import { dev } from 'config'
@@ -173,7 +176,7 @@ const Main = styled.main`
   }
 `
 
-const Reserve = ({ user }: IUser) => {
+const Reserve = () => {
   const { t } = useTranslation(),
     [authData, setAuthData] = useState<IAuth>({}),
     [users, setAllUsers] = useState<IAuth[]>([]),
@@ -231,27 +234,27 @@ const Reserve = ({ user }: IUser) => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    if (!dev) {
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(
-            dispatch(messageModal(t('messages.sorry_but_it_is_not_possible')))
-          )
-        }, 1500)
-      })
-    } else {
-      try {
+    try {
+      if (!dev) {
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(
+              dispatch(messageModal(t('messages.sorry_but_it_is_not_possible')))
+            )
+          }, 1500)
+        })
+      } else {
         const createNewUser = await axios.post(
           `${process.env.API_URL}/auth/create-new-user`,
           authData,
           { withCredentials: true }
         )
-        console.log('createNewUser: ', createNewUser)
         dispatch(messageModal(t('messages.your_account_was_created')))
         dispatch(validateAuthToken({ firstLoad: true }))
-      } catch (error: any) {
-        errorModalMessage(error)
+        console.log('auth/create-new-user: ', createNewUser)
       }
+    } catch (error: any) {
+      errorModalMessage(error)
     }
   }
 
@@ -287,7 +290,7 @@ const Reserve = ({ user }: IUser) => {
         </aside>
 
         <article className="reserve_article">
-          {dev && <TestingModule user={user} />}
+          {dev && <TestingModule />}
           <header className="grey">
             <h4 className="b900">
               {t('reserve.new_to_fit')}
@@ -358,12 +361,10 @@ const Reserve = ({ user }: IUser) => {
                 </div>
               </div>
             </header>
-
             <header>
               <h5 className="b900 form_subtitle blue">
                 {t('reserve.contact_information')}
               </h5>
-
               <div className="form_box">
                 <div className="form_fields flex">
                   <fieldset>
@@ -383,10 +384,8 @@ const Reserve = ({ user }: IUser) => {
                       ))}
                     </select>
                   </fieldset>
-
                   <fieldset>
                     <legend>City:</legend>
-
                     <select
                       name="city"
                       onChange={handleChangeAuthData}
@@ -427,7 +426,6 @@ const Reserve = ({ user }: IUser) => {
                 </div>
               </div>
             </header>
-
             <fieldset>
               <legend>Phone number:</legend>
               <input
@@ -438,10 +436,10 @@ const Reserve = ({ user }: IUser) => {
                 required={dev ? false : true}
               />
             </fieldset>
-
             <button
               className="flex_center_center reserve_submit margin_b_60_30 b900 white"
               type="submit"
+              // hidden={user ? true : false}
             >
               {t('reserve.continue')}
             </button>

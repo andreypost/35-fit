@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { IGetImageById, IGetImages, IUser } from 'types/interface'
 import { useQuery } from '@apollo/client'
@@ -6,6 +6,7 @@ import { GET_IMAGES, GET_IMAGE_BY_ID } from 'queries'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { UserData, fetchFileData, setSortedList } from 'slices/fileData.slice'
 import { apiEndpointCall } from 'utils/endpointApiCall'
+import { AppContext } from '../AppRouter'
 
 const Div = styled.div`
   #testingForm {
@@ -51,23 +52,24 @@ const ImagesList = ({ categoryImages }: any) => {
   )
 }
 
-export const TestingModule = ({ user }: IUser) => {
-  const [email, setEmail] = useState(''),
-    [password, setPassword] = useState(''),
-    [index, setIndex] = useState(0),
-    [selectedImageId, setSelectedImageId] = useState<number>(0),
-    {
-      loading: imageLoading,
-      error: imageError,
-      data: imageData,
-    } = useQuery<IGetImageById>(GET_IMAGE_BY_ID, {
-      variables: { imageId: selectedImageId },
-      skip: !selectedImageId,
-      context: { credentials: 'include' },
-    }),
-    dispatch = useAppDispatch(),
-    { fileSortedList, fileListLoading, fileListError } =
-      useAppSelector(setSortedList)
+export const TestingModule = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [index, setIndex] = useState(0)
+  const [selectedImageId, setSelectedImageId] = useState<number>(0)
+  const {
+    loading: imageLoading,
+    error: imageError,
+    data: imageData,
+  } = useQuery<IGetImageById>(GET_IMAGE_BY_ID, {
+    variables: { imageId: selectedImageId },
+    skip: !selectedImageId,
+    context: { credentials: 'include' },
+  })
+  const dispatch = useAppDispatch()
+  const { fileSortedList, fileListLoading, fileListError } =
+    useAppSelector(setSortedList)
+  const { currentUser } = useContext(AppContext)
 
   const countries = [
     'Chile',
@@ -172,7 +174,7 @@ export const TestingModule = ({ user }: IUser) => {
   return (
     <Div>
       {fileListError && <p>{fileListError?.message}</p>}
-      {user && fileSortedList?.length > 0 && (
+      {currentUser && fileSortedList?.length > 0 && (
         <ol>
           <p>Users: {fileSortedList.length}</p>
           {fileSortedList.map(

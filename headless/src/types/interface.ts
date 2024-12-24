@@ -14,11 +14,13 @@ export interface IAuth {
   displayName?: string
   photoURL?: string
 }
+
 export interface IUser {
   user: IAuth
 }
 
-export interface IFirebaseProps extends IUser {
+export interface IFirebaseProps {
+  user?: IAuth
   firebase?: any
   firebaseAuth?: any
   firestore?: any
@@ -50,6 +52,8 @@ export interface IRoutePriceTitle extends ITitleDescripClass {
 export interface IAppConfig {
   language: string
   setLanguage: (language: string) => void
+  currentUser: IAuth | null
+  setCurrentUser: (currentUser: IAuth | null) => void
 }
 
 export interface ISVGProps extends IClass {

@@ -5,6 +5,7 @@ import { HeaderBanner } from 'HeaderBanner'
 import { Spinner } from 'Spinner'
 import { FirebaseAuthContext } from '../index'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { AppContext } from '../AppRouter'
 
 interface canvasProps {
   width: string
@@ -48,8 +49,9 @@ const Canvas = ({ width, height, border }: canvasProps) => {
   )
 }
 
-const Chat = ({ user }: IUser) => {
+const Chat = () => {
   // const { t } = useTranslation()
+  const { currentUser } = useContext(AppContext)
   const { firebase, firestore } = useContext(FirebaseAuthContext)
   const [chatMessage, setChatMessage] = useState('')
   const [messages, loading] = useCollectionData(
@@ -60,9 +62,9 @@ const Chat = ({ user }: IUser) => {
     e.preventDefault()
     console.log(chatMessage)
     firestore.collection('messages').add({
-      uid: user?.uid,
-      displayName: user?.displayName,
-      photoUrl: user?.photoURL,
+      uid: currentUser?.uid,
+      displayName: currentUser?.displayName,
+      photoUrl: currentUser?.photoURL,
       text: chatMessage,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     })

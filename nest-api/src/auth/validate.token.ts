@@ -3,7 +3,10 @@ import { JwtService } from '@nestjs/jwt';
 import { msg } from '../constants/messages';
 import { secrets } from '../constants/secrets';
 
-export const validateAuthToken = async (authToken: string): Promise<any> => {
+export const validateAuthToken = async (
+  authToken: string,
+  res: any,
+): Promise<any> => {
   if (!authToken) {
     throw new UnauthorizedException(msg.YOU_MUST_TO_LOGIN);
   }
@@ -15,6 +18,7 @@ export const validateAuthToken = async (authToken: string): Promise<any> => {
     const { email } = jwtService.verify(authToken);
     return email;
   } catch (error) {
+    await deleteAuthToken(res);
     throw new UnauthorizedException(msg.INVALID_OR_EXPIRED_TOKEN);
   }
 };
