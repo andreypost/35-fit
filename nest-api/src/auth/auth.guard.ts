@@ -1,7 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { validateAuthToken } from '../auth/validate.token';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './public';
+import { CustomRequest } from '../types/custom.request';
+import { validateAuthToken } from '../auth/validate.token';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -12,11 +13,13 @@ export class AuthGuard implements CanActivate {
       context.getClass(),
     ]);
     if (isPublic) return true;
-    const request = await context.switchToHttp().getRequest();
-    const { authToken } = await request?.cookies;
+    const cxtHttp = context.switchToHttp();
+    const request = cxtHttp.getRequest<CustomRequest>();
+    const { authToken } = request?.cookies;
+
     return (request.userEmail = await validateAuthToken(
       authToken,
-      context.switchToHttp().getResponse(),
+      cxtHttp.getResponse<Response>(),
     ));
   }
 }
