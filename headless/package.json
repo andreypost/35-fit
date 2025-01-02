@@ -9,7 +9,7 @@
   "scripts": {
     "start": "webpack serve --config config/webpack.config.js --env env=dev",
     "build": "webpack --config config/webpack.config.js --env env=prod",
-    "netlify": "npx webpack --config config/webpack.config.js --env env=prod netlify=true",
+    "netlify": "npx webpack && npx webpack cli --config config/webpack.config.js --env env=prod netlify=true",
     "prettier": "prettier src --cache --write",
     "prettier-check": "prettier src --cache --check",
     "lint": "eslint src --format @lint-todo/eslint-formatter-todo --ext .js,.ts,.tsx --cache",
