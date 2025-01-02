@@ -5,8 +5,10 @@ import {
   BeforeInsert,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
 import bcrypt from "bcrypt";
+import { Order } from "./Order";
 
 @Entity({ name: "user" })
 export class User {
@@ -19,7 +21,7 @@ export class User {
   @Column()
   surname!: string;
 
-  @Column({ default: "Non-binary" })
+  @Column({ default: "nonBinary" })
   gender!: string;
 
   @Column()
@@ -46,14 +48,8 @@ export class User {
   @Column()
   emergencyPhone?: string;
 
-  @CreateDateColumn()
-  created_at?: Date;
-
-  @UpdateDateColumn()
-  updated_at?: Date;
-
   @BeforeInsert()
-  async hashPassword() {
+  async hashPassword(): Promise<void> {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
   }
@@ -61,4 +57,13 @@ export class User {
   async checkPassword(inputPassword: string): Promise<boolean> {
     return bcrypt.compare(inputPassword, this.password);
   }
+
+  @OneToMany(() => Order, (order) => order.user, { cascade: true })
+  orders!: Order[];
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
 }

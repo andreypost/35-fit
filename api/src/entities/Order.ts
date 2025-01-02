@@ -5,24 +5,24 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
-import { User } from './user';
+} from "typeorm";
+import { User } from "./User";
 
-@Entity({ name: 'order' })
+@Entity({ name: "order" })
 export class Order {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id?: string;
 
-  @Column('int')
+  @Column("int")
   orderQuantity!: number;
 
   @Column()
   status!: string; // 'Pending', 'Shipped', 'Delivered', 'Cancelled'
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column("decimal", { precision: 10, scale: 2 })
   totalCost!: number;
 
-  @ManyToOne(() => User, (user) => user.orders, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.orders, { onDelete: "CASCADE" })
   user!: User; // Automatically creates a `userId` foreign key
 
   @CreateDateColumn()

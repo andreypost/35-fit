@@ -2,9 +2,8 @@ import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 import { DataSource } from 'typeorm';
 import { User } from '../entities/user';
-import { UserDetails } from '../entities/user.details';
 import { Order } from '../entities/order';
-import { Scooter } from '../entities/scooter';
+// import { Scooter } from '../entities/scooter';
 
 config(); // strongly required for migrations
 
@@ -19,7 +18,7 @@ export const AppDataSource = new DataSource({
   database: configService.get<string>('PGDATABASE'),
   synchronize: false,
   logging: true,
-  entities: [User, UserDetails, Order],
+  entities: [User, Order],
   // migrations:
   //   process.env.NODE_ENV === 'production'
   //     ? []

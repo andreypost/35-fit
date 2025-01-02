@@ -3,7 +3,6 @@ import { AppDataSource } from './data.source';
 import { DataSource } from 'typeorm';
 import { nextError } from '../helpers/next.error';
 import { User } from '../entities/user';
-import { UserDetails } from '../entities/user.details';
 import { Order } from '../entities/order';
 
 export const databaseProviders: Provider[] = [
@@ -21,12 +20,6 @@ export const databaseProviders: Provider[] = [
     provide: 'USER_REPOSITORY',
     useFactory: async (dataSource: DataSource) =>
       dataSource.getRepository(User),
-    inject: [DataSource],
-  },
-  {
-    provide: 'USER_DETAILS_REPOSITORY',
-    useFactory: async (dataSource: DataSource) =>
-      dataSource.getRepository(UserDetails),
     inject: [DataSource],
   },
   {

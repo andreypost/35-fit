@@ -51,7 +51,7 @@ export class User {
   emergencyPhone?: string;
 
   @BeforeInsert()
-  async hashPassword() {
+  async hashPassword(): Promise<void> {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
   }
@@ -63,9 +63,9 @@ export class User {
   @OneToMany(() => Order, (order) => order.user, { cascade: true })
   orders!: Order[];
 
-  @CreateDateColumn({ name: 'created_at' })
-  created_at!: Date;
+  @CreateDateColumn()
+  createdAt!: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
-  updated_at!: Date;
+  @UpdateDateColumn()
+  updatedAt!: Date;
 }

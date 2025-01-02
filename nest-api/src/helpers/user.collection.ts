@@ -1,6 +1,8 @@
-import { UserDetails } from '../entities/user.details';
+import { CreateUserDetailsDto } from 'src/user/dto/create.user.details.dto';
 
-export const countCountryEarnings = async (userCollection: UserDetails[]) => {
+export const countCountryEarnings = async (
+  userCollection: CreateUserDetailsDto[],
+) => {
   let averageEarnings = {};
   const countryEarnings = userCollection.reduce(
     (acc, { country, earnings }) => {

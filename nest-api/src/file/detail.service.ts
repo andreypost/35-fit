@@ -12,7 +12,6 @@ import {
 // import { readFile, writeFile } from 'fs/promises';
 import { Response } from 'express';
 import { getFileData, writeFileData } from 'src/helpers/file.stream';
-import { UserDetails } from '../entities/user.details';
 import { CreateUserDetailsDto } from '../user/dto/create.user.details.dto';
 // import { v4 as uuidv4 } from 'uuid';
 import { countCountryEarnings } from '../helpers/user.collection';
@@ -21,7 +20,7 @@ import { nextError } from '../helpers/next.error';
 
 @Injectable()
 export class DetailService {
-  private userCollection: UserDetails[] = null;
+  private userCollection: CreateUserDetailsDto[] = null;
 
   private readonly filePath: string = join(
     process.cwd(),
@@ -39,7 +38,7 @@ export class DetailService {
   private usersCountCache: Record<string, number> = {};
   private averageEarningsCache: Record<string, number> = {};
 
-  public async getStreamFile(): Promise<UserDetails[]> {
+  public async getStreamFile(): Promise<CreateUserDetailsDto[]> {
     try {
       if (!this.userCollection?.length) {
         return (this.userCollection = await getFileData(this.filePath));
@@ -135,11 +134,11 @@ export class DetailService {
     }
   }
 
-  public async findUserById(id: string): Promise<UserDetails> {
+  public async findUserById(id: string): Promise<CreateUserDetailsDto> {
     try {
       await this.getStreamFile();
       // await this.loadUserCollection(req);
-      const user: UserDetails = this.userCollection.find(
+      const user: CreateUserDetailsDto = this.userCollection.find(
         (user) => user.id == id,
       );
       if (!user) throw new NotFoundException(`User with id ${id} not found.`);

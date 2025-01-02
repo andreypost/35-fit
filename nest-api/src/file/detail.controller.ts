@@ -11,7 +11,6 @@ import {
 import { Response } from 'express';
 // import { AuthGuard } from '../utils/auth.guard';
 import { DetailService } from './detail.service';
-import { UserDetails } from '../entities/user.details';
 import { CreateUserDetailsDto } from '../user/dto/create.user.details.dto';
 
 // @UseGuards(AuthGuard) // add authToken check to all this routes
@@ -20,7 +19,7 @@ export class DetailController {
   constructor(private readonly detailService: DetailService) {}
 
   @Get('read')
-  async loadUserCollection(): Promise<UserDetails[]> {
+  async loadUserCollection(): Promise<CreateUserDetailsDto[]> {
     return this.detailService.getStreamFile();
     // return this.detailService.loadUserCollection(req);
   }
@@ -29,7 +28,7 @@ export class DetailController {
   async addNewDetailsUser(
     @Body() createUserDetailsDto: CreateUserDetailsDto,
     @Res() res: Response,
-  ): Promise<UserDetails> {
+  ): Promise<CreateUserDetailsDto> {
     return this.detailService.addNewDetailsUser(createUserDetailsDto, res);
   }
 
@@ -45,7 +44,9 @@ export class DetailController {
 
   @Get('users/:id')
   // @Param('id', new ParseUUIDPipe()) id: string,
-  async findUserById(@Param() params: { id: string }): Promise<UserDetails> {
+  async findUserById(
+    @Param() params: { id: string },
+  ): Promise<CreateUserDetailsDto> {
     const { id } = params;
     return this.detailService.findUserById(id);
   }

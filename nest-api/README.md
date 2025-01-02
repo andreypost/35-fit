@@ -48,7 +48,7 @@ npm run typeorm:revert
 
 # !!! FULLY DELETE ALL TABLES !!!
 npm run typeorm:drop
-
+# also delete /dist build dir with existing migration files
 ```
 
 ## Test

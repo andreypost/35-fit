@@ -3,7 +3,7 @@ import "./config/env";
 import { env } from "./config/env";
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
-import auth from "./routes/auth";
+import user from "./routes/user";
 import file from "./routes/file";
 import { errorHandler } from "./middleware/errorHandler";
 import cookieParser from "cookie-parser";
@@ -37,7 +37,7 @@ app.use(
   // logRequestDetails
 );
 
-app.use("/auth", auth);
+app.use("/user", user);
 
 app.use("/file", file);
 

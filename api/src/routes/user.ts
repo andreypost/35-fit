@@ -9,7 +9,7 @@ import {
 import { userRepository } from "../config/database";
 import bcrypt from "bcrypt";
 import { msg } from "../constants/messages";
-import { User } from "../entity/User";
+import { User } from "../entities/User";
 
 const auth = Router();
 

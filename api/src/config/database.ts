@@ -1,6 +1,7 @@
 import { DataSource } from "typeorm";
 import { env } from "./env";
-import { User } from "../entity/User";
+import { User } from "../entities/User";
+import { Order } from "../entities/Order";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -11,7 +12,7 @@ export const AppDataSource = new DataSource({
   database: env.DB_NAME,
   synchronize: false,
   logging: false,
-  entities: [User],
+  entities: [User, Order],
   migrations: env.NODE_ENV === "production" ? [] : ["dist/migration/**/*.js"],
 });
 
