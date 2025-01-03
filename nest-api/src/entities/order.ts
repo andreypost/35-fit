@@ -22,7 +22,13 @@ export class Order {
   @Column('decimal', { precision: 10, scale: 2 })
   totalCost!: number;
 
-  @ManyToOne(() => User, (user) => user.orders, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.orders, {
+    // The database will throw an error if you try to delete a User with existing orders
+    onDelete: 'RESTRICT',
+    onUpdate: 'CASCADE',
+    // onDelete: 'CASCADE',
+    // onUpdate: 'CASCADE',
+  })
   user!: User; // Automatically creates a `userId` foreign key
 
   @CreateDateColumn()

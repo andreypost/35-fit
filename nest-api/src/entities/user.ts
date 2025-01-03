@@ -60,7 +60,7 @@ export class User {
     return bcrypt.compare(inputPassword, this.password);
   }
 
-  @OneToMany(() => Order, (order) => order.user, { cascade: true })
+  @OneToMany(() => Order, (order) => order.user)
   orders!: Order[];
 
   @CreateDateColumn()
