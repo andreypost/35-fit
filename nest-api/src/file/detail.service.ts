@@ -12,7 +12,7 @@ import {
 // import { readFile, writeFile } from 'fs/promises';
 import { Response } from 'express';
 import { getFileData, writeFileData } from 'src/helpers/file.stream';
-import { CreateUserDetailsDto } from '../user/dto/create.user.details.dto';
+import { CreateUserDetailsDto } from './dto/create.user.details.dto';
 // import { v4 as uuidv4 } from 'uuid';
 import { countCountryEarnings } from '../helpers/user.collection';
 import { msg } from '../constants/messages';
@@ -139,7 +139,7 @@ export class DetailService {
       await this.getStreamFile();
       // await this.loadUserCollection(req);
       const user: CreateUserDetailsDto = this.userCollection.find(
-        (user) => user.id == id,
+        (user) => user.id.toString() === id,
       );
       if (!user) throw new NotFoundException(`User with id ${id} not found.`);
       return user;

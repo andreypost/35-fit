@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsUUID, IsOptional } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateUserDetailsDto {
   // @IsUUID()

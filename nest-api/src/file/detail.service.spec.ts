@@ -7,9 +7,9 @@ import { readFile } from 'fs/promises';
 import { Request } from 'express';
 import { DetailService } from './detail.service';
 import { msg } from '../constants/messages';
-import { validateAuthToken } from '../utils/validate.token';
+import { validateAuthToken } from '../auth/validate.token';
 import { nextError } from '../helpers/next.error';
-import { UserDetails } from '../entities/user.details';
+import { CreateUserDetailsDto } from './dto/create.user.details.dto';
 // import { Test, TestingModule } from '@nestjs/testing';
 
 jest.mock('fs');
@@ -67,7 +67,7 @@ describe('DetailService', () => {
 
   it('should return user collection if file exists', async () => {
     const req: Partial<Request> = { cookies: { authToken: 'valid-token' } };
-    const mockUserCollection: UserDetails[] = [
+    const mockUserCollection: CreateUserDetailsDto[] = [
       {
         id: '07deaa69-33e4-4685-88ed-6d2b0ddc59e7',
         earnings: '$5700',

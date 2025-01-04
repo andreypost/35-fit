@@ -162,7 +162,7 @@ file.get(
       if (!fileData?.length) {
         fileData = await getFileData(filePath, next);
       }
-      const user = fileData.find((user) => user.id === +id);
+      const user = fileData.find((user) => user.id.toString() === id);
       if (!user) {
         return res.status(404).json(msg.USER_NOT_FOUND);
       }

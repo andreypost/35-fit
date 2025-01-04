@@ -21,8 +21,7 @@ export const getFileData = (path: string, next: any): Promise<any> => {
       .on("data", (chunk) => (jsonData += chunk))
       .on("end", () => {
         try {
-          const parsedData = JSON.parse(jsonData);
-          res(parsedData);
+          res(JSON.parse(jsonData));
         } catch (err: any) {
           rej(`Error parsing JSON: ${err}`);
         }
