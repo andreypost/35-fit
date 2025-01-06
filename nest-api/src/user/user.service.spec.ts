@@ -1,6 +1,6 @@
 import { TestingModule, Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 import { Request, Response } from 'express';
 import { validateAuthToken } from '../auth/validate.token';
 import { Repository } from 'typeorm';
@@ -37,8 +37,8 @@ const mockRepository = () => ({
   save: jest.fn(),
 });
 
-describe('AuthService', () => {
-  let authService: AuthService;
+describe('UserService', () => {
+  let userService: UserService;
   let userRepository: Repository<User>;
   let result = null;
   let res: any;
@@ -60,7 +60,7 @@ describe('AuthService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        AuthService,
+        UserService,
         {
           provide: getRepositoryToken(User),
           useValue: mockRepository(),
@@ -76,7 +76,7 @@ describe('AuthService', () => {
       ],
     }).compile();
 
-    authService = module.get<AuthService>(AuthService);
+    userService = module.get<UserService>(userService);
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
     res = mockResponse();
   });
@@ -86,7 +86,7 @@ describe('AuthService', () => {
   });
 
   it('authService should be defined', async () => {
-    expect(authService).toBeDefined();
+    expect(userService).toBeDefined();
   });
 
   // it('should return a user if found', async () => {
@@ -116,7 +116,7 @@ describe('AuthService', () => {
       password: hashedPassword,
     });
 
-    result = await authService.createNewUser(createUserDto, res);
+    result = await userService.createNewUser(createUserDto, res);
 
     expect(bcrypt.hash).toHaveBeenCalledWith(mockUser.password, 10);
 

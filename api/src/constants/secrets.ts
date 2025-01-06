@@ -1,2 +1,4 @@
-import { env } from "../config/env";
-export const SECRET_JWT_KEY = env.JWT_KEY as string;
+export const enum secrets {
+  EXPIRES_IN = 3600000,
+  LONG_EXPIRES_IN = 2600000000,
+}

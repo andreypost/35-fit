@@ -178,7 +178,7 @@ const Main = styled.main`
 
 const Reserve = () => {
   const { t } = useTranslation(),
-    [authData, setAuthData] = useState<IAuth>({}),
+    [userData, setUserData] = useState<IAuth>({}),
     [users, setAllUsers] = useState<IAuth[]>([]),
     dispatch = useAppDispatch()
 
@@ -205,7 +205,7 @@ const Reserve = () => {
 
   useEffect(() => {
     dev &&
-      setAuthData({
+      setUserData({
         name: 'Andrii Postoliuk',
         surname: 'Postoliuk',
         gender: 'male',
@@ -220,17 +220,17 @@ const Reserve = () => {
       })
   }, [dev])
 
-  const handleChangeAuthData = (
+  const handleChangeUserData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target
-    setAuthData({
-      ...authData,
+    setUserData({
+      ...userData,
       [name]: value,
     })
   }
 
-  const handleAuthSubmit = async <T extends React.FormEvent<HTMLFormElement>>(
+  const handleUserSubmit = async <T extends React.FormEvent<HTMLFormElement>>(
     e: T
   ): Promise<void> => {
     e.preventDefault()
@@ -245,13 +245,13 @@ const Reserve = () => {
         })
       } else {
         const createNewUser = await axios.post(
-          `${process.env.API_URL}/auth/create-new-user`,
-          authData,
+          `${process.env.API_URL}/user/create-new-user`,
+          userData,
           { withCredentials: true }
         )
         dispatch(messageModal(t('messages.your_account_was_created')))
         dispatch(validateAuthToken({ firstLoad: true }))
-        console.log('auth/create-new-user: ', createNewUser)
+        console.log('user/create-new-user: ', createNewUser)
       }
     } catch (error: any) {
       errorModalMessage(error)
@@ -262,7 +262,7 @@ const Reserve = () => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    const response = await apiEndpointCall('get', 'auth/users')
+    const response = await apiEndpointCall('get', 'user/users')
     if (response?.data) {
       setAllUsers(response?.data)
     }
@@ -299,7 +299,7 @@ const Reserve = () => {
             </h4>
             <p>{t('reserve.as_one_of_our_main_focus')}</p>
           </header>
-          <form id="authForm" onSubmit={handleAuthSubmit}>
+          <form id="authForm" onSubmit={handleUserSubmit}>
             <header>
               <h5 className="b900 form_subtitle blue">
                 {t('reserve.personal_information')}
@@ -313,7 +313,7 @@ const Reserve = () => {
                       type="text"
                       name="name"
                       placeholder="First name"
-                      onChange={handleChangeAuthData}
+                      onChange={handleChangeUserData}
                       required={dev ? false : true}
                     />
                   </fieldset>
@@ -323,7 +323,7 @@ const Reserve = () => {
                       type="text"
                       name="surname"
                       placeholder="Surname"
-                      onChange={handleChangeAuthData}
+                      onChange={handleChangeUserData}
                       required={dev ? false : true}
                     />
                   </fieldset>
@@ -333,10 +333,10 @@ const Reserve = () => {
                     <legend>Gender:</legend>
                     <select
                       name="gender"
-                      onChange={handleChangeAuthData}
+                      onChange={handleChangeUserData}
                       required={dev ? false : true}
                       style={{
-                        color: setFieldColor(authData.gender),
+                        color: setFieldColor(userData.gender),
                       }}
                     >
                       {genderOptions.map((option) => (
@@ -354,7 +354,7 @@ const Reserve = () => {
                       placeholder="Age"
                       min={1}
                       max={111}
-                      onChange={handleChangeAuthData}
+                      onChange={handleChangeUserData}
                       required={dev ? false : true}
                     />
                   </fieldset>
@@ -371,10 +371,10 @@ const Reserve = () => {
                     <legend>Country:</legend>
                     <select
                       name="country"
-                      onChange={handleChangeAuthData}
+                      onChange={handleChangeUserData}
                       required={dev ? false : true}
                       style={{
-                        color: setFieldColor(authData.country),
+                        color: setFieldColor(userData.country),
                       }}
                     >
                       {countryOptions.map((option) => (
@@ -388,10 +388,10 @@ const Reserve = () => {
                     <legend>City:</legend>
                     <select
                       name="city"
-                      onChange={handleChangeAuthData}
+                      onChange={handleChangeUserData}
                       required={dev ? false : true}
                       style={{
-                        color: setFieldColor(authData.city),
+                        color: setFieldColor(userData.city),
                       }}
                     >
                       {cityOptions.map((option) => (
@@ -409,7 +409,7 @@ const Reserve = () => {
                       type="email"
                       name="email"
                       placeholder="E-mail address"
-                      onChange={handleChangeAuthData}
+                      onChange={handleChangeUserData}
                       required
                     />
                   </fieldset>
@@ -419,7 +419,7 @@ const Reserve = () => {
                       type="password"
                       name="password"
                       placeholder="Password"
-                      onChange={handleChangeAuthData}
+                      onChange={handleChangeUserData}
                       required={dev ? false : true}
                     />
                   </fieldset>
@@ -432,7 +432,7 @@ const Reserve = () => {
                 type="tel"
                 name="phone"
                 placeholder="Phone number"
-                onChange={handleChangeAuthData}
+                onChange={handleChangeUserData}
                 required={dev ? false : true}
               />
             </fieldset>

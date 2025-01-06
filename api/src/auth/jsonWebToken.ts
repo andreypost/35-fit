@@ -2,19 +2,16 @@ import { env } from "../config/env";
 import { sign, verify } from "jsonwebtoken";
 import { CustomErrorHandler } from "../middleware/errorHandler";
 import { msg } from "../constants/messages";
-import { SECRET_JWT_KEY } from "../constants/secrets";
-
-export const expiresInHour = 3600000; // one hour
-export const expiresInMonth = 2600000000; // one month
+import { secrets } from "../constants/secrets";
 
 export const generateToken = async (
   payload: any,
   keepLoggedIn: boolean
 ): Promise<string> => {
   const options = {
-    expiresIn: keepLoggedIn ? expiresInMonth : expiresInHour,
+    expiresIn: keepLoggedIn ? secrets.LONG_EXPIRES_IN : secrets.EXPIRES_IN,
   };
-  return sign(payload, SECRET_JWT_KEY, options);
+  return sign(payload, env.JWT_KEY as string, options);
 };
 
 export const setAuthToken = async (
@@ -43,14 +40,14 @@ export const setAuthToken = async (
     httpOnly: true,
     secure: env.NODE_ENV === "production",
     sameSite: "strict",
-    maxAge: keepLoggedIn ? expiresInMonth : expiresInHour,
+    maxAge: keepLoggedIn ? secrets.LONG_EXPIRES_IN : secrets.EXPIRES_IN,
     // path: "/",
   });
 };
 
 export const verifyToken = async (authToken: string): Promise<any> => {
   try {
-    const decoded = verify(authToken, SECRET_JWT_KEY);
+    const decoded = verify(authToken, env.JWT_KEY as string);
     if (decoded && typeof decoded !== "string") {
       return {
         message: msg.USER_ALREADY_LOGGED_IN,

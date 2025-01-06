@@ -23,7 +23,7 @@ import { secrets } from '../constants/secrets';
 config();
 
 @Injectable()
-export class AuthService {
+export class UserService {
   // private userDetailsData: UserDetails[];
   constructor(
     // @Inject('USER_DETAILS_REPOSITORY')

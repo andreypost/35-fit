@@ -1,14 +1,14 @@
 import { Controller, Post, Body, Res, Get, Req } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { Public } from '../auth/public';
-import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 import { CreateUserDto, LoginUserDto } from './dto/create.user.dto';
 import { User } from '../entities/user';
 import { CurrentUserEmail } from '../auth/current.user.decorator';
 
-@Controller('auth')
-export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+@Controller('user')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
   @Public()
   @Post('create-new-user')
@@ -16,7 +16,7 @@ export class AuthController {
     @Body() createUserDto: CreateUserDto,
     @Res() res: Response,
   ): Promise<any> {
-    return await this.authService.createNewUser(createUserDto, res);
+    return await this.userService.createNewUser(createUserDto, res);
   }
 
   @Public()
@@ -25,7 +25,7 @@ export class AuthController {
     @Body() { email, password, keepLoggedIn }: LoginUserDto,
     @Res() res: Response,
   ): Promise<any> {
-    return await this.authService.validateLoginUser(
+    return await this.userService.validateLoginUser(
       { email, password, keepLoggedIn },
       res,
     );
@@ -33,7 +33,7 @@ export class AuthController {
 
   @Get('users')
   async getAllUsers(): Promise<User[]> {
-    return this.authService.getAllUsers();
+    return this.userService.getAllUsers();
   }
 
   @Public()
@@ -42,7 +42,7 @@ export class AuthController {
     @Req() req: Request,
     @Res() res: Response,
   ): Promise<any> {
-    return this.authService.validateUserByAuthToken(req, res);
+    return this.userService.validateUserByAuthToken(req, res);
   }
 
   @Post('logout')
@@ -51,6 +51,6 @@ export class AuthController {
     @CurrentUserEmail() email: string,
     @Res() res: Response,
   ): Promise<any> {
-    return this.authService.logoutUser(deleteAccount, email, res);
+    return this.userService.logoutUser(deleteAccount, email, res);
   }
 }

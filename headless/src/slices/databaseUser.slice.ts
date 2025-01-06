@@ -25,7 +25,7 @@ export const loginUserFromDatabase = createAsyncThunk<
   // dispatch is able in this obj
   try {
     const response = await axios.post(
-      `${process.env.API_URL}/auth/login`,
+      `${process.env.API_URL}/user/login`,
       credentials,
       { withCredentials: true }
     )
@@ -44,7 +44,7 @@ export const validateAuthToken = createAsyncThunk<
   { dispatch: AppDispatch }
 >('databaseUser/validateAuthToken', async ({ firstLoad }, { dispatch }) => {
   try {
-    const response = await axios.get(`${process.env.API_URL}/auth/validate`, {
+    const response = await axios.get(`${process.env.API_URL}/user/validate`, {
       withCredentials: true,
     })
     console.log('validateAuthToken: ', response)
@@ -66,7 +66,7 @@ export const logoutUserWithAuthToken = createAsyncThunk<
   async ({ deleteAccount }, { rejectWithValue, dispatch }) => {
     try {
       const logoutResponse = await axios.post(
-        `${process.env.API_URL}/auth/logout`,
+        `${process.env.API_URL}/user/logout`,
         { deleteAccount },
         {
           withCredentials: true,

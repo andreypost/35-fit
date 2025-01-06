@@ -11,9 +11,9 @@ import bcrypt from "bcrypt";
 import { msg } from "../constants/messages";
 import { User } from "../entities/User";
 
-const auth = Router();
+const user = Router();
 
-auth.post(
+user.post(
   "/create-new-user",
   body("name").notEmpty().withMessage(msg.NAME_IS_REQUIRED),
   body("surname").notEmpty().withMessage(msg.SURNAME_IS_REQUIRED),
@@ -88,7 +88,7 @@ auth.post(
   }
 );
 
-auth.post(
+user.post(
   "/login",
   body("email").isEmail().withMessage(msg.VALID_EMAIL_IS_REQUIRED),
   body("password")
@@ -139,7 +139,7 @@ auth.post(
   }
 );
 
-auth.get(
+user.get(
   "/users",
   loginLimiter,
   async (
@@ -161,7 +161,7 @@ auth.get(
   }
 );
 
-auth.get(
+user.get(
   "/validate",
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
@@ -187,7 +187,7 @@ auth.get(
   }
 );
 
-auth.post(
+user.post(
   "/logout",
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
@@ -218,4 +218,4 @@ auth.post(
   }
 );
 
-export default auth;
+export default user;

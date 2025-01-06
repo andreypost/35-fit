@@ -1,7 +1,10 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { config } from 'dotenv';
 import { msg } from '../constants/messages';
 import { secrets } from '../constants/secrets';
+
+config();
 
 export const validateAuthToken = async (
   authToken: string,
@@ -12,7 +15,7 @@ export const validateAuthToken = async (
   }
   try {
     const jwtService = new JwtService({
-      secret: secrets.JWT_KEY,
+      secret: process.env.JWT_KEY,
       signOptions: { expiresIn: secrets.EXPIRES_IN },
     });
     const { email } = jwtService.verify(authToken);

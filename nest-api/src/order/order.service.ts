@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { AuthService } from '../user/auth.service';
+import { UserService } from '../user/user.service';
 // import { Response, Request } from 'express';
 import { Order } from '../entities/order';
 import { CreateOrderDto } from './dto/create.order.dto';
@@ -10,7 +10,7 @@ import { msg } from '../constants/messages';
 @Injectable()
 export class OrderService {
   constructor(
-    private readonly authService: AuthService,
+    private readonly userService: UserService,
     @Inject('ORDER_REPOSITORY')
     private orderRepository: Repository<Order>,
   ) {}
@@ -20,7 +20,7 @@ export class OrderService {
     email: string,
   ): Promise<Order> {
     try {
-      const currentUser = await this.authService.findUserByEmail(email);
+      const currentUser = await this.userService.findUserByEmail(email);
       if (!currentUser) {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
@@ -36,7 +36,7 @@ export class OrderService {
 
   public async getUserOrders(email: string): Promise<Order[]> {
     try {
-      const currentUser = await this.authService.findUserByEmail(email);
+      const currentUser = await this.userService.findUserByEmail(email);
       if (!currentUser) {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
