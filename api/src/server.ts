@@ -3,16 +3,18 @@ import "./config/env";
 import { env } from "./config/env";
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
-import user from "./routes/user";
-import file from "./routes/file";
-import { errorHandler } from "./middleware/errorHandler";
 import cookieParser from "cookie-parser";
+import { user } from "./routes/user";
+import { file } from "./routes/file";
+import { order } from "./routes/order";
+import { errorHandler } from "./middleware/errorHandler";
 import { logRequestDetails } from "./middleware/logRequestDetails";
 import { GraphQLSchema } from "graphql";
 import { QuerySchema } from "./graphql/querySchema";
 import { MutationSchema } from "./graphql/mutationSchema";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
+import { styleText } from "util";
 
 const app: Application = express();
 
@@ -38,8 +40,8 @@ app.use(
 );
 
 app.use("/user", user);
-
 app.use("/file", file);
+app.use("/order", order);
 
 const startApolloServer = async () => {
   console.time();
@@ -72,5 +74,8 @@ app.get("/", (req: Request, res: Response) =>
 app.use(errorHandler);
 
 app.listen(PORT, HOST, () =>
-  console.log(`Server is running on port http://${HOST}:${PORT}`)
+  console.log(
+    styleText(["underline", "blueBright"], "Server is running on port:"),
+    styleText(["underline", "cyanBright"], `http://${HOST}:${PORT}`)
+  )
 );

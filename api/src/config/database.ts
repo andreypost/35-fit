@@ -2,6 +2,7 @@ import { DataSource } from "typeorm";
 import { env } from "./env";
 import { User } from "../entities/User";
 import { Order } from "../entities/Order";
+import { styleText } from "util";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -17,12 +18,20 @@ export const AppDataSource = new DataSource({
 });
 
 AppDataSource.initialize()
-  .then(() => console.log("Data Source has been initialized!"))
+  .then(() =>
+    console.log(
+      styleText(
+        ["doubleunderline", "yellowBright"],
+        "Data Source has been initialized!"
+      )
+    )
+  )
   .catch((err) =>
     console.error("Error during Data Source initialization:", err)
   );
 
 export const userRepository = AppDataSource.getRepository(User);
+export const orderRepository = AppDataSource.getRepository(Order);
 
 // import { Sequelize } from "sequelize";
 // import dotenv from "dotenv";

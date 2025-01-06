@@ -30,7 +30,7 @@ export class UserService {
     // private readonly userDetailsRepository: Repository<UserDetails>,
     @Inject('USER_REPOSITORY')
     private userRepository: Repository<User>,
-    private jwtService: JwtService,
+    private readonly jwtService: JwtService,
   ) {}
 
   public async findUserByEmail(email: string): Promise<User> {

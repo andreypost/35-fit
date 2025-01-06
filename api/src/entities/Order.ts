@@ -14,7 +14,7 @@ export class Order {
   id?: string;
 
   @Column("int")
-  orderQuantity!: number;
+  quantity!: number;
 
   @Column()
   status!: string; // 'Pending', 'Shipped', 'Delivered', 'Cancelled'

@@ -7,7 +7,7 @@ import { msg } from "../constants/messages";
 import { IFileUserDetails } from "../types/interface";
 import { countCountryEarnings } from "../helpers/userCollection";
 
-const file = Router();
+export const file = Router();
 
 // const filePath = path.resolve(process.cwd(), "../jsonData", "user-collection.json");
 // __dirname is usually better because it is directly tied to the file structure
@@ -172,5 +172,3 @@ file.get(
     }
   }
 );
-
-export default file;

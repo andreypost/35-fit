@@ -11,7 +11,7 @@ import bcrypt from "bcrypt";
 import { msg } from "../constants/messages";
 import { User } from "../entities/User";
 
-const user = Router();
+export const user = Router();
 
 user.post(
   "/create-new-user",
@@ -217,5 +217,3 @@ user.post(
     }
   }
 );
-
-export default user;

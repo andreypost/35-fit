@@ -196,9 +196,9 @@ export const TestingModule = () => {
           className="grey_button grey"
           onClick={() =>
             apiEndpointCall('post', 'order/create', {
-              orderQuantity: 3,
+              quantity: 3,
               status: 'Pending',
-              totalCost: 750.99,
+              totalCost: 750.00,
             })
           }
         >

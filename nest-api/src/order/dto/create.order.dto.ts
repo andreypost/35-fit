@@ -17,7 +17,7 @@ export class CreateOrderDto {
   @IsNotEmpty()
   @Min(1, { message: 'Order Quantity must be at least 1.' })
   @IsInt({ message: 'Count must be an integer.' })
-  orderQuantity!: number;
+  quantity!: number;
 
   @IsNotEmpty()
   @IsEnum(['Pending', 'Shipped', 'Delivered', 'Cancelled'], {
