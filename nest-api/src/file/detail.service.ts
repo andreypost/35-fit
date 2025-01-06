@@ -20,8 +20,6 @@ import { nextError } from '../helpers/next.error';
 
 @Injectable()
 export class DetailService {
-  private userCollection: CreateUserDetailsDto[] = null;
-
   private readonly filePath: string = join(
     process.cwd(),
     process.platform === 'win32'
@@ -31,10 +29,11 @@ export class DetailService {
   /*     path.resolve(
     __dirname,
     process.platform === 'win32'
-      ? '..\\..\\..\\..\\jsonData\\user-collection.json'
-      : '../../../../jsonData/user-collection.json',
-  ); */
+    ? '..\\..\\..\\..\\jsonData\\user-collection.json'
+    : '../../../../jsonData/user-collection.json',
+    ); */
 
+  private userCollection: CreateUserDetailsDto[] = [];
   private usersCountCache: Record<string, number> = {};
   private averageEarningsCache: Record<string, number> = {};
 
@@ -87,7 +86,7 @@ export class DetailService {
       //   this.filePath,
       //   JSON.stringify(this.userCollection, null, 2),
       // );
-      this.userCollection = null;
+      this.userCollection = [];
       this.usersCountCache = {};
       this.averageEarningsCache = {};
       return res.status(HttpStatus.OK).json({
