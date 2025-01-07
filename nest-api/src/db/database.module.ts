@@ -1,8 +1,14 @@
 import { Module } from '@nestjs/common';
-import { databaseProviders } from './database.providers';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { dataBaseOptions } from './database.source';
+import { Order } from '../entities/order';
+import { User } from '../entities/user';
 
 @Module({
-  providers: [...databaseProviders],
-  exports: [...databaseProviders],
+  imports: [
+    TypeOrmModule.forRoot(dataBaseOptions as any),
+    TypeOrmModule.forFeature([User, Order]),
+  ],
+  exports: [TypeOrmModule],
 })
-export class DatabaseModule {}
+export class DataBaseModule {}

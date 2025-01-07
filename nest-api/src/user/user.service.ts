@@ -1,6 +1,5 @@
 import {
   Injectable,
-  Inject,
   HttpStatus,
   UnauthorizedException,
   NotFoundException,
@@ -8,11 +7,12 @@ import {
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { config } from 'dotenv';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
-import bcrypt from 'bcrypt';
 import { Response, Request } from 'express';
+import bcrypt from 'bcrypt';
+import { config } from 'dotenv';
 import { User } from '../entities/user';
 import { CreateUserDto, LoginUserDto } from './dto/create.user.dto';
 import { msg } from '../constants/messages';
@@ -24,11 +24,8 @@ config();
 
 @Injectable()
 export class UserService {
-  // private userDetailsData: UserDetails[];
   constructor(
-    // @Inject('USER_DETAILS_REPOSITORY')
-    // private readonly userDetailsRepository: Repository<UserDetails>,
-    @Inject('USER_REPOSITORY')
+    @InjectRepository(User)
     private userRepository: Repository<User>,
     private readonly jwtService: JwtService,
   ) {}

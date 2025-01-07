@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { config } from 'dotenv';
-import { DatabaseModule } from './db/database.module';
+import { DataBaseModule } from './db/database.module';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
+import { config } from 'dotenv';
 import { AuthGuard } from './auth/auth.guard';
 import { secrets } from './constants/secrets';
 import { AppController } from './app.controller';
@@ -24,7 +24,7 @@ config();
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    DatabaseModule,
+    DataBaseModule,
     JwtModule.register({
       global: true,
       secret: process.env.JWT_KEY,

@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
-import { config } from 'dotenv';
 import { DataSource } from 'typeorm';
+import { config } from 'dotenv';
 import { User } from '../entities/user';
 import { Order } from '../entities/order';
 // import { Scooter } from '../entities/scooter';
@@ -9,7 +9,7 @@ config(); // strongly required for migrations
 
 const configService = new ConfigService();
 
-export const AppDataSource = new DataSource({
+export const dataBaseOptions = {
   type: 'postgres',
   host: configService.get<string>('PGHOST'),
   port: +configService.get<string>('PGPORT'),
@@ -25,4 +25,6 @@ export const AppDataSource = new DataSource({
   //     : ['dist/src/db/migrations/**/*.js'],
   migrations: ['dist/src/db/migrations/**/*.js'],
   // migrationsRun: true, // triggers migrations just after start the project, after creating new migrations and so on
-});
+};
+
+export const DataBaseSource = new DataSource(dataBaseOptions as any);

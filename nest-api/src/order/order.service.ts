@@ -1,7 +1,7 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
-// import { Response, Request } from 'express';
 import { Order } from '../entities/order';
 import { CreateOrderDto } from './dto/create.order.dto';
 import { nextError } from '../helpers/next.error';
@@ -11,7 +11,7 @@ import { msg } from '../constants/messages';
 export class OrderService {
   constructor(
     private readonly userService: UserService,
-    @Inject('ORDER_REPOSITORY')
+    @InjectRepository(Order)
     private orderRepository: Repository<Order>,
   ) {}
 

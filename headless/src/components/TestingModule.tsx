@@ -198,7 +198,7 @@ export const TestingModule = () => {
             apiEndpointCall('post', 'order/create', {
               quantity: 3,
               status: 'Pending',
-              totalCost: 750.00,
+              totalCost: 750.0,
             })
           }
         >
