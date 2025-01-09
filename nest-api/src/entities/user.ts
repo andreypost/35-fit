@@ -22,7 +22,7 @@ export class User {
   @Column()
   surname!: string;
 
-  @Column({ default: 'nonBinary' })
+  @Column()
   gender!: string;
 
   @Column()
@@ -60,8 +60,8 @@ export class User {
     return bcrypt.compare(inputPassword, this.password);
   }
 
-  @OneToMany(() => Order, (order) => order.user)
-  orders!: Order[];
+  @OneToMany(() => Order, ({ user }) => user)
+  orders?: Order[];
 
   @CreateDateColumn()
   createdAt!: Date;

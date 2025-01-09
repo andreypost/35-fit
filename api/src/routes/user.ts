@@ -17,7 +17,9 @@ user.post(
   "/create-new-user",
   body("name").notEmpty().withMessage(msg.NAME_IS_REQUIRED),
   body("surname").notEmpty().withMessage(msg.SURNAME_IS_REQUIRED),
-  body("gender").notEmpty().withMessage(msg.GENDER_IS_REQUIRED),
+  body("gender")
+    .isIn(["nonBinary", "male", "femail"])
+    .withMessage(msg.GENDER_IS_REQUIRED),
   body("age").isInt({ min: 1, max: 111 }).withMessage(msg.VALID_AGE_REQUIRED),
   body("country").notEmpty().withMessage(msg.COUNTRY_IS_REQUIRED),
   body("city").notEmpty().withMessage(msg.CITY_IS_REQUIRED),

@@ -25,8 +25,10 @@ export class CreateUserDto {
   @IsNotEmpty()
   surname!: string;
 
-  @IsNotEmpty()
-  @IsIn(['nonBinary', 'male', 'femail'])
+  @IsNotEmpty({ message: 'Gender is required.' })
+  @IsIn(['nonBinary', 'male', 'female'], {
+    message: 'Gender must be nonBinary, male, or female.',
+  })
   gender!: string;
 
   @IsInt()

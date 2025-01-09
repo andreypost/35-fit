@@ -21,7 +21,7 @@ export class User {
   @Column()
   surname!: string;
 
-  @Column({ default: "nonBinary" })
+  @Column()
   gender!: string;
 
   @Column()

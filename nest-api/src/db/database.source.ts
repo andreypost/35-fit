@@ -3,7 +3,8 @@ import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
 import { User } from '../entities/user';
 import { Order } from '../entities/order';
-// import { Scooter } from '../entities/scooter';
+import { Scooter } from '../entities/scooter';
+import { Price } from '../entities/price';
 
 config(); // strongly required for migrations
 
@@ -18,7 +19,7 @@ export const dataBaseOptions = {
   database: configService.get<string>('PGDATABASE'),
   synchronize: false,
   logging: true,
-  entities: [User, Order],
+  entities: [User, Order, Scooter, Price],
   // migrations:
   //   process.env.NODE_ENV === 'production'
   //     ? []

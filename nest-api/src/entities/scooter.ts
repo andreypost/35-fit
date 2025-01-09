@@ -2,11 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  JoinColumn,
+  ManyToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Order } from './order';
+import { Price } from './price';
 
 @Entity({ name: 'scooter' })
 export class Scooter {
@@ -16,17 +19,21 @@ export class Scooter {
   @Column()
   name!: string;
 
-  @Column('decimal', { precision: 10, scale: 2 })
-  price!: number;
+  @OneToOne(() => Price, ({ scooter }) => scooter, { eager: true })
+  @JoinColumn()
+  price!: Price;
 
   @Column('decimal', { precision: 10, scale: 2, nullable: true })
-  rentalPricePerDay!: number;
+  rentalPricePerDay?: number;
 
   @Column()
   model!: string;
 
   @Column({ default: 'sale' }) // sale or rental
-  saleType!: string;
+  saleType: string;
+
+  @ManyToMany(() => Order, ({ scooters }) => scooters)
+  orders!: Order[];
 
   @CreateDateColumn()
   createdAt!: Date;
