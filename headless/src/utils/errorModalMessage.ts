@@ -9,7 +9,7 @@ export const errorModalMessage = (error: any) => {
     (error?.response?.data?.message ?? 'Unexpected Error!')
 
   const msgString = Array.isArray(message)
-    ? message.map((i: any) => i?.msg ?? i).join(', ')
+    ? message.map((i: any) => i?.msg ?? i).join(', ') + '.'
     : message
   store.dispatch(unsetAllModal())
   store.dispatch(messageModal(msgString))

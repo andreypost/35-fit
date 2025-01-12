@@ -1,10 +1,10 @@
 import { Controller, Post, Body, Res, Get, Req } from '@nestjs/common';
 import { Response, Request } from 'express';
-import { Public } from '../auth/public';
+import { Public } from '../../auth/public';
 import { UserService } from './user.service';
 import { CreateUserDto, LoginUserDto } from './dto/create.user.dto';
-import { User } from '../entities/user';
-import { CurrentUserEmail } from '../auth/current.user.decorator';
+import { User } from '../../entities/user';
+import { CurrentUserEmail } from '../../utils/current.user.decorator';
 
 @Controller('user')
 export class UserController {

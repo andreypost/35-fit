@@ -9,13 +9,15 @@ import { AuthGuard } from './auth/auth.guard';
 import { secrets } from './constants/secrets';
 import { AppController } from './app.controller';
 import { HelloController } from './hello.controller';
-import { DetailController } from './file/detail.controller';
-import { UserController } from './user/user.controller';
+import { DetailController } from './routes/file/detail.controller';
+import { UserController } from './routes/user/user.controller';
 import { AppService } from './app.service';
-import { UserService } from './user/user.service';
-import { DetailService } from './file/detail.service';
-import { OrderController } from './order/order.controller';
-import { OrderService } from './order/order.service';
+import { UserService } from './routes/user/user.service';
+import { DetailService } from './routes/file/detail.service';
+import { PriceController } from './routes/price/price.controller';
+import { PriceService } from './routes/price/price.service';
+import { OrderController } from './routes/order/order.controller';
+import { OrderService } from './routes/order/order.service';
 
 config();
 
@@ -36,6 +38,7 @@ config();
     HelloController,
     UserController,
     DetailController,
+    PriceController,
     OrderController,
   ],
   providers: [
@@ -43,6 +46,7 @@ config();
     AppService,
     UserService,
     DetailService,
+    PriceService,
     OrderService,
   ],
 })

@@ -1,4 +1,4 @@
-import { CreateUserDetailsDto } from '../file/dto/create.user.details.dto';
+import { CreateUserDetailsDto } from '../dto/create.user.details.dto';
 
 export const countCountryEarnings = async (
   userCollection: CreateUserDetailsDto[],

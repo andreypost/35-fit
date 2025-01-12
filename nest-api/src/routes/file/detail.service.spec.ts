@@ -6,9 +6,9 @@ import { existsSync } from 'fs';
 import { readFile } from 'fs/promises';
 import { Request } from 'express';
 import { DetailService } from './detail.service';
-import { msg } from '../constants/messages';
-import { validateAuthToken } from '../auth/validate.token';
-import { nextError } from '../helpers/next.error';
+import { msg } from '../../constants/messages';
+import { validateAuthToken } from '../../auth/validate.token';
+import { nextError } from '../../utils/next.error';
 import { CreateUserDetailsDto } from './dto/create.user.details.dto';
 // import { Test, TestingModule } from '@nestjs/testing';
 

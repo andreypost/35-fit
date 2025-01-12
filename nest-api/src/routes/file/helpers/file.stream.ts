@@ -1,7 +1,7 @@
 import { existsSync, createReadStream, createWriteStream } from 'fs';
 import { InternalServerErrorException } from '@nestjs/common';
-import { nextError } from './next.error';
-import { msg } from '../constants/messages';
+import { nextError } from '../../../utils/next.error';
+import { msg } from '../../../constants/messages';
 
 export const getFileData = (path: string): Promise<any> => {
   try {

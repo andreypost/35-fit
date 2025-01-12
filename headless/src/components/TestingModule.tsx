@@ -195,6 +195,20 @@ export const TestingModule = () => {
           type="button"
           className="grey_button grey"
           onClick={() =>
+            apiEndpointCall('post', 'price/create', {
+              amount: 799,
+              discount: 15,
+              taxRate: 5,
+              currency: 'USD',
+            })
+          }
+        >
+          Create Scooter Price
+        </button>
+        <button
+          type="button"
+          className="grey_button grey"
+          onClick={() =>
             apiEndpointCall('post', 'order/create', {
               quantity: 3,
               status: 'Pending',

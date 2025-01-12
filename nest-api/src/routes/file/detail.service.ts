@@ -11,12 +11,12 @@ import {
 // import { existsSync } from 'fs';
 // import { readFile, writeFile } from 'fs/promises';
 import { Response } from 'express';
-import { getFileData, writeFileData } from 'src/helpers/file.stream';
+import { getFileData, writeFileData } from './helpers/file.stream';
 import { CreateUserDetailsDto } from './dto/create.user.details.dto';
+import { nextError } from '../../utils/next.error';
+import { msg } from '../../constants/messages';
+import { countCountryEarnings } from './helpers/user.collection';
 // import { v4 as uuidv4 } from 'uuid';
-import { countCountryEarnings } from '../helpers/user.collection';
-import { msg } from '../constants/messages';
-import { nextError } from '../helpers/next.error';
 
 @Injectable()
 export class DetailService {

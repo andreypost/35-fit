@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { CurrentUserEmail } from '../auth/current.user.decorator';
+import { CurrentUserEmail } from '../../utils/current.user.decorator';
 import { OrderService } from './order.service';
 // import { Response, Request } from 'express';
 import { CreateOrderDto } from './dto/create.order.dto';
-import { Order } from '../entities/order';
+import { Order } from '../../entities/order';
 
 @Controller('order')
 export class OrderController {

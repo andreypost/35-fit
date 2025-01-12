@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataBaseOptions } from './database.source';
-import { Order } from '../entities/order';
 import { User } from '../entities/user';
-import { Scooter } from 'src/entities/scooter';
+import { Price } from '../entities/price';
+import { Order } from '../entities/order';
+import { Scooter } from '../entities/scooter';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(dataBaseOptions as any),
-    TypeOrmModule.forFeature([User, Order, Scooter, Order]),
+    TypeOrmModule.forFeature([User, Price, Order, Scooter]),
   ],
   exports: [TypeOrmModule],
 })

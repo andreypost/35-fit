@@ -10,13 +10,13 @@ export class Price {
   amount!: number;
 
   @Column('decimal', { precision: 5, scale: 2, default: 0 })
-  discount: number;
+  discount: number = 0;
 
   @Column('decimal', { precision: 5, scale: 2, default: 0 })
-  taxRate: number;
+  taxRate: number = 0;
 
-  @Column({ default: 'USD' })
-  currency: string;
+  @Column()
+  currency!: string;
 
   @OneToOne(() => Scooter, ({ price }) => price)
   scooter!: Scooter;
