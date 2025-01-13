@@ -17,7 +17,7 @@ export class Scooter {
   id?: string;
 
   @Column()
-  name!: string;
+  model!: string;
 
   @OneToOne(() => Price, ({ scooter }) => scooter, { eager: true })
   @JoinColumn()
@@ -25,9 +25,6 @@ export class Scooter {
 
   @Column('decimal', { precision: 10, scale: 2, nullable: true })
   rentalPricePerDay?: number;
-
-  @Column()
-  model!: string;
 
   @Column({ default: 'sale' }) // sale or rental
   saleType: string;

@@ -14,34 +14,38 @@ export class CreatePriceDto {
   @IsUUID('4', { message: 'ID must be a valid UUID' })
   id?: string;
 
-  @IsNotEmpty({ message: 'Amount is required' })
+  @IsNotEmpty({ message: 'Price Name is required' })
+  @IsString({ message: 'Price Name must be a string' })
+  name!: string;
+
+  @IsNotEmpty({ message: 'Price Amount is required' })
   @IsNumber(
     { maxDecimalPlaces: 2 },
-    { message: 'Amount must be a number with up to 2 decimal places' },
+    { message: 'Price Amount must be a number with up to 2 decimal places' },
   )
-  @Min(0, { message: 'Amount must be a positive number' })
+  @Min(0, { message: 'Price Amount must be a positive number' })
   amount!: number;
 
   @IsOptional()
   @IsNumber(
     { maxDecimalPlaces: 2 },
-    { message: 'Discount must be a number with up to 2 decimal places' },
+    { message: 'Price Discount must be a number with up to 2 decimal places' },
   )
-  @Min(0, { message: 'Discount must be at least 0' })
-  @Max(100, { message: 'Discount cannot exceed 100%' })
+  @Min(0, { message: 'Price Discount must be at least 0' })
+  @Max(100, { message: 'Price Discount cannot exceed 100%' })
   discount: number = 0;
 
   @IsOptional()
   @IsNumber(
     { maxDecimalPlaces: 2 },
-    { message: 'Tax rate must be a number with up to 2 decimal places' },
+    { message: 'Price Tax rate must be a number with up to 2 decimal places' },
   )
-  @Min(0, { message: 'Tax rate must be at least 0' })
-  @Max(100, { message: 'Tax rate cannot exceed 100%' })
+  @Min(0, { message: 'Price Tax rate must be at least 0' })
+  @Max(100, { message: 'Price Tax rate cannot exceed 100%' })
   taxRate: number = 0;
 
-  @IsNotEmpty({ message: 'Currency is required' })
-  @IsString({ message: 'Currency must be a string' })
-  @Length(3, 3, { message: 'Currency must be a 3-letter ISO code' })
+  @IsNotEmpty({ message: 'Price Currency is required' })
+  @IsString({ message: 'Price Currency must be a string' })
+  @Length(3, 3, { message: 'Price Currency must be a 3-letter ISO code' })
   currency!: string;
 }

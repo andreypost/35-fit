@@ -2,9 +2,9 @@ import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
 import { User } from '../entities/user';
-import { Order } from '../entities/order';
-import { Scooter } from '../entities/scooter';
 import { Price } from '../entities/price';
+import { Scooter } from '../entities/scooter';
+import { Order } from '../entities/order';
 
 config(); // strongly required for migrations
 
@@ -19,7 +19,7 @@ export const dataBaseOptions = {
   database: configService.get<string>('PGDATABASE'),
   synchronize: false,
   logging: true,
-  entities: [User, Order, Scooter, Price],
+  entities: [User, Price, Scooter, Order],
   // migrations:
   //   process.env.NODE_ENV === 'production'
   //     ? []

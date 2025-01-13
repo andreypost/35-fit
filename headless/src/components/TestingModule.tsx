@@ -22,10 +22,12 @@ const Div = styled.div`
     }
     button {
       margin-bottom: 30px;
-      background: #b2b2b2;
-      transition: color 0.2s;
+      background-color: #b2b2b2;
+      transition: color 0.4s, background-color 0.4s;
+      color: #004;
       &:hover {
         color: white;
+        background-color: #004;
       }
     }
   }
@@ -196,6 +198,7 @@ export const TestingModule = () => {
           className="grey_button grey"
           onClick={() =>
             apiEndpointCall('post', 'price/create', {
+              name: 'Summer Sale 2024',
               amount: 799,
               discount: 15,
               taxRate: 5,
@@ -203,20 +206,38 @@ export const TestingModule = () => {
             })
           }
         >
-          Create Scooter Price
+          Create scooter 'Summer Sale 2024' price
+        </button>
+        <button
+          type="button"
+          className="grey_button grey"
+          onClick={() =>
+            apiEndpointCall('post', 'scooter/create', {
+              model: 'Model ONE',
+              priceId: '39e576cb-a93a-4ea6-8456-bf45cae47982',
+              // saleType: 'rental',
+              amount: 799,
+              discount: 15,
+              taxRate: 5,
+              currency: 'USD',
+            })
+          }
+        >
+          Create scooter 'Model ONE' model
         </button>
         <button
           type="button"
           className="grey_button grey"
           onClick={() =>
             apiEndpointCall('post', 'order/create', {
-              quantity: 3,
-              status: 'Pending',
-              totalCost: 750.0,
+              name: 'Model ONE',
+              quantity: 1,
+              status: 'pending',
+              finalTotalPrice: 750.99,
             })
           }
         >
-          Make Scooter Order
+          Make scooter 'Model ONE' order
         </button>
         <button
           type="button"

@@ -19,7 +19,7 @@ export class Order {
   quantity!: number;
 
   @Column()
-  status!: string; // 'Pending', 'Shipped', 'Delivered', 'Cancelled'
+  status!: string; // 'pending', 'shipped', 'delivered', 'cancelled'
 
   @Column('decimal', { precision: 10, scale: 2 })
   finalTotalPrice!: number;

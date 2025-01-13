@@ -18,6 +18,8 @@ import { PriceController } from './routes/price/price.controller';
 import { PriceService } from './routes/price/price.service';
 import { OrderController } from './routes/order/order.controller';
 import { OrderService } from './routes/order/order.service';
+import { ScooterController } from './routes/scooter/scooter.controller';
+import { ScooterService } from './routes/scooter/scooter.service';
 
 config();
 
@@ -39,6 +41,7 @@ config();
     UserController,
     DetailController,
     PriceController,
+    ScooterController,
     OrderController,
   ],
   providers: [
@@ -47,6 +50,7 @@ config();
     UserService,
     DetailService,
     PriceService,
+    ScooterService,
     OrderService,
   ],
 })

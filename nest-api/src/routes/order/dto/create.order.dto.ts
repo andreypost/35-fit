@@ -7,6 +7,7 @@ import {
   IsNumber,
   IsPositive,
   Min,
+  IsString,
 } from 'class-validator';
 
 export class CreateOrderDto {
@@ -14,22 +15,25 @@ export class CreateOrderDto {
   @IsUUID('4', { message: 'ID must be a valid UUID' })
   id?: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Order Quantity is required' })
   @Min(1, { message: 'Order Quantity must be at least 1' })
-  @IsInt({ message: 'Count must be an integer' })
+  @IsInt({ message: 'Order Quantity must be an integer' })
   quantity!: number;
 
-  @IsNotEmpty()
-  @IsEnum(['Pending', 'Shipped', 'Delivered', 'Cancelled'], {
+  @IsNotEmpty({ message: 'Order Status is required' })
+  @IsEnum(['pending', 'shipped', 'delivered', 'cancelled'], {
     message: 'Status must be one of: Pending, Shipped, Delivered, Cancelled',
   })
   status!: string;
 
-  @IsNotEmpty()
-  @IsNumber(
-    { maxDecimalPlaces: 2 },
-    { message: 'Total Cost must be a number with up to 2 decimal places' },
-  )
-  @IsPositive({ message: 'Total Cost must be a positive value' })
-  totalCost!: number;
+  @IsNotEmpty({ message: 'Order Name is required' })
+  @IsString({ message: 'Order Name must be a string' })
+  modalName!: string;
+  // @IsNotEmpty({ message: 'Order Status is required' })
+  // @IsNumber(
+  //   { maxDecimalPlaces: 2 },
+  //   { message: 'Total Cost must be a number with up to 2 decimal places' },
+  // )
+  // @IsPositive({ message: 'Total Cost must be a positive value' })
+  // finalTotalPrice!: number;
 }

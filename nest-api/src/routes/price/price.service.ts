@@ -13,10 +13,14 @@ export class PriceService {
   ) {}
   public async createOrderPrice(
     createPriceDTO: CreatePriceDto,
-  ): Promise<CreatePriceDto | any> {
+  ): Promise<Price> {
     try {
-      const newPrice = this.priceRepository.create(createPriceDTO);
+      const existingPrice = await this.priceRepository.findOne({
+        where: { name: createPriceDTO.name },
+      });
+      if (existingPrice) return existingPrice;
 
+      const newPrice = this.priceRepository.create(createPriceDTO);
       return this.priceRepository.save(newPrice);
     } catch (error: any) {
       nextError(error);
