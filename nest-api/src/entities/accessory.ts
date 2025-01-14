@@ -8,22 +8,16 @@ import {
 } from 'typeorm';
 import { Price } from './price';
 
-@Entity({ name: 'scooter' })
-export class Scooter {
+@Entity({ name: 'accessory' })
+export class Accessory {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
   @Column()
-  model!: string;
+  name!: string;
 
-  @OneToOne(() => Price, ({ scooter }) => scooter, { eager: true })
+  @OneToOne(() => Price, ({ accessory }) => accessory, { eager: true })
   priceId!: Price;
-
-  @Column('decimal', { precision: 10, scale: 2, nullable: true })
-  rentalPricePerDay?: number;
-
-  @Column({ default: 'sale' }) // sale or rental
-  saleType: string;
 
   @CreateDateColumn()
   createdAt!: Date;

@@ -7,6 +7,7 @@ import {
   Max,
   IsString,
   Length,
+  IsIn,
 } from 'class-validator';
 
 export class CreatePriceDto {
@@ -48,4 +49,11 @@ export class CreatePriceDto {
   @IsString({ message: 'Price Currency must be a string' })
   @Length(3, 3, { message: 'Price Currency must be a 3-letter ISO code' })
   currency!: string;
+
+  @IsNotEmpty({ message: 'Price Product Type is required' })
+  @IsString({ message: 'Price Product Type must be a string' })
+  @IsIn(['scooter', 'accessory'], {
+    message: 'Price Product Type must be Scooter, Accessory',
+  })
+  productType!: string;
 }

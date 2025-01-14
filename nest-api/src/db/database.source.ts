@@ -4,6 +4,8 @@ import { config } from 'dotenv';
 import { User } from '../entities/user';
 import { Price } from '../entities/price';
 import { Scooter } from '../entities/scooter';
+import { Accessory } from '../entities/accessory';
+import { OrderItem } from '../entities/order.item';
 import { Order } from '../entities/order';
 
 config(); // strongly required for migrations
@@ -19,7 +21,7 @@ export const dataBaseOptions = {
   database: configService.get<string>('PGDATABASE'),
   synchronize: false,
   logging: true,
-  entities: [User, Price, Scooter, Order],
+  entities: [User, Price, Scooter, Accessory, OrderItem, Order],
   // migrations:
   //   process.env.NODE_ENV === 'production'
   //     ? []

@@ -1,28 +1,24 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user';
-import { Scooter } from './scooter';
+import { OrderItem } from './order.item';
 
 @Entity({ name: 'order' })
 export class Order {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @Column('int')
-  quantity!: number;
-
   @Column()
   status!: string; // 'pending', 'shipped', 'delivered', 'cancelled'
-
-  @Column('decimal', { precision: 10, scale: 2 })
-  finalTotalPrice!: number;
 
   @ManyToOne(() => User, ({ orders }) => orders, {
     // The database will throw an error if you try to delete a User with existing orders
@@ -33,12 +29,27 @@ export class Order {
   })
   user?: User; // Automatically creates a `userId` foreign key
 
-  @ManyToMany(() => Scooter, ({ orders }) => orders)
-  scooters!: Scooter[];
+  @OneToMany(() => OrderItem, ({ order }) => order, { cascade: true })
+  items!: OrderItem[];
+
+  @Column('decimal', { precision: 10, scale: 2 })
+  finalTotalPrice!: number;
 
   @CreateDateColumn()
   createdAt!: Date;
 
   @UpdateDateColumn()
   updatedAt!: Date;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  calculateFinalTotalPrice() {
+    this.finalTotalPrice = this.items.reduce((total, item) => {
+      const { amount, discount, taxRate } = item.price;
+      const priceAfterDiscount = amount - (amount * discount) / 100;
+      const priceAfterTaxRate =
+        priceAfterDiscount + (priceAfterDiscount * taxRate) / 100;
+      return total + priceAfterTaxRate * item.quantity;
+    }, 0);
+  }
 }

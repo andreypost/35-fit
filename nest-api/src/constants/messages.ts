@@ -29,4 +29,6 @@ export const msg = {
   EMAIL_ALREADY_EXIST: 'Email already exists!',
   UNEXPECTED_ERROR: 'An unexpected error occurred!',
   HASHING_PASS_OCCURRED: 'Error occurred while hashing the password',
+  PRICE_NOT_FOUND: 'Price not found.',
+  PRICE_MUST_HAVE_APPROPRIATE: 'Price must have appropriate Product Type: ',
 };

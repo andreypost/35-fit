@@ -198,11 +198,12 @@ export const TestingModule = () => {
           className="grey_button grey"
           onClick={() =>
             apiEndpointCall('post', 'price/create', {
-              name: 'Summer Sale 2024',
+              name: 'Scooter Summer Sale 2024',
               amount: 799,
               discount: 15,
               taxRate: 5,
               currency: 'USD',
+              productType: 'scooter',
             })
           }
         >
@@ -212,18 +213,31 @@ export const TestingModule = () => {
           type="button"
           className="grey_button grey"
           onClick={() =>
-            apiEndpointCall('post', 'scooter/create', {
-              model: 'Model ONE',
-              priceId: '39e576cb-a93a-4ea6-8456-bf45cae47982',
-              // saleType: 'rental',
-              amount: 799,
+            apiEndpointCall('post', 'price/create', {
+              name: 'Accessory Winter Sale 2024',
+              amount: 99,
               discount: 15,
               taxRate: 5,
               currency: 'USD',
+              productType: 'accessory',
             })
           }
         >
-          Create scooter 'Model ONE' model
+          Create accessory 'Winter Sale 2024' price
+        </button>
+        <button
+          type="button"
+          className="grey_button grey"
+          onClick={() =>
+            apiEndpointCall('post', 'scooter/create', {
+              model: 'Model X1',
+              priceId: '1ba2186b-06ce-4ba3-ad14-c823b9d0a839',
+              // priceId: '82a9cf3c-e10e-4df4-b247-2c196a2e8aeb',
+              // saleType: 'rental',
+            })
+          }
+        >
+          Create scooter 'Model X1' model
         </button>
         <button
           type="button"

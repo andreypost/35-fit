@@ -1,5 +1,12 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Scooter } from './scooter';
+import { Accessory } from './accessory';
 
 @Entity({ name: 'price' })
 export class Price {
@@ -21,6 +28,14 @@ export class Price {
   @Column()
   currency!: string;
 
-  @OneToOne(() => Scooter, ({ price }) => price)
-  scooter!: Scooter;
+  @Column()
+  productType!: string; // 'scooter' or 'accessory'
+
+  @OneToOne(() => Scooter, ({ priceId }) => priceId, { nullable: true })
+  @JoinColumn()
+  scooter?: Scooter;
+
+  @OneToOne(() => Accessory, ({ priceId }) => priceId, { nullable: true })
+  @JoinColumn()
+  accessory?: Accessory;
 }

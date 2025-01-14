@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { PriceService } from './price.service';
 import { CreatePriceDto } from './dto/create.price.dto';
-import { Price } from 'src/entities/price';
+import { Price } from '../../entities/price';
 
 @Controller('price')
 export class PriceController {
@@ -11,6 +11,6 @@ export class PriceController {
   async createOrderPrice(
     @Body() createPriceDto: CreatePriceDto,
   ): Promise<Price> {
-    return this.priceService.createOrderPrice(createPriceDto);
+    return this.priceService.createProductPrice(createPriceDto);
   }
 }

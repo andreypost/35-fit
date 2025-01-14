@@ -30,12 +30,12 @@ export class CreateScooterDto {
     },
   )
   @Min(0, { message: 'Scooter Rental Price Per Day must be a positive number' })
-  rentalPricePerDay: number;
+  rentalPricePerDay?: number;
 
   @IsOptional()
   @IsString({ message: 'Scooter Sale Type must be a string' })
   @IsEnum(['sale', 'rental'], {
-    message: 'Scooter Sale Type must be one of: Sale, Rental',
+    message: 'Scooter Sale Type must be one of: Sale or Rental',
   })
-  saleType: string = 'sale';
+  saleType?: string = 'sale';
 }
