@@ -16,7 +16,8 @@ export class CreateOrderDto {
 
   @IsNotEmpty({ message: 'Order Status is required' })
   @IsEnum(['pending', 'shipped', 'delivered', 'cancelled'], {
-    message: 'Status must be one of: Pending, Shipped, Delivered or Cancelled',
+    message:
+      'Order Status must be one of: Pending, Shipped, Delivered or Cancelled',
   })
   status!: string;
 

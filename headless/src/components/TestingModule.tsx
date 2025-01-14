@@ -244,10 +244,17 @@ export const TestingModule = () => {
           className="grey_button grey"
           onClick={() =>
             apiEndpointCall('post', 'order/create', {
-              name: 'Model ONE',
-              quantity: 1,
               status: 'pending',
-              finalTotalPrice: 750.99,
+              items: [
+                {
+                  priceId: 'dac216e2-ea49-464e-ae14-963f7458c4fb',
+                  quantity: 2,
+                },
+                {
+                  priceId: 'b7475c6c-b01e-420d-a542-8c60a99978e9',
+                  quantity: 1,
+                },
+              ],
             })
           }
         >
