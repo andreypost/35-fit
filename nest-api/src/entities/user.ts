@@ -61,7 +61,7 @@ export class User {
   }
 
   @OneToMany(() => Order, ({ user }) => user)
-  orders?: Order[];
+  orders!: Order[];
 
   @CreateDateColumn()
   createdAt!: Date;

@@ -11,7 +11,7 @@ import { msg } from 'src/constants/messages';
 export class ScooterService {
   constructor(
     @InjectRepository(Scooter)
-    private scooterRepository: Repository<Scooter>,
+    private readonly scooterRepository: Repository<Scooter>,
     private readonly priceService: PriceService,
   ) {}
 
@@ -43,7 +43,7 @@ export class ScooterService {
         priceId: price,
       });
 
-      return this.scooterRepository.save(newScooter);
+      return await this.scooterRepository.save(newScooter);
     } catch (error: any) {
       nextError(error);
     }
