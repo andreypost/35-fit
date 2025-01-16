@@ -231,7 +231,7 @@ export const TestingModule = () => {
           onClick={() =>
             apiEndpointCall('post', 'scooter/create', {
               model: 'Model X2',
-              priceId: 'c5428088-82ab-4596-9082-2bf25e2496d8',
+              priceId: 'b7475c6c-b01e-420d-a542-8c60a99978e9',
               // saleType: 'rental',
             })
           }
@@ -246,11 +246,11 @@ export const TestingModule = () => {
               status: 'pending',
               items: [
                 {
-                  priceId: 'c5428088-82ab-4596-9082-2bf25e2496d8',
+                  priceId: 'b7475c6c-b01e-420d-a542-8c60a99978e9',
                   quantity: 1,
                 },
                 {
-                  priceId: '5e999463-353a-4cd1-bf85-81553e770dfa',
+                  priceId: 'dac216e2-ea49-464e-ae14-963f7458c4fb',
                   quantity: 2,
                 },
               ],

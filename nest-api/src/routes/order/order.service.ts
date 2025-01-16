@@ -26,12 +26,12 @@ export class OrderService {
     email: string,
   ): Promise<Order> {
     try {
-      const currentUser = await this.userService.findUserByEmail(email);
-      if (!currentUser) {
+      const user = await this.userService.findUserByEmail(email);
+      if (!user) {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
 
-      const { id, status, items } = createOrderDto;
+      const { status, items } = createOrderDto;
       const priceIds = items.map(({ priceId }) => priceId);
 
       const prices = await this.priceRepository.find({
@@ -46,9 +46,8 @@ export class OrderService {
       console.log('prices: ', prices);
 
       const newOrder = this.orderRepository.create({
-        id,
         status,
-        user: currentUser,
+        user,
         items: items.map(({ priceId, quantity }) => {
           const price = prices.find(({ id }) => id === priceId);
           return this.orderItemRepository.create({
@@ -70,13 +69,13 @@ export class OrderService {
 
   public async getUserOrders(email: string): Promise<Order[]> {
     try {
-      const currentUser = await this.userService.findUserByEmail(email);
-      if (!currentUser) {
+      const user = await this.userService.findUserByEmail(email);
+      if (!user) {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
 
       return await this.orderRepository.find({
-        where: { user: { id: currentUser.id } },
+        where: { user: { id: user.id } },
         relations: ['user'],
       });
     } catch (error: any) {
