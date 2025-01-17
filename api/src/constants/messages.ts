@@ -32,4 +32,6 @@ export const msg = {
   PRICE_NOT_FOUND: "Price not found.",
   PRICE_MUST_HAVE_APPROPRIATE: "Price must have appropriate Product Type: ",
   ONE_OR_MORE_ID_ARE_INVALID: "One or more Price IDs are invalid",
+  PRICE_ALREADY_IN_USE: "Price already in use",
+  PRICE_ALREADY_EXIST: "Price already exist",
 };

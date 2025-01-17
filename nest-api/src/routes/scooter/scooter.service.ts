@@ -1,11 +1,15 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Scooter } from '../../entities/scooter';
 import { PriceService } from '../price/price.service';
 import { CreateScooterDto } from './dto/create.scooter.dto';
+import { msg } from '../../constants/messages';
 import { nextError } from '../../utils/next.error';
-import { msg } from 'src/constants/messages';
 
 @Injectable()
 export class ScooterService {
@@ -29,21 +33,25 @@ export class ScooterService {
         );
       }
 
-      const existingScooter = await this.scooterRepository.findOne({
-        where: {
-          model: createScooterDto.model,
-          priceId: { id: createScooterDto.priceId },
-        },
+      // const existingScooter = await this.scooterRepository.findOne({
+      //   where: {
+      //     model: createScooterDto.model,
+      //     priceId: { id: createScooterDto.priceId },
+      //   },
+      // });
+
+      const priceInUse = await this.scooterRepository.findOne({
+        where: { priceId: { id: createScooterDto.priceId } },
       });
 
-      if (existingScooter) return existingScooter;
+      if (priceInUse) {
+        throw new ConflictException(msg.PRICE_ALREADY_IN_USE);
+      }
 
-      const newScooter = this.scooterRepository.create({
+      return await this.scooterRepository.save({
         ...createScooterDto,
         priceId: price,
       });
-
-      return await this.scooterRepository.save(newScooter);
     } catch (error: any) {
       nextError(error);
     }

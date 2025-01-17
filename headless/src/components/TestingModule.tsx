@@ -198,7 +198,7 @@ export const TestingModule = () => {
           className="grey_button grey"
           onClick={() =>
             apiEndpointCall('post', 'price/create', {
-              name: 'Scooter Summer Sale 2024',
+              name: 'Scooter Autumn Sale 2019',
               amount: 799,
               discount: 15,
               taxRate: 5,
@@ -207,14 +207,14 @@ export const TestingModule = () => {
             })
           }
         >
-          Create scooter 'Summer Sale 2024' price
+          SCOOTER PRICE 'Summer Sale 2024'
         </button>
         <button
           type="button"
           className="grey_button grey"
           onClick={() =>
             apiEndpointCall('post', 'price/create', {
-              name: 'Accessory Winter Sale 2024',
+              name: 'Halmet Black',
               amount: 99,
               discount: 15,
               taxRate: 5,
@@ -223,20 +223,20 @@ export const TestingModule = () => {
             })
           }
         >
-          Create accessory 'Winter Sale 2024' price
+          ACCESSORY PRICE 'Halmet'
         </button>
         <button
           type="button"
           className="grey_button grey"
           onClick={() =>
             apiEndpointCall('post', 'scooter/create', {
-              model: 'Model X2',
-              priceId: 'b7475c6c-b01e-420d-a542-8c60a99978e9',
+              model: 'Model X3',
+              priceId: 'a015a78a-66d3-4a9e-af1c-c75d63e7b27c',
               // saleType: 'rental',
             })
           }
         >
-          Create scooter 'Model X1' model
+          CREATE SCOOTER 'Model X1'
         </button>
         <button
           type="button"
@@ -246,25 +246,25 @@ export const TestingModule = () => {
               status: 'pending',
               items: [
                 {
-                  priceId: 'b7475c6c-b01e-420d-a542-8c60a99978e9',
+                  priceId: '80ce0601-204e-410a-ae93-18b19148924f',
                   quantity: 1,
                 },
                 {
-                  priceId: 'dac216e2-ea49-464e-ae14-963f7458c4fb',
+                  priceId: '954363f2-15c8-413b-a10b-10bf3330cb41',
                   quantity: 2,
                 },
               ],
             })
           }
         >
-          Make scooter 'Model ONE' order
+          MAKE ORDER
         </button>
         <button
           type="button"
           className="grey_button grey"
           onClick={() => apiEndpointCall('get', 'order/orders')}
         >
-          Get Scooter Orders
+          Get Orders
         </button>
         <button type="submit" className="grey_button grey">
           Stream File Data

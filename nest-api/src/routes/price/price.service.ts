@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Price } from '../../entities/price';
@@ -19,10 +23,11 @@ export class PriceService {
       const existingPrice = await this.priceRepository.findOne({
         where: { name: createPriceDTO.name },
       });
-      if (existingPrice) return existingPrice;
+      if (existingPrice) {
+        throw new ConflictException(msg.PRICE_ALREADY_EXIST);
+      }
 
-      const newPrice = this.priceRepository.create(createPriceDTO);
-      return this.priceRepository.save(newPrice);
+      return await this.priceRepository.save(createPriceDTO);
     } catch (error: any) {
       nextError(error);
     }

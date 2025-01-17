@@ -42,9 +42,6 @@ export class OrderService {
         throw new NotFoundException(msg.ONE_OR_MORE_ID_ARE_INVALID);
       }
 
-      console.log('priceIds: ', priceIds);
-      console.log('prices: ', prices);
-
       const newOrder = this.orderRepository.create({
         status,
         user,
@@ -58,8 +55,6 @@ export class OrderService {
       });
 
       newOrder.calculateFinalTotalPrice();
-
-      console.log('prices: ', newOrder);
 
       return await this.orderRepository.save(newOrder);
     } catch (error: any) {
