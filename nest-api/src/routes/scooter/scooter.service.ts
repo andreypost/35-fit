@@ -23,9 +23,8 @@ export class ScooterService {
     createScooterDto: CreateScooterDto,
   ): Promise<Scooter> {
     try {
-      const price = await this.priceService.getPriceById(
-        createScooterDto.priceId,
-      );
+      const { model, priceId } = createScooterDto;
+      const price = await this.priceService.getPriceById(priceId);
 
       if (price.productType !== 'scooter') {
         throw new BadRequestException(
@@ -33,19 +32,17 @@ export class ScooterService {
         );
       }
 
-      // const existingScooter = await this.scooterRepository.findOne({
-      //   where: {
-      //     model: createScooterDto.model,
-      //     priceId: { id: createScooterDto.priceId },
-      //   },
-      // });
-
-      const priceInUse = await this.scooterRepository.findOne({
-        where: { priceId: { id: createScooterDto.priceId } },
+      const existingScooter = await this.scooterRepository.findOne({
+        where: {
+          model,
+          priceId: { id: priceId },
+        },
       });
 
-      if (priceInUse) {
-        throw new ConflictException(msg.PRICE_ALREADY_IN_USE);
+      if (existingScooter) {
+        throw new ConflictException(
+          `${model}, ${existingScooter.priceId.name} ${msg.MODEL_PRICE_ALREADY_IN_USE}`,
+        );
       }
 
       return await this.scooterRepository.save({

@@ -230,8 +230,8 @@ export const TestingModule = () => {
           className="grey_button grey"
           onClick={() =>
             apiEndpointCall('post', 'scooter/create', {
-              model: 'Model X3',
-              priceId: 'a015a78a-66d3-4a9e-af1c-c75d63e7b27c',
+              model: 'Model X1',
+              priceId: 'aa73d084-1b8d-472f-9e94-92c71343d516',
               // saleType: 'rental',
             })
           }
@@ -246,12 +246,12 @@ export const TestingModule = () => {
               status: 'pending',
               items: [
                 {
-                  priceId: '80ce0601-204e-410a-ae93-18b19148924f',
+                  priceId: 'aa73d084-1b8d-472f-9e94-92c71343d516',
                   quantity: 1,
                 },
                 {
-                  priceId: '954363f2-15c8-413b-a10b-10bf3330cb41',
-                  quantity: 2,
+                  priceId: '663c2e14-43e0-4053-84e0-2d79de2e805e',
+                  quantity: 4,
                 },
               ],
             })
@@ -262,7 +262,7 @@ export const TestingModule = () => {
         <button
           type="button"
           className="grey_button grey"
-          onClick={() => apiEndpointCall('get', 'order/orders')}
+          onClick={() => apiEndpointCall('get', 'order/orders/accessory')}
         >
           Get Orders
         </button>

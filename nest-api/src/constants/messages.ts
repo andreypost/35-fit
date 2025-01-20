@@ -31,7 +31,8 @@ export const msg = {
   HASHING_PASS_OCCURRED: 'Error occurred while hashing the password',
   PRICE_NOT_FOUND: 'Price not found.',
   PRICE_MUST_HAVE_APPROPRIATE: 'Price must have appropriate Product Type: ',
-  ONE_OR_MORE_ID_ARE_INVALID: 'One or more Price IDs are invalid',
-  PRICE_ALREADY_IN_USE: 'Price already in use',
-  PRICE_ALREADY_EXIST: 'Price already exist',
+  ONE_OR_MORE_IDs_ARE_INVALID: 'One or more Price IDs are invalid',
+  MODEL_PRICE_ALREADY_IN_USE:
+    ' - this model name and price name already in use',
+  PRICE_NAME_ALREADY_EXIST: ' - this price name already exist',
 };

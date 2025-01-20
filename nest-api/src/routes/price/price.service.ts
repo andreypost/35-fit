@@ -20,11 +20,13 @@ export class PriceService {
     createPriceDTO: CreatePriceDto,
   ): Promise<Price> {
     try {
-      const existingPrice = await this.priceRepository.findOne({
+      const existingPriceName = await this.priceRepository.findOne({
         where: { name: createPriceDTO.name },
       });
-      if (existingPrice) {
-        throw new ConflictException(msg.PRICE_ALREADY_EXIST);
+      if (existingPriceName) {
+        throw new ConflictException(
+          existingPriceName.name + msg.PRICE_NAME_ALREADY_EXIST,
+        );
       }
 
       return await this.priceRepository.save(createPriceDTO);

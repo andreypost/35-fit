@@ -2,7 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToOne,
+  ManyToOne,
+  // OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -16,7 +17,11 @@ export class Accessory {
   @Column()
   name!: string;
 
-  @OneToOne(() => Price, ({ accessory }) => accessory, { eager: true })
+  // Each Accessory has a unique pricing model, the price is not intended to be reused across multiple accessory.
+  // @OneToOne(() => Price, ({ accessory }) => accessory, { eager: true })
+  // priceId!: Price;
+
+  @ManyToOne(() => Price, ({ accessory }) => accessory, { eager: true })
   priceId!: Price;
 
   @CreateDateColumn()

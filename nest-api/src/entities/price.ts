@@ -2,8 +2,9 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToOne,
-  JoinColumn,
+  // OneToOne,
+  // JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { Scooter } from './scooter';
 import { Accessory } from './accessory';
@@ -31,11 +32,19 @@ export class Price {
   @Column()
   productType!: string; // 'scooter' or 'accessory'
 
-  @OneToOne(() => Scooter, ({ priceId }) => priceId, { nullable: true })
-  @JoinColumn()
-  scooter?: Scooter;
+  // Each Scooter has a unique pricing model, the price is not intended to be reused across multiple scooters.
+  // @OneToOne(() => Scooter, ({ priceId }) => priceId, { nullable: true })
+  // @JoinColumn()
+  // scooter?: Scooter;
 
-  @OneToOne(() => Accessory, ({ priceId }) => priceId, { nullable: true })
-  @JoinColumn()
+  @OneToMany(() => Scooter, ({ priceId }) => priceId, { nullable: true })
+  scooter?: Scooter[];
+
+  // Each Accessory has a unique pricing model, the price is not intended to be reused across multiple accessory.
+  // @OneToOne(() => Accessory, ({ priceId }) => priceId, { nullable: true })
+  // @JoinColumn()
+  // accessory?: Accessory;
+
+  @OneToMany(() => Accessory, ({ priceId }) => priceId, { nullable: true })
   accessory?: Accessory;
 }

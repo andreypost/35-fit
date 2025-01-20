@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CurrentUserEmail } from '../../utils/current.user.decorator';
 import { OrderService } from './order.service';
 // import { Response, Request } from 'express';
@@ -17,8 +17,12 @@ export class OrderController {
     return this.orderService.createUserOrder(createOrderDto, email);
   }
 
-  @Get('orders')
-  async getUserOrders(@CurrentUserEmail() email: string): Promise<Order[]> {
-    return this.orderService.getUserOrders(email);
+  @Get('orders/:type')
+  async getUserOrders(
+    @Param() params: { type: string },
+    @CurrentUserEmail() email: string,
+  ): Promise<Order[]> {
+    const { type } = params;
+    return this.orderService.getUserOrders(email, type);
   }
 }

@@ -39,7 +39,7 @@ export class OrderService {
       });
 
       if (prices.length !== priceIds.length) {
-        throw new NotFoundException(msg.ONE_OR_MORE_ID_ARE_INVALID);
+        throw new NotFoundException(msg.ONE_OR_MORE_IDs_ARE_INVALID);
       }
 
       const newOrder = this.orderRepository.create({
@@ -62,16 +62,24 @@ export class OrderService {
     }
   }
 
-  public async getUserOrders(email: string): Promise<Order[]> {
+  public async getUserOrders(email: string, type: string): Promise<Order[]> {
     try {
       const user = await this.userService.findUserByEmail(email);
       if (!user) {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
 
+      console.log('productType: ', type);
       return await this.orderRepository.find({
-        where: { user: { id: user.id } },
-        relations: ['user'],
+        where: {
+          user: { id: user.id },
+          items: {
+            price: {
+              productType: type,
+            },
+          },
+        },
+        relations: ['user', 'items', 'items.price'],
       });
     } catch (error: any) {
       nextError(error);
