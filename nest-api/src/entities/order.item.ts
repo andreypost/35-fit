@@ -7,8 +7,17 @@ export class OrderItem {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
+  @Column()
+  productName!: string;
+
   @Column('int')
   quantity!: number;
+
+  @Column()
+  productType!: string;
+
+  @Column('uuid')
+  productId!: string; // UUID of the scooter or accessory
 
   @ManyToOne(() => Order, ({ items }) => items, { onDelete: 'CASCADE' })
   order!: Order;

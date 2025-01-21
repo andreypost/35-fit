@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
-import { Price } from '../../entities/price';
+import { Scooter } from '../../entities/scooter';
+import { Accessory } from '../../entities/accessory';
 import { OrderItem } from '../../entities/order.item';
 import { Order } from '../../entities/order';
 import { UserService } from '../user/user.service';
@@ -12,8 +13,10 @@ import { msg } from '../../constants/messages';
 @Injectable()
 export class OrderService {
   constructor(
-    @InjectRepository(Price)
-    private readonly priceRepository: Repository<Price>,
+    @InjectRepository(Scooter)
+    private readonly scooterRepository: Repository<Scooter>,
+    @InjectRepository(Accessory)
+    private readonly accessoryRepository: Repository<Accessory>,
     @InjectRepository(OrderItem)
     private readonly orderItemRepository: Repository<OrderItem>,
     @InjectRepository(Order)
@@ -32,29 +35,60 @@ export class OrderService {
       }
 
       const { status, items } = createOrderDto;
-      const priceIds = items.map(({ priceId }) => priceId);
+      const productId = items.map(({ productId }) => productId);
 
-      const prices = await this.priceRepository.find({
-        where: { id: In(priceIds) },
+      const scooterOrders = await this.scooterRepository.find({
+        where: { id: In(productId) },
       });
 
-      if (prices.length !== priceIds.length) {
+      const accessoryOrders = await this.accessoryRepository.find({
+        where: { id: In(productId) },
+      });
+
+      // console.log('scooterOrders: ', scooterOrders);
+      // console.log('accessoryOrders: ', accessoryOrders);
+
+      if (productId.length !== scooterOrders.length + accessoryOrders.length) {
         throw new NotFoundException(msg.ONE_OR_MORE_IDs_ARE_INVALID);
       }
 
       const newOrder = this.orderRepository.create({
         status,
         user,
-        items: items.map(({ priceId, quantity }) => {
-          const price = prices.find(({ id }) => id === priceId);
+        items: items.map(({ productId, quantity, productType }) => {
+          let price = {};
+          if (productType === 'scooter' && scooterOrders.length > 0) {
+            price = scooterOrders.reduce((acc, { id, priceId }) => {
+              if (id === productId) return priceId;
+              return acc;
+            }, {});
+          } else if (
+            productType === 'accessory' &&
+            accessoryOrders.length > 0
+          ) {
+            price = accessoryOrders.reduce((acc, { id, priceId }) => {
+              if (id === productId) return priceId;
+              return acc;
+            }, {});
+          }
+
+          if (!Object.keys(price).length) {
+            throw new NotFoundException(msg.ONE_OR_MORE_IDs_ARE_INVALID);
+          }
+
           return this.orderItemRepository.create({
+            // productName: price.name,
             price,
+            productId,
+            productType,
             quantity,
           });
         }),
       });
 
       newOrder.calculateFinalTotalPrice();
+
+      console.log('newOrder: ', newOrder);
 
       return await this.orderRepository.save(newOrder);
     } catch (error: any) {
@@ -70,17 +104,25 @@ export class OrderService {
       }
 
       console.log('productType: ', type);
-      return await this.orderRepository.find({
-        where: {
-          user: { id: user.id },
-          items: {
-            price: {
-              productType: type,
-            },
-          },
-        },
-        relations: ['user', 'items', 'items.price'],
-      });
+      return await this.orderRepository
+        .createQueryBuilder('order')
+        .leftJoinAndSelect('order.items', 'order_item')
+        .leftJoinAndSelect('order_item.price', 'price')
+        .leftJoinAndSelect('order.user', 'user')
+        .where('user.id =:userId', { userId: user.id })
+        .andWhere('price.productType =:type', { type })
+        .getMany();
+      // return await this.orderRepository.find({
+      //   where: {
+      //     user: { id: user.id },
+      //     items: {
+      //       price: {
+      //         productType: type,
+      //       },
+      //     },
+      //   },
+      //   relations: ['user', 'items', 'items.price'],
+      // });
     } catch (error: any) {
       nextError(error);
     }

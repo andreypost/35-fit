@@ -40,14 +40,12 @@ export class Order {
   updatedAt!: Date;
 
   calculateFinalTotalPrice() {
-    this.finalTotalPrice = this.items.reduce((total, item) => {
-      const { amount, discount, taxRate } = item.price;
+    this.finalTotalPrice = this.items.reduce((total, { price, quantity }) => {
+      const { amount, discount, taxRate } = price;
       const priceAfterDiscount = amount - (amount * discount) / 100;
       const priceAfterTaxRate =
         priceAfterDiscount + (priceAfterDiscount * taxRate) / 100;
-      return (
-        Math.round((total + priceAfterTaxRate * item.quantity) * 100) / 100
-      );
+      return Math.round((total + priceAfterTaxRate * quantity) * 100) / 100;
     }, 0);
   }
 }

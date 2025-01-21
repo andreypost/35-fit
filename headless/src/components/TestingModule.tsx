@@ -198,7 +198,7 @@ export const TestingModule = () => {
           className="grey_button grey"
           onClick={() =>
             apiEndpointCall('post', 'price/create', {
-              name: 'Scooter Autumn Sale 2019',
+              name: 'Scooter Autumn Sale 2025',
               amount: 799,
               discount: 15,
               taxRate: 5,
@@ -207,14 +207,14 @@ export const TestingModule = () => {
             })
           }
         >
-          SCOOTER PRICE 'Summer Sale 2024'
+          SCOOTER PRICE
         </button>
         <button
           type="button"
           className="grey_button grey"
           onClick={() =>
             apiEndpointCall('post', 'price/create', {
-              name: 'Halmet Black',
+              name: 'Autumn Offer 2025',
               amount: 99,
               discount: 15,
               taxRate: 5,
@@ -223,7 +223,7 @@ export const TestingModule = () => {
             })
           }
         >
-          ACCESSORY PRICE 'Halmet'
+          ACCESSORY PRICE
         </button>
         <button
           type="button"
@@ -231,12 +231,24 @@ export const TestingModule = () => {
           onClick={() =>
             apiEndpointCall('post', 'scooter/create', {
               model: 'Model X1',
-              priceId: 'aa73d084-1b8d-472f-9e94-92c71343d516',
+              priceId: '1e3e2bf7-9552-47a1-b8cb-c8d1a8114707',
               // saleType: 'rental',
             })
           }
         >
-          CREATE SCOOTER 'Model X1'
+          CREATE SCOOTER 'Model'
+        </button>
+        <button
+          type="button"
+          className="grey_button grey"
+          onClick={() =>
+            apiEndpointCall('post', 'accessory/create', {
+              name: 'Halmet Black',
+              priceId: '01f4b4d1-9145-4ff1-870a-9d9727357d70',
+            })
+          }
+        >
+          CREATE ACCESSORY 'Halmet'
         </button>
         <button
           type="button"
@@ -246,13 +258,25 @@ export const TestingModule = () => {
               status: 'pending',
               items: [
                 {
-                  priceId: 'aa73d084-1b8d-472f-9e94-92c71343d516',
+                  productType: 'scooter',
+                  productId: '23ccca91-706f-422d-b556-d9a8e839a4c3',
                   quantity: 1,
                 },
+                // {
+                //   productType: 'scooter',
+                //   productId: '7c10868d-f55f-4a61-9185-434b370ecce7',
+                //   quantity: 2,
+                // },
                 {
-                  priceId: '663c2e14-43e0-4053-84e0-2d79de2e805e',
+                  productType: 'accessory',
+                  productId: '33188756-07c6-48f7-8a31-530f22aa0a16',
                   quantity: 4,
                 },
+                // {
+                //   productType: 'accessory',
+                //   productId: 'a607d65a-1060-4b2f-9e8f-62b2bbedec20',
+                //   quantity: 5,
+                // },
               ],
             })
           }

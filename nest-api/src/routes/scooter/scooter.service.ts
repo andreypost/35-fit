@@ -41,7 +41,7 @@ export class ScooterService {
 
       if (existingScooter) {
         throw new ConflictException(
-          `${model}, ${existingScooter.priceId.name} ${msg.MODEL_PRICE_ALREADY_IN_USE}`,
+          `${model}, ${existingScooter.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
         );
       }
 
