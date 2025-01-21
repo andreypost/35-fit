@@ -9,6 +9,7 @@ import { UserService } from '../user/user.service';
 import { CreateOrderDto } from './dto/create.order.dto';
 import { nextError } from '../../utils/next.error';
 import { msg } from '../../constants/messages';
+import { Price } from '../../entities/price';
 
 @Injectable()
 export class OrderService {
@@ -45,8 +46,8 @@ export class OrderService {
         where: { id: In(productId) },
       });
 
-      // console.log('scooterOrders: ', scooterOrders);
-      // console.log('accessoryOrders: ', accessoryOrders);
+      console.log('scooterOrders: ', scooterOrders);
+      console.log('accessoryOrders: ', accessoryOrders);
 
       if (productId.length !== scooterOrders.length + accessoryOrders.length) {
         throw new NotFoundException(msg.ONE_OR_MORE_IDs_ARE_INVALID);
@@ -56,28 +57,38 @@ export class OrderService {
         status,
         user,
         items: items.map(({ productId, quantity, productType }) => {
-          let price = {};
+          let price: Price = null;
+          let productName: string = '';
           if (productType === 'scooter' && scooterOrders.length > 0) {
-            price = scooterOrders.reduce((acc, { id, priceId }) => {
-              if (id === productId) return priceId;
-              return acc;
-            }, {});
+            price = scooterOrders.reduce<Price>(
+              (acc, { id, model, priceId }) => {
+                if (id === productId) {
+                  productName = model;
+                  return priceId;
+                }
+                return acc;
+              },
+              null,
+            );
           } else if (
             productType === 'accessory' &&
             accessoryOrders.length > 0
           ) {
-            price = accessoryOrders.reduce((acc, { id, priceId }) => {
-              if (id === productId) return priceId;
+            price = accessoryOrders.reduce((acc, { id, name, priceId }) => {
+              if (id === productId) {
+                productName = name;
+                return priceId;
+              }
               return acc;
-            }, {});
+            }, {} as Price);
           }
 
-          if (!Object.keys(price).length) {
+          if (!price) {
             throw new NotFoundException(msg.ONE_OR_MORE_IDs_ARE_INVALID);
           }
 
           return this.orderItemRepository.create({
-            // productName: price.name,
+            productName,
             price,
             productId,
             productType,
@@ -87,8 +98,6 @@ export class OrderService {
       });
 
       newOrder.calculateFinalTotalPrice();
-
-      console.log('newOrder: ', newOrder);
 
       return await this.orderRepository.save(newOrder);
     } catch (error: any) {
