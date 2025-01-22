@@ -236,7 +236,7 @@ export const TestingModule = () => {
               onClick={() =>
                 apiEndpointCall('post', 'scooter/create', {
                   model: 'Model X2',
-                  priceId: 'd0e157f6-a347-4a64-b25e-f7e725e19ce9',
+                  priceId: 'c1704112-f2db-4aae-9e89-362d6f623fdb',
                   // saleType: 'rental',
                 })
               }
@@ -267,7 +267,7 @@ export const TestingModule = () => {
               onClick={() =>
                 apiEndpointCall('post', 'accessory/create', {
                   name: 'Halmet White',
-                  priceId: 'a9dbaa00-3191-44a0-a402-d3fd9a478458',
+                  priceId: '4562b69f-52e5-4226-83ae-1c312b216138',
                 })
               }
             >
@@ -286,25 +286,25 @@ export const TestingModule = () => {
                   status: 'pending',
                   items: [
                     {
-                      productType: 'scooter',
-                      productId: 'f3f3cebc-57a9-4dfa-9e72-a80609bc8e41',
+                      productType: 'accessory',
+                      productId: '94225fed-939f-48da-9fad-f4ba30536bd1',
                       quantity: 1,
                     },
                     {
                       productType: 'scooter',
-                      productId: '63f86df8-ed2e-4361-b297-6863837e7347',
+                      productId: 'e6eefc05-4178-493f-a2cb-f7c889941440',
                       quantity: 2,
                     },
                     {
                       productType: 'accessory',
-                      productId: '0920fe0b-b55c-49e5-ab87-64a107e350af',
+                      productId: 'e5e6e3a8-6342-47e1-ae95-4f7a6773d7e1',
                       quantity: 4,
                     },
-                    {
-                      productType: 'accessory',
-                      productId: 'bb5ef4fd-ade4-4f46-ba86-011b7840f67f',
-                      quantity: 6,
-                    },
+                    // {
+                    //   productType: 'accessory',
+                    //   productId: 'bb5ef4fd-ade4-4f46-ba86-011b7840f67f',
+                    //   quantity: 6,
+                    // },
                   ],
                 })
               }
