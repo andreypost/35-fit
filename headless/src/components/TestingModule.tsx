@@ -20,14 +20,33 @@ const Div = styled.div`
         color: #6e7071;
       }
     }
+    .form_button_box {
+      row-gap: 30px;
+    }
     button {
-      margin-bottom: 30px;
+      min-width: 220px;
       background-color: #b2b2b2;
       transition: color 0.4s, background-color 0.4s;
       color: #004;
       &:hover {
         color: white;
         background-color: #004;
+      }
+    }
+    hr {
+      width: 100%;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      border: none;
+      border-top: 3px double #004;
+      color: #004;
+      text-align: center;
+      &::after {
+        content: '§';
+        position: relative;
+        top: -12px;
+        padding: 0 4px;
+        background-color: #fff;
       }
     }
   }
@@ -193,103 +212,117 @@ export const TestingModule = () => {
         </ol>
       )}
       <form id="testingForm" className="flex_str_col" onSubmit={handleTesting}>
-        <button
-          type="button"
-          className="grey_button grey"
-          onClick={() =>
-            apiEndpointCall('post', 'price/create', {
-              name: 'Scooter Autumn Sale 2025',
-              amount: 799,
-              discount: 15,
-              taxRate: 5,
-              currency: 'USD',
-              productType: 'scooter',
-            })
-          }
-        >
-          SCOOTER PRICE
-        </button>
-        <button
-          type="button"
-          className="grey_button grey"
-          onClick={() =>
-            apiEndpointCall('post', 'price/create', {
-              name: 'Autumn Offer 2025',
-              amount: 99,
-              discount: 15,
-              taxRate: 5,
-              currency: 'USD',
-              productType: 'accessory',
-            })
-          }
-        >
-          ACCESSORY PRICE
-        </button>
-        <button
-          type="button"
-          className="grey_button grey"
-          onClick={() =>
-            apiEndpointCall('post', 'scooter/create', {
-              model: 'Model X1',
-              priceId: '1e3e2bf7-9552-47a1-b8cb-c8d1a8114707',
-              // saleType: 'rental',
-            })
-          }
-        >
-          CREATE SCOOTER 'Model'
-        </button>
-        <button
-          type="button"
-          className="grey_button grey"
-          onClick={() =>
-            apiEndpointCall('post', 'accessory/create', {
-              name: 'Halmet Black',
-              priceId: '01f4b4d1-9145-4ff1-870a-9d9727357d70',
-            })
-          }
-        >
-          CREATE ACCESSORY 'Halmet'
-        </button>
-        <button
-          type="button"
-          className="grey_button grey"
-          onClick={() =>
-            apiEndpointCall('post', 'order/create', {
-              status: 'pending',
-              items: [
-                {
+        <div className="flex_center_around form_button_box wrap">
+          <div className="flex_str_col form_button_box">
+            <button
+              type="button"
+              className="grey_button grey"
+              onClick={() =>
+                apiEndpointCall('post', 'price/create', {
+                  name: 'Scooter Autumn Sale 2025',
+                  amount: 799,
+                  discount: 15,
+                  taxRate: 5,
+                  currency: 'USD',
                   productType: 'scooter',
-                  productId: '23ccca91-706f-422d-b556-d9a8e839a4c3',
-                  quantity: 1,
-                },
-                // {
-                //   productType: 'scooter',
-                //   productId: '7c10868d-f55f-4a61-9185-434b370ecce7',
-                //   quantity: 2,
-                // },
-                {
+                })
+              }
+            >
+              SCOOTER PRICE
+            </button>
+            <button
+              type="button"
+              className="grey_button grey"
+              onClick={() =>
+                apiEndpointCall('post', 'scooter/create', {
+                  model: 'Model X2',
+                  priceId: 'd0e157f6-a347-4a64-b25e-f7e725e19ce9',
+                  // saleType: 'rental',
+                })
+              }
+            >
+              CREATE SCOOTER
+            </button>
+          </div>
+          <div className="flex_str_col form_button_box">
+            <button
+              type="button"
+              className="grey_button grey"
+              onClick={() =>
+                apiEndpointCall('post', 'price/create', {
+                  name: 'Autumn Offer 2025',
+                  amount: 99,
+                  discount: 15,
+                  taxRate: 5,
+                  currency: 'USD',
                   productType: 'accessory',
-                  productId: '33188756-07c6-48f7-8a31-530f22aa0a16',
-                  quantity: 4,
-                },
-                // {
-                //   productType: 'accessory',
-                //   productId: 'a607d65a-1060-4b2f-9e8f-62b2bbedec20',
-                //   quantity: 5,
-                // },
-              ],
-            })
-          }
-        >
-          MAKE ORDER
-        </button>
-        <button
-          type="button"
-          className="grey_button grey"
-          onClick={() => apiEndpointCall('get', 'order/orders/accessory')}
-        >
-          Get Orders
-        </button>
+                })
+              }
+            >
+              ACCESSORY PRICE
+            </button>
+            <button
+              type="button"
+              className="grey_button grey"
+              onClick={() =>
+                apiEndpointCall('post', 'accessory/create', {
+                  name: 'Halmet White',
+                  priceId: 'a9dbaa00-3191-44a0-a402-d3fd9a478458',
+                })
+              }
+            >
+              CREATE ACCESSORY
+            </button>
+          </div>
+        </div>
+        <hr />
+        <div className="flex_center_around form_button_box wrap">
+          <div className="flex_str_col">
+            <button
+              type="button"
+              className="grey_button grey"
+              onClick={() =>
+                apiEndpointCall('post', 'order/create', {
+                  status: 'pending',
+                  items: [
+                    {
+                      productType: 'scooter',
+                      productId: 'f3f3cebc-57a9-4dfa-9e72-a80609bc8e41',
+                      quantity: 1,
+                    },
+                    {
+                      productType: 'scooter',
+                      productId: '63f86df8-ed2e-4361-b297-6863837e7347',
+                      quantity: 2,
+                    },
+                    {
+                      productType: 'accessory',
+                      productId: '0920fe0b-b55c-49e5-ab87-64a107e350af',
+                      quantity: 4,
+                    },
+                    {
+                      productType: 'accessory',
+                      productId: 'bb5ef4fd-ade4-4f46-ba86-011b7840f67f',
+                      quantity: 6,
+                    },
+                  ],
+                })
+              }
+            >
+              MAKE ORDER
+            </button>
+          </div>
+          <div className="flex_str_col">
+            <button
+              type="button"
+              className="grey_button grey"
+              onClick={() => apiEndpointCall('get', 'order/orders/scooter')}
+            >
+              Get Orders
+            </button>
+          </div>
+        </div>
+        <hr />
         <button type="submit" className="grey_button grey">
           Stream File Data
         </button>

@@ -30,9 +30,10 @@ export const msg = {
   UNEXPECTED_ERROR: "An unexpected error occurred!",
   HASHING_PASS_OCCURRED: "Error occurred while hashing the password",
   PRICE_NOT_FOUND: "Price not found.",
-  PRICE_MUST_HAVE_APPROPRIATE: "Price must have appropriate Product Type: ",
+  PRODUCT_TYPE_IS_NOT_APPROPRIATE:
+    " - this Product Type is not appropriate to the Price",
   ONE_OR_MORE_IDs_ARE_INVALID: "One or more Price IDs are invalid",
   PRODUCT_PRICE_ALREADY_IN_USE:
-    " - this product name and price name already in use",
-  PRICE_NAME_ALREADY_EXIST: " - this price name already exist",
+    " - this Product Name and Price Name already in use",
+  PRICE_NAME_ALREADY_EXIST: " - this Price Name already exist",
 };

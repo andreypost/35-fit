@@ -28,7 +28,7 @@ export class ScooterService {
 
       if (price.productType !== 'scooter') {
         throw new BadRequestException(
-          msg.PRICE_MUST_HAVE_APPROPRIATE + price.productType,
+          price.productType + msg.PRODUCT_TYPE_IS_NOT_APPROPRIATE,
         );
       }
 

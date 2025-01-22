@@ -28,7 +28,7 @@ export class AccessoryService {
 
       if (price.productType !== 'accessory') {
         throw new BadRequestException(
-          msg.PRICE_MUST_HAVE_APPROPRIATE + price.productType,
+          price.productType + msg.PRODUCT_TYPE_IS_NOT_APPROPRIATE,
         );
       }
 

@@ -36,20 +36,26 @@ export class OrderService {
       }
 
       const { status, items } = createOrderDto;
-      const productId = items.map(({ productId }) => productId);
+      const productIds = items.map(({ productId }) => productId);
 
-      const scooterOrders = await this.scooterRepository.find({
-        where: { id: In(productId) },
-      });
-
-      const accessoryOrders = await this.accessoryRepository.find({
-        where: { id: In(productId) },
-      });
+      const [scooterOrders, accessoryOrders] = await Promise.all([
+        await this.scooterRepository.find({
+          where: { id: In(productIds) },
+          relations: ['priceId'],
+        }),
+        await this.accessoryRepository.find({
+          where: { id: In(productIds) },
+          relations: ['priceId'],
+        }),
+      ]);
 
       console.log('scooterOrders: ', scooterOrders);
       console.log('accessoryOrders: ', accessoryOrders);
 
-      if (productId.length !== scooterOrders.length + accessoryOrders.length) {
+      if (
+        productIds.length !==
+        scooterOrders.length + accessoryOrders?.length
+      ) {
         throw new NotFoundException(msg.ONE_OR_MORE_IDs_ARE_INVALID);
       }
 
@@ -121,17 +127,6 @@ export class OrderService {
         .where('user.id =:userId', { userId: user.id })
         .andWhere('price.productType =:type', { type })
         .getMany();
-      // return await this.orderRepository.find({
-      //   where: {
-      //     user: { id: user.id },
-      //     items: {
-      //       price: {
-      //         productType: type,
-      //       },
-      //     },
-      //   },
-      //   relations: ['user', 'items', 'items.price'],
-      // });
     } catch (error: any) {
       nextError(error);
     }
