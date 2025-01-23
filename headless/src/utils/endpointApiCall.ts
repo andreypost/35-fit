@@ -5,7 +5,7 @@ export const apiEndpointCall = async (
   method: 'get' | 'post' | 'put' | 'delete',
   route: string,
   body: any = null
-) => {
+): Promise<any> => {
   try {
     const url = `${process.env.API_URL}/${route}`
     const config = {

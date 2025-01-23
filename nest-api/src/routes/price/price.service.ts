@@ -49,4 +49,22 @@ export class PriceService {
       nextError(error);
     }
   }
+
+  public async getPriceByType(productType: string): Promise<string> {
+    try {
+      const priceByType = await this.priceRepository.findOne({
+        where: { productType },
+      });
+
+      if (!priceByType) {
+        throw new NotFoundException(
+          `${msg.PRICE_NOT_FOUND} for ${productType}`,
+        );
+      }
+
+      return priceByType.id;
+    } catch (error: any) {
+      nextError(error);
+    }
+  }
 }

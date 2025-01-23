@@ -181,12 +181,6 @@ export const HeaderNavigate = () => {
           ),
           []
         )}
-        {/* {useMemo(
-          () => (
-            <User user={user} styleName="header_nav" />
-          ),
-          [user]
-        )} */}
         <User styleName="header_nav" />
         <Link
           to={RESERVE_ROUTE}

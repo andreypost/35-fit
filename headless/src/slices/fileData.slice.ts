@@ -10,19 +10,19 @@ export interface UserData {
 }
 
 interface FileDataState {
-  fileList: UserData[]
-  fileFilteredList: UserData[]
-  fileSortedList: UserData[]
-  fileListLoading: boolean
-  fileListError: { message: string } | null
+  slFileList: UserData[]
+  slFilteredList: UserData[]
+  slFileSortedList: UserData[]
+  slFileListLoading: boolean
+  slFileListError: { message: string } | null
 }
 
 const initialState: FileDataState = {
-  fileList: [],
-  fileFilteredList: [],
-  fileSortedList: [],
-  fileListLoading: false,
-  fileListError: null,
+  slFileList: [],
+  slFilteredList: [],
+  slFileSortedList: [],
+  slFileListLoading: false,
+  slFileListError: null,
 }
 
 export const fetchFileData = createAsyncThunk<UserData[]>(
@@ -47,20 +47,20 @@ const fileDataSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchFileData.pending, (state) => {
-        state.fileListLoading = true
-        state.fileListError = null
+        state.slFileListLoading = true
+        state.slFileListError = null
       })
       .addCase(
         fetchFileData.fulfilled,
         (state, action: PayloadAction<UserData[]>) => {
-          state.fileListLoading = false
-          state.fileList = action.payload
+          state.slFileListLoading = false
+          state.slFileList = action.payload
 
-          state.fileFilteredList = state.fileList.filter(
+          state.slFilteredList = state.slFileList.filter(
             ({ country }) => country !== 'Russian Federation'
           )
 
-          state.fileSortedList = state.fileFilteredList.sort(
+          state.slFileSortedList = state.slFilteredList.sort(
             (a, b) =>
               parseFloat(a.earnings.replace('$', '')) -
               parseFloat(b.earnings.replace('$', ''))
@@ -68,8 +68,8 @@ const fileDataSlice = createSlice({
         }
       )
       .addCase(fetchFileData.rejected, (state, action) => {
-        state.fileListLoading = true
-        state.fileListError = action.payload as { message: string }
+        state.slFileListLoading = true
+        state.slFileListError = action.payload as { message: string }
       })
   },
 })

@@ -15,4 +15,12 @@ export class PriceController {
   ): Promise<Price> {
     return this.priceService.createProductPrice(createPriceDto);
   }
+
+  @Public()
+  @Post('price-by-type')
+  async getPriceByType(
+    @Body() { productType }: { productType: string },
+  ): Promise<string> {
+    return this.priceService.getPriceByType(productType);
+  }
 }

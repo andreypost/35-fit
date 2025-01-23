@@ -8,8 +8,8 @@ import { Scooter } from '../../entities/scooter';
 export class ScooterController {
   constructor(private readonly scooterService: ScooterService) {}
 
-  @Post('create')
   @Public()
+  @Post('create')
   async createScooter(
     @Body() createScooterDto: CreateScooterDto,
   ): Promise<Scooter> {

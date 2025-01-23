@@ -1,12 +1,14 @@
 import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { IGetImageById, IGetImages, IUser } from 'types/interface'
+import { IGetImageById, IGetImages } from 'types/interface'
 import { useQuery } from '@apollo/client'
 import { GET_IMAGES, GET_IMAGE_BY_ID } from 'queries'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
-import { UserData, fetchFileData, setSortedList } from 'slices/fileData.slice'
+// import { UserData, fetchFileData, setSortedList } from 'slices/fileData.slice'
 import { apiEndpointCall } from 'utils/endpointApiCall'
+// import axios from 'axios'
 import { AppContext } from '../AppRouter'
+import { errorModalMessage } from 'utils/errorModalMessage'
 
 const Div = styled.div`
   #testingForm {
@@ -87,10 +89,11 @@ export const TestingModule = () => {
     skip: !selectedImageId,
     context: { credentials: 'include' },
   })
-  const dispatch = useAppDispatch()
-  const { fileSortedList, fileListLoading, fileListError } =
-    useAppSelector(setSortedList)
-  const { currentUser } = useContext(AppContext)
+  // const dispatch = useAppDispatch()
+  // const { slFileSortedList, slFileListLoading, slFileListError } =
+  //   useAppSelector(setSortedList)
+  // const { currentUser } = useContext(AppContext)
+  const [scooterPrice, setScooterPrice] = useState('')
 
   const countries = [
     'Chile',
@@ -107,19 +110,35 @@ export const TestingModule = () => {
 
   // const largeData = 'A'.repeat(1000000)
 
-  // useEffect(() => {
-  //   user && dispatch(fetchFileData())
-  // }, [user])
-
   useEffect(() => {
     console.log('TestingModule: ', process.env.API_URL)
     setIndex(Math.floor(Math.random() * countries.length))
   }, [])
 
-  /*
-  const [fileList, setFileList] = useState<UserData[]>([])
+  useEffect(() => {
+    const getPriceByType = async (): Promise<string | any> => {
+      try {
+        const response = await apiEndpointCall('post', 'price/price-by-type', {
+          productType: 'scooter',
+        })
+        if (response?.data) {
+          setScooterPrice(response?.data)
+        }
+      } catch (error: any) {
+        throw errorModalMessage(error)
+      }
+    }
+
+    getPriceByType()
+  }, [])
+
+  // useEffect(() => {
+  //   currentUser && dispatch(fetchFileData())
+  // }, [currentUser])
+
+  /*   const [fileList, setFileList] = useState<UserData[]>([])
   const [filteredList, setFilteredList] = useState<UserData[]>([])
-  const [sotredList, setSortedList] = useState<UserData[]>([])
+  const [sortedList, setSortedList] = useState<UserData[]>([])
   const cach = useRef(null)
 
   useEffect(() => {
@@ -194,11 +213,11 @@ export const TestingModule = () => {
 
   return (
     <Div>
-      {fileListError && <p>{fileListError?.message}</p>}
-      {currentUser && fileSortedList?.length > 0 && (
+      {/* {slFileListError && <p>{slFileListError?.message}</p>}
+      {currentUser && slFileSortedList?.length > 0 && (
         <ol>
-          <p>Users: {fileSortedList.length}</p>
-          {fileSortedList.map(
+          <p>Users: {slFileSortedList.length}</p>
+          {slFileSortedList.map(
             ({ name, country, earnings }: UserData, index: any) => (
               <Fragment key={index}>
                 <li>
@@ -210,7 +229,7 @@ export const TestingModule = () => {
             )
           )}
         </ol>
-      )}
+      )} */}
       <form id="testingForm" className="flex_str_col" onSubmit={handleTesting}>
         <div className="flex_center_around form_button_box wrap">
           <div className="flex_str_col form_button_box">
@@ -219,7 +238,7 @@ export const TestingModule = () => {
               className="grey_button grey"
               onClick={() =>
                 apiEndpointCall('post', 'price/create', {
-                  name: 'Scooter Autumn Sale 2025',
+                  name: 'Scooter Summer Sale 2025',
                   amount: 799,
                   discount: 15,
                   taxRate: 5,
@@ -233,10 +252,12 @@ export const TestingModule = () => {
             <button
               type="button"
               className="grey_button grey"
+              disabled={!Boolean(scooterPrice)}
+              style={{ opacity: scooterPrice ? 1 : 0.2 }}
               onClick={() =>
                 apiEndpointCall('post', 'scooter/create', {
                   model: 'Model X2',
-                  priceId: 'c1704112-f2db-4aae-9e89-362d6f623fdb',
+                  priceId: scooterPrice,
                   // saleType: 'rental',
                 })
               }
