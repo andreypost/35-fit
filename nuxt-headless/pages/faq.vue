@@ -13,10 +13,10 @@ export default {
   scrollToTop: true,
   async asyncData({ env, $axios }: any) {
     try {
-      const getAuthAllUsers = await $axios.get(`${env.apiUrl}/auth/users`, {
+      const getAuthAllUsers = await $axios.get(`${env.apiUrl}/user/users`, {
         withCredentials: true,
       })
-      console.log('/auth/users - get all users: ', getAuthAllUsers.data)
+      console.log('/user/users - get all users: ', getAuthAllUsers.data)
     } catch (error: any) {
       console.error(error)
     }

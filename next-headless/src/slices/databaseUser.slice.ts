@@ -24,7 +24,7 @@ export const loginUserFromDatabase = createAsyncThunk<
 >("databaseUser/loginUserFromDatabase", async (credentials, { dispatch }) => {
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+      `${process.env.NEXT_PUBLIC_API_URL}/user/login`,
       credentials,
       { withCredentials: true }
     );
@@ -43,7 +43,7 @@ export const validateAuthToken = createAsyncThunk<
 >("databaseUser/validateAuthToken", async ({ firstLoad }, { dispatch }) => {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/validate`,
+      `${process.env.NEXT_PUBLIC_API_URL}/user/validate`,
       {
         withCredentials: true,
       }
@@ -65,7 +65,7 @@ export const logoutUserWithAuthToken = createAsyncThunk<
   "databaseUser/logoutUserFromDatabase",
   async (_, { rejectWithValue, dispatch }) => {
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, null, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/logout`, null, {
         withCredentials: true,
       });
       dispatch(messageModal("You have successfully logged out."));

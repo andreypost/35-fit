@@ -306,7 +306,7 @@ export const TestingModule = () => {
               }}
               onClick={() =>
                 apiEndpointCall('post', 'scooter/create', {
-                  model: 'Model X2',
+                  model: 'Model X1',
                   priceId: scooterPrice,
                   // saleType: 'rental',
                 })
@@ -367,18 +367,18 @@ export const TestingModule = () => {
                   status: 'pending',
                   items: [
                     {
-                      productType: 'accessory',
-                      productId: '94225fed-939f-48da-9fad-f4ba30536bd1',
+                      productType: 'scooter',
+                      productId: 'c70bf77e-a5aa-4282-8505-c16907e51363',
                       quantity: 1,
                     },
                     {
-                      productType: 'scooter',
-                      productId: 'e6eefc05-4178-493f-a2cb-f7c889941440',
+                      productType: 'accessory',
+                      productId: '8aadedfe-7f22-41ad-84db-67fe2f793ce9',
                       quantity: 2,
                     },
                     {
                       productType: 'accessory',
-                      productId: 'e5e6e3a8-6342-47e1-ae95-4f7a6773d7e1',
+                      productId: '2bde737a-394d-432f-9a99-4f1ca8ad8db8',
                       quantity: 4,
                     },
                     // {

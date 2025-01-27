@@ -39,11 +39,11 @@ export class OrderService {
       const productIds = items.map(({ productId }) => productId);
 
       const [scooterOrders, accessoryOrders] = await Promise.all([
-        await this.scooterRepository.find({
+        this.scooterRepository.find({
           where: { id: In(productIds) },
           relations: ['priceId'],
         }),
-        await this.accessoryRepository.find({
+        this.accessoryRepository.find({
           where: { id: In(productIds) },
           relations: ['priceId'],
         }),
@@ -52,6 +52,24 @@ export class OrderService {
       console.log('scooterOrders: ', scooterOrders);
       console.log('accessoryOrders: ', accessoryOrders);
 
+      /* accessoryOrders [
+        Accessory {
+          id: '2bde737a-394d-432f-9a99-4f1ca8ad8db8',
+          name: 'Halmet White',
+          createdAt: 2025-01-27T20:10:40.248Z,
+          updatedAt: 2025-01-27T20:10:40.248Z,
+          priceId: Price {
+            discount: '15.00',
+            taxRate: '5.00',
+            id: '42309574-00e1-47b4-97f6-19ff6e00cf22',
+            name: 'Autumn Offer 2025',
+            amount: '99.00',
+            currency: 'USD',
+            productType: 'accessory'
+          }
+        }
+      ] */
+
       if (
         productIds.length !==
         scooterOrders.length + accessoryOrders?.length
@@ -59,7 +77,49 @@ export class OrderService {
         throw new NotFoundException(msg.ONE_OR_MORE_IDs_ARE_INVALID);
       }
 
+      const scooterMap = new Map(
+        scooterOrders.map((scooter) => [scooter.id, scooter]),
+      );
+      const accessoryMap = new Map(
+        accessoryOrders.map((accessory) => [accessory.id, accessory]),
+      );
+
       const newOrder = this.orderRepository.create({
+        status,
+        user,
+        items: items.map(({ productId, quantity, productType }) => {
+          let productName: string;
+          let price: Price;
+
+          if (productType === 'scooter') {
+            const scooter = scooterMap.get(productId);
+            if (!scooter) {
+              throw new NotFoundException(msg.ONE_OR_MORE_IDs_ARE_INVALID);
+            }
+            productName = scooter.model;
+            price = scooter.priceId;
+          } else if (productType === 'accessory') {
+            const accessory = accessoryMap.get(productId);
+            if (!accessory) {
+              throw new NotFoundException(msg.ONE_OR_MORE_IDs_ARE_INVALID);
+            }
+            productName = accessory.name;
+            price = accessory.priceId;
+          } else {
+            throw new NotFoundException('msg.INVALID_PRODUCT_TYPE');
+          }
+
+          return this.orderItemRepository.create({
+            productName,
+            price,
+            productId,
+            productType,
+            quantity,
+          });
+        }),
+      });
+
+      /*       const newOrder = this.orderRepository.create({
         status,
         user,
         items: items.map(({ productId, quantity, productType }) => {
@@ -101,7 +161,7 @@ export class OrderService {
             quantity,
           });
         }),
-      });
+      }); */
 
       newOrder.calculateFinalTotalPrice();
 
