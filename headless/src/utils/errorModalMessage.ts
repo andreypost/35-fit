@@ -18,5 +18,6 @@ export const errorModalMessage = (error: any) => {
   //   setCurrentUser(null)
   //   console.log('errorModalMessage: ', error?.response?.data?.message)
   // }
-  console.error(error?.response?.data)
+  console.error('error: ', error?.response?.data)
+  return error?.response?.data
 }

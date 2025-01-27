@@ -4,12 +4,15 @@ import { errorModalMessage } from './errorModalMessage'
 export const apiEndpointCall = async (
   method: 'get' | 'post' | 'put' | 'delete',
   route: string,
-  body: any = null
+  body: any = null,
+  firstLoad: boolean = false,
+  signal?: AbortSignal
 ): Promise<any> => {
   try {
     const url = `${process.env.API_URL}/${route}`
     const config = {
       withCredentials: true,
+      signal,
     }
     let result: any = null
     if (method === 'get' || method === 'delete') {
@@ -20,6 +23,8 @@ export const apiEndpointCall = async (
     console.log(route, result)
     return result
   } catch (error: any) {
-    throw errorModalMessage(error)
+    if (!firstLoad) {
+      throw errorModalMessage(error)
+    }
   }
 }

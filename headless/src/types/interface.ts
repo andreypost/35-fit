@@ -105,3 +105,12 @@ export interface IGetImageById {
 export interface IGetImages {
   imagesByCategory: IGetImageById['imageById'][]
 }
+
+export interface IPrice {
+  name: string
+  amount: number
+  discount: number
+  taxRate: number
+  currency: string
+  productType: string
+}

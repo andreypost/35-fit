@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { IGetImageById, IGetImages } from 'types/interface'
+import { IGetImageById, IGetImages, IPrice } from 'types/interface'
 import { useQuery } from '@apollo/client'
 import { GET_IMAGES, GET_IMAGE_BY_ID } from 'queries'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { apiEndpointCall } from 'utils/endpointApiCall'
 // import axios from 'axios'
 import { AppContext } from '../AppRouter'
-import { errorModalMessage } from 'utils/errorModalMessage'
 
 const Div = styled.div`
   #testingForm {
@@ -25,14 +24,17 @@ const Div = styled.div`
     .form_button_box {
       row-gap: 30px;
     }
-    button {
+    .grey_button {
       min-width: 220px;
       background-color: #b2b2b2;
-      transition: color 0.4s, background-color 0.4s;
+      transition: color 0.4s, background-color 0.4s, opacity 0.4s;
       color: #004;
       &:hover {
         color: white;
-        background-color: #004;
+        background-color: #004 !important;
+      }
+      &.green {
+        background-color: #59b894;
       }
     }
     hr {
@@ -93,7 +95,12 @@ export const TestingModule = () => {
   // const { slFileSortedList, slFileListLoading, slFileListError } =
   //   useAppSelector(setSortedList)
   // const { currentUser } = useContext(AppContext)
+  const abortController = new AbortController()
+  const { signal } = abortController
   const [scooterPrice, setScooterPrice] = useState('')
+  const [accessoryPrice, setAccessoryPrice] = useState('')
+  const [scooterConflictPrice, setScooterConflictPrice] = useState(false)
+  const [accessoryConflictPrice, setAccessoryConflictPrice] = useState(false)
 
   const countries = [
     'Chile',
@@ -116,20 +123,35 @@ export const TestingModule = () => {
   }, [])
 
   useEffect(() => {
-    const getPriceByType = async (): Promise<string | any> => {
-      try {
-        const response = await apiEndpointCall('post', 'price/price-by-type', {
-          productType: 'scooter',
-        })
-        if (response?.data) {
-          setScooterPrice(response?.data)
-        }
-      } catch (error: any) {
-        throw errorModalMessage(error)
-      }
+    const getPriceByType = async (): Promise<void> => {
+      const [scooterResponse, accessoryResponse] = await Promise.all([
+        apiEndpointCall(
+          'post',
+          'price/price-by-type',
+          {
+            productType: 'scooter',
+          },
+          true,
+          signal
+        ),
+        apiEndpointCall(
+          'post',
+          'price/price-by-type',
+          {
+            productType: 'accessory',
+          },
+          true,
+          signal
+        ),
+      ])
+      setScooterPrice(scooterResponse?.data)
+      setAccessoryPrice(accessoryResponse?.data)
     }
-
     getPriceByType()
+
+    return () => {
+      abortController.abort()
+    }
   }, [])
 
   // useEffect(() => {
@@ -211,6 +233,26 @@ export const TestingModule = () => {
     setIndex(Math.floor(Math.random() * countries.length))
   }
 
+  const handleCreatePrice = async (price: IPrice): Promise<string | any> => {
+    try {
+      const productPrice = await apiEndpointCall('post', 'price/create', price)
+      if (price.productType === 'scooter') {
+        setScooterPrice(productPrice?.data?.id)
+      } else {
+        setAccessoryPrice(productPrice?.data?.id)
+      }
+    } catch (error: any) {
+      console.error('error: ', error)
+      if (error?.error === 'Conflict') {
+        if (price.productType === 'scooter') {
+          setScooterConflictPrice(true)
+        } else {
+          setAccessoryConflictPrice(true)
+        }
+      }
+    }
+  }
+
   return (
     <Div>
       {/* {slFileListError && <p>{slFileListError?.message}</p>}
@@ -235,9 +277,14 @@ export const TestingModule = () => {
           <div className="flex_str_col form_button_box">
             <button
               type="button"
-              className="grey_button grey"
+              className="grey_button"
+              style={{
+                opacity: scooterConflictPrice ? 0.2 : 1,
+                zIndex: scooterConflictPrice ? -999 : 'unset',
+                backgroundColor: scooterConflictPrice ? '#ff6376' : '#b2b2b2',
+              }}
               onClick={() =>
-                apiEndpointCall('post', 'price/create', {
+                handleCreatePrice({
                   name: 'Scooter Summer Sale 2025',
                   amount: 799,
                   discount: 15,
@@ -251,9 +298,12 @@ export const TestingModule = () => {
             </button>
             <button
               type="button"
-              className="grey_button grey"
-              disabled={!Boolean(scooterPrice)}
-              style={{ opacity: scooterPrice ? 1 : 0.2 }}
+              className="grey_button green"
+              style={{
+                opacity: scooterPrice ? 1 : 0.2,
+                zIndex: scooterPrice ? 'unset' : -999,
+                // backgroundColor: scooterConflictProduct ? '#ff6376' : '#b2b2b2',
+              }}
               onClick={() =>
                 apiEndpointCall('post', 'scooter/create', {
                   model: 'Model X2',
@@ -268,9 +318,14 @@ export const TestingModule = () => {
           <div className="flex_str_col form_button_box">
             <button
               type="button"
-              className="grey_button grey"
+              className="grey_button"
+              style={{
+                opacity: accessoryConflictPrice ? 0.2 : 1,
+                zIndex: accessoryConflictPrice ? -999 : 'unset',
+                backgroundColor: accessoryConflictPrice ? '#ff6376' : '#b2b2b2',
+              }}
               onClick={() =>
-                apiEndpointCall('post', 'price/create', {
+                handleCreatePrice({
                   name: 'Autumn Offer 2025',
                   amount: 99,
                   discount: 15,
@@ -284,11 +339,16 @@ export const TestingModule = () => {
             </button>
             <button
               type="button"
-              className="grey_button grey"
+              className="grey_button green"
+              style={{
+                opacity: accessoryPrice ? 1 : 0.2,
+                zIndex: accessoryPrice ? 'unset' : -999,
+                // backgroundColor: accessoryConflictProduct ? '#ff6376' : '#b2b2b2',
+              }}
               onClick={() =>
                 apiEndpointCall('post', 'accessory/create', {
                   name: 'Halmet White',
-                  priceId: '4562b69f-52e5-4226-83ae-1c312b216138',
+                  priceId: accessoryPrice,
                 })
               }
             >
@@ -301,7 +361,7 @@ export const TestingModule = () => {
           <div className="flex_str_col">
             <button
               type="button"
-              className="grey_button grey"
+              className="grey_button"
               onClick={() =>
                 apiEndpointCall('post', 'order/create', {
                   status: 'pending',
@@ -336,7 +396,7 @@ export const TestingModule = () => {
           <div className="flex_str_col">
             <button
               type="button"
-              className="grey_button grey"
+              className="grey_button"
               onClick={() => apiEndpointCall('get', 'order/orders/scooter')}
             >
               Get Orders
@@ -344,7 +404,7 @@ export const TestingModule = () => {
           </div>
         </div>
         <hr />
-        <button type="submit" className="grey_button grey">
+        <button type="submit" className="grey_button">
           Stream File Data
         </button>
         {/* <ImagesList categoryImages="Coffee" />

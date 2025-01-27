@@ -51,7 +51,7 @@ const Header = styled.header`
         left: 0;
         border-radius: 2px;
         transform-origin: 50% 50%;
-        background: #59b894;
+        background-color: #59b894;
         transition: all 0.45s cubic-bezier(0.45, 0.45, 0.37, 1.36);
       }
       span {
