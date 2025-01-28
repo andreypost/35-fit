@@ -104,7 +104,6 @@ export class OrderService {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
 
-      console.log('productType: ', type);
       return await this.orderRepository
         .createQueryBuilder('order')
         .leftJoinAndSelect('order.items', 'order_item')

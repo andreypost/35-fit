@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from 'react'
+import React, { useState, Fragment, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
@@ -15,6 +15,7 @@ import { messageModal } from 'slices/modal.slice'
 import { errorModalMessage } from 'utils/errorModalMessage'
 import { dev } from 'config'
 import { apiEndpointCall } from 'utils/endpointApiCall'
+import { AppContext } from '../AppRouter'
 
 const Main = styled.main`
   .reserver {
@@ -177,10 +178,11 @@ const Main = styled.main`
 `
 
 const Reserve = () => {
-  const { t } = useTranslation(),
-    [userData, setUserData] = useState<IAuth>({}),
-    [users, setAllUsers] = useState<IAuth[]>([]),
-    dispatch = useAppDispatch()
+  const { t } = useTranslation()
+  const { currentUser } = useContext(AppContext)
+  const [userData, setUserData] = useState<IAuth>({})
+  const [users, setAllUsers] = useState<IAuth[]>([])
+  const dispatch = useAppDispatch()
 
   const genderOptions = [
     { value: '', label: 'Select Gender' },
@@ -452,6 +454,10 @@ const Reserve = () => {
                   <button
                     type="submit"
                     className="flex_center_center additional_submit b900 white"
+                    style={{
+                      opacity: currentUser ? 1 : 0.2,
+                      backgroundColor: currentUser ? '#59b894' : '#ff6376',
+                    }}
                   >
                     Get All Users
                   </button>

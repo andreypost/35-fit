@@ -25,6 +25,8 @@ export const apiEndpointCall = async (
   } catch (error: any) {
     if (!firstLoad) {
       throw errorModalMessage(error)
+    } else {
+      throw error?.response?.data
     }
   }
 }
