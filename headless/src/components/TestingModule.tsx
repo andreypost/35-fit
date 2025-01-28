@@ -372,20 +372,15 @@ export const TestingModule = () => {
                       quantity: 1,
                     },
                     {
-                      productType: 'accessory',
+                      productType: 'scooter',
                       productId: '8aadedfe-7f22-41ad-84db-67fe2f793ce9',
-                      quantity: 2,
+                      quantity: 1,
                     },
                     {
                       productType: 'accessory',
                       productId: '2bde737a-394d-432f-9a99-4f1ca8ad8db8',
                       quantity: 4,
                     },
-                    // {
-                    //   productType: 'accessory',
-                    //   productId: 'bb5ef4fd-ade4-4f46-ba86-011b7840f67f',
-                    //   quantity: 6,
-                    // },
                   ],
                 })
               }
@@ -397,7 +392,7 @@ export const TestingModule = () => {
             <button
               type="button"
               className="grey_button"
-              onClick={() => apiEndpointCall('get', 'order/orders/scooter')}
+              onClick={() => apiEndpointCall('get', 'order/orders/accessory')}
             >
               Get Orders
             </button>
