@@ -117,7 +117,7 @@ export const TestingModule = () => {
   ]
 
   const scooterPrice = {
-    name: 'Scooter Summer Sale 2025',
+    name: 'Scooter Autunm Sale 2025',
     amount: 799,
     discount: 15,
     taxRate: 5,
@@ -126,7 +126,7 @@ export const TestingModule = () => {
   }
 
   const accessoryPrice = {
-    name: 'Autumn Offer 2025',
+    name: 'Winter Offer 2025',
     amount: 99,
     discount: 15,
     taxRate: 5,
@@ -134,45 +134,25 @@ export const TestingModule = () => {
     productType: 'accessory',
   }
 
-  // const largeData = 'A'.repeat(1000000)
-
-  const handleCreatePrice = async (
-    price: IPrice,
-    firstLoad?: boolean,
-    signal?: any
-  ): Promise<string | void> => {
-    try {
-      const productPrice = await apiEndpointCall(
-        'post',
-        'price/create',
-        price,
-        firstLoad,
-        signal
-      )
-      if (price.productType === 'scooter') {
-        setScooterPriceId(productPrice?.data?.id)
-      } else {
-        setAccessoryPriceId(productPrice?.data?.id)
-      }
-    } catch (error: any) {
-      console.error('error: ', error)
-      if (error?.error === 'Conflict') {
-        if (price.productType === 'scooter') {
-          setScooterConflictPriceId(true)
-        } else {
-          setAccessoryConflictPriceId(true)
-        }
-      }
-    }
+  const scooterProduct = {
+    model: 'Model X1',
+    priceId: scooterPriceId,
+    // saleType: 'rental',
   }
+
+  const accessoryProduct = {
+    name: 'Halmet Black',
+    priceId: accessoryPriceId,
+  }
+
+  // const largeData = 'A'.repeat(1000000)
 
   useEffect(() => {
     console.log('TestingModule: ', process.env.API_URL)
     setIndex(Math.floor(Math.random() * countries.length))
+  })
 
-    handleCreatePrice(scooterPrice, true, signal)
-    handleCreatePrice(accessoryPrice, true, signal)
-
+  useEffect(() => {
     const getPriceByType = async (): Promise<void> => {
       const [scooterResponse, accessoryResponse] = await Promise.all([
         apiEndpointCall(
@@ -199,10 +179,57 @@ export const TestingModule = () => {
     }
     getPriceByType()
 
+    const checkPriceByName = async (): Promise<void> => {
+      apiEndpointCall(
+        'post',
+        'price/check',
+        { priceName: scooterPrice.name },
+        true,
+        signal
+      ).catch((error) => {
+        if (error?.error === 'Conflict') {
+          setScooterConflictPriceId(true)
+        }
+      })
+      apiEndpointCall(
+        'post',
+        'price/check',
+        { priceName: accessoryPrice.name },
+        true,
+        signal
+      ).catch((error) => {
+        if (error?.error === 'Conflict') {
+          setAccessoryConflictPriceId(true)
+        }
+      })
+    }
+    checkPriceByName()
+
     return () => {
       abortController.abort()
     }
-  }, [])
+  }, [scooterPriceId, accessoryPriceId])
+
+  const handleCreatePrice = async (
+    price: IPrice,
+    firstLoad?: boolean,
+    signal?: any
+  ): Promise<string | void> => {
+    try {
+      const responseProductPrice = await apiEndpointCall(
+        'post',
+        'price/create',
+        price,
+        firstLoad,
+        signal
+      )
+      if (price.productType === 'scooter') {
+        setScooterPriceId(responseProductPrice?.data?.id)
+      } else {
+        setAccessoryPriceId(responseProductPrice?.data?.id)
+      }
+    } catch {}
+  }
 
   // useEffect(() => {
   //   currentUser && dispatch(fetchFileData())
@@ -310,7 +337,7 @@ export const TestingModule = () => {
               className="grey_button"
               style={{
                 opacity: scooterConflictPriceId ? 0.2 : 1,
-                backgroundColor: scooterConflictPriceId ? '#ff6376' : '#b2b2b2',
+                backgroundColor: scooterConflictPriceId ? '#ff6376' : '#59b894',
               }}
               onClick={() => handleCreatePrice(scooterPrice)}
             >
@@ -321,14 +348,10 @@ export const TestingModule = () => {
               className="grey_button green"
               style={{
                 opacity: scooterPriceId ? 1 : 0.2,
-                // backgroundColor: scooterConflictProduct ? '#ff6376' : '#b2b2b2',
+                backgroundColor: scooterPriceId ? '#59b894' : '#ff6376',
               }}
               onClick={() =>
-                apiEndpointCall('post', 'scooter/create', {
-                  model: 'Model X2',
-                  priceId: scooterPriceId,
-                  // saleType: 'rental',
-                })
+                apiEndpointCall('post', 'scooter/create', scooterProduct)
               }
             >
               CREATE SCOOTER
@@ -342,7 +365,7 @@ export const TestingModule = () => {
                 opacity: accessoryConflictPriceId ? 0.2 : 1,
                 backgroundColor: accessoryConflictPriceId
                   ? '#ff6376'
-                  : '#b2b2b2',
+                  : '#59b894',
               }}
               onClick={() => handleCreatePrice(accessoryPrice)}
             >
@@ -353,13 +376,10 @@ export const TestingModule = () => {
               className="grey_button green"
               style={{
                 opacity: accessoryPriceId ? 1 : 0.2,
-                // backgroundColor: accessoryConflictProduct ? '#ff6376' : '#b2b2b2',
+                backgroundColor: accessoryPriceId ? '#59b894' : '#ff6376',
               }}
               onClick={() =>
-                apiEndpointCall('post', 'accessory/create', {
-                  name: 'Halmet White',
-                  priceId: accessoryPriceId,
-                })
+                apiEndpointCall('post', 'accessory/create', accessoryProduct)
               }
             >
               CREATE ACCESSORY

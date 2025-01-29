@@ -20,15 +20,7 @@ export class PriceService {
     createPriceDTO: CreatePriceDto,
   ): Promise<Price> {
     try {
-      const existingPriceName = await this.priceRepository.findOne({
-        where: { name: createPriceDTO.name },
-      });
-      if (existingPriceName) {
-        throw new ConflictException(
-          existingPriceName.name + msg.PRICE_NAME_ALREADY_EXIST,
-        );
-      }
-
+      await this.checkPriceByName(createPriceDTO.name);
       return await this.priceRepository.save(createPriceDTO);
     } catch (error: any) {
       nextError(error);
@@ -63,6 +55,22 @@ export class PriceService {
       }
 
       return priceByType.id;
+    } catch (error: any) {
+      nextError(error);
+    }
+  }
+
+  public async checkPriceByName(priceName: string): Promise<void> {
+    try {
+      const existingPriceName = await this.priceRepository.findOne({
+        where: { name: priceName },
+      });
+
+      if (existingPriceName) {
+        throw new ConflictException(
+          existingPriceName.name + msg.PRICE_NAME_ALREADY_EXIST,
+        );
+      }
     } catch (error: any) {
       nextError(error);
     }
