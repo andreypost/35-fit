@@ -117,7 +117,7 @@ export const TestingModule = () => {
   ]
 
   const scooterPrice = {
-    name: 'Scooter Autunm Sale 2025',
+    name: 'Scooter Autunm Sale 2021',
     amount: 799,
     discount: 15,
     taxRate: 5,
@@ -126,7 +126,7 @@ export const TestingModule = () => {
   }
 
   const accessoryPrice = {
-    name: 'Winter Offer 2025',
+    name: 'Winter Offer 2021',
     amount: 99,
     discount: 15,
     taxRate: 5,
@@ -150,34 +150,6 @@ export const TestingModule = () => {
   useEffect(() => {
     console.log('TestingModule: ', process.env.API_URL)
     setIndex(Math.floor(Math.random() * countries.length))
-  })
-
-  useEffect(() => {
-    const getPriceByType = async (): Promise<void> => {
-      const [scooterResponse, accessoryResponse] = await Promise.all([
-        apiEndpointCall(
-          'post',
-          'price/price-by-type',
-          {
-            productType: 'scooter',
-          },
-          true,
-          signal
-        ),
-        apiEndpointCall(
-          'post',
-          'price/price-by-type',
-          {
-            productType: 'accessory',
-          },
-          true,
-          signal
-        ),
-      ])
-      setScooterPriceId(scooterResponse?.data)
-      setAccessoryPriceId(accessoryResponse?.data)
-    }
-    getPriceByType()
 
     const checkPriceByName = async (): Promise<void> => {
       apiEndpointCall(
@@ -205,10 +177,34 @@ export const TestingModule = () => {
     }
     checkPriceByName()
 
-    return () => {
-      abortController.abort()
+    const getProductPriceByType = async (): Promise<void> => {
+      const [scooterResponse, accessoryResponse] = await Promise.all([
+        apiEndpointCall(
+          'post',
+          'price/price-by-type',
+          {
+            productType: 'scooter',
+          },
+          true,
+          signal
+        ),
+        apiEndpointCall(
+          'post',
+          'price/price-by-type',
+          {
+            productType: 'accessory',
+          },
+          true,
+          signal
+        ),
+      ])
+      setScooterPriceId(scooterResponse?.data)
+      setAccessoryPriceId(accessoryResponse?.data)
     }
-  }, [scooterPriceId, accessoryPriceId])
+    getProductPriceByType()
+
+    return () => abortController.abort()
+  }, [])
 
   const handleCreatePrice = async (
     price: IPrice,
@@ -225,8 +221,10 @@ export const TestingModule = () => {
       )
       if (price.productType === 'scooter') {
         setScooterPriceId(responseProductPrice?.data?.id)
+        setScooterConflictPriceId(true)
       } else {
         setAccessoryPriceId(responseProductPrice?.data?.id)
+        setAccessoryConflictPriceId(true)
       }
     } catch {}
   }
