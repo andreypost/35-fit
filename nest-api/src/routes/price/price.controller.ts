@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { PriceService } from './price.service';
 import { Public } from '../../auth/public';
 import { CreatePriceDto } from './dto/create.price.dto';
@@ -17,16 +17,16 @@ export class PriceController {
   }
 
   @Public()
-  @Post('price-by-type')
+  @Get('price-by-type')
   async getPriceByType(
-    @Body() { productType }: { productType: string },
+    @Query('productType') productType: string,
   ): Promise<string> {
     return this.priceService.getPriceByType(productType);
   }
 
   @Public()
-  @Post('check')
-  async checkPriceByName(@Body() { priceName }: { priceName: string }) {
+  @Get('check')
+  async checkPriceByName(@Query('priceName') priceName: string) {
     return this.priceService.checkPriceByName(priceName);
   }
 }

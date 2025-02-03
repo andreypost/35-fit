@@ -47,7 +47,6 @@ export const validateAuthToken = createAsyncThunk<
     const response = await axios.get(`${process.env.API_URL}/user/validate`, {
       withCredentials: true,
     })
-    console.log('validateAuthToken: ', response)
     !firstLoad &&
       dispatch(messageModal(response?.data?.message || 'Login successful.'))
     return response.data

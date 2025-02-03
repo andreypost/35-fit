@@ -4,7 +4,7 @@ import { errorModalMessage } from './errorModalMessage'
 export const apiEndpointCall = async (
   method: 'get' | 'post' | 'put' | 'delete',
   route: string,
-  body: any = null,
+  body?: any,
   firstLoad: boolean = false,
   signal?: AbortSignal
 ): Promise<any> => {

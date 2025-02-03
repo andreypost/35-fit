@@ -17,7 +17,7 @@ import { User } from '../../entities/user';
 import { CreateUserDto, LoginUserDto } from './dto/create.user.dto';
 import { msg } from '../../constants/messages';
 import { nextError } from '../../utils/next.error';
-import { deleteAuthToken, validateAuthToken } from '../../auth/validate.token';
+import { deleteAuthToken, validateAuthToken } from '../../auth/auth.token';
 import { secrets } from '../../constants/secrets';
 
 config();
@@ -58,7 +58,7 @@ export class UserService {
   public async createNewUser(
     createUserDto: CreateUserDto,
     res: Response,
-  ): Promise<any> {
+  ): Promise<{ message: string }> {
     try {
       const existingUser = await this.findUserByEmail(createUserDto.email);
       if (existingUser) {
@@ -79,19 +79,19 @@ export class UserService {
         password: hashedPassword,
       });
 
-      return res.status(HttpStatus.OK).json({
+      return {
         message: msg.USER_CREATED_SUCCESSFULLY,
-      });
+      };
     } catch (error: any) {
       await deleteAuthToken(res);
       nextError(error);
     }
   }
 
-  public async validateLoginUser(
+  public async loginUser(
     { email, password, keepLoggedIn }: LoginUserDto,
     res: Response,
-  ): Promise<any> {
+  ): Promise<User> {
     try {
       const user = await this.findUserByEmail(email);
       if (!user) {
@@ -105,7 +105,26 @@ export class UserService {
 
       await this.setAuthToken(email, user.id, res, keepLoggedIn);
 
-      return res.status(HttpStatus.OK).json(user);
+      return user;
+    } catch (error: any) {
+      nextError(error);
+    }
+  }
+
+  public async validateUserByAuthToken(
+    req: Request,
+    res: Response,
+  ): Promise<User> {
+    try {
+      const { authToken } = req?.cookies;
+      const email = await validateAuthToken(authToken, res);
+
+      const user = await this.findUserByEmail(email);
+      if (!user) {
+        await deleteAuthToken(res);
+        throw new NotFoundException(msg.USER_NOT_FOUND);
+      }
+      return user;
     } catch (error: any) {
       nextError(error);
     }
@@ -119,47 +138,27 @@ export class UserService {
     }
   }
 
-  public async validateUserByAuthToken(
-    req: Request,
-    res: Response,
-  ): Promise<any> {
-    try {
-      const { authToken } = req?.cookies;
-      const email = await validateAuthToken(authToken, res);
-
-      const user = await this.findUserByEmail(email);
-      if (!user) {
-        await deleteAuthToken(res);
-        throw new NotFoundException(msg.USER_NOT_FOUND);
-      }
-      return res.status(HttpStatus.OK).json(user);
-    } catch (error: any) {
-      nextError(error);
-    }
-  }
-
   public async logoutUser(
     deleteAccount: boolean,
     email: string,
     res: Response,
-  ): Promise<any> {
+  ): Promise<{ message: string }> {
     try {
       let repoResponse = null;
       if (deleteAccount) {
         repoResponse = await this.userRepository.delete({ email });
         if (!repoResponse?.affected) {
-          return res.status(HttpStatus.NOT_FOUND).json({
+          return {
             message: msg.USER_ALREADY_DELETED_OR_DOES_NOT_EXIST,
-          });
+          };
         }
       }
       await deleteAuthToken(res);
-      return res.status(HttpStatus.OK).json({
+      return {
         message: repoResponse?.affected
           ? msg.USER_DELETED_SUCCESSFULLY
           : msg.LOGGED_OUT_SUCCESSFUL,
-        success: true,
-      });
+      };
     } catch (error: any) {
       nextError(error);
     }

@@ -153,9 +153,9 @@ export const TestingModule = () => {
 
     const checkPriceByName = async (): Promise<void> => {
       apiEndpointCall(
-        'post',
-        'price/check',
-        { priceName: scooterPrice.name },
+        'get',
+        `price/check?priceName=${scooterPrice.name}`,
+        {},
         true,
         signal
       ).catch((error) => {
@@ -164,9 +164,9 @@ export const TestingModule = () => {
         }
       })
       apiEndpointCall(
-        'post',
-        'price/check',
-        { priceName: accessoryPrice.name },
+        'get',
+        `price/check?priceName=${accessoryPrice.name}`,
+        {},
         true,
         signal
       ).catch((error) => {
@@ -180,20 +180,16 @@ export const TestingModule = () => {
     const getProductPriceByType = async (): Promise<void> => {
       const [scooterResponse, accessoryResponse] = await Promise.all([
         apiEndpointCall(
-          'post',
-          'price/price-by-type',
-          {
-            productType: 'scooter',
-          },
+          'get',
+          'price/price-by-type?productType=scooter',
+          {},
           true,
           signal
         ),
         apiEndpointCall(
-          'post',
-          'price/price-by-type',
-          {
-            productType: 'accessory',
-          },
+          'get',
+          'price/price-by-type?productType=accessory',
+          {},
           true,
           signal
         ),
