@@ -9,6 +9,14 @@ export class PriceController {
   constructor(private readonly priceService: PriceService) {}
 
   @Public()
+  @Get('check-set')
+  async checkSetPriceByName(
+    @Query('priceName') priceName: string,
+  ): Promise<string> {
+    return this.priceService.checkSetPriceByName(priceName, true);
+  }
+
+  @Public()
   @Post('create')
   async createProductPrice(
     @Body() createPriceDto: CreatePriceDto,
@@ -22,11 +30,5 @@ export class PriceController {
     @Query('productType') productType: string,
   ): Promise<string> {
     return this.priceService.getPriceByType(productType);
-  }
-
-  @Public()
-  @Get('check')
-  async checkPriceByName(@Query('priceName') priceName: string) {
-    return this.priceService.checkPriceByName(priceName);
   }
 }

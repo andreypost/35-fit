@@ -102,6 +102,10 @@ export const TestingModule = () => {
   const [scooterConflictPriceId, setScooterConflictPriceId] = useState(false)
   const [accessoryConflictPriceId, setAccessoryConflictPriceId] =
     useState(false)
+  const [scooterConflictProductId, setScooterConflictProductId] =
+    useState(false)
+  const [accessoryConflictProductId, setAccessoryConflictProductId] =
+    useState(false)
 
   const countries = [
     'Chile',
@@ -117,7 +121,7 @@ export const TestingModule = () => {
   ]
 
   const scooterPrice = {
-    name: 'Scooter Autunm Sale 2021',
+    name: 'Scooter Autunm Sale 2023',
     amount: 799,
     discount: 15,
     taxRate: 5,
@@ -135,7 +139,7 @@ export const TestingModule = () => {
   }
 
   const scooterProduct = {
-    model: 'Model X1',
+    model: 'Model X2',
     priceId: scooterPriceId,
     // saleType: 'rental',
   }
@@ -151,31 +155,33 @@ export const TestingModule = () => {
     console.log('TestingModule: ', process.env.API_URL)
     setIndex(Math.floor(Math.random() * countries.length))
 
-    const checkPriceByName = async (): Promise<void> => {
+    const checkSetPriceByName = async (): Promise<void> => {
       apiEndpointCall(
         'get',
-        `price/check?priceName=${scooterPrice.name}`,
+        `price/check-set?priceName=${scooterPrice.name}`,
         {},
         true,
         signal
-      ).catch((error) => {
-        if (error?.error === 'Conflict') {
+      ).then((res) => {
+        if (res.data) {
+          setScooterPriceId(res.data)
           setScooterConflictPriceId(true)
         }
       })
       apiEndpointCall(
         'get',
-        `price/check?priceName=${accessoryPrice.name}`,
+        `price/check-set?priceName=${accessoryPrice.name}`,
         {},
         true,
         signal
-      ).catch((error) => {
-        if (error?.error === 'Conflict') {
+      ).then((res) => {
+        if (res.data) {
+          setAccessoryPriceId(res.data)
           setAccessoryConflictPriceId(true)
         }
       })
     }
-    checkPriceByName()
+    checkSetPriceByName()
 
     const getProductPriceByType = async (): Promise<void> => {
       const [scooterResponse, accessoryResponse] = await Promise.all([
@@ -197,10 +203,28 @@ export const TestingModule = () => {
       setScooterPriceId(scooterResponse?.data)
       setAccessoryPriceId(accessoryResponse?.data)
     }
-    getProductPriceByType()
+    // getProductPriceByType()
 
     return () => abortController.abort()
   }, [])
+
+  useEffect(() => {
+    if (scooterPriceId) {
+      console.log('scooterPriceId: ', scooterProduct)
+      apiEndpointCall(
+        'post',
+        'scooter/check',
+        scooterProduct,
+        true,
+        signal
+      ).catch((error) => {
+        // if (error?.error === 'Conflict') {
+        console.log('setScooterConflictProductId :', error)
+        setScooterConflictProductId(true)
+        // }
+      })
+    }
+  }, [scooterPriceId, accessoryPriceId])
 
   const handleCreatePrice = async (
     price: IPrice,
@@ -341,8 +365,11 @@ export const TestingModule = () => {
               type="button"
               className="grey_button green"
               style={{
-                opacity: scooterPriceId ? 1 : 0.2,
-                backgroundColor: scooterPriceId ? '#59b894' : '#ff6376',
+                opacity: scooterPriceId && !scooterConflictProductId ? 1 : 0.2,
+                backgroundColor:
+                  scooterPriceId && !scooterConflictProductId
+                    ? '#59b894'
+                    : '#ff6376',
               }}
               onClick={() =>
                 apiEndpointCall('post', 'scooter/create', scooterProduct)

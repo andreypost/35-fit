@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Price } from '../../entities/price';
 import { Scooter } from '../../entities/scooter';
 import { PriceService } from '../price/price.service';
 import { CreateScooterDto } from './dto/create.scooter.dto';
@@ -19,9 +20,9 @@ export class ScooterService {
     private readonly priceService: PriceService,
   ) {}
 
-  public async createScooter(
+  public async checkExistingScooter(
     createScooterDto: CreateScooterDto,
-  ): Promise<Scooter> {
+  ): Promise<Price> {
     try {
       const { model, priceId } = createScooterDto;
       const price = await this.priceService.getPriceById(priceId);
@@ -44,6 +45,17 @@ export class ScooterService {
           `${model}, ${existingScooter.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
         );
       }
+      return price;
+    } catch (error: any) {
+      nextError(error);
+    }
+  }
+
+  public async createScooter(
+    createScooterDto: CreateScooterDto,
+  ): Promise<Scooter> {
+    try {
+      const price = await this.checkExistingScooter(createScooterDto);
 
       return await this.scooterRepository.save({
         ...createScooterDto,

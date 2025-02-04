@@ -16,11 +16,35 @@ export class PriceService {
     @InjectRepository(Price)
     private priceRepository: Repository<Price>,
   ) {}
+
+  public async checkSetPriceByName(
+    priceName: string,
+    returnPrice: boolean,
+  ): Promise<string> {
+    try {
+      const existingPrice = await this.priceRepository.findOne({
+        where: { name: priceName },
+      });
+
+      if (existingPrice) {
+        if (!returnPrice) {
+          throw new ConflictException(
+            existingPrice.name + msg.PRICE_NAME_ALREADY_EXIST,
+          );
+        } else if (returnPrice) {
+          return existingPrice?.id;
+        }
+      }
+    } catch (error: any) {
+      nextError(error);
+    }
+  }
+
   public async createProductPrice(
     createPriceDTO: CreatePriceDto,
   ): Promise<Price> {
     try {
-      await this.checkPriceByName(createPriceDTO.name);
+      await this.checkSetPriceByName(createPriceDTO.name, false);
       return await this.priceRepository.save(createPriceDTO);
     } catch (error: any) {
       nextError(error);
@@ -55,22 +79,6 @@ export class PriceService {
       }
 
       return priceByType.id;
-    } catch (error: any) {
-      nextError(error);
-    }
-  }
-
-  public async checkPriceByName(priceName: string): Promise<void> {
-    try {
-      const existingPriceName = await this.priceRepository.findOne({
-        where: { name: priceName },
-      });
-
-      if (existingPriceName) {
-        throw new ConflictException(
-          existingPriceName.name + msg.PRICE_NAME_ALREADY_EXIST,
-        );
-      }
     } catch (error: any) {
       nextError(error);
     }
