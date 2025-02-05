@@ -72,7 +72,7 @@ const AppRouter = () => {
 
   useEffect(() => {
     if (!currentUser && !firebaseLoading) {
-      dispatch(validateAuthToken({ firstLoad: true })) // this triggers `/user/validate` on start load/reload pages to set currentUser from database
+      dispatch(validateAuthToken()) // triggers `/user/validate` on first load/reload pages setting currentUser from database
     }
   }, [currentUser, firebaseLoading, dispatch])
 

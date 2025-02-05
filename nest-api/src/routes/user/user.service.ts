@@ -58,7 +58,7 @@ export class UserService {
   public async createNewUser(
     createUserDto: CreateUserDto,
     res: Response,
-  ): Promise<{ message: string }> {
+  ): Promise<User> {
     try {
       const existingUser = await this.findUserByEmail(createUserDto.email);
       if (existingUser) {
@@ -74,14 +74,10 @@ export class UserService {
 
       await this.setAuthToken(createUserDto.email, hashedPassword, res);
 
-      await this.userRepository.save({
+      return await this.userRepository.save({
         ...createUserDto,
         password: hashedPassword,
       });
-
-      return {
-        message: msg.USER_CREATED_SUCCESSFULLY,
-      };
     } catch (error: any) {
       await deleteAuthToken(res);
       nextError(error);
@@ -117,6 +113,9 @@ export class UserService {
   ): Promise<User> {
     try {
       const { authToken } = req?.cookies;
+
+      if (!authToken) return;
+
       const email = await validateAuthToken(authToken, res);
 
       const user = await this.findUserByEmail(email);

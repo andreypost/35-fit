@@ -32,8 +32,18 @@ export const LOGIN_USER = gql`
     $keepLoggedIn: Boolean!
   ) {
     loginUser(email: $email, password: $password, keepLoggedIn: $keepLoggedIn) {
-      message
-      success
+      id
+      name
+      surname
+      gender
+      age
+      country
+      city
+      email
+      password
+      phone
+      emergencyName
+      emergencyPhone
     }
   }
 `

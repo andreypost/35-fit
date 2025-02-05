@@ -29,7 +29,7 @@ export class PriceService {
       if (existingPrice) {
         if (!returnPrice) {
           throw new ConflictException(
-            existingPrice.name + msg.PRICE_NAME_ALREADY_EXIST,
+            `${existingPrice.name} ${msg.PRICE_NAME_ALREADY_EXIST}`,
           );
         } else if (returnPrice) {
           return existingPrice?.id;

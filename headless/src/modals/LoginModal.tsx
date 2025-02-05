@@ -15,8 +15,8 @@ import { CrossRedSVG } from 'img/icons'
 import { useMutation } from '@apollo/client'
 import { LOGIN_USER } from 'queries'
 import {
+  addNewDatabaseUser,
   loginUserFromDatabase,
-  validateAuthToken,
 } from 'slices/databaseUser.slice'
 import { dev } from 'config'
 import { AppContext } from '../AppRouter'
@@ -218,10 +218,11 @@ export const LoginModal = () => {
     }
     dispatch(loginUserFromDatabase(loginData))
     // try {
-    //   await loginUser({
+    //   const userData = await loginUser({
     //     variables: loginData,
     //   })
-    //   dispatch(validateAuthToken({ firstLoad: false }))
+    //   dispatch(messageModal('Login successful.'))
+    //   dispatch(addNewDatabaseUser(userData.data.loginUser))
     // } catch (error: any) {
     //   console.error(error)
     // }

@@ -16,7 +16,7 @@ export class UserController {
   async createNewUser(
     @Body() createUserDto: CreateUserDto,
     @HttpResponse() res: Response,
-  ): Promise<{ message: string }> {
+  ): Promise<User> {
     return await this.userService.createNewUser(createUserDto, res);
   }
 

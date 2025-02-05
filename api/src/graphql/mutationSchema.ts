@@ -3,17 +3,29 @@ import {
   GraphQLString,
   GraphQLError,
   GraphQLBoolean,
+  GraphQLInt,
 } from "graphql";
 import { userRepository } from "../config/database";
 import bcrypt from "bcrypt";
 import { setAuthToken } from "../auth/jsonWebToken";
 import { msg } from "../constants/messages";
+import { User } from "../entities/User";
 
 const LoginType = new GraphQLObjectType({
   name: "LoginResponse",
   fields: {
-    message: { type: GraphQLString },
-    success: { type: GraphQLBoolean },
+    id: { type: GraphQLString },
+    name: { type: GraphQLString },
+    surname: { type: GraphQLString },
+    gender: { type: GraphQLString },
+    age: { type: GraphQLInt },
+    country: { type: GraphQLString },
+    city: { type: GraphQLString },
+    email: { type: GraphQLString },
+    password: { type: GraphQLString },
+    phone: { type: GraphQLString },
+    emergencyName: { type: GraphQLString },
+    emergencyPhone: { type: GraphQLString },
   },
 });
 
@@ -41,7 +53,11 @@ export const MutationSchema = new GraphQLObjectType({
         password: { type: GraphQLString },
         keepLoggedIn: { type: GraphQLBoolean },
       },
-      resolve: async (parent, { email, password, keepLoggedIn }, { res }) => {
+      resolve: async (
+        parent,
+        { email, password, keepLoggedIn },
+        { res }
+      ): Promise<User> => {
         const errors = await validateLoginInput(email, password);
 
         if (errors.length > 0) {
@@ -55,7 +71,6 @@ export const MutationSchema = new GraphQLObjectType({
 
         const user = await userRepository.findOne({
           where: { email },
-          select: ["id", "name", "email", "password"],
         });
 
         if (!user) {
@@ -79,7 +94,7 @@ export const MutationSchema = new GraphQLObjectType({
 
         await setAuthToken(user.id, user.email, res, keepLoggedIn);
 
-        return { message: msg.LOGIN_SUCCESSFUL, success: true };
+        return user;
       },
     },
   },

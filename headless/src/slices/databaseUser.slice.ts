@@ -37,24 +37,19 @@ export const loginUserFromDatabase = createAsyncThunk<
   }
 })
 
-export const validateAuthToken = createAsyncThunk<
-  IAuth,
-  { firstLoad: boolean },
-  // { firstLoad: boolean, message: 'Login successful.' },
-  { dispatch: AppDispatch }
->('databaseUser/validateAuthToken', async ({ firstLoad }, { dispatch }) => {
-  try {
-    const response = await axios.get(`${process.env.API_URL}/user/validate`, {
-      withCredentials: true,
-    })
-    !firstLoad &&
-      dispatch(messageModal(response?.data?.message || 'Login successful.'))
-    return response.data
-  } catch (error: any) {
-    !firstLoad && errorModalMessage(error)
-    throw error
+export const validateAuthToken = createAsyncThunk<IAuth>(
+  'databaseUser/validateAuthToken',
+  async () => {
+    try {
+      const { data } = await axios.get(`${process.env.API_URL}/user/validate`, {
+        withCredentials: true,
+      })
+      return data
+    } catch (error: any) {
+      throw error
+    }
   }
-})
+)
 
 export const logoutUserWithAuthToken = createAsyncThunk<
   void,
@@ -85,10 +80,9 @@ const databaseUserSlice = createSlice({
   name: 'databaseUser',
   initialState,
   reducers: {
-    // logoutDatabaseUser(state) {
-    //   state.databaseUser = null
-    //   state.databaseUserError = null
-    // },
+    addNewDatabaseUser(state, action) {
+      state.databaseUser = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -135,6 +129,6 @@ const databaseUserSlice = createSlice({
 })
 
 export const setDatabaseUser = (state: RootState) => state.databaseUser
-// export const { logoutDatabaseUser } = databaseUserSlice.actions
+export const { addNewDatabaseUser } = databaseUserSlice.actions
 
 export default databaseUserSlice.reducer

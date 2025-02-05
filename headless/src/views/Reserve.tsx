@@ -7,10 +7,7 @@ import { IAuth, IUser } from 'types/interface'
 import { PercentReserveSVG } from 'img/icons'
 import { TestingModule } from 'components/TestingModule'
 import { useAppDispatch } from 'utils/hooks'
-import {
-  logoutUserWithAuthToken,
-  validateAuthToken,
-} from 'slices/databaseUser.slice'
+import { addNewDatabaseUser } from 'slices/databaseUser.slice'
 import { messageModal } from 'slices/modal.slice'
 import { errorModalMessage } from 'utils/errorModalMessage'
 import { dev } from 'config'
@@ -246,14 +243,13 @@ const Reserve = () => {
           }, 1500)
         })
       } else {
-        const createNewUser = await axios.post(
+        const newUser = await axios.post(
           `${process.env.API_URL}/user/create-new-user`,
           userData,
           { withCredentials: true }
         )
+        dispatch(addNewDatabaseUser(newUser.data))
         dispatch(messageModal(t('messages.your_account_was_created')))
-        dispatch(validateAuthToken({ firstLoad: true }))
-        console.log('user/create-new-user: ', createNewUser)
       }
     } catch (error: any) {
       errorModalMessage(error)

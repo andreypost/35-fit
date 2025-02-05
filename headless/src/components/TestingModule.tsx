@@ -10,7 +10,8 @@ import { apiEndpointCall } from 'utils/endpointApiCall'
 import { AppContext } from '../AppRouter'
 
 const Div = styled.div`
-  #testingForm {
+  #orderBox,
+  #streamFileDataForm {
     margin-left: auto;
     margin-right: auto;
     input[type='email'],
@@ -152,7 +153,7 @@ export const TestingModule = () => {
   // const largeData = 'A'.repeat(1000000)
 
   useEffect(() => {
-    console.log('TestingModule: ', process.env.API_URL)
+    // console.log('TestingModule: ', process.env.API_URL)
     setIndex(Math.floor(Math.random() * countries.length))
 
     const checkSetPriceByName = async (): Promise<void> => {
@@ -218,7 +219,7 @@ export const TestingModule = () => {
         true,
         signal
       ).catch((error) => {
-        // if (error?.error === 'Conflict') {
+        // if (error?.statusCode === 409) {
         console.log('setScooterConflictProductId :', error)
         setScooterConflictProductId(true)
         // }
@@ -303,7 +304,9 @@ export const TestingModule = () => {
     }
   }, [filteredList]) */
 
-  const handleTesting = async <T extends React.FormEvent<HTMLFormElement>>(
+  const handleStreamFileData = async <
+    T extends React.FormEvent<HTMLFormElement>
+  >(
     e: T
   ): Promise<void> => {
     e.preventDefault()
@@ -347,7 +350,7 @@ export const TestingModule = () => {
           )}
         </ol>
       )} */}
-      <form id="testingForm" className="flex_str_col" onSubmit={handleTesting}>
+      <section id="orderBox" className="flex_str_col">
         <div className="flex_center_around form_button_box wrap">
           <div className="flex_str_col form_button_box">
             <button
@@ -450,9 +453,6 @@ export const TestingModule = () => {
           </div>
         </div>
         <hr />
-        <button type="submit" className="grey_button">
-          Stream File Data
-        </button>
         {/* <ImagesList categoryImages="Coffee" />
         <p
           className="grey_button grey"
@@ -479,6 +479,15 @@ export const TestingModule = () => {
             )}
           </>
         )}
+      </section>
+      <form
+        id="streamFileDataForm"
+        className="flex_str_col margin_b_60_30"
+        onSubmit={handleStreamFileData}
+      >
+        <button type="submit" className="grey_button">
+          Stream File Data
+        </button>
       </form>
     </Div>
   )
