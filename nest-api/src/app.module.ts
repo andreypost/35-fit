@@ -60,10 +60,9 @@ config();
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      // .exclude({ path: 'price/price-by-type', method: RequestMethod.GET })
-      .forRoutes(ScooterController);
+    consumer.apply(LoggerMiddleware);
+    // .exclude({ path: 'price/check', method: RequestMethod.GET })
+    // .forRoutes(ScooterController);
     // .forRoutes('accessory', 'file', 'order', 'price', 'scooter', 'user');
     // .forRoutes({ path: 'price/*', method: RequestMethod.GET });
   }

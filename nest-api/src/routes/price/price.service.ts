@@ -66,7 +66,7 @@ export class PriceService {
     }
   }
 
-  public async getPriceByType(productType: string): Promise<string> {
+  /*   public async getPriceByType(productType: string): Promise<string> {
     try {
       const priceByType = await this.priceRepository.findOne({
         where: { productType },
@@ -82,5 +82,5 @@ export class PriceService {
     } catch (error: any) {
       nextError(error);
     }
-  }
+  } */
 }

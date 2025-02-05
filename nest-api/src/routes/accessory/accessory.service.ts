@@ -6,10 +6,11 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PriceService } from '../price/price.service';
+import { Price } from '../../entities/price';
 import { Accessory } from '../../entities/accessory';
 import { nextError } from '../../utils/next.error';
 import { CreateAccessoryDto } from './dto/create.accessory.dto';
-import { msg } from 'src/constants/messages';
+import { msg } from '../../constants/messages';
 
 @Injectable()
 export class AccessoryService {
@@ -21,7 +22,7 @@ export class AccessoryService {
 
   public async checkExistingAccessory(
     createAccessoryDto: CreateAccessoryDto,
-  ): Promise<Accessory> {
+  ): Promise<Price> {
     try {
       const { name, priceId } = createAccessoryDto;
       const price = await this.priceService.getPriceById(priceId);
@@ -44,8 +45,8 @@ export class AccessoryService {
           `${name}, ${existingAccessory.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
         );
       }
-      // return price;
-      return;
+
+      return price;
     } catch (error: any) {
       nextError(error);
     }
@@ -55,28 +56,7 @@ export class AccessoryService {
     createAccessoryDto: CreateAccessoryDto,
   ): Promise<Accessory> {
     try {
-      const { name, priceId } = createAccessoryDto;
-      const price = await this.priceService.getPriceById(priceId);
-
-      if (price.productType !== 'accessory') {
-        throw new BadRequestException(
-          `${price.productType} ${msg.PRODUCT_TYPE_IS_NOT_APPROPRIATE}`,
-        );
-      }
-
-      const existingAccessory = await this.accessoryRepository.findOne({
-        where: {
-          name,
-          priceId: { id: priceId },
-        },
-      });
-
-      if (existingAccessory) {
-        throw new ConflictException(
-          `${name}, ${existingAccessory.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
-        );
-      }
-      console.log(createAccessoryDto);
+      const price = await this.checkExistingAccessory(createAccessoryDto);
       return await this.accessoryRepository.save({
         ...createAccessoryDto,
         priceId: price,

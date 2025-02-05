@@ -184,30 +184,20 @@ export const TestingModule = () => {
     }
     checkSetPriceByName()
 
-    /*     const getProductPriceByType = async (): Promise<void> => {
-      const [scooterResponse, accessoryResponse] = await Promise.all([
-        apiEndpointCall(
-          'get',
-          'price/price-by-type?productType=scooter',
-          {},
-          true,
-          signal
-        ),
-        apiEndpointCall(
-          'get',
-          'price/price-by-type?productType=accessory',
-          {},
-          true,
-          signal
-        ),
-      ])
-      setScooterPriceId(scooterResponse?.data)
-      setAccessoryPriceId(accessoryResponse?.data)
-    }
-    getProductPriceByType() */
-
     return () => abortController.abort()
   }, [])
+
+  const handleCreatePrice = async (price: IPrice): Promise<string | void> => {
+    apiEndpointCall('post', 'price/create', price).then(({ data }) => {
+      if (data.productType === 'scooter') {
+        setScooterPriceId(data?.id)
+        setScooterConflictPriceId(true)
+      } else {
+        setAccessoryPriceId(data?.id)
+        setAccessoryConflictPriceId(true)
+      }
+    })
+  }
 
   useEffect(() => {
     if (scooterPriceId) {
@@ -224,6 +214,9 @@ export const TestingModule = () => {
         // }
       })
     }
+  }, [scooterPriceId])
+
+  useEffect(() => {
     if (accessoryPriceId) {
       apiEndpointCall(
         'post',
@@ -238,35 +231,19 @@ export const TestingModule = () => {
         // }
       })
     }
-  }, [scooterPriceId, accessoryPriceId])
+  }, [accessoryPriceId])
 
-  const handleCreatePrice = async (price: IPrice): Promise<string | void> => {
-    try {
-      const responseProductPrice = await apiEndpointCall(
-        'post',
-        'price/create',
-        price
-      )
-      if (price.productType === 'scooter') {
-        setScooterPriceId(responseProductPrice?.data?.id)
-        setScooterConflictPriceId(true)
-      } else {
-        setAccessoryPriceId(responseProductPrice?.data?.id)
-        setAccessoryConflictPriceId(true)
-      }
-    } catch {}
-  }
-
-  const handleCreateProduct = async (product: any): Promise<string | void> => {
-    try {
-      if (product?.model) {
-        apiEndpointCall('post', 'scooter/create', product)
+  const handleCreateProduct = async (
+    type: string,
+    product: any
+  ): Promise<string | void> => {
+    apiEndpointCall('post', `${type}/create`, product).then(() => {
+      if (type === 'scooter') {
         setScooterConflictProductId(true)
       } else {
-        apiEndpointCall('post', 'accessory/create', product)
         setAccessoryConflictProductId(true)
       }
-    } catch {}
+    })
   }
 
   // useEffect(() => {
@@ -393,7 +370,7 @@ export const TestingModule = () => {
                     ? '#59b894'
                     : '#ff6376',
               }}
-              onClick={() => handleCreateProduct(scooterProduct)}
+              onClick={() => handleCreateProduct('scooter', scooterProduct)}
             >
               CREATE SCOOTER
             </button>
@@ -423,7 +400,7 @@ export const TestingModule = () => {
                     ? '#59b894'
                     : '#ff6376',
               }}
-              onClick={() => handleCreateProduct(accessoryProduct)}
+              onClick={() => handleCreateProduct('accessory', accessoryProduct)}
             >
               CREATE ACCESSORY
             </button>

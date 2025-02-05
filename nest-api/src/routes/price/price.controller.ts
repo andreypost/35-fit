@@ -24,11 +24,11 @@ export class PriceController {
     return this.priceService.createProductPrice(createPriceDto);
   }
 
-  @Public()
+  /*   @Public()
   @Get('price-by-type')
   async getPriceByType(
     @Query('productType') productType: string,
   ): Promise<string> {
     return this.priceService.getPriceByType(productType);
-  }
+  } */
 }
