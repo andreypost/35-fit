@@ -184,7 +184,7 @@ export const TestingModule = () => {
     }
     checkSetPriceByName()
 
-    const getProductPriceByType = async (): Promise<void> => {
+    /*     const getProductPriceByType = async (): Promise<void> => {
       const [scooterResponse, accessoryResponse] = await Promise.all([
         apiEndpointCall(
           'get',
@@ -204,14 +204,13 @@ export const TestingModule = () => {
       setScooterPriceId(scooterResponse?.data)
       setAccessoryPriceId(accessoryResponse?.data)
     }
-    // getProductPriceByType()
+    getProductPriceByType() */
 
     return () => abortController.abort()
   }, [])
 
   useEffect(() => {
     if (scooterPriceId) {
-      console.log('scooterPriceId: ', scooterProduct)
       apiEndpointCall(
         'post',
         'scooter/check',
@@ -225,20 +224,28 @@ export const TestingModule = () => {
         // }
       })
     }
+    if (accessoryPriceId) {
+      apiEndpointCall(
+        'post',
+        'accessory/check',
+        accessoryProduct,
+        true,
+        signal
+      ).catch((error) => {
+        // if (error?.statusCode === 409) {
+        console.log('setAccessoryConflictProductId :', error)
+        setAccessoryConflictProductId(true)
+        // }
+      })
+    }
   }, [scooterPriceId, accessoryPriceId])
 
-  const handleCreatePrice = async (
-    price: IPrice,
-    firstLoad?: boolean,
-    signal?: any
-  ): Promise<string | void> => {
+  const handleCreatePrice = async (price: IPrice): Promise<string | void> => {
     try {
       const responseProductPrice = await apiEndpointCall(
         'post',
         'price/create',
-        price,
-        firstLoad,
-        signal
+        price
       )
       if (price.productType === 'scooter') {
         setScooterPriceId(responseProductPrice?.data?.id)
@@ -246,6 +253,18 @@ export const TestingModule = () => {
       } else {
         setAccessoryPriceId(responseProductPrice?.data?.id)
         setAccessoryConflictPriceId(true)
+      }
+    } catch {}
+  }
+
+  const handleCreateProduct = async (product: any): Promise<string | void> => {
+    try {
+      if (product?.model) {
+        apiEndpointCall('post', 'scooter/create', product)
+        setScooterConflictProductId(true)
+      } else {
+        apiEndpointCall('post', 'accessory/create', product)
+        setAccessoryConflictProductId(true)
       }
     } catch {}
   }
@@ -374,9 +393,7 @@ export const TestingModule = () => {
                     ? '#59b894'
                     : '#ff6376',
               }}
-              onClick={() =>
-                apiEndpointCall('post', 'scooter/create', scooterProduct)
-              }
+              onClick={() => handleCreateProduct(scooterProduct)}
             >
               CREATE SCOOTER
             </button>
@@ -399,12 +416,14 @@ export const TestingModule = () => {
               type="button"
               className="grey_button green"
               style={{
-                opacity: accessoryPriceId ? 1 : 0.2,
-                backgroundColor: accessoryPriceId ? '#59b894' : '#ff6376',
+                opacity:
+                  accessoryPriceId && !accessoryConflictProductId ? 1 : 0.2,
+                backgroundColor:
+                  accessoryPriceId && !accessoryConflictProductId
+                    ? '#59b894'
+                    : '#ff6376',
               }}
-              onClick={() =>
-                apiEndpointCall('post', 'accessory/create', accessoryProduct)
-              }
+              onClick={() => handleCreateProduct(accessoryProduct)}
             >
               CREATE ACCESSORY
             </button>

@@ -9,7 +9,7 @@ export class CreateAccessoryDto {
   @IsString({ message: 'Accessory Name must be a string' })
   name!: string;
 
-  @IsNotEmpty({ message: 'Scooter Price ID is required' })
-  @IsUUID('4', { message: 'Scooter Price ID must be a valid UUID' })
+  @IsNotEmpty({ message: 'Accessory Price ID is required' })
+  @IsUUID('4', { message: 'Accessory Price ID must be a valid UUID' })
   priceId!: string;
 }

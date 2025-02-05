@@ -8,6 +8,14 @@ import { CreateAccessoryDto } from './dto/create.accessory.dto';
 export class AccessoryController {
   constructor(private readonly accessoryService: AccessoryService) {}
 
+  @Public()
+  @Post('check')
+  async checkExistingScooter(
+    @Body() createAccessoryDto: CreateAccessoryDto,
+  ): Promise<Accessory> {
+    return this.accessoryService.checkExistingAccessory(createAccessoryDto);
+  }
+
   @Post('create')
   @Public()
   async createAccessory(
