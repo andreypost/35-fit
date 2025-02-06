@@ -15,7 +15,7 @@ import { apiEndpointCall } from 'utils/endpointApiCall'
 import { AppContext } from '../AppRouter'
 
 const Main = styled.main`
-  .reserver {
+  .reserve {
     .reserve_article {
       header {
         margin-bottom: 80px;
@@ -75,6 +75,8 @@ const Main = styled.main`
             background-color: transparent !important;
           }
           select {
+            -webkit-appearance: none;
+            appearance: none;
             &:hover {
               cursor: pointer;
             }
@@ -86,11 +88,34 @@ const Main = styled.main`
           input[type='number']::-webkit-outer-spin-button,
           input[type='number']::-webkit-inner-spin-button {
             -webkit-appearance: none;
+            appearance: none;
             margin: 0;
           }
           input[type='number'] {
+            -webkit-appearance: none;
             appearance: none;
             -moz-appearance: textfield;
+          }
+          &.select {
+            &::after {
+              content: '';
+              display: inline-block;
+              width: 12px;
+              height: 10px;
+              margin-left: -10px;
+              mask: url(${require('../img/svgIcons/lang_arrow.svg')}) no-repeat
+                center;
+              -webkit-mask: url(${require('../img/svgIcons/lang_arrow.svg')})
+                no-repeat center;
+              background-color: #59b894;
+              transition: transform 0.2s;
+            }
+          }
+          &:hover {
+            cursor: pointer;
+            &::after {
+              transform: rotate(180deg);
+            }
           }
         }
         .reserve_submit,
@@ -124,14 +149,14 @@ const Main = styled.main`
     }
   }
   @media (max-width: 768px) {
-    .reserver {
+    .reserve {
       .reserve_aside {
         display: none;
       }
     }
   }
   @media (min-width: 769px) {
-    .reserver {
+    .reserve {
       display: grid;
       grid-template-columns: 1fr 2fr;
       column-gap: 40px;
@@ -148,7 +173,7 @@ const Main = styled.main`
     }
   }
   @media (max-width: 1023px) {
-    .reserver {
+    .reserve {
       .reserve_article {
         #authForm {
           .form_box {
@@ -162,7 +187,7 @@ const Main = styled.main`
     }
   }
   @media (min-width: 1024px) {
-    .reserver {
+    .reserve {
       .reserve_article {
         #authForm {
           .form_fields {
@@ -274,7 +299,7 @@ const Reserve = () => {
     <Main data-aos="fade" className="page_view">
       <HeaderBanner className="reserve" title="nav.reservation" />
       {/* <div className="reserve_banner"></div> */}
-      <section className="section reserver">
+      <section className="section reserve">
         <aside className="reserve_aside">
           <PercentReserveSVG />
           <article className="reserve_descript grey">
@@ -327,7 +352,7 @@ const Reserve = () => {
                   </fieldset>
                 </div>
                 <div className="form_fields flex">
-                  <fieldset>
+                  <fieldset className="select">
                     <legend>Gender:</legend>
                     <select
                       name="gender"
@@ -365,7 +390,7 @@ const Reserve = () => {
               </h5>
               <div className="form_box">
                 <div className="form_fields flex">
-                  <fieldset>
+                  <fieldset className="select">
                     <legend>Country:</legend>
                     <select
                       name="country"
@@ -382,7 +407,7 @@ const Reserve = () => {
                       ))}
                     </select>
                   </fieldset>
-                  <fieldset>
+                  <fieldset className="select">
                     <legend>City:</legend>
                     <select
                       name="city"

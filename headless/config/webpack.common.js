@@ -26,7 +26,7 @@ module.exports = ({ netlify }) => {
         modals: path.resolve(__dirname, '../src/modals'),
         img: path.resolve(__dirname, '../src/img'),
         svg: path.resolve(__dirname, '../src/img/svg'),
-        mixins$: path.resolve(__dirname, '../src/styles/variables-mixins.scss'),
+        mixins$: path.resolve(__dirname, '../src/styles/variables.scss'),
         slices: path.resolve(__dirname, '../src/slices'),
         utils: path.resolve(__dirname, '../src/utils'),
         views: path.resolve(__dirname, '../src/views'),

@@ -5,7 +5,7 @@ export const apiEndpointCall = async (
   method: 'get' | 'post' | 'put' | 'delete',
   route: string,
   body?: any,
-  firstLoad: boolean = false,
+  firstLoad?: boolean,
   signal?: AbortSignal
 ): Promise<any> => {
   try {

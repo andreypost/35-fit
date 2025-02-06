@@ -107,6 +107,8 @@ export const TestingModule = () => {
     useState(false)
   const [accessoryConflictProductId, setAccessoryConflictProductId] =
     useState(false)
+  const [scooterPoductId, setScooterPoductId] = useState('')
+  const [accessoryPoductId, setAccessoryPoductId] = useState('')
 
   const countries = [
     'Chile',
@@ -237,10 +239,14 @@ export const TestingModule = () => {
     type: string,
     product: any
   ): Promise<string | void> => {
-    apiEndpointCall('post', `${type}/create`, product).then(() => {
+    apiEndpointCall('post', `${type}/create`, product).then(({ data }) => {
       if (type === 'scooter') {
+        console.log('setScooterPoductId: ', data)
+        setScooterPoductId(data.id)
         setScooterConflictProductId(true)
       } else {
+        console.log('setAccessoryPoductId: ', data)
+        setAccessoryPoductId(data.id)
         setAccessoryConflictProductId(true)
       }
     })
@@ -412,23 +418,23 @@ export const TestingModule = () => {
             <button
               type="button"
               className="grey_button"
+              style={{
+                opacity: scooterPoductId && accessoryPoductId ? 1 : 0.2,
+                backgroundColor:
+                  scooterPoductId && accessoryPoductId ? '#59b894' : '#ff6376',
+              }}
               onClick={() =>
                 apiEndpointCall('post', 'order/create', {
                   status: 'pending',
                   items: [
-                    {
-                      productType: 'scooter',
-                      productId: '366988d3-76fa-4c86-ba37-c27b7387950e',
-                      quantity: 1,
-                    },
-                    {
-                      productType: 'scooter',
-                      productId: 'fceba7b6-e1de-4a10-a1a6-3b07000d0cd9',
-                      quantity: 1,
-                    },
+                    // {
+                    //   productType: 'scooter',
+                    //   productId: scooterPoductId,
+                    //   quantity: 1,
+                    // },
                     {
                       productType: 'accessory',
-                      productId: 'a535a52c-83f1-4821-9e2c-cfa7beedda3d',
+                      productId: accessoryPoductId,
                       quantity: 4,
                     },
                   ],
