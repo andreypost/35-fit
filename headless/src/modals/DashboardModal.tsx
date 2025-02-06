@@ -7,7 +7,6 @@ import { selectDashModalActive, unsetDashModal } from 'slices/modal.slice'
 import { BaseDiv } from './MenuModal'
 import { NavigationLinks } from 'components/NavigationLinks'
 import { profileLinks } from 'utils/routes.constants'
-import { IFirebaseProps } from 'types/interface'
 import { User } from 'components/User'
 import { logoutUserWithAuthToken } from 'slices/databaseUser.slice'
 
@@ -88,7 +87,7 @@ const Div = styled(BaseDiv)`
 `
 
 export const DashboardModal = () => {
-  const { firebaseAuth } = useContext(FirebaseAuthContext)
+  const { user, firebaseAuth } = useContext(FirebaseAuthContext)
   const { t } = useTranslation()
   const modalState = useAppSelector(selectDashModalActive)
   const dispatch = useAppDispatch()
@@ -128,8 +127,8 @@ export const DashboardModal = () => {
             <span
               className="signout grey"
               onClick={() => (
-                firebaseAuth.signOut(),
-                dispatch(logoutUserWithAuthToken({ deleteAccount })),
+                user && firebaseAuth.signOut(),
+                !user && dispatch(logoutUserWithAuthToken({ deleteAccount })),
                 dispatch(unsetDashModal())
               )}
             >
