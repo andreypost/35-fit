@@ -74,6 +74,6 @@ const fileDataSlice = createSlice({
   },
 })
 
-export const setSortedList = (state: RootState) => state.fileData
+export const setSlSortedList = (state: RootState) => state.fileData
 
 export default fileDataSlice.reducer

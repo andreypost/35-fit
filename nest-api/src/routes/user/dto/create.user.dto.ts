@@ -1,4 +1,3 @@
-import { Transform } from 'class-transformer';
 import {
   IsNotEmpty,
   IsEmail,
@@ -7,8 +6,9 @@ import {
   IsUUID,
   IsOptional,
   IsIn,
-  IsPhoneNumber,
+  // IsPhoneNumber,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
 import { PickType } from '@nestjs/mapped-types';
 
 export class CreateUserDto {

@@ -68,10 +68,10 @@ export const logoutUserWithAuthToken = createAsyncThunk<
       )
       dispatch(messageModal(logoutResponse?.data?.message))
     } catch (error: any) {
-      console.error(error?.response?.data)
-      return rejectWithValue(
-        error?.response?.data || { message: 'Logout failed' }
-      )
+      errorModalMessage(error)
+      // return rejectWithValue(
+      //   error?.response?.data || { message: 'Logout failed' }
+      // )
     }
   }
 )

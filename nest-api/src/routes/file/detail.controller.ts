@@ -43,11 +43,10 @@ export class DetailController {
   }
 
   @Get('users/:id')
-  // @Param('id', new ParseUUIDPipe()) id: string,
   async findUserById(
-    @Param() params: { id: string },
+    // @Param('id', ParseUUIDPipe) id: string,
+    @Param('id') id: string,
   ): Promise<CreateUserDetailsDto> {
-    const { id } = params;
     return this.detailService.findUserById(id);
   }
 }

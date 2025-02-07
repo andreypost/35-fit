@@ -4,13 +4,13 @@ import { IGetImageById, IGetImages, IPrice } from 'types/interface'
 import { useQuery } from '@apollo/client'
 import { GET_IMAGES, GET_IMAGE_BY_ID } from 'queries'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
-// import { UserData, fetchFileData, setSortedList } from 'slices/fileData.slice'
+import { UserData, fetchFileData, setSlSortedList } from 'slices/fileData.slice'
 import { apiEndpointCall } from 'utils/endpointApiCall'
-// import axios from 'axios'
+import axios from 'axios'
 import { AppContext } from '../AppRouter'
+import { TestingOrder } from './TestingOrder'
 
 const Div = styled.div`
-  #orderBox,
   #streamFileDataForm {
     margin-left: auto;
     margin-right: auto;
@@ -21,9 +21,6 @@ const Div = styled.div`
         font-weight: 400;
         color: #6e7071;
       }
-    }
-    .form_button_box {
-      row-gap: 30px;
     }
     .grey_button {
       min-width: 220px;
@@ -57,7 +54,7 @@ const Div = styled.div`
   }
 `
 
-const ImagesList = ({ categoryImages }: any) => {
+/* const ImagesList = ({ categoryImages }: any) => {
   const { loading, error, data } = useQuery<IGetImages>(GET_IMAGES, {
     variables: { categoryImages },
     context: { credentials: 'include' },
@@ -76,39 +73,24 @@ const ImagesList = ({ categoryImages }: any) => {
       ))}
     </>
   )
-}
+} */
 
 export const TestingModule = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [index, setIndex] = useState(0)
-  const [selectedImageId, setSelectedImageId] = useState<number>(0)
-  const {
-    loading: imageLoading,
-    error: imageError,
-    data: imageData,
-  } = useQuery<IGetImageById>(GET_IMAGE_BY_ID, {
-    variables: { imageId: selectedImageId },
-    skip: !selectedImageId,
-    context: { credentials: 'include' },
-  })
+  // const [selectedImageId, setSelectedImageId] = useState<number>(0)
+  // const {
+  //   loading: imageLoading,
+  //   error: imageError,
+  //   data: imageData,
+  // } = useQuery<IGetImageById>(GET_IMAGE_BY_ID, {
+  //   variables: { imageId: selectedImageId },
+  //   skip: !selectedImageId,
+  //   context: { credentials: 'include' },
+  // })
   // const dispatch = useAppDispatch()
   // const { slFileSortedList, slFileListLoading, slFileListError } =
-  //   useAppSelector(setSortedList)
+  //   useAppSelector(setSlSortedList)
   // const { currentUser } = useContext(AppContext)
-  const abortController = new AbortController()
-  const { signal } = abortController
-  const [scooterPriceId, setScooterPriceId] = useState('')
-  const [accessoryPriceId, setAccessoryPriceId] = useState('')
-  const [scooterConflictPriceId, setScooterConflictPriceId] = useState(false)
-  const [accessoryConflictPriceId, setAccessoryConflictPriceId] =
-    useState(false)
-  const [scooterConflictProductId, setScooterConflictProductId] =
-    useState(false)
-  const [accessoryConflictProductId, setAccessoryConflictProductId] =
-    useState(false)
-  const [scooterPoductId, setScooterPoductId] = useState('')
-  const [accessoryPoductId, setAccessoryPoductId] = useState('')
 
   const countries = [
     'Chile',
@@ -123,140 +105,18 @@ export const TestingModule = () => {
     'South Korea',
   ]
 
-  const scooterPrice = {
-    name: 'Scooter Autunm Sale 2023',
-    amount: 799,
-    discount: 15,
-    taxRate: 5,
-    currency: 'USD',
-    productType: 'scooter',
-  }
-
-  const accessoryPrice = {
-    name: 'Winter Offer 2021',
-    amount: 99,
-    discount: 15,
-    taxRate: 5,
-    currency: 'USD',
-    productType: 'accessory',
-  }
-
-  const scooterProduct = {
-    model: 'Model X2',
-    priceId: scooterPriceId,
-    // saleType: 'rental',
-  }
-
-  const accessoryProduct = {
-    name: 'Halmet Black',
-    priceId: accessoryPriceId,
-  }
-
   // const largeData = 'A'.repeat(1000000)
 
   useEffect(() => {
     // console.log('TestingModule: ', process.env.API_URL)
     setIndex(Math.floor(Math.random() * countries.length))
-
-    const checkSetPriceByName = async (): Promise<void> => {
-      apiEndpointCall(
-        'get',
-        `price/check-set?priceName=${scooterPrice.name}`,
-        {},
-        true,
-        signal
-      ).then((res) => {
-        if (res.data) {
-          setScooterPriceId(res.data)
-          setScooterConflictPriceId(true)
-        }
-      })
-      apiEndpointCall(
-        'get',
-        `price/check-set?priceName=${accessoryPrice.name}`,
-        {},
-        true,
-        signal
-      ).then((res) => {
-        if (res.data) {
-          setAccessoryPriceId(res.data)
-          setAccessoryConflictPriceId(true)
-        }
-      })
-    }
-    checkSetPriceByName()
-
-    return () => abortController.abort()
   }, [])
-
-  const handleCreatePrice = async (price: IPrice): Promise<string | void> => {
-    apiEndpointCall('post', 'price/create', price).then(({ data }) => {
-      if (data.productType === 'scooter') {
-        setScooterPriceId(data?.id)
-        setScooterConflictPriceId(true)
-      } else {
-        setAccessoryPriceId(data?.id)
-        setAccessoryConflictPriceId(true)
-      }
-    })
-  }
-
-  useEffect(() => {
-    if (scooterPriceId) {
-      apiEndpointCall(
-        'post',
-        'scooter/check',
-        scooterProduct,
-        true,
-        signal
-      ).catch((error) => {
-        // if (error?.statusCode === 409) {
-        console.log('setScooterConflictProductId :', error)
-        setScooterConflictProductId(true)
-        // }
-      })
-    }
-  }, [scooterPriceId])
-
-  useEffect(() => {
-    if (accessoryPriceId) {
-      apiEndpointCall(
-        'post',
-        'accessory/check',
-        accessoryProduct,
-        true,
-        signal
-      ).catch((error) => {
-        // if (error?.statusCode === 409) {
-        console.log('setAccessoryConflictProductId :', error)
-        setAccessoryConflictProductId(true)
-        // }
-      })
-    }
-  }, [accessoryPriceId])
-
-  const handleCreateProduct = async (
-    type: string,
-    product: any
-  ): Promise<string | void> => {
-    apiEndpointCall('post', `${type}/create`, product).then(({ data }) => {
-      if (type === 'scooter') {
-        console.log('setScooterPoductId: ', data)
-        setScooterPoductId(data.id)
-        setScooterConflictProductId(true)
-      } else {
-        console.log('setAccessoryPoductId: ', data)
-        setAccessoryPoductId(data.id)
-        setAccessoryConflictProductId(true)
-      }
-    })
-  }
 
   // useEffect(() => {
   //   currentUser && dispatch(fetchFileData())
   // }, [currentUser])
 
-  /*   const [fileList, setFileList] = useState<UserData[]>([])
+  /* const [fileList, setFileList] = useState<UserData[]>([])
   const [filteredList, setFilteredList] = useState<UserData[]>([])
   const [sortedList, setSortedList] = useState<UserData[]>([])
   const cach = useRef(null)
@@ -335,6 +195,7 @@ export const TestingModule = () => {
 
   return (
     <Div>
+      <TestingOrder />
       {/* {slFileListError && <p>{slFileListError?.message}</p>}
       {currentUser && slFileSortedList?.length > 0 && (
         <ol>
@@ -352,116 +213,31 @@ export const TestingModule = () => {
           )}
         </ol>
       )} */}
-      <section id="orderBox" className="flex_str_col">
-        <div className="flex_center_around form_button_box wrap">
-          <div className="flex_str_col form_button_box">
-            <button
-              type="button"
-              className="grey_button"
-              style={{
-                opacity: scooterConflictPriceId ? 0.2 : 1,
-                backgroundColor: scooterConflictPriceId ? '#ff6376' : '#59b894',
-              }}
-              onClick={() => handleCreatePrice(scooterPrice)}
-            >
-              SCOOTER PRICE
-            </button>
-            <button
-              type="button"
-              className="grey_button green"
-              style={{
-                opacity: scooterPriceId && !scooterConflictProductId ? 1 : 0.2,
-                backgroundColor:
-                  scooterPriceId && !scooterConflictProductId
-                    ? '#59b894'
-                    : '#ff6376',
-              }}
-              onClick={() => handleCreateProduct('scooter', scooterProduct)}
-            >
-              CREATE SCOOTER
-            </button>
-          </div>
-          <div className="flex_str_col form_button_box">
-            <button
-              type="button"
-              className="grey_button"
-              style={{
-                opacity: accessoryConflictPriceId ? 0.2 : 1,
-                backgroundColor: accessoryConflictPriceId
-                  ? '#ff6376'
-                  : '#59b894',
-              }}
-              onClick={() => handleCreatePrice(accessoryPrice)}
-            >
-              ACCESSORY PRICE
-            </button>
-            <button
-              type="button"
-              className="grey_button green"
-              style={{
-                opacity:
-                  accessoryPriceId && !accessoryConflictProductId ? 1 : 0.2,
-                backgroundColor:
-                  accessoryPriceId && !accessoryConflictProductId
-                    ? '#59b894'
-                    : '#ff6376',
-              }}
-              onClick={() => handleCreateProduct('accessory', accessoryProduct)}
-            >
-              CREATE ACCESSORY
-            </button>
-          </div>
-        </div>
+      {/* {currentUser && sortedList?.length > 0 && (
+        <ol>
+          <p>Users: {sortedList.length}</p>
+          {sortedList.map(
+            ({ name, country, earnings }: UserData, index: any) => (
+              <Fragment key={index}>
+                <li>
+                  Name: {name}, &nbsp; Earnings: {earnings}, &nbsp; Country:
+                  {country}
+                </li>
+                <hr />
+              </Fragment>
+            )
+          )}
+        </ol>
+      )} */}
+      {/* <section id="orderBox" className="flex_str_col">
         <hr />
-        <div className="flex_center_around form_button_box wrap">
-          <div className="flex_str_col">
-            <button
-              type="button"
-              className="grey_button"
-              style={{
-                opacity: scooterPoductId && accessoryPoductId ? 1 : 0.2,
-                backgroundColor:
-                  scooterPoductId && accessoryPoductId ? '#59b894' : '#ff6376',
-              }}
-              onClick={() =>
-                apiEndpointCall('post', 'order/create', {
-                  status: 'pending',
-                  items: [
-                    // {
-                    //   productType: 'scooter',
-                    //   productId: scooterPoductId,
-                    //   quantity: 1,
-                    // },
-                    {
-                      productType: 'accessory',
-                      productId: accessoryPoductId,
-                      quantity: 4,
-                    },
-                  ],
-                })
-              }
-            >
-              MAKE ORDER
-            </button>
-          </div>
-          <div className="flex_str_col">
-            <button
-              type="button"
-              className="grey_button"
-              onClick={() => apiEndpointCall('get', 'order/orders/accessory')}
-            >
-              Get Orders
-            </button>
-          </div>
-        </div>
-        <hr />
-        {/* <ImagesList categoryImages="Coffee" />
+        <ImagesList categoryImages="Coffee" />
         <p
           className="grey_button grey"
           onClick={() => setSelectedImageId(Number(!selectedImageId))}
         >
           Show the image with GraphQl query
-        </p> */}
+        </p>
         {selectedImageId > 0 && (
           <>
             {imageLoading && <p>Loading image details...</p>}
@@ -481,7 +257,7 @@ export const TestingModule = () => {
             )}
           </>
         )}
-      </section>
+      </section> */}
       <form
         id="streamFileDataForm"
         className="flex_str_col margin_b_60_30"

@@ -1,4 +1,11 @@
-import { Controller, Post, Body, Get, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Req,
+  ParseBoolPipe,
+} from '@nestjs/common';
 import { Response, Request } from 'express';
 import { Public } from '../../auth/public';
 import { UserService } from './user.service';
@@ -48,7 +55,7 @@ export class UserController {
 
   @Post('logout')
   async logoutUser(
-    @Body() { deleteAccount }: { deleteAccount: boolean },
+    @Body('deleteAccount', ParseBoolPipe) deleteAccount: boolean,
     @CurrentUserEmail() email: string,
     @HttpResponse() res: Response,
   ): Promise<{ message: string }> {

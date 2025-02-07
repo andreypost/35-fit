@@ -20,7 +20,7 @@ export const apiEndpointCall = async (
     } else {
       result = await axios[method](url, body, config)
     }
-    // console.log(route, result)
+    console.log(route, result)
     return result
   } catch (error: any) {
     if (!firstLoad) {

@@ -113,7 +113,6 @@ export class UserService {
   ): Promise<User> {
     try {
       const { authToken } = req?.cookies;
-
       if (!authToken) return;
 
       const email = await validateAuthToken(authToken, res);

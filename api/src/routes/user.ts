@@ -168,6 +168,8 @@ user.get(
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
       const { authToken } = req?.cookies;
+      if (!authToken) return;
+
       const { email } = await validateAuthToken(authToken, res);
 
       const user = await userRepository.findOne({
