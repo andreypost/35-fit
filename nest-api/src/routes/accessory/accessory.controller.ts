@@ -1,7 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AccessoryService } from './accessory.service';
 import { Public } from '../../auth/public';
-import { Price } from '../../entities/price';
 import { Accessory } from '../../entities/accessory';
 import { CreateAccessoryDto } from './dto/create.accessory.dto';
 
@@ -11,10 +10,13 @@ export class AccessoryController {
 
   @Public()
   @Post('check')
-  async checkExistingScooter(
+  async checkExistingAccessory(
     @Body() createAccessoryDto: CreateAccessoryDto,
-  ): Promise<Price> {
-    return this.accessoryService.checkExistingAccessory(createAccessoryDto);
+  ): Promise<string> {
+    return this.accessoryService.checkExistingAccessory(
+      createAccessoryDto,
+      true,
+    );
   }
 
   @Post('create')

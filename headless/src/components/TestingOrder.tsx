@@ -47,6 +47,7 @@ const Div = styled.div`
 `
 
 export const TestingOrder = () => {
+  const { currentUser } = useContext(AppContext)
   const abortController = new AbortController()
   const { signal } = abortController
   const [scooterPriceId, setScooterPriceId] = useState('')
@@ -100,10 +101,11 @@ export const TestingOrder = () => {
         {},
         true,
         signal
-      ).then((res) => {
-        if (res.data) {
-          setScooterPriceId(res.data)
-          setScooterConflictPriceId(true)
+      ).then(({ data }) => {
+        if (data) {
+          console.log('price/check-set?priceName: ', scooterPriceId)
+          setScooterPriceId(data)
+          // setScooterConflictPriceId(true)
         }
       })
       apiEndpointCall(
@@ -112,10 +114,10 @@ export const TestingOrder = () => {
         {},
         true,
         signal
-      ).then((res) => {
-        if (res.data) {
-          setAccessoryPriceId(res.data)
-          setAccessoryConflictPriceId(true)
+      ).then(({ data }) => {
+        if (data) {
+          setAccessoryPriceId(data)
+          // setAccessoryConflictPriceId(true)
         }
       })
     }
@@ -123,18 +125,6 @@ export const TestingOrder = () => {
 
     return () => abortController.abort()
   }, [])
-
-  const handleCreatePrice = async (price: IPrice): Promise<string | void> => {
-    apiEndpointCall('post', 'price/create', price).then(({ data }) => {
-      if (data.productType === 'scooter') {
-        setScooterPriceId(data?.id)
-        setScooterConflictPriceId(true)
-      } else {
-        setAccessoryPriceId(data?.id)
-        setAccessoryConflictPriceId(true)
-      }
-    })
-  }
 
   useEffect(() => {
     if (scooterPriceId) {
@@ -144,12 +134,17 @@ export const TestingOrder = () => {
         scooterProduct,
         true,
         signal
-      ).catch((error) => {
-        // if (error?.statusCode === 409) {
-        console.log('setScooterConflictProductId :', error)
-        setScooterConflictProductId(true)
-        // }
+      ).then(({ data }) => {
+        console.log('scooter/check: ', data)
+        setScooterPoductId(data)
+        // setScooterConflictProductId(true)
       })
+      // .catch((error) => {
+      //   // if (error?.statusCode === 409) {
+      //   console.log('setScooterConflictProductId :', error)
+      //   setScooterConflictProductId(true)
+      //   // }
+      // })
     }
   }, [scooterPriceId])
 
@@ -161,14 +156,33 @@ export const TestingOrder = () => {
         accessoryProduct,
         true,
         signal
-      ).catch((error) => {
-        // if (error?.statusCode === 409) {
-        console.log('setAccessoryConflictProductId :', error)
-        setAccessoryConflictProductId(true)
-        // }
+      ).then(({ data }) => {
+        setAccessoryPoductId(data)
+        // setAccessoryConflictProductId(true)
       })
+      // .catch((error) => {
+      //   // if (error?.statusCode === 409) {
+      //   console.log('setAccessoryConflictProductId :', error)
+      //   setAccessoryConflictProductId(true)
+      //   // }
+      // })
     }
   }, [accessoryPriceId])
+
+  const handleCreatePrice = async (price: IPrice): Promise<string | void> => {
+    apiEndpointCall('post', 'price/create', price).then(({ data }) => {
+      if (data.productType === 'scooter') {
+        setScooterPriceId(data?.id)
+        console.log('handleCreatePrice ', data)
+        console.log('scooterPriceId ', scooterPriceId)
+        console.log('scooterPoductId ', scooterPoductId)
+        // setScooterConflictPriceId(true)
+      } else {
+        setAccessoryPriceId(data?.id)
+        // setAccessoryConflictPriceId(true)
+      }
+    })
+  }
 
   const handleCreateProduct = async (
     type: string,
@@ -178,7 +192,7 @@ export const TestingOrder = () => {
       if (type === 'scooter') {
         console.log('setScooterPoductId: ', data)
         setScooterPoductId(data.id)
-        setScooterConflictProductId(true)
+        // setScooterConflictProductId(true)
       } else {
         console.log('setAccessoryPoductId: ', data)
         setAccessoryPoductId(data.id)
@@ -196,8 +210,8 @@ export const TestingOrder = () => {
               type="button"
               className="grey_button"
               style={{
-                opacity: scooterConflictPriceId ? 0.2 : 1,
-                backgroundColor: scooterConflictPriceId ? '#ff6376' : '#59b894',
+                opacity: scooterPriceId ? 0.2 : 1,
+                backgroundColor: scooterPriceId ? '#ff6376' : '#59b894',
               }}
               onClick={() => handleCreatePrice(scooterPrice)}
             >
@@ -207,11 +221,13 @@ export const TestingOrder = () => {
               type="button"
               className="grey_button green"
               style={{
-                opacity: scooterPriceId && !scooterConflictProductId ? 1 : 0.2,
-                backgroundColor:
-                  scooterPriceId && !scooterConflictProductId
-                    ? '#59b894'
-                    : '#ff6376',
+                opacity:
+                  scooterPoductId && scooterPriceId
+                    ? 0.2
+                    : scooterPriceId
+                    ? 1
+                    : 0.2,
+                backgroundColor: scooterPriceId ? '#59b894' : '#ff6376',
               }}
               onClick={() => handleCreateProduct('scooter', scooterProduct)}
             >
@@ -223,10 +239,8 @@ export const TestingOrder = () => {
               type="button"
               className="grey_button"
               style={{
-                opacity: accessoryConflictPriceId ? 0.2 : 1,
-                backgroundColor: accessoryConflictPriceId
-                  ? '#ff6376'
-                  : '#59b894',
+                opacity: accessoryPriceId ? 0.2 : 1,
+                backgroundColor: accessoryPriceId ? '#ff6376' : '#59b894',
               }}
               onClick={() => handleCreatePrice(accessoryPrice)}
             >
@@ -236,12 +250,8 @@ export const TestingOrder = () => {
               type="button"
               className="grey_button green"
               style={{
-                opacity:
-                  accessoryPriceId && !accessoryConflictProductId ? 1 : 0.2,
-                backgroundColor:
-                  accessoryPriceId && !accessoryConflictProductId
-                    ? '#59b894'
-                    : '#ff6376',
+                opacity: accessoryPriceId ? 1 : 0.2,
+                backgroundColor: accessoryPriceId ? '#59b894' : '#ff6376',
               }}
               onClick={() => handleCreateProduct('accessory', accessoryProduct)}
             >
@@ -256,19 +266,46 @@ export const TestingOrder = () => {
               type="button"
               className="grey_button"
               style={{
-                opacity: scooterPoductId && accessoryPoductId ? 1 : 0.2,
-                backgroundColor:
-                  scooterPoductId && accessoryPoductId ? '#59b894' : '#ff6376',
+                opacity: !currentUser || !scooterPoductId ? 0.2 : 1,
+                backgroundColor: !currentUser
+                  ? 'skyblue'
+                  : scooterPoductId
+                  ? '#59b894'
+                  : '#ff6376',
               }}
               onClick={() =>
                 apiEndpointCall('post', 'order/create', {
                   status: 'pending',
                   items: [
-                    // {
-                    //   productType: 'scooter',
-                    //   productId: scooterPoductId,
-                    //   quantity: 1,
-                    // },
+                    {
+                      productType: 'scooter',
+                      productId: scooterPoductId,
+                      quantity: 1,
+                    },
+                  ],
+                })
+              }
+            >
+              MAKE SCOOTER ORDER
+            </button>
+          </div>
+
+          <div className="flex_str_col">
+            <button
+              type="button"
+              className="grey_button"
+              style={{
+                opacity: !currentUser || !accessoryPoductId ? 0.2 : 1,
+                backgroundColor: !currentUser
+                  ? 'skyblue'
+                  : accessoryPoductId
+                  ? '#59b894'
+                  : '#ff6376',
+              }}
+              onClick={() =>
+                apiEndpointCall('post', 'order/create', {
+                  status: 'pending',
+                  items: [
                     {
                       productType: 'accessory',
                       productId: accessoryPoductId,
@@ -278,16 +315,37 @@ export const TestingOrder = () => {
                 })
               }
             >
-              MAKE ORDER
+              MAKE ACCESSORY ORDER
+            </button>
+          </div>
+        </div>
+        <hr />
+
+        <div className="flex_center_around form_button_box wrap">
+          <div className="flex_str_col">
+            <button
+              type="button"
+              className="grey_button"
+              style={{
+                opacity: currentUser ? 1 : 0.2,
+                backgroundColor: currentUser ? '#59b894' : 'skyblue',
+              }}
+              onClick={() => apiEndpointCall('get', 'order/orders/scooter')}
+            >
+              Get Scooter Orders
             </button>
           </div>
           <div className="flex_str_col">
             <button
               type="button"
               className="grey_button"
+              style={{
+                opacity: currentUser ? 1 : 0.2,
+                backgroundColor: currentUser ? '#59b894' : 'skyblue',
+              }}
               onClick={() => apiEndpointCall('get', 'order/orders/accessory')}
             >
-              Get Orders
+              Get Accessory Orders
             </button>
           </div>
         </div>

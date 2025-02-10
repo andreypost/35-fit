@@ -22,7 +22,8 @@ export class AccessoryService {
 
   public async checkExistingAccessory(
     createAccessoryDto: CreateAccessoryDto,
-  ): Promise<Price> {
+    returnedProductId: boolean = false,
+  ): Promise<Price | any> {
     try {
       const { name, priceId } = createAccessoryDto;
       const price = await this.priceService.getPriceById(priceId);
@@ -41,9 +42,13 @@ export class AccessoryService {
       });
 
       if (existingAccessory) {
-        throw new ConflictException(
-          `${name}, ${existingAccessory.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
-        );
+        if (returnedProductId) {
+          return existingAccessory.id;
+        } else {
+          throw new ConflictException(
+            `${name}, ${existingAccessory.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
+          );
+        }
       }
 
       return price;

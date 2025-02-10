@@ -22,7 +22,8 @@ export class ScooterService {
 
   public async checkExistingScooter(
     createScooterDto: CreateScooterDto,
-  ): Promise<Price> {
+    returnedProductId: boolean = false,
+  ): Promise<Price | any> {
     try {
       const { model, priceId } = createScooterDto;
       const price = await this.priceService.getPriceById(priceId);
@@ -41,9 +42,13 @@ export class ScooterService {
       });
 
       if (existingScooter) {
-        throw new ConflictException(
-          `${model}, ${existingScooter.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
-        );
+        if (returnedProductId) {
+          return existingScooter.id;
+        } else {
+          throw new ConflictException(
+            `${model}, ${existingScooter.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
+          );
+        }
       }
       return price;
     } catch (error: any) {
