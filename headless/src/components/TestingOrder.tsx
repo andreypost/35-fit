@@ -103,8 +103,19 @@ export const TestingOrder = () => {
         signal
       ).then(({ data }) => {
         if (data) {
-          console.log('price/check-set?priceName: ', scooterPriceId)
+          apiEndpointCall(
+            'post',
+            'scooter/check',
+            { ...scooterProduct, priceId: data },
+            true,
+            signal
+          ).then((res) => {
+            console.log('scooter/check: ', res)
+            setScooterPoductId(data)
+            setScooterConflictProductId(true)
+          })
           setScooterPriceId(data)
+          console.log('price/check-set?priceName: ', data)
           // setScooterConflictPriceId(true)
         }
       })
@@ -126,7 +137,7 @@ export const TestingOrder = () => {
     return () => abortController.abort()
   }, [])
 
-  useEffect(() => {
+  /*   useEffect(() => {
     if (scooterPriceId) {
       apiEndpointCall(
         'post',
@@ -137,7 +148,7 @@ export const TestingOrder = () => {
       ).then(({ data }) => {
         console.log('scooter/check: ', data)
         setScooterPoductId(data)
-        // setScooterConflictProductId(true)
+        setScooterConflictProductId(true)
       })
       // .catch((error) => {
       //   // if (error?.statusCode === 409) {
@@ -146,7 +157,7 @@ export const TestingOrder = () => {
       //   // }
       // })
     }
-  }, [scooterPriceId])
+  }, [scooterPriceId]) */
 
   useEffect(() => {
     if (accessoryPriceId) {
@@ -157,8 +168,9 @@ export const TestingOrder = () => {
         true,
         signal
       ).then(({ data }) => {
+        console.log('accessory/check: ', data)
         setAccessoryPoductId(data)
-        // setAccessoryConflictProductId(true)
+        setAccessoryConflictProductId(true)
       })
       // .catch((error) => {
       //   // if (error?.statusCode === 409) {
@@ -172,12 +184,11 @@ export const TestingOrder = () => {
   const handleCreatePrice = async (price: IPrice): Promise<string | void> => {
     apiEndpointCall('post', 'price/create', price).then(({ data }) => {
       if (data.productType === 'scooter') {
+        console.log('scooterConflictProductId: ', scooterConflictProductId)
         setScooterPriceId(data?.id)
-        console.log('handleCreatePrice ', data)
-        console.log('scooterPriceId ', scooterPriceId)
-        console.log('scooterPoductId ', scooterPoductId)
         // setScooterConflictPriceId(true)
       } else {
+        console.log('accessoryConflictProductId: ', accessoryConflictProductId)
         setAccessoryPriceId(data?.id)
         // setAccessoryConflictPriceId(true)
       }
@@ -192,7 +203,7 @@ export const TestingOrder = () => {
       if (type === 'scooter') {
         console.log('setScooterPoductId: ', data)
         setScooterPoductId(data.id)
-        // setScooterConflictProductId(true)
+        setScooterConflictProductId(true)
       } else {
         console.log('setAccessoryPoductId: ', data)
         setAccessoryPoductId(data.id)
@@ -221,13 +232,11 @@ export const TestingOrder = () => {
               type="button"
               className="grey_button green"
               style={{
-                opacity:
-                  scooterPoductId && scooterPriceId
-                    ? 0.2
-                    : scooterPriceId
-                    ? 1
-                    : 0.2,
-                backgroundColor: scooterPriceId ? '#59b894' : '#ff6376',
+                opacity: scooterPriceId && !scooterConflictProductId ? 1 : 0.2,
+                backgroundColor:
+                  scooterPriceId && !scooterConflictProductId
+                    ? '#59b894'
+                    : '#ff6376',
               }}
               onClick={() => handleCreateProduct('scooter', scooterProduct)}
             >
@@ -250,8 +259,12 @@ export const TestingOrder = () => {
               type="button"
               className="grey_button green"
               style={{
-                opacity: accessoryPriceId ? 1 : 0.2,
-                backgroundColor: accessoryPriceId ? '#59b894' : '#ff6376',
+                opacity:
+                  accessoryPriceId && !accessoryConflictProductId ? 1 : 0.2,
+                backgroundColor:
+                  accessoryPriceId && !accessoryConflictProductId
+                    ? '#59b894'
+                    : '#ff6376',
               }}
               onClick={() => handleCreateProduct('accessory', accessoryProduct)}
             >
