@@ -8,10 +8,10 @@ import {
 import { ConfigModule } from '@nestjs/config';
 import { DataBaseModule } from './db/database.module';
 import { JwtModule } from '@nestjs/jwt';
-import { APP_GUARD } from '@nestjs/core';
+// import { APP_GUARD } from '@nestjs/core';
 import { config } from 'dotenv';
 import { LoggerMiddleware } from './middleware/logger.middleware';
-import { AuthGuard } from './auth/auth.guard';
+// import { AuthGuard } from './auth/auth.guard';
 import { secrets } from './constants/secrets';
 import { UserService } from './routes/user/user.service';
 import { DetailService } from './routes/file/detail.service';
@@ -49,7 +49,7 @@ config();
     OrderController,
   ],
   providers: [
-    { provide: APP_GUARD, useClass: AuthGuard },
+    // { provide: APP_GUARD, useClass: AuthGuard }, // included with useGlobalGuards in main.ts
     UserService,
     DetailService,
     PriceService,

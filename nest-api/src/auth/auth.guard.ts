@@ -13,13 +13,18 @@ export class AuthGuard implements CanActivate {
       context.getClass(),
     ]);
     if (isPublic) return true;
-    const cxtHttp = context.switchToHttp();
-    const request = cxtHttp.getRequest<CustomRequest>();
+
+    const httpContext = context.switchToHttp();
+    const request = httpContext.getRequest<CustomRequest>();
     const { authToken } = request?.cookies;
 
-    return (request.userEmail = await validateAuthToken(
+    const userEmail = await validateAuthToken(
       authToken,
-      cxtHttp.getResponse<Response>(),
-    ));
+      httpContext.getResponse<Response>(),
+    );
+    if (!userEmail) return false;
+
+    request.userEmail = userEmail;
+    return true;
   }
 }
