@@ -44,13 +44,15 @@ export class ScooterService {
       if (existingScooter) {
         if (returnedProductId) {
           return existingScooter.id;
-        } else {
-          throw new ConflictException(
-            `${model}, ${existingScooter.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
-          );
         }
+        throw new ConflictException(
+          `${model}, ${existingScooter.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
+        );
       }
-      return price;
+
+      if (!returnedProductId) {
+        return price;
+      }
     } catch (error: any) {
       nextError(error);
     }

@@ -44,14 +44,15 @@ export class AccessoryService {
       if (existingAccessory) {
         if (returnedProductId) {
           return existingAccessory.id;
-        } else {
-          throw new ConflictException(
-            `${name}, ${existingAccessory.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
-          );
         }
+        throw new ConflictException(
+          `${name}, ${existingAccessory.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
+        );
       }
 
-      return price;
+      if (!returnedProductId) {
+        return price;
+      }
     } catch (error: any) {
       nextError(error);
     }

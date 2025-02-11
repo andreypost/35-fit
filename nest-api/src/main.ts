@@ -35,4 +35,5 @@ async function bootstrap() {
   await app.listen(port);
   console.log(`Nest app is running on local port: http://localhost:${port}`);
 }
+
 bootstrap();

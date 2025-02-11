@@ -48,13 +48,8 @@ const Div = styled.div`
 
 export const TestingOrder = () => {
   const { currentUser } = useContext(AppContext)
-  const abortController = new AbortController()
-  const { signal } = abortController
   const [scooterPriceId, setScooterPriceId] = useState('')
   const [accessoryPriceId, setAccessoryPriceId] = useState('')
-  const [scooterConflictPriceId, setScooterConflictPriceId] = useState(false)
-  const [accessoryConflictPriceId, setAccessoryConflictPriceId] =
-    useState(false)
   const [scooterConflictProductId, setScooterConflictProductId] =
     useState(false)
   const [accessoryConflictProductId, setAccessoryConflictProductId] =
@@ -94,103 +89,77 @@ export const TestingOrder = () => {
   // const largeData = 'A'.repeat(1000000)
 
   useEffect(() => {
+    const abortController = new AbortController()
+    const { signal } = abortController
+
     const checkSetPriceByName = async (): Promise<void> => {
-      apiEndpointCall(
-        'get',
-        `price/check-set?priceName=${scooterPrice.name}`,
-        {},
-        true,
-        signal
-      ).then(({ data }) => {
-        if (data) {
+      try {
+        const { data: scooterPriceId } = await apiEndpointCall(
+          'get',
+          `price/check-set?priceName=${scooterPrice.name}`,
+          {},
+          true,
+          signal
+        )
+
+        if (scooterPriceId) {
+          console.log('price/check-set?scooterPrice: ', scooterPriceId)
+          setScooterPriceId(scooterPriceId)
+
           apiEndpointCall(
             'post',
             'scooter/check',
-            { ...scooterProduct, priceId: data },
+            { ...scooterProduct, priceId: scooterPriceId },
             true,
             signal
-          ).then((res) => {
-            console.log('scooter/check: ', res)
-            setScooterPoductId(data)
-            setScooterConflictProductId(true)
+          ).then(({ data }) => {
+            if (data) {
+              console.log('scooter/check: ', data)
+              setScooterPoductId(data)
+              setScooterConflictProductId(true)
+            }
           })
-          setScooterPriceId(data)
-          console.log('price/check-set?priceName: ', data)
-          // setScooterConflictPriceId(true)
         }
-      })
-      apiEndpointCall(
-        'get',
-        `price/check-set?priceName=${accessoryPrice.name}`,
-        {},
-        true,
-        signal
-      ).then(({ data }) => {
-        if (data) {
-          setAccessoryPriceId(data)
-          // setAccessoryConflictPriceId(true)
+
+        const { data: accessoryPriceId } = await apiEndpointCall(
+          'get',
+          `price/check-set?priceName=${accessoryPrice.name}`,
+          {},
+          true,
+          signal
+        )
+
+        if (accessoryPriceId) {
+          console.log('price/check-set?accessoryPrice: ', accessoryPriceId)
+          setAccessoryPriceId(accessoryPriceId)
+
+          apiEndpointCall(
+            'post',
+            'accessory/check',
+            { ...accessoryProduct, priceId: accessoryPriceId },
+            true,
+            signal
+          ).then(({ data }) => {
+            if (data) {
+              console.log('accessory/check: ', data)
+              setAccessoryPoductId(data)
+              setAccessoryConflictProductId(true)
+            }
+          })
         }
-      })
+      } catch {}
     }
     checkSetPriceByName()
 
     return () => abortController.abort()
   }, [])
 
-  /*   useEffect(() => {
-    if (scooterPriceId) {
-      apiEndpointCall(
-        'post',
-        'scooter/check',
-        scooterProduct,
-        true,
-        signal
-      ).then(({ data }) => {
-        console.log('scooter/check: ', data)
-        setScooterPoductId(data)
-        setScooterConflictProductId(true)
-      })
-      // .catch((error) => {
-      //   // if (error?.statusCode === 409) {
-      //   console.log('setScooterConflictProductId :', error)
-      //   setScooterConflictProductId(true)
-      //   // }
-      // })
-    }
-  }, [scooterPriceId]) */
-
-  useEffect(() => {
-    if (accessoryPriceId) {
-      apiEndpointCall(
-        'post',
-        'accessory/check',
-        accessoryProduct,
-        true,
-        signal
-      ).then(({ data }) => {
-        console.log('accessory/check: ', data)
-        setAccessoryPoductId(data)
-        setAccessoryConflictProductId(true)
-      })
-      // .catch((error) => {
-      //   // if (error?.statusCode === 409) {
-      //   console.log('setAccessoryConflictProductId :', error)
-      //   setAccessoryConflictProductId(true)
-      //   // }
-      // })
-    }
-  }, [accessoryPriceId])
-
   const handleCreatePrice = async (price: IPrice): Promise<string | void> => {
     apiEndpointCall('post', 'price/create', price).then(({ data }) => {
       if (data.productType === 'scooter') {
-        console.log('scooterConflictProductId: ', scooterConflictProductId)
         setScooterPriceId(data?.id)
-        // setScooterConflictPriceId(true)
       } else {
-        console.log('accessoryConflictProductId: ', accessoryConflictProductId)
         setAccessoryPriceId(data?.id)
-        // setAccessoryConflictPriceId(true)
       }
     })
   }
@@ -201,11 +170,9 @@ export const TestingOrder = () => {
   ): Promise<string | void> => {
     apiEndpointCall('post', `${type}/create`, product).then(({ data }) => {
       if (type === 'scooter') {
-        console.log('setScooterPoductId: ', data)
         setScooterPoductId(data.id)
         setScooterConflictProductId(true)
       } else {
-        console.log('setAccessoryPoductId: ', data)
         setAccessoryPoductId(data.id)
         setAccessoryConflictProductId(true)
       }
