@@ -5,6 +5,7 @@ import {
   Get,
   Req,
   ParseBoolPipe,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { Public } from '../../auth/public';
@@ -13,6 +14,7 @@ import { CreateUserDto, LoginUserDto } from './dto/create.user.dto';
 import { User } from '../../entities/user';
 import { HttpResponse } from '../../utils/http.response.decorator';
 import { CurrentUserEmail } from '../../utils/current.user.decorator';
+import { LogginInterceptor } from '../../interceptors/loggin.interceptor';
 
 @Controller('user')
 export class UserController {
@@ -29,6 +31,7 @@ export class UserController {
 
   @Public()
   @Post('login')
+  @UseInterceptors(LogginInterceptor)
   async loginUser(
     @Body() { email, password, keepLoggedIn }: LoginUserDto,
     @HttpResponse() res: Response,
