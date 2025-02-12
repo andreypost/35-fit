@@ -48,12 +48,12 @@ export class UserController {
     @Req() req: Request,
     @HttpResponse() res: Response,
   ): Promise<User> {
-    return this.userService.validateUserByAuthToken(req, res);
+    return await this.userService.validateUserByAuthToken(req, res);
   }
 
   @Get('users')
   async getAllUsers(): Promise<User[]> {
-    return this.userService.getAllUsers();
+    return await this.userService.getAllUsers();
   }
 
   @Post('logout')
@@ -62,6 +62,6 @@ export class UserController {
     @CurrentUserEmail() email: string,
     @HttpResponse() res: Response,
   ): Promise<{ message: string }> {
-    return this.userService.logoutUser(deleteAccount, email, res);
+    return await this.userService.logoutUser(deleteAccount, email, res);
   }
 }

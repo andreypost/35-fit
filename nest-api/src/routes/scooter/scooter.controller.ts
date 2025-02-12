@@ -13,7 +13,10 @@ export class ScooterController {
   async checkExistingScooter(
     @Body() createScooterDto: CreateScooterDto,
   ): Promise<string> {
-    return this.scooterService.checkExistingScooter(createScooterDto, true);
+    return await this.scooterService.checkExistingScooter(
+      createScooterDto,
+      true,
+    );
   }
 
   @Public()
@@ -21,6 +24,6 @@ export class ScooterController {
   async createScooter(
     @Body() createScooterDto: CreateScooterDto,
   ): Promise<Scooter> {
-    return this.scooterService.createScooter(createScooterDto);
+    return await this.scooterService.createScooter(createScooterDto);
   }
 }

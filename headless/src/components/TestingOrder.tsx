@@ -91,6 +91,7 @@ export const TestingOrder = () => {
   useEffect(() => {
     const abortController = new AbortController()
     const { signal } = abortController
+    let isMounted = true
 
     const fetchPriceAndCheckProduct = async (
       priceName: string,
@@ -109,8 +110,7 @@ export const TestingOrder = () => {
           signal
         )
 
-        if (!priceId) return
-
+        if (!priceId || !isMounted) return
         setPriceId(priceId)
 
         const { data: productId } = await apiEndpointCall(
@@ -120,13 +120,16 @@ export const TestingOrder = () => {
           true,
           signal
         )
-        if (productId) {
+
+        if (productId && isMounted) {
           setProductId(productId)
           setConflict(true)
         }
       } catch (error) {
-        console.error(`Error checking price for ${priceName}:`, error)
-        setConflict(true)
+        if (isMounted) {
+          console.error(`Error checking price for ${priceName}:`, error)
+          setConflict(true)
+        }
       }
     }
 
@@ -150,9 +153,13 @@ export const TestingOrder = () => {
         ),
       ])
     }
+
     checkSetPrices()
 
-    return () => abortController.abort()
+    return () => {
+      isMounted = false
+      abortController.abort()
+    }
   }, [])
 
   const handleCreatePrice = async (price: IPrice): Promise<string | void> => {

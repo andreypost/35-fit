@@ -20,7 +20,7 @@ export class DetailController {
 
   @Get('read')
   async loadUserCollection(): Promise<CreateUserDetailsDto[]> {
-    return this.detailService.getStreamFile();
+    return await this.detailService.getStreamFile();
     // return this.detailService.loadUserCollection(req);
   }
 
@@ -29,17 +29,20 @@ export class DetailController {
     @Body() createUserDetailsDto: CreateUserDetailsDto,
     @Res() res: Response,
   ): Promise<CreateUserDetailsDto> {
-    return this.detailService.addNewDetailsUser(createUserDetailsDto, res);
+    return await this.detailService.addNewDetailsUser(
+      createUserDetailsDto,
+      res,
+    );
   }
 
   @Get('count-by-country')
   async getUsersCountByCountry(): Promise<Record<string, number>> {
-    return this.detailService.getUsersCountByCountry();
+    return await this.detailService.getUsersCountByCountry();
   }
 
   @Get('average-earnings-by-country')
   async getAverageEarningsByCountry(): Promise<Record<string, number>> {
-    return this.detailService.getAverageEarningsByCountry();
+    return await this.detailService.getAverageEarningsByCountry();
   }
 
   @Get('users/:id')
@@ -47,6 +50,6 @@ export class DetailController {
     // @Param('id', ParseUUIDPipe) id: string,
     @Param('id') id: string,
   ): Promise<CreateUserDetailsDto> {
-    return this.detailService.findUserById(id);
+    return await this.detailService.findUserById(id);
   }
 }

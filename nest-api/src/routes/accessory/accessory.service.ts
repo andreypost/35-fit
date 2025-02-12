@@ -2,9 +2,11 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  Req,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Request } from 'express';
 import { PriceService } from '../price/price.service';
 import { Price } from '../../entities/price';
 import { Accessory } from '../../entities/accessory';
@@ -23,6 +25,7 @@ export class AccessoryService {
   public async checkExistingAccessory(
     createAccessoryDto: CreateAccessoryDto,
     returnedProductId: boolean = false,
+    @Req() req?: Request,
   ): Promise<Price | any> {
     try {
       const { name, priceId } = createAccessoryDto;

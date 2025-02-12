@@ -13,7 +13,7 @@ export class PriceController {
   async checkSetPriceByName(
     @Query('priceName') priceName: string,
   ): Promise<string> {
-    return this.priceService.checkSetPriceByName(priceName, true);
+    return await this.priceService.checkSetPriceByName(priceName, true);
   }
 
   @Public()
@@ -21,7 +21,7 @@ export class PriceController {
   async createProductPrice(
     @Body() createPriceDto: CreatePriceDto,
   ): Promise<Price> {
-    return this.priceService.createProductPrice(createPriceDto);
+    return await this.priceService.createProductPrice(createPriceDto);
   }
 
   /*   @Public()
@@ -29,6 +29,6 @@ export class PriceController {
   async getPriceByType(
     @Query('productType') productType: string,
   ): Promise<string> {
-    return this.priceService.getPriceByType(productType);
+    return await this.priceService.getPriceByType(productType);
   } */
 }

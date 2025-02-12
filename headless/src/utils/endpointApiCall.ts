@@ -20,9 +20,13 @@ export const apiEndpointCall = async (
     } else {
       result = await axios[method](url, body, config)
     }
-    // console.log(route, result)
+    console.log(route, result)
     return result
   } catch (error: any) {
+    if (axios.isCancel(error)) {
+      console.log('Request was canceled:', error.message)
+      return
+    }
     if (!firstLoad) {
       throw errorModalMessage(error)
     } else {

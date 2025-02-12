@@ -13,7 +13,7 @@ export class OrderController {
     @Body() createOrderDto: CreateOrderDto,
     @CurrentUserEmail() email: string,
   ): Promise<Order> {
-    return this.orderService.createUserOrder(createOrderDto, email);
+    return await this.orderService.createUserOrder(createOrderDto, email);
   }
 
   @Get('orders/:type')
@@ -21,6 +21,6 @@ export class OrderController {
     @Param('type') type: string,
     @CurrentUserEmail() email: string,
   ): Promise<Order[]> {
-    return this.orderService.getUserOrders(email, type);
+    return await this.orderService.getUserOrders(email, type);
   }
 }
