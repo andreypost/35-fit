@@ -57,7 +57,7 @@ export const TestingOrder = () => {
   const [scooterPoductId, setScooterPoductId] = useState('')
   const [accessoryPoductId, setAccessoryPoductId] = useState('')
 
-  const scooterPrice = {
+  const scooterPrice: IPrice = {
     name: 'Scooter Autunm Sale 2023',
     amount: 799,
     discount: 15,
@@ -66,7 +66,7 @@ export const TestingOrder = () => {
     productType: 'scooter',
   }
 
-  const accessoryPrice = {
+  const accessoryPrice: IPrice = {
     name: 'Winter Offer 2021',
     amount: 99,
     discount: 15,
@@ -92,64 +92,65 @@ export const TestingOrder = () => {
     const abortController = new AbortController()
     const { signal } = abortController
 
-    const checkSetPriceByName = async (): Promise<void> => {
+    const fetchPriceAndCheckProduct = async (
+      priceName: string,
+      setPriceId: Function,
+      checkEndpoint: string,
+      product: any,
+      setProductId: Function,
+      setConflict: Function
+    ) => {
       try {
-        const { data: scooterPriceId } = await apiEndpointCall(
+        const { data: priceId } = await apiEndpointCall(
           'get',
-          `price/check-set?priceName=${scooterPrice.name}`,
+          `price/check-set?priceName=${priceName}`,
           {},
           true,
           signal
         )
 
-        if (scooterPriceId) {
-          console.log('price/check-set?scooterPrice: ', scooterPriceId)
-          setScooterPriceId(scooterPriceId)
+        if (!priceId) return
 
-          apiEndpointCall(
-            'post',
-            'scooter/check',
-            { ...scooterProduct, priceId: scooterPriceId },
-            true,
-            signal
-          ).then(({ data }) => {
-            if (data) {
-              console.log('scooter/check: ', data)
-              setScooterPoductId(data)
-              setScooterConflictProductId(true)
-            }
-          })
-        }
+        setPriceId(priceId)
 
-        const { data: accessoryPriceId } = await apiEndpointCall(
-          'get',
-          `price/check-set?priceName=${accessoryPrice.name}`,
-          {},
+        const { data: productId } = await apiEndpointCall(
+          'post',
+          checkEndpoint,
+          { ...product, priceId },
           true,
           signal
         )
-
-        if (accessoryPriceId) {
-          console.log('price/check-set?accessoryPrice: ', accessoryPriceId)
-          setAccessoryPriceId(accessoryPriceId)
-
-          apiEndpointCall(
-            'post',
-            'accessory/check',
-            { ...accessoryProduct, priceId: accessoryPriceId },
-            true,
-            signal
-          ).then(({ data }) => {
-            if (data) {
-              console.log('accessory/check: ', data)
-              setAccessoryPoductId(data)
-              setAccessoryConflictProductId(true)
-            }
-          })
+        if (productId) {
+          setProductId(productId)
+          setConflict(true)
         }
-      } catch {}
+      } catch (error) {
+        console.error(`Error checking price for ${priceName}:`, error)
+        setConflict(true)
+      }
     }
-    checkSetPriceByName()
+
+    const checkSetPrices = async () => {
+      await Promise.all([
+        fetchPriceAndCheckProduct(
+          scooterPrice.name,
+          setScooterPriceId,
+          'scooter/check',
+          scooterProduct,
+          setScooterPoductId,
+          setScooterConflictProductId
+        ),
+        fetchPriceAndCheckProduct(
+          accessoryPrice.name,
+          setAccessoryPriceId,
+          'accessory/check',
+          accessoryProduct,
+          setAccessoryPoductId,
+          setAccessoryConflictProductId
+        ),
+      ])
+    }
+    checkSetPrices()
 
     return () => abortController.abort()
   }, [])
