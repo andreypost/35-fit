@@ -9,6 +9,7 @@ export const apiEndpointCall = async (
   signal?: AbortSignal
 ): Promise<any> => {
   try {
+    console.log('signal: ', signal)
     const url = `${process.env.API_URL}/${route}`
     const config = {
       withCredentials: true,
@@ -30,7 +31,7 @@ export const apiEndpointCall = async (
     if (!firstLoad) {
       throw errorModalMessage(error)
     } else {
-      throw error?.response?.data
+      throw error?.response?.data || { message: 'An unknown error occurred' }
     }
   }
 }

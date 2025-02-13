@@ -1,10 +1,7 @@
-import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { IPrice } from 'types/interface'
-import { useAppDispatch, useAppSelector } from 'utils/hooks'
-// import { UserData, fetchFileData, setSortedList } from 'slices/fileData.slice'
 import { apiEndpointCall } from 'utils/endpointApiCall'
-// import axios from 'axios'
 import { AppContext } from '../AppRouter'
 
 const Div = styled.div`
@@ -56,6 +53,8 @@ export const TestingOrder = () => {
     useState(false)
   const [scooterPoductId, setScooterPoductId] = useState('')
   const [accessoryPoductId, setAccessoryPoductId] = useState('')
+  const abortController = new AbortController()
+  const { signal } = abortController
 
   const scooterPrice: IPrice = {
     name: 'Scooter Autunm Sale 2023',
@@ -89,10 +88,6 @@ export const TestingOrder = () => {
   // const largeData = 'A'.repeat(1000000)
 
   useEffect(() => {
-    const abortController = new AbortController()
-    const { signal } = abortController
-    let isMounted = true
-
     const fetchPriceAndCheckProduct = async (
       priceName: string,
       setPriceId: Function,
@@ -110,7 +105,7 @@ export const TestingOrder = () => {
           signal
         )
 
-        if (!priceId || !isMounted) return
+        if (!priceId || signal.aborted) return
         setPriceId(priceId)
 
         const { data: productId } = await apiEndpointCall(
@@ -121,12 +116,11 @@ export const TestingOrder = () => {
           signal
         )
 
-        if (productId && isMounted) {
-          setProductId(productId)
-          setConflict(true)
-        }
+        if (!productId || signal.aborted) return
+        setProductId(productId)
+        setConflict(true)
       } catch (error) {
-        if (isMounted) {
+        if (!signal.aborted) {
           console.error(`Error checking price for ${priceName}:`, error)
           setConflict(true)
         }
@@ -156,35 +150,38 @@ export const TestingOrder = () => {
 
     checkSetPrices()
 
-    return () => {
-      isMounted = false
-      abortController.abort()
-    }
+    return () => abortController.abort()
   }, [])
 
   const handleCreatePrice = async (price: IPrice): Promise<string | void> => {
-    apiEndpointCall('post', 'price/create', price).then(({ data }) => {
-      if (data.productType === 'scooter') {
-        setScooterPriceId(data?.id)
-      } else {
-        setAccessoryPriceId(data?.id)
+    apiEndpointCall('post', 'price/create', price, false, signal).then(
+      ({ data }) => {
+        if (signal.aborted) return
+        if (data.productType === 'scooter') {
+          setScooterPriceId(data?.id)
+        } else {
+          setAccessoryPriceId(data?.id)
+        }
       }
-    })
+    )
   }
 
   const handleCreateProduct = async (
     type: string,
     product: any
   ): Promise<string | void> => {
-    apiEndpointCall('post', `${type}/create`, product).then(({ data }) => {
-      if (type === 'scooter') {
-        setScooterPoductId(data.id)
-        setScooterConflictProductId(true)
-      } else {
-        setAccessoryPoductId(data.id)
-        setAccessoryConflictProductId(true)
+    apiEndpointCall('post', `${type}/create`, product, false, signal).then(
+      ({ data }) => {
+        if (signal.aborted) return
+        if (type === 'scooter') {
+          setScooterPoductId(data.id)
+          setScooterConflictProductId(true)
+        } else {
+          setAccessoryPoductId(data.id)
+          setAccessoryConflictProductId(true)
+        }
       }
-    })
+    )
   }
 
   return (
