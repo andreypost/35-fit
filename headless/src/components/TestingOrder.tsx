@@ -90,11 +90,11 @@ export const TestingOrder = () => {
   useEffect(() => {
     const fetchPriceAndCheckProduct = async (
       priceName: string,
-      setPriceId: Function,
+      setPriceId: (id: string) => void,
       checkEndpoint: string,
       product: any,
-      setProductId: Function,
-      setConflict: Function
+      setProductId: (id: string) => void,
+      setConflict: (conflict: boolean) => void
     ) => {
       try {
         const { data: priceId } = await apiEndpointCall(
