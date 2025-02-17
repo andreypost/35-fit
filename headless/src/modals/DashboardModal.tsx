@@ -111,19 +111,21 @@ export const DashboardModal = () => {
           <User styleName="dashboard_modal" />
           <NavigationLinks links={profileLinks} bold="b900" color="#59b894" />
           <li className="logout">
-            <label
-              htmlFor="checkbox"
-              className="flex_center grey_label check_box_delete"
-            >
-              <input
-                type="checkbox"
-                name="deleteAccount"
-                className="grey_button absolute"
-                onChange={(e) => setDeleteAccount(e.target.checked)}
-              />
-              <span className="delete_checkmark flex_center_center" />
-              {t('nav.also_delete_my_account')}
-            </label>
+            {!user && (
+              <label
+                htmlFor="checkbox"
+                className="flex_center grey_label check_box_delete"
+              >
+                <input
+                  type="checkbox"
+                  name="deleteAccount"
+                  className="grey_button absolute"
+                  onChange={(e) => setDeleteAccount(e.target.checked)}
+                />
+                <span className="delete_checkmark flex_center_center" />
+                {t('nav.also_delete_my_account')}
+              </label>
+            )}
             <span
               className="signout grey"
               onClick={() => (
