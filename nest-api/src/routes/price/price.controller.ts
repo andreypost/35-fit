@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { PriceService } from './price.service';
-import { Public } from '../../auth/public';
+import { Public } from '../../guards/public.routes';
 import { CreatePriceDto } from './dto/create.price.dto';
 import { Price } from '../../entities/price';
 

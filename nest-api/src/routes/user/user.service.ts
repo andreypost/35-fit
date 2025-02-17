@@ -17,7 +17,7 @@ import { User } from '../../entities/user';
 import { CreateUserDto, LoginUserDto } from './dto/create.user.dto';
 import { msg } from '../../constants/messages';
 import { nextError } from '../../utils/next.error';
-import { deleteAuthToken, validateAuthToken } from '../../auth/auth.token';
+import { deleteAuthToken, validateAuthToken } from '../../guards/auth.token';
 import { secrets } from '../../constants/secrets';
 
 config();
