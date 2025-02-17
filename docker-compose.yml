@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  database:
+    image: postgres:15
+    container_name: fitdb
+    restart: always
+    environment:
+      POSTGRES_USER: andrii
+      POSTGRES_PASSWORD: "1111"
+      POSTGRES_DB: fitdb
+      PGPORT: "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./nest-api
+      dockerfile: Dockerfile
+    container_name: fit-api
+    restart: always
+    depends_on:
+      - database
+    env_file:
+      - ./nest-api/.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./nest-api:/app
+      - /app/node_modules # Prevents overwriting node_modules
+    command: ["npm", "run", "start:dev"]
+
+  frontend:
+    build:
+      context: ./headless
+      dockerfile: Dockerfile
+    container_name: fit-headless
+    restart: always
+    depends_on:
+      - backend
+    env_file:
+      - ./headless/.env.development
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./headless:/app
+    command: ["npm", "run", "start"]
+
+volumes:
+  pgdata:

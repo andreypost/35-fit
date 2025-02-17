@@ -13,6 +13,7 @@ async function bootstrap() {
       // methods: ['GET', 'POST'],
       origin: true,
     },
+    forceCloseConnections: true,
   });
 
   // configuration values
