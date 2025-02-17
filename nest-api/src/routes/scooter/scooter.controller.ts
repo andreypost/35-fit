@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ScooterService } from './scooter.service';
-import { Public } from '../../auth/public';
+import { Public } from '../../guards/public.routes';
 import { CreateScooterDto } from './dto/create.scooter.dto';
 import { Scooter } from '../../entities/scooter';
 

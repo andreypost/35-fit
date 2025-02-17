@@ -3,8 +3,8 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import cookieParser from 'cookie-parser';
-import { AuthGuard } from './auth/auth.guard';
-// import { LogginInterceptor } from './interceptors/loggin.interceptor';
+import { AuthGuard } from './guards/auth.guard';
+import { ExecutionTimeInterceptor } from './interceptors/execution.time';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -31,7 +31,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   // global interceptors
-  // app.useGlobalInterceptors(new LogginInterceptor());
+  app.useGlobalInterceptors(new ExecutionTimeInterceptor());
 
   app.use((req, res, next) => {
     if (req.url === '/accessory/check') {

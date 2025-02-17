@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { CurrentUserEmail } from '../../utils/current.user.decorator';
+import { CurrentUserEmail } from '../../pipes/current.user.email';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create.order.dto';
 import { Order } from '../../entities/order';
