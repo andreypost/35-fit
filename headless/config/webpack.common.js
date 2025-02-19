@@ -3,7 +3,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 // const SpriteLoaderPlugin = require('svg-sprite-loader/plugin')
 
-module.exports = ({ netlify }) => {
+module.exports = () => {
   return {
     entry: path.resolve(__dirname, '../src/index.tsx'),
     resolve: {
@@ -72,13 +72,7 @@ module.exports = ({ netlify }) => {
         // cache: false,
       }),
     ],
-    output: {
-      clean: true,
-      path: path.resolve(__dirname, netlify ? '../dist' : '../../build'),
-      filename: '[name].bundle.js',
-      // publicPath: '/',  // makes it impossible to load index.html directly from build folder
-    },
-    stats: 'errors-only',
+    stats: 'miminal', // 'errors-only'
     optimization: {
       splitChunks: {
         chunks: 'all',

@@ -9,7 +9,8 @@
   "scripts": {
     "start": "webpack serve --config config/webpack.config.js --env env=dev",
     "build": "webpack --config config/webpack.config.js --env env=prod",
-    "netlify": "npx webpack --config config/webpack.config.js --env env=prod netlify=true",
+    "netlify": "webpack --config config/webpack.config.js --env env=prod netlify=true",
+    "docker": "webpack --config config/webpack.config.js --env env=prod docker=true",
     "prettier": "prettier src --cache --write",
     "prettier-check": "prettier src --cache --check",
     "lint": "eslint src --format @lint-todo/eslint-formatter-todo --ext .js,.ts,.tsx --cache",
@@ -84,7 +85,7 @@
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.3.2",
     "react-refresh": "^0.8.3",
-    "sass": "^1.35.2",
+    "sass": "^1.85.0",
     "sass-loader": "^11.1.1",
     "style-loader": "^2.0.0",
     "styled-components": "^5.3.0",

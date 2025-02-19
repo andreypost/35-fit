@@ -14,12 +14,16 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "fitdb"]
+      interval: 5s
+      retries: 5
 
   backend:
     build:
       context: ./nest-api
       dockerfile: Dockerfile
-    container_name: fit-api
+    container_name: fit-nest-api
     restart: always
     depends_on:
       - database
@@ -41,12 +45,13 @@ services:
     depends_on:
       - backend
     env_file:
-      - ./headless/.env.development
+      - ./headless/.env.production
     ports:
       - "8080:8080"
     volumes:
       - ./headless:/app
-    command: ["npm", "run", "start"]
+      - /app/dist # Prevenets dist from being overwritten
+    command: ["npx", "serve", "-s", "dist", "-l", "8080"] # Explicitly force serving dist/
 
 volumes:
   pgdata:
