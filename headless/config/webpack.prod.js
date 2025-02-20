@@ -7,6 +7,7 @@ const path = require('path')
 
 // Load environment variables from .env.production file
 dotenv.config({ path: './.env.production' })
+// dotenv.config({ path: './../.env' })
 
 module.exports = ({ docker = false, netlify = false }) => {
   return {
@@ -28,7 +29,18 @@ module.exports = ({ docker = false, netlify = false }) => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        'process.env': JSON.stringify(process.env),
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'process.env.FIREBASE_API_KEY': JSON.stringify(
+          process.env.FIREBASE_API_KEY
+        ),
+        'process.env.FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(
+          process.env.FIREBASE_MESSAGING_SENDER_ID
+        ),
+        'process.env.FIREBASE_APP_ID': JSON.stringify(
+          process.env.FIREBASE_APP_ID
+        ),
+        'process.env.API_URL': JSON.stringify(process.env.API_URL),
+        // 'process.env': JSON.stringify(process.env),
       }),
       new MiniCssExtractPlugin({
         filename: '[name].[contenthash].css',
