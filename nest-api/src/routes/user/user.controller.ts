@@ -51,6 +51,7 @@ export class UserController {
     return await this.userService.validateUserByAuthToken(req, res);
   }
 
+  @Public()
   @Get('users')
   async getAllUsers(): Promise<User[]> {
     return await this.userService.getAllUsers();

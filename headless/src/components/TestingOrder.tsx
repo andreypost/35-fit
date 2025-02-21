@@ -88,6 +88,7 @@ export const TestingOrder = () => {
   // const largeData = 'A'.repeat(1000000)
 
   useEffect(() => {
+    console.log('process.env.NODE_ENV: ', process.env.NODE_ENV)
     const fetchPriceAndCheckProduct = async (
       priceName: string,
       setPriceId: (id: string) => void,
