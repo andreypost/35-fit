@@ -14,13 +14,11 @@ RUN npm ci
 COPY . .
 
 # Build the frontend (this step will now persist correctly)
-RUN npm run docker
+# RUN npm run docker
 
 # Expose frontend port
 EXPOSE 8080
 
 # Start the frontend
-CMD ["npx", "serve", "-s", "dist", "-l", "8080"]
-
-# Start the frontend with .env support
-# CMD ["sh", "-c", "node -r dotenv/config npm start"]
+# CMD ["npx", "serve", "-s", "dist", "-l", "8080"]
+CMD ["npm", "run", "start"]

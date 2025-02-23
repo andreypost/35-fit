@@ -9,11 +9,12 @@ services:
       - POSTGRES_USER=${PGUSER}
       - POSTGRES_PASSWORD=${PGPASSWORD}
       - POSTGRES_DB=${PGDATABASE}
-      # - PGPORT=${PGPORT}
-      # - JWT_KEY=${JWT_KEY}
-      # - HEADLESS_URL=${HEADLESS_URL}
+      - PGPORT=${PGPORT}
+      - JWT_KEY=${JWT_KEY}
+      - HEADLESS_URL=${HEADLESS_URL}
     ports:
-      - ${DOCKERHOST}:${PGPORT}
+      - ${PGPORT}:${PGPORT}
+      # - ${DOCKERHOST}:${PGPORT}
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -58,8 +59,10 @@ services:
       - "8080:8080"
     volumes:
       - ./headless:/app
-      - /app/dist # Prevents dist from being overwritten
-    command: ["npx", "serve", "-s", "dist", "-l", "8080"] # Explicitly force serving dist/
+      - /app/node_modules # Prevents overwriting node_modules
+      # - /app/dist # Prevents dist from being overwritten
+    command: ["npm", "run", "start"]
+    # command: ["npx", "serve", "-s", "dist", "-l", "8080"] # Explicitly force serving dist/
 
 volumes:
   pgdata:

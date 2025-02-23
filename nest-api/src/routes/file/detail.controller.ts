@@ -12,8 +12,10 @@ import { Response } from 'express';
 // import { AuthGuard } from '../utils/auth.guard';
 import { DetailService } from './detail.service';
 import { CreateUserDetailsDto } from './dto/create.user.details.dto';
+import { Public } from '../../guards/public.routes';
 
 // @UseGuards(AuthGuard) // add authToken check to all this routes
+@Public()
 @Controller('file')
 export class DetailController {
   constructor(private readonly detailService: DetailService) {}

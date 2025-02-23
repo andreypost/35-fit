@@ -13,6 +13,7 @@ import { config } from 'dotenv';
 import { AuditLoggerMiddleware } from './middlewares/audit.logger';
 // import { AuthGuard } from './auth/auth.guard';
 import { secrets } from './constants/secrets';
+import { AppHello } from './app.hello';
 import { UserService } from './routes/user/user.service';
 import { DetailService } from './routes/file/detail.service';
 import { PriceService } from './routes/price/price.service';
@@ -41,6 +42,7 @@ config();
     }),
   ],
   controllers: [
+    AppHello,
     UserController,
     DetailController,
     PriceController,
