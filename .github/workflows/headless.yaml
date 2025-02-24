@@ -49,6 +49,7 @@ jobs:
           FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
           API_URL: https://35-fit-nest-api-production.up.railway.app
           # API_URL: https://35-fit-api-production.up.railway.app
+          NODE_ENV: ${{ vars.NODE_ENV }}
         run: npm run build
 
       - name: Deploy Front-end to Firebase
