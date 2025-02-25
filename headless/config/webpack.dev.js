@@ -31,6 +31,11 @@ module.exports = () => {
       hot: true,
       open: true,
       liveReload: true,
+      allowedHosts: 'all', // Allow all hosts (important for Docker)
+      host: '0.0.0.0', // Allows access from outside the container
+      client: {
+        overlay: true,
+      },
     },
     plugins: [
       new webpack.DefinePlugin({
@@ -38,6 +43,7 @@ module.exports = () => {
       }),
       new webpack.HotModuleReplacementPlugin(), // HMR should never be used in production
       // new ReactRefreshWebpackPlugin(),
+      // ],
     ].filter(Boolean),
   }
 }
