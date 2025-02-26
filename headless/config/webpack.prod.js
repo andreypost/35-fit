@@ -7,7 +7,6 @@ const path = require('path')
 
 // Load environment variables from .env.production file
 dotenv.config({ path: './.env.production' })
-// dotenv.config({ path: './../.env' }) // Docker .env file
 
 module.exports = ({ docker = false, netlify = false }) => {
   return {
@@ -38,10 +37,7 @@ module.exports = ({ docker = false, netlify = false }) => {
     ],
     output: {
       clean: true,
-      path: path.resolve(
-        __dirname,
-        docker || netlify ? '../dist' : '../../build'
-      ),
+      path: path.resolve(__dirname, netlify ? '../dist' : '../../build'),
       filename: '[name].[contenthash].js',
       // publicPath: '/', // makes it !!! Impossible to load index.html directly from build folder
     },

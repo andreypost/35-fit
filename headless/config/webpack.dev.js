@@ -5,7 +5,7 @@ const dotenv = require('dotenv')
 // Load environment variables from .env.development file
 dotenv.config({ path: './.env.development' })
 
-module.exports = () => {
+module.exports = ({ docker = false, netlify = false }) => {
   return {
     mode: 'development',
     devtool: 'cheap-module-source-map',
@@ -31,11 +31,8 @@ module.exports = () => {
       hot: true,
       open: true,
       liveReload: true,
-      allowedHosts: 'all', // Allow all hosts (important for Docker)
-      host: '0.0.0.0', // Allows access from outside the container
-      client: {
-        overlay: true,
-      },
+      host: docker ? '0.0.0.0' : 'localhost', // for Docker, allows access from outside the container
+      headers: { 'Access-Control-Allow-Origin': '*' },
     },
     plugins: [
       new webpack.DefinePlugin({

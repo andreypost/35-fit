@@ -8,9 +8,9 @@
   },
   "scripts": {
     "start": "webpack serve --config config/webpack.config.js --env env=dev",
+    "start:docker": "webpack serve --config config/webpack.config.js --env env=dev docker=true",
     "build": "webpack --config config/webpack.config.js --env env=prod",
     "netlify": "webpack --config config/webpack.config.js --env env=prod netlify=true",
-    "docker": "webpack --config config/webpack.config.js --env env=prod docker=true",
     "prettier": "prettier src --cache --write",
     "prettier-check": "prettier src --cache --check",
     "lint": "eslint src --format @lint-todo/eslint-formatter-todo --ext .js,.ts,.tsx --cache",

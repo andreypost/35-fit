@@ -13,12 +13,9 @@ RUN npm ci
 # Copy the rest of the frontend files (AFTER installing dependencies)
 COPY . .
 
-# Build the frontend (this step will now persist correctly)
-# RUN npm run docker
-
 # Expose frontend port
 EXPOSE 8080
 
 # Start the frontend
 # CMD ["npx", "serve", "-s", "dist", "-l", "8080"]
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start:docker"]

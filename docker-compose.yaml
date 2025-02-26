@@ -1,25 +1,24 @@
 services:
   database:
-    image: postgres:15
+    image: postgres:15.6 # Uses PostgreSQL 15.6
     container_name: fitdb
     restart: always
-    env_file:
-      - ./.env
-    environment:
-      - POSTGRES_USER=${PGUSER}
-      - POSTGRES_PASSWORD=${PGPASSWORD}
-      - POSTGRES_DB=${PGDATABASE}
-      - PGPORT=${PGPORT}
-      # - JWT_KEY=${JWT_KEY}
-      # - HEADLESS_URL=${HEADLESS_URL}
-    ports:
-      - ${PGPORT}:${PGPORT}
-      # - ${DOCKERHOST}:${PGPORT}
+    # env_file:
+    #   - ./.env
+    # environment:
+    #   - PGPORT=${PGPORT}
+    #   - POSTGRES_DB=${PGDATABASE}
+    #   - POSTGRES_USER=${PGUSER}
+    #   - POSTGRES_PASSWORD=${PGPASSWORD}
+    #   # - JWT_KEY=${JWT_KEY}
+    #   # - HEADLESS_URL=${HEADLESS_URL}
+    # ports:
+    #   - ${PGPORT}:${PGPORT}
+    # - ${DOCKERHOST}:${PGPORT}
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${PGUSER}"]
-      # test: ["CMD", "pg_isready", "-U", "fitdb"]
+      test: ["CMD", "pg_isready", "-d", "fitdb", "-U", "andrii"]
       interval: 5s
       retries: 5
 
@@ -32,8 +31,8 @@ services:
     depends_on:
       database:
         condition: service_healthy # Ensure database is ready before backend starts
-    env_file:
-      - ./.env
+    # env_file:
+    #   - ./.env
     ports:
       - "3000:3000"
     volumes:
@@ -49,21 +48,21 @@ services:
     restart: always
     depends_on:
       - backend
-    env_file:
-      - ./.env
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - FIREBASE_API_KEY=${FIREBASE_API_KEY}
-      - FIREBASE_MESSAGING_SENDER_ID=${FIREBASE_MESSAGING_SENDER_ID}
-      - FIREBASE_APP_ID=${FIREBASE_APP_ID}
-      - API_URL=${API_URL}
+    # env_file:
+    #   - ./.env
+    # environment:
+    #   - NODE_ENV=${NODE_ENV}
+    #   - FIREBASE_API_KEY=${FIREBASE_API_KEY}
+    #   - FIREBASE_MESSAGING_SENDER_ID=${FIREBASE_MESSAGING_SENDER_ID}
+    #   - FIREBASE_APP_ID=${FIREBASE_APP_ID}
+    # - API_URL=${API_URL}
     ports:
       - "8080:8080"
     volumes:
       - ./headless:/app
       - /app/node_modules # Prevents overwriting node_modules
       # - /app/dist # Prevents dist from being overwritten
-    command: ["npm", "run", "start"]
+    command: ["npm", "run", "start:docker"]
     # command: ["npx", "serve", "-s", "dist", "-l", "8080"] # Explicitly force serving dist/
 
 volumes:
