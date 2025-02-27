@@ -5,7 +5,7 @@ const dotenv = require('dotenv')
 // Load environment variables from .env.development file
 dotenv.config({ path: './.env.development' })
 
-module.exports = ({ docker = false, netlify = false }) => {
+module.exports = ({ docker }) => {
   return {
     mode: 'development',
     devtool: 'cheap-module-source-map',

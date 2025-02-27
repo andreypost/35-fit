@@ -11,6 +11,7 @@ import {
 // import { existsSync } from 'fs';
 // import { readFile, writeFile } from 'fs/promises';
 import { Response } from 'express';
+import { isDocker } from '../../utils/is.docker';
 import { getFileData, writeFileData } from './helpers/file.stream';
 import { CreateUserDetailsDto } from './dto/create.user.details.dto';
 import { nextError } from '../../utils/next.error';
@@ -24,7 +25,11 @@ export class DetailService {
     process.cwd(),
     process.platform === 'win32'
       ? '..\\jsonData\\user-collection.json' // Windows-specific path
-      : '../jsonData/user-collection.json', // POSIX-specific path
+      : isDocker
+        ? './jsonData/user-collection.json'
+        : process.platform === 'linux'
+          ? '../jsonData/user-collection.json' // POSIX-specific path, for linux, mac
+          : './jsonData/user-collection.json',
   );
   /*     path.resolve(
     __dirname,

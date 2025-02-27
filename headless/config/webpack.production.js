@@ -8,7 +8,7 @@ const path = require('path')
 // Load environment variables from .env.production file
 dotenv.config({ path: './.env.production' })
 
-module.exports = ({ docker = false, netlify = false }) => {
+module.exports = ({ netlify }) => {
   return {
     mode: 'production',
     devtool: 'source-map',

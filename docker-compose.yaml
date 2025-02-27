@@ -38,7 +38,8 @@ services:
     volumes:
       - ./nest-api:/app
       - /app/node_modules # Prevents overwriting node_modules
-    command: ["npm", "run", "start:dev"]
+      - ./jsonData:/app/jsonData # Mount jsonData folder correctly
+    command: ["npm", "run", "start:docker"]
 
   frontend:
     build:
