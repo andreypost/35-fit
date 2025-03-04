@@ -7,7 +7,7 @@ export class AuditLoggerMiddleware implements NestMiddleware {
     console.log('AuditLoggerMiddleware Request Body: ', req.body);
     console.log('AuditLoggerMiddleware Request Query: ', req.query);
     console.log('AuditLoggerMiddleware Request Url: ', req.url);
-    console.log('AuditLoggerMiddleware Response: ', res);
+    // console.log('AuditLoggerMiddleware Response: ', res);
     next();
   }
 }

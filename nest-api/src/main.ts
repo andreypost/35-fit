@@ -33,17 +33,17 @@ async function bootstrap() {
   // global interceptors
   app.useGlobalInterceptors(new ExecutionTimeInterceptor());
 
-  app.use((req, res, next) => {
-    if (req.url === '/accessory/check') {
-      console.log(`🟢 Request started: ${req.method} ${req.url}`);
-    }
-    req.on('close', () => {
-      if (req.url === '/accessory/check') {
-        console.log(`🔴 Request closed: ${req.method} ${req.url}`);
-      }
-    });
-    next();
-  });
+  // app.use((req, res, next) => {
+  //   if (req.url === '/accessory/check') {
+  //     console.log(`🟢 Request started: ${req.method} ${req.url}`);
+  //   }
+  //   req.on('close', () => {
+  //     if (req.url === '/accessory/check') {
+  //       console.log(`🔴 Request closed: ${req.method} ${req.url}`);
+  //     }
+  //   });
+  //   next();
+  // });
 
   await app.listen(port);
   console.log(`Nest app is running on local port: http://localhost:${port}`);

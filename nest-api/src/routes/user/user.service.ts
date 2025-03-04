@@ -158,6 +158,11 @@ export class UserService {
           : msg.LOGGED_OUT_SUCCESSFUL,
       };
     } catch (error: any) {
+      if (error.code === '23503') {
+        return {
+          message: msg.USER_CANNOT_BE_DELETED,
+        };
+      }
       nextError(error);
     }
   }
