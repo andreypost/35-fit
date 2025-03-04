@@ -1,4 +1,18 @@
 {
+  "common": {
+    "welcome_to": "Tere tulemast",
+    "not_member_yet": "Mitte veel liige?",
+    "book_your_training": "Broneeri oma esimene koolitus",
+    "use_google_account_sign_in": "Kasutage oma Google'i kontot sisse logimiseks",
+    "email_address": "E-posti aadress:",
+    "enter_email_address": "Sisesta e-posti aadress",
+    "password": "Parool:",
+    "enter_password": "Sisestage parool",
+    "keep_me_logged_in": "Hoia mind sisse logituna",
+    "35fit_community": "35FIT Kogukond",
+    "connected_to": "seotud",
+    "results": "tulemustega"
+  },
   "nav": {
     "training": "Koolitus",
     "personal_training": "Personali koolitus",
@@ -90,18 +104,6 @@
     "personal_information": "Isiklikud andmed",
     "contact_information": "Kontaktandmed"
   },
-  "welcome_to": "Tere tulemast",
-  "not_member_yet": "Mitte veel liige?",
-  "book_your_training": "Broneeri oma esimene koolitus",
-  "use_google_account_sign_in": "Kasutage oma Google'i kontot sisse logimiseks",
-  "email_address": "E-posti aadress:",
-  "enter_email_address": "Sisesta e-posti aadress",
-  "password": "Parool:",
-  "enter_password": "Sisestage parool",
-  "keep_me_logged_in": "Hoia mind sisse logituna",
-  "35fit_community": "35FIT Kogukond",
-  "connected_to": "seotud",
-  "results": "tulemustega",
   "footer": {
     "stay_connected": "Püsi ühenduses",
     "get_in_touch": "Ühendust võtma",
@@ -114,7 +116,6 @@
     "contacts": "Kontaktid",
     "search_engine": "Otsingumootori optimeerimine ja reklaam",
     "become_partner": "Hakka partneriks",
-
     "Careers": "Karjäär",
     "Privacy": "Privaatsuspoliitika",
     "Terms": "Tingimused"

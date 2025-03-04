@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectDashModalActive, unsetDashModal } from 'slices/modal.slice'
 import { BaseDiv } from './MenuModal'
 import { NavigationLinks } from 'components/NavigationLinks'
-import { profileLinks } from 'utils/routes.constants'
+import { profileLinks } from 'constants/routes'
 import { User } from 'components/User'
 import { logoutUserWithAuthToken } from 'slices/databaseUser.slice'
 

@@ -10,7 +10,7 @@ import { useAppDispatch } from 'utils/hooks'
 import { addNewDatabaseUser } from 'slices/databaseUser.slice'
 import { messageModal } from 'slices/modal.slice'
 import { errorModalMessage } from 'utils/errorModalMessage'
-import { dev } from 'config'
+import { isDevelopment } from 'utils/isDevelopment'
 import { apiEndpointCall } from 'utils/endpointApiCall'
 import { AppContext } from '../AppRouter'
 
@@ -228,7 +228,7 @@ const Reserve = () => {
   ]
 
   useEffect(() => {
-    dev &&
+    isDevelopment &&
       setUserData({
         name: 'Andrii Postoliuk',
         surname: 'Postoliuk',
@@ -242,7 +242,7 @@ const Reserve = () => {
         emergencyName: '',
         emergencyPhone: '',
       })
-  }, [dev])
+  }, [isDevelopment])
 
   const handleChangeUserData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -259,7 +259,7 @@ const Reserve = () => {
   ): Promise<void> => {
     e.preventDefault()
     try {
-      if (!dev) {
+      if (!isDevelopment) {
         await new Promise((resolve) => {
           setTimeout(() => {
             resolve(
@@ -313,7 +313,7 @@ const Reserve = () => {
         </aside>
 
         <article className="reserve_article">
-          {dev && <TestingModule />}
+          {isDevelopment && <TestingModule />}
           <header className="grey">
             <h4 className="b900">
               {t('reserve.new_to_fit')}
@@ -337,7 +337,7 @@ const Reserve = () => {
                       name="name"
                       placeholder="First name"
                       onChange={handleChangeUserData}
-                      required={dev ? false : true}
+                      required={isDevelopment ? false : true}
                     />
                   </fieldset>
                   <fieldset>
@@ -347,7 +347,7 @@ const Reserve = () => {
                       name="surname"
                       placeholder="Surname"
                       onChange={handleChangeUserData}
-                      required={dev ? false : true}
+                      required={isDevelopment ? false : true}
                     />
                   </fieldset>
                 </div>
@@ -357,7 +357,7 @@ const Reserve = () => {
                     <select
                       name="gender"
                       onChange={handleChangeUserData}
-                      required={dev ? false : true}
+                      required={isDevelopment ? false : true}
                       style={{
                         color: setFieldColor(userData.gender),
                       }}
@@ -378,7 +378,7 @@ const Reserve = () => {
                       min={1}
                       max={111}
                       onChange={handleChangeUserData}
-                      required={dev ? false : true}
+                      required={isDevelopment ? false : true}
                     />
                   </fieldset>
                 </div>
@@ -395,7 +395,7 @@ const Reserve = () => {
                     <select
                       name="country"
                       onChange={handleChangeUserData}
-                      required={dev ? false : true}
+                      required={isDevelopment ? false : true}
                       style={{
                         color: setFieldColor(userData.country),
                       }}
@@ -412,7 +412,7 @@ const Reserve = () => {
                     <select
                       name="city"
                       onChange={handleChangeUserData}
-                      required={dev ? false : true}
+                      required={isDevelopment ? false : true}
                       style={{
                         color: setFieldColor(userData.city),
                       }}
@@ -443,7 +443,7 @@ const Reserve = () => {
                       name="password"
                       placeholder="Password"
                       onChange={handleChangeUserData}
-                      required={dev ? false : true}
+                      required={isDevelopment ? false : true}
                     />
                   </fieldset>
                 </div>
@@ -456,7 +456,7 @@ const Reserve = () => {
                 name="phone"
                 placeholder="Phone number"
                 onChange={handleChangeUserData}
-                required={dev ? false : true}
+                required={isDevelopment ? false : true}
               />
             </fieldset>
             <button
@@ -467,7 +467,7 @@ const Reserve = () => {
               {t('reserve.continue')}
             </button>
           </form>
-          {dev && (
+          {isDevelopment && (
             <>
               <h3 className="b900 blue">Additional Forms</h3>
               <div className="additional_forms margin_b_120_80">

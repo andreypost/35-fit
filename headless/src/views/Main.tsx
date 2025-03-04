@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 // import { GetCurrentWindowScroll } from 'utils/hooks'
-import { RESERVE_ROUTE, PRICE_ROUTE, TRAIN_ROUTE } from 'utils/routes.constants'
+import { RESERVE_ROUTE, PRICE_ROUTE, TRAIN_ROUTE } from 'constants/routes'
 import { HeaderBanner } from 'HeaderBanner'
 import { GreenButton } from '../components/ui/GreenButton'
 import { ImageDescription } from 'components/ImageDescription'
@@ -297,7 +297,7 @@ const Main = () => {
       />
       <img src={require('../img/patterns/pattern_bg_1_3.webp')} alt="" />
       <CommunityArticle
-        title="35fit_community"
+        title="common.35fit_community"
         subTitle={true}
         description="header_banner.training_becomes"
       />

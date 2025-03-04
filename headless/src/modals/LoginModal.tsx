@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { RESERVE_ROUTE } from 'utils/routes.constants'
+import { RESERVE_ROUTE } from 'constants/routes'
 import { useAppSelector, useAppDispatch } from 'utils/hooks'
 import { BaseDiv } from './MenuModal'
 import {
@@ -18,7 +18,7 @@ import {
   addNewDatabaseUser,
   loginUserFromDatabase,
 } from 'slices/databaseUser.slice'
-import { dev } from 'config'
+import { isDevelopment } from 'utils/isDevelopment'
 import { AppContext } from '../AppRouter'
 import { FirebaseAuthContext } from '../index'
 
@@ -206,7 +206,7 @@ export const LoginModal = () => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    if (!dev) {
+    if (!isDevelopment) {
       dispatch(unsetLoginModal())
       await new Promise((resolve) => {
         setTimeout(() => {
@@ -245,29 +245,29 @@ export const LoginModal = () => {
           onSubmit={handleLoginSubmit}
         >
           <h1 className="b900 blue">
-            {t('welcome_to')}
+            {t('common.welcome_to')}
             <br />
             35 FIT
           </h1>
           <label htmlFor="login" className="grey_label">
-            {t('email_address')}
+            {t('common.email_address')}
           </label>
           <input
             type="email"
             name="email"
             className="grey_button blue"
-            placeholder={t('enter_email_address')}
+            placeholder={t('common.enter_email_address')}
             onChange={handleChangeLoginData}
             // required
           />
           <label htmlFor="password" className="grey_label">
-            {t('password')}
+            {t('common.password')}
           </label>
           <input
             type="password"
             name="password"
             className="grey_button part_radius blue"
-            placeholder={t('enter_password')}
+            placeholder={t('common.enter_password')}
             onChange={handleChangeLoginData}
             // required
           />
@@ -283,20 +283,20 @@ export const LoginModal = () => {
               onChange={handleChangeLoginData}
             />
             <span className="checkmark flex_center_center" />
-            {t('keep_me_logged_in')}
+            {t('common.keep_me_logged_in')}
           </label>
           <button type="submit" className="grey_button grey">
             {t('nav.login')}
           </button>
           <p className="use_google b700 green" onClick={() => login()}>
-            {t('use_google_account_sign_in')}
+            {t('common.use_google_account_sign_in')}
           </p>
         </form>
         <div className="login_book">
           <article>
-            <h2 className="b900 white">{t('not_member_yet')}</h2>
+            <h2 className="b900 white">{t('common.not_member_yet')}</h2>
             <Link className="flex_center_center b700 white" to={RESERVE_ROUTE}>
-              {t('book_your_training')}
+              {t('common.book_your_training')}
             </Link>
           </article>
         </div>

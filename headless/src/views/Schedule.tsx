@@ -35,7 +35,7 @@ const Schedule = () => {
       />
       <img src={require('../img/patterns/pattern_bg_1_3.webp')} alt="" />
       <CommunityArticle
-        title="35fit_community"
+        title="common.35fit_community"
         subTitle={true}
         description="header_banner.training_becomes"
       />

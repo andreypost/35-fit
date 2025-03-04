@@ -53,8 +53,8 @@ export const CommunityArticle = ({
         {subTitle && (
           <>
             <br />
-            <span>#{t('connected_to')}</span>
-            <span className="green">{t('results')}</span>
+            <span>#{t('common.connected_to')}</span>
+            <span className="green">{t('common.results')}</span>
           </>
         )}
         {coach && (

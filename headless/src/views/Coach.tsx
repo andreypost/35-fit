@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 // import { Link } from "react-router-dom";
 // import i18n from "../i18n";
 import { HeaderBanner } from 'HeaderBanner'
-import { TEAM_ROUTE } from 'utils/routes.constants'
+import { TEAM_ROUTE } from 'constants/routes'
 import { CommunityArticle } from 'components/CommunityArticle'
 import { InstaImages } from 'components/InstaImages'
 
@@ -208,7 +208,7 @@ const Coach = () => {
       <img src={require('../img/patterns/pattern_bg_1_3.webp')} alt="" />
 
       <CommunityArticle
-        title="35fit_community"
+        title="common.35fit_community"
         description="header_banner.training_becomes"
         coach="Joyce's"
       />

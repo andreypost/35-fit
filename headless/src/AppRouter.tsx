@@ -17,7 +17,7 @@ import {
 import { FirebaseAuthContext } from './index'
 import { useTranslation } from 'react-i18next'
 import { privatRoutes, publicRoutes } from './routes'
-import { MAIN_ROUTE } from 'utils/routes.constants'
+import { MAIN_ROUTE } from 'constants/routes'
 import { HeaderNavigate } from 'components/HeaderNavigate'
 import { Footer } from 'components/Footer'
 import { MenuModal } from 'modals/MenuModal'

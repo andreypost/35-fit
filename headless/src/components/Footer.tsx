@@ -184,13 +184,13 @@ export const Footer = () => {
                 <form action="" id="newsForm" className="flex_center_bet">
                   <div className="input_box">
                     <label htmlFor="email" className="label_styles white">
-                      {t('email_address')}
+                      {t('common.email_address')}
                     </label>
                     <input
                       type="email"
                       name="email"
                       className="light_grey_button part_radius white"
-                      placeholder={t('enter_email_address')}
+                      placeholder={t('common.enter_email_address')}
                       required
                     />
                   </div>

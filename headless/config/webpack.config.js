@@ -3,7 +3,7 @@ const { merge } = require('webpack-merge')
 const commonConfig = require('./webpack.common.js')
 
 module.exports = (envVars) => {
-  const { env = 'dev', docker = false, netlify = false } = envVars
+  const { env = 'development', docker = false, netlify = false } = envVars
   // netlify, docker flags is passed from package.json file with script command
   let envConfig = require(`./webpack.${env}.js`)
 

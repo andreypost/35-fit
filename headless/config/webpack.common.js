@@ -10,6 +10,7 @@ module.exports = {
     alias: {
       config: path.resolve(__dirname, '../src/config.ts'),
       components: path.resolve(__dirname, '../src/components'),
+      constants: path.resolve(__dirname, '../src/constants'),
       HeaderBanner$: path.resolve(
         __dirname,
         '../src/components/HeaderBanner.tsx'

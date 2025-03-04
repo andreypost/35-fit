@@ -23,7 +23,7 @@ import {
   FLOWER_ROUTE,
   CHAT_ROUTE,
   COACH_ROUTE,
-} from 'utils/routes.constants'
+} from 'constants/routes'
 
 export const publicRoutes = [
   {

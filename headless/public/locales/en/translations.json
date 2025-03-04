@@ -1,4 +1,18 @@
 {
+  "common": {
+    "welcome_to": "Welcome to",
+    "not_member_yet": "Not a member yet?",
+    "book_your_training": "Book your first training",
+    "use_google_account_sign_in": "Use your Google Account to sign in",
+    "email_address": "E-mail address:",
+    "enter_email_address": "Enter e-mail address",
+    "password": "Password:",
+    "enter_password": "Enter password",
+    "keep_me_logged_in": "Keep me logged in",
+    "35fit_community": "35FIT Community",
+    "connected_to": "connectedto",
+    "results": "results"
+  },
   "nav": {
     "training": "Training",
     "personal_training": "Personal training",
@@ -90,18 +104,6 @@
     "personal_information": "Personal information",
     "contact_information": "Contact information"
   },
-  "welcome_to": "Welcome to",
-  "not_member_yet": "Not a member yet?",
-  "book_your_training": "Book your first training",
-  "use_google_account_sign_in": "Use your Google Account to sign in",
-  "email_address": "E-mail address:",
-  "enter_email_address": "Enter e-mail address",
-  "password": "Password:",
-  "enter_password": "Enter password",
-  "keep_me_logged_in": "Keep me logged in",
-  "35fit_community": "35FIT Community",
-  "connected_to": "connectedto",
-  "results": "results",
   "footer": {
     "stay_connected": "Stay connected",
     "get_in_touch": "Get in touch",
@@ -114,7 +116,6 @@
     "contacts": "Contacts",
     "search_engine": "Search Engine Optimization And Advertising",
     "become_partner": "Become a partner",
-
     "Careers": "Careers",
     "Privacy": "Privacy policy",
     "Terms": "Terms and conditions"
