@@ -1,1 +1,1 @@
-export const isDocker = process.env.DOCKER === 'true';
+export const isDocker = process.env.NODE_ENV === 'docker';

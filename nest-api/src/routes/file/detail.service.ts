@@ -21,16 +21,24 @@ import { countCountryEarnings } from './helpers/user.collection';
 
 @Injectable()
 export class DetailService {
-  private readonly filePath: string = join(
-    process.cwd(),
-    process.platform === 'win32'
-      ? '..\\jsonData\\user-collection.json' // Windows-specific path
-      : isDocker
-        ? './jsonData/user-collection.json'
-        : process.platform === 'linux'
-          ? '../jsonData/user-collection.json' // POSIX-specific path, for linux, mac
-          : './jsonData/user-collection.json',
-  );
+  private readonly filePath: string = (() => {
+    const basePath = process.cwd();
+    const jsonDataPath = 'jsonData/user-collection.json';
+
+    if (process.platform === 'win32') {
+      return join(basePath, '..', jsonDataPath); // Windows-specific path
+    }
+
+    if (isDocker) {
+      return join(basePath, jsonDataPath); // Docker-specific path
+    }
+
+    if (process.platform === 'linux' || process.platform === 'darwin') {
+      return join(basePath, '..', jsonDataPath); // POSIX-specific path for Linux and Mac
+    }
+
+    return join(basePath, jsonDataPath);
+  })();
   /*     path.resolve(
     __dirname,
     process.platform === 'win32'

@@ -48,12 +48,6 @@ services:
       - backend
     env_file:
       - ./.env
-    # environment:
-    # - NODE_ENV=${NODE_ENV}
-    # - FIREBASE_API_KEY=${FIREBASE_API_KEY}
-    # - FIREBASE_MESSAGING_SENDER_ID=${FIREBASE_MESSAGING_SENDER_ID}
-    # - FIREBASE_APP_ID=${FIREBASE_APP_ID}
-    # - API_URL=${API_URL}
     ports:
       - ${HEADLESS_PORT}:${HEADLESS_PORT}
     volumes:
