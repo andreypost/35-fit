@@ -26,6 +26,7 @@ import { OrderController } from './routes/order/order.controller';
 import { ScooterService } from './routes/scooter/scooter.service';
 import { AccessoryService } from './routes/accessory/accessory.service';
 import { OrderService } from './routes/order/order.service';
+import { Chat } from './gateways/chat';
 
 config();
 
@@ -60,6 +61,7 @@ config();
     ScooterService,
     AccessoryService,
     OrderService,
+    Chat,
   ],
 })
 export class AppModule implements NestModule {
