@@ -8,8 +8,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
-import { Public } from '../../guards/public.routes';
 import { UserService } from './user.service';
+import { Public } from '../../guards/public.routes';
+import { Throttle, SkipThrottle } from '@nestjs/throttler';
 import { CreateUserDto, LoginUserDto } from './dto/create.user.dto';
 import { User } from '../../entities/user';
 import { HttpResponse } from '../../pipes/http.response';
@@ -20,6 +21,7 @@ import { ExecutionTimeInterceptor } from '../../interceptors/execution.time';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Throttle({ default: { ttl: 6000, limit: 2, blockDuration: 600000 } })
   @Public()
   @Post('create-new-user')
   async createNewUser(
@@ -51,6 +53,7 @@ export class UserController {
     return await this.userService.validateUserByAuthToken(req, res);
   }
 
+  @SkipThrottle()
   @Public()
   @Get('users')
   async getAllUsers(): Promise<User[]> {

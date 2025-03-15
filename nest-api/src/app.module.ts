@@ -8,10 +8,11 @@ import {
 import { ConfigModule } from '@nestjs/config';
 import { DataBaseModule } from './db/database.module';
 import { JwtModule } from '@nestjs/jwt';
-// import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 import { config } from 'dotenv';
 import { AuditLoggerMiddleware } from './middlewares/audit.logger';
-// import { AuthGuard } from './auth/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { secrets } from './constants/secrets';
 import { AppHello } from './app.hello';
 import { UserService } from './routes/user/user.service';
@@ -43,6 +44,15 @@ config();
       secret: process.env.JWT_KEY,
       signOptions: { expiresIn: secrets.EXPIRES_IN },
     }),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 6000,
+          limit: 3,
+          blockDuration: 600000,
+        },
+      ],
+    }),
   ],
   controllers: [
     AppHello,
@@ -54,7 +64,8 @@ config();
     OrderController,
   ],
   providers: [
-    // { provide: APP_GUARD, useClass: AuthGuard }, // included with useGlobalGuards in main.ts
+    // { provide: APP_GUARD, useClass: AuthGuard }, // already included with useGlobalGuards in main.ts
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
     UserService,
     DetailService,
     PriceService,

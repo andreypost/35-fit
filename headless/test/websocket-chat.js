@@ -14,12 +14,14 @@ socket.on('connect', () => {
       username: 'Andrii',
       message: 'Hello from websocket-chat test script!',
     })
-  }, 2000)
+  }, 3000)
 
-  socket.emit('sendMessage', {
-    username: 'Alena',
-    message: 'I love travelling!',
-  })
+  setTimeout(() => {
+    socket.emit('sendMessage', {
+      username: 'Alena',
+      message: 'I love travelling!',
+    })
+  }, 5000)
 })
 
 socket.on('receiveMessage', (data) => {

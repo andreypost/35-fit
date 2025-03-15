@@ -7,7 +7,7 @@ import { styleText } from "util";
 export const AppDataSource = new DataSource({
   type: "postgres",
   host: env.DB_HOST,
-  port: parseInt(env.DB_PORT as string, 10),
+  port: Number(env.DB_PORT),
   username: env.DB_USER,
   password: env.DB_PASS,
   database: env.DB_NAME,

@@ -15,7 +15,7 @@ const configService = new ConfigService();
 export const dataBaseOptions = {
   type: 'postgres',
   host: configService.get<string>('PGHOST'),
-  port: +configService.get<string>('PGPORT'),
+  port: Number(configService.get<string>('PGPORT')),
   username: configService.get<string>('PGUSER'),
   password: configService.get<string>('PGPASSWORD'),
   database: configService.get<string>('PGDATABASE'),
