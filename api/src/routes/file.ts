@@ -1,4 +1,4 @@
-import path from "path";
+import path, { join } from "path";
 import { Router, Request, Response, NextFunction } from "express";
 import { validateAuthToken } from "../auth/jsonWebToken";
 import { getFileData, writeFileData } from "../helpers/fileStream";
@@ -9,14 +9,24 @@ import { countCountryEarnings } from "../helpers/userCollection";
 
 export const file = Router();
 
-// const filePath = path.resolve(process.cwd(), "../jsonData", "user-collection.json");
-// __dirname is usually better because it is directly tied to the file structure
-const filePath = path.resolve(
-  __dirname,
-  process.platform === "win32"
-    ? "..\\..\\..\\jsonData\\user-collection.json" // Windows-specific path
-    : "../../../jsonData/user-collection.json" // POSIX-specific path
-);
+const filePath: string = (() => {
+  const basePath = process.cwd();
+  const jsonDataPath = "jsonData/user-collection.json";
+
+  if (process.platform === "win32") {
+    return join(basePath, "..", jsonDataPath);
+  }
+
+  // if (isDocker) {
+  //   return join(basePath, jsonDataPath); // Docker-specific path
+  // }
+
+  if (process.platform === "linux" || process.platform === "darwin") {
+    return join(basePath, "..", jsonDataPath); // POSIX-specific path for Linux and Mac
+  }
+
+  return join(basePath, jsonDataPath);
+})();
 
 let fileData: IFileUserDetails[] = [];
 let fileCountCache: Record<string, number> = {};
