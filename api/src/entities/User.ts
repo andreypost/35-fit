@@ -1,20 +1,11 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BeforeInsert,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-} from "typeorm";
+import { Entity, Column, BeforeInsert, OneToMany } from "typeorm";
+import { BaseSchema } from "./BaseSchema";
+import { Transform } from "class-transformer";
 import bcrypt from "bcrypt";
 import { Order } from "./Order";
 
 @Entity({ name: "user" })
-export class User {
-  @PrimaryGeneratedColumn("uuid")
-  id?: string;
-
+export class User extends BaseSchema {
   @Column()
   name!: string;
 
@@ -25,6 +16,7 @@ export class User {
   gender!: string;
 
   @Column()
+  @Transform(({ value }) => Number(value))
   age!: number;
 
   @Column()
@@ -60,10 +52,4 @@ export class User {
 
   @OneToMany(() => Order, (order) => order.user)
   orders!: Order[];
-
-  @CreateDateColumn()
-  createdAt!: Date;
-
-  @UpdateDateColumn()
-  updatedAt!: Date;
 }

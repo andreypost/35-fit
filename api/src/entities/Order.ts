@@ -1,38 +1,36 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { BaseSchema } from "./BaseSchema";
 import { User } from "./User";
+import { OrderItem } from "./OrderItem";
 
 @Entity({ name: "order" })
-export class Order {
-  @PrimaryGeneratedColumn("uuid")
-  id?: string;
-
-  @Column("int")
-  quantity!: number;
-
+export class Order extends BaseSchema {
   @Column()
-  status!: string; // 'Pending', 'Shipped', 'Delivered', 'Cancelled'
-
-  @Column("decimal", { precision: 10, scale: 2 })
-  totalCost!: number;
+  status!: string; // 'pending', 'shipped', 'delivered', 'cancelled'
 
   @ManyToOne(() => User, (user) => user.orders, {
     // The database will throw an error if you try to delete a User with existing orders
     onDelete: "RESTRICT",
     onUpdate: "CASCADE",
-    // onDelete: 'CASCADE',
-    // onUpdate: 'CASCADE',
   })
-  user!: User; // Automatically creates a `userId` foreign key
-  @CreateDateColumn()
-  createdAt!: Date;
+  @JoinColumn({ name: "user_id" }) // Explicitly define the foreign key column
+  user!: User;
 
-  @UpdateDateColumn()
-  updatedAt!: Date;
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
+    cascade: ["insert", "update"],
+  })
+  items!: OrderItem[];
+
+  @Column("decimal", { precision: 10, scale: 2 })
+  finalTotalPrice!: number;
+
+  calculateFinalTotalPrice() {
+    this.finalTotalPrice = this.items.reduce((total, { price, quantity }) => {
+      const { amount, discount, taxRate } = price;
+      const priceAfterDiscount = amount - (amount * discount) / 100;
+      const priceAfterTaxRate =
+        priceAfterDiscount + (priceAfterDiscount * taxRate) / 100;
+      return Math.round((total + priceAfterTaxRate * quantity) * 100) / 100;
+    }, 0);
+  }
 }

@@ -1,8 +1,12 @@
 import { DataSource } from "typeorm";
 import { env } from "./env";
-import { User } from "../entities/User";
-import { Order } from "../entities/Order";
 import { styleText } from "util";
+import { User } from "../entities/User";
+import { Price } from "../entities/Price";
+import { Scooter } from "../entities/Scooter";
+import { Accessory } from "../entities/Accessory";
+import { OrderItem } from "../entities/OrderItem";
+import { Order } from "../entities/Order";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -13,7 +17,7 @@ export const AppDataSource = new DataSource({
   database: env.DB_NAME,
   synchronize: false,
   logging: false,
-  entities: [User, Order],
+  entities: [User, Price, Scooter, Accessory, OrderItem, Order],
   migrations: env.NODE_ENV === "production" ? [] : ["dist/migration/**/*.js"],
 });
 
