@@ -37,7 +37,7 @@ export class ScooterService {
       const existingScooter = await this.scooterRepository.findOne({
         where: {
           model,
-          priceId: { id: priceId },
+          price: { id: priceId },
         },
       });
 
@@ -46,7 +46,7 @@ export class ScooterService {
           return existingScooter.id;
         }
         throw new ConflictException(
-          `${model}, ${existingScooter.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
+          `${model}, ${existingScooter.price.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
         );
       }
 

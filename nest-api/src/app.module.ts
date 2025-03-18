@@ -47,8 +47,8 @@ config();
     ThrottlerModule.forRoot({
       throttlers: [
         {
-          ttl: 6000,
-          limit: 3,
+          ttl: 60000,
+          limit: 7,
           blockDuration: 600000,
         },
       ],

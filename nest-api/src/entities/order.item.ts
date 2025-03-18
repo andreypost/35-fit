@@ -1,12 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { BaseSchema } from './base.schema';
 import { Order } from './order';
 import { Price } from './price';
 
 @Entity({ name: 'order_item' })
-export class OrderItem {
-  @PrimaryGeneratedColumn('uuid')
-  id?: string;
-
+export class OrderItem extends BaseSchema {
   @Column()
   productName!: string;
 
@@ -19,7 +17,8 @@ export class OrderItem {
   @Column('uuid')
   productId!: string; // UUID of the scooter or accessory
 
-  @ManyToOne(() => Order, ({ items }) => items, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Order, (order) => order.items, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'order_id' })
   order!: Order;
 
   @ManyToOne(() => Price, { eager: true })

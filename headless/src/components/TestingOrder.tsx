@@ -106,6 +106,8 @@ export const TestingOrder = () => {
           signal
         )
 
+        console.log("priceId: ", priceId)
+
         if (!priceId || signal.aborted) return
         setPriceId(priceId)
 

@@ -1,21 +1,11 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BeforeInsert,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-} from 'typeorm';
+import { Entity, Column, BeforeInsert, OneToMany } from 'typeorm';
+import { BaseSchema } from './base.schema';
 import { Transform } from 'class-transformer';
 import bcrypt from 'bcrypt';
 import { Order } from './order';
 
 @Entity({ name: 'user' })
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id?: string;
-
+export class User extends BaseSchema {
   @Column()
   name!: string;
 
@@ -60,12 +50,6 @@ export class User {
     return bcrypt.compare(inputPassword, this.password);
   }
 
-  @OneToMany(() => Order, ({ user }) => user)
+  @OneToMany(() => Order, (order) => order.user)
   orders!: Order[];
-
-  @CreateDateColumn()
-  createdAt!: Date;
-
-  @UpdateDateColumn()
-  updatedAt!: Date;
 }

@@ -1,43 +1,28 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { BaseSchema } from './base.schema';
 import { User } from './user';
 import { OrderItem } from './order.item';
 
 @Entity({ name: 'order' })
-export class Order {
-  @PrimaryGeneratedColumn('uuid')
-  id?: string;
-
+export class Order extends BaseSchema {
   @Column()
   status!: string; // 'pending', 'shipped', 'delivered', 'cancelled'
 
-  @ManyToOne(() => User, ({ orders }) => orders, {
+  @ManyToOne(() => User, (user) => user.orders, {
     // The database will throw an error if you try to delete a User with existing orders
     onDelete: 'RESTRICT',
     onUpdate: 'CASCADE',
-    // onDelete: 'CASCADE',
-    // onUpdate: 'CASCADE',
   })
-  user!: User; // Automatically creates a `userId` foreign key
+  @JoinColumn({ name: 'user_id' }) // Explicitly define the foreign key column
+  user!: User;
 
-  @OneToMany(() => OrderItem, ({ order }) => order, { cascade: true })
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
+    cascade: ['insert', 'update'],
+  })
   items!: OrderItem[];
 
   @Column('decimal', { precision: 10, scale: 2 })
   finalTotalPrice!: number;
-
-  @CreateDateColumn()
-  createdAt!: Date;
-
-  @UpdateDateColumn()
-  updatedAt!: Date;
 
   calculateFinalTotalPrice() {
     this.finalTotalPrice = this.items.reduce((total, { price, quantity }) => {

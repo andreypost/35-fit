@@ -143,7 +143,7 @@ user.post(
 
 user.get(
   "/users",
-  loginLimiter,
+  // loginLimiter,
   async (
     req: Request,
     res: Response,

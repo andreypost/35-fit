@@ -40,7 +40,7 @@ export class AccessoryService {
       const existingAccessory = await this.accessoryRepository.findOne({
         where: {
           name,
-          priceId: { id: priceId },
+          price: { id: priceId },
         },
       });
 
@@ -49,7 +49,7 @@ export class AccessoryService {
           return existingAccessory.id;
         }
         throw new ConflictException(
-          `${name}, ${existingAccessory.priceId.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
+          `${name}, ${existingAccessory.price.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
         );
       }
 

@@ -1,4 +1,4 @@
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
 import { User } from '../entities/user';
@@ -7,6 +7,11 @@ import { Scooter } from '../entities/scooter';
 import { Accessory } from '../entities/accessory';
 import { OrderItem } from '../entities/order.item';
 import { Order } from '../entities/order';
+
+ConfigModule.forRoot({
+  envFilePath: process.env.NODE_ENV === 'docker' ? '.env.docker' : '.env.local',
+  isGlobal: true,
+});
 
 config(); // strongly required for migrations
 

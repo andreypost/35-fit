@@ -1,4 +1,11 @@
-import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
+import React, {
+  Fragment,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import styled from 'styled-components'
 import { IGetImageById, IGetImages, IPrice } from 'types/interface'
 import { useQuery } from '@apollo/client'
@@ -75,6 +82,30 @@ const Div = styled.div`
   )
 } */
 
+/* const throttle = (func: Function, limit: number) => {
+  let lastCall = 0
+  return function (this: any, ...args: any[]) {
+    const now = Date.now()
+    if (now - lastCall >= limit) {
+      lastCall = now
+      func.call(this, args)
+    }
+  }
+} */
+
+/* const debounce = <T extends (this: any, ...args: any[]) => void>(
+  func: Function,
+  delay: number
+) => {
+  let timerId: any = null
+  return function (this: Parameters<T>, ...args: Parameters<T>) {
+    if (timerId) {
+      clearTimeout(timerId)
+    }
+    timerId = setTimeout(() => func.apply(this, args), delay)
+  }
+} */
+
 export const TestingModule = () => {
   const [index, setIndex] = useState(0)
   // const [selectedImageId, setSelectedImageId] = useState<number>(0)
@@ -106,6 +137,19 @@ export const TestingModule = () => {
   ]
 
   // const largeData = 'A'.repeat(1000000)
+
+  /*   const handleScroll = useCallback(
+    // throttle(() => console.log('throttle'), 500),
+    debounce(() => console.log('debounce'), 500),
+    []
+  ) */
+
+  /*  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [handleScroll]) */
 
   useEffect(() => {
     // console.log('TestingModule: ', process.env.API_URL)
