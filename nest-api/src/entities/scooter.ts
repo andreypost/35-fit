@@ -12,8 +12,8 @@ export class Scooter extends BaseSchema {
   // price!: Price;
 
   @ManyToOne(() => Price, (price) => price.scooters, {
-    nullable: true,
-    onDelete: 'SET NULL',
+    nullable: false,
+    onDelete: 'RESTRICT',
   })
   @JoinColumn({ name: 'price_id' }) // Without @JoinColumn(), TypeORM would generate a default column name based on price
   price?: Price;

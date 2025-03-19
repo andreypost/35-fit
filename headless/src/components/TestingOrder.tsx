@@ -88,7 +88,8 @@ export const TestingOrder = () => {
   // const largeData = 'A'.repeat(1000000)
 
   useEffect(() => {
-    console.log('process.env.NODE_ENV: ', process.env.NODE_ENV)
+    // console.log('process.env.NODE_ENV: ', process.env.NODE_ENV)
+
     const fetchPriceAndCheckProduct = async (
       priceName: string,
       setPriceId: (id: string) => void,
@@ -106,9 +107,8 @@ export const TestingOrder = () => {
           signal
         )
 
-        console.log("priceId: ", priceId)
-
         if (!priceId || signal.aborted) return
+
         setPriceId(priceId)
 
         const { data: productId } = await apiEndpointCall(
@@ -268,7 +268,7 @@ export const TestingOrder = () => {
                     {
                       productType: 'scooter',
                       productId: scooterPoductId,
-                      quantity: 1,
+                      quantity: 2,
                     },
                   ],
                 })

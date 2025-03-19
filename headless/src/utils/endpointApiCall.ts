@@ -9,7 +9,7 @@ export const apiEndpointCall = async (
   signal?: AbortSignal
 ): Promise<any> => {
   try {
-    console.log('signal: ', signal)
+    // console.log('signal: ', signal)
     const url = `${process.env.API_URL}/${route}`
     const config = {
       withCredentials: true,

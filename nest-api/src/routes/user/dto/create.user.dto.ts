@@ -12,9 +12,9 @@ import { Transform } from 'class-transformer';
 import { PickType } from '@nestjs/mapped-types';
 
 export class CreateUserDto {
-  @IsUUID()
-  @IsOptional()
-  id?: string;
+  // @IsUUID()
+  // @IsOptional()
+  // id?: string;
 
   @IsOptional()
   keepLoggedIn?: boolean;

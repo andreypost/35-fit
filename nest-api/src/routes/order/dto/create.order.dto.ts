@@ -10,9 +10,9 @@ import { Type } from 'class-transformer';
 import { CreateOrderItemDto } from './create.order.item.dto';
 
 export class CreateOrderDto {
-  @IsOptional()
-  @IsUUID('4', { message: 'ID must be a valid UUID' })
-  id?: string;
+  // @IsOptional()
+  // @IsUUID('4', { message: 'ID must be a valid UUID' })
+  // id?: string;
 
   @IsNotEmpty({ message: 'Order Status is required' })
   @IsEnum(['pending', 'shipped', 'delivered', 'cancelled'], {

@@ -38,38 +38,45 @@ export class OrderService {
       const { status, items } = createOrderDto;
 
       const createOrderItems = async (
-        quantity: CreateOrderItemDto['quantity'],
         productId: CreateOrderItemDto['productId'],
         productType: CreateOrderItemDto['productType'],
+        quantity: CreateOrderItemDto['quantity'],
       ): Promise<any> => {
         let product = null;
         if (productType === 'scooter') {
-          product = await this.scooterRepository.find({
+          product = await this.scooterRepository.findOne({
             where: { id: productId },
-            relations: ['priceId'],
+            relations: ['price'],
           });
         } else if (productType === 'accessory') {
-          product = await this.accessoryRepository.find({
+          product = await this.accessoryRepository.findOne({
             where: { id: productId },
-            relations: ['priceId'],
+            relations: ['price'],
           });
         }
 
-        if (!product?.length) {
+        if (!product) {
           throw new NotFoundException(msg.ORDER_NOT_FOUND);
         }
-        product = product[0];
-        product.productId = product.id;
-        product.productName = product.model || product.name;
-        product.productType = productType;
-        product.quantity = quantity;
 
-        return product;
+        if (!product.price) {
+          throw new Error(
+            `Product with ID ${productId} has no price assigned.`,
+          );
+        }
+
+        return {
+          price: product.price,
+          productId: product.id,
+          productName: product.model || product.name,
+          productType,
+          quantity,
+        };
       };
 
       const orderItems = await Promise.all(
-        items.map(async ({ quantity, productId, productType }) =>
-          createOrderItems(quantity, productId, productType),
+        items.map(async ({ productId, productType, quantity }) =>
+          createOrderItems(productId, productType, quantity),
         ),
       );
 
@@ -77,10 +84,10 @@ export class OrderService {
         status,
         user,
         items: orderItems.map(
-          ({ productId, priceId, productName, productType, quantity }) => {
+          ({ price, productId, productName, productType, quantity }) => {
             return this.orderItemRepository.create({
+              price,
               productId,
-              price: priceId,
               productName,
               productType,
               quantity,

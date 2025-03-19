@@ -42,6 +42,7 @@ export class AccessoryService {
           name,
           price: { id: priceId },
         },
+        relations: ['price'],
       });
 
       if (existingAccessory) {
@@ -68,7 +69,7 @@ export class AccessoryService {
       const price = await this.checkExistingAccessory(createAccessoryDto);
       return await this.accessoryRepository.save({
         ...createAccessoryDto,
-        priceId: price,
+        price,
       });
     } catch (error: any) {
       nextError(error);

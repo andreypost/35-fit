@@ -48,7 +48,7 @@ config();
       throttlers: [
         {
           ttl: 60000,
-          limit: 7,
+          limit: 20,
           blockDuration: 600000,
         },
       ],

@@ -7,8 +7,8 @@ export class CreateOrderItemDto {
   })
   productType!: string;
 
-  @IsNotEmpty({ message: 'Order Price ID is required' })
-  @IsUUID('4', { message: 'Order  Price ID must be a valid UUID' })
+  @IsNotEmpty({ message: 'Order Product ID is required' })
+  @IsUUID('4', { message: 'Order  Product ID must be a valid UUID' })
   productId!: string;
 
   @IsNotEmpty({ message: 'Order Quantity is required' })

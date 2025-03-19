@@ -39,6 +39,7 @@ export class ScooterService {
           model,
           price: { id: priceId },
         },
+        relations: ['price'],
       });
 
       if (existingScooter) {
@@ -66,7 +67,7 @@ export class ScooterService {
 
       return await this.scooterRepository.save({
         ...createScooterDto,
-        priceId: price,
+        price,
       });
     } catch (error: any) {
       nextError(error);

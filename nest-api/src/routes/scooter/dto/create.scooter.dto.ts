@@ -9,9 +9,9 @@ import {
 } from 'class-validator';
 
 export class CreateScooterDto {
-  @IsOptional()
-  @IsUUID('4', { message: 'ID must be a valid UUID' })
-  id?: string;
+  // @IsOptional()
+  // @IsUUID('4', { message: 'ID must be a valid UUID' })
+  // id?: string;
 
   @IsNotEmpty({ message: 'Scooter Model is required' })
   @IsString({ message: 'Scooter Model must be a string' })

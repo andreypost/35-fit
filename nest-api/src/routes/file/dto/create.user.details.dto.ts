@@ -1,8 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class CreateUserDetailsDto {
-  // @IsUUID()
-  // @IsOptional()
   @IsNotEmpty()
   id?: string;
 
