@@ -1,6 +1,6 @@
 services:
   database:
-    image: postgres:15.6 # Uses PostgreSQL 15.6
+    image: postgres:16.8 # Uses PostgreSQL 16.8
     container_name: fitdb
     restart: always
     env_file:

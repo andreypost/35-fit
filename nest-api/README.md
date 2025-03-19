@@ -27,6 +27,12 @@ $ npm run start:debug
 
 # production mode
 $ npm run start:prod
+
+
+# in case of: Error  EACCES: permission denied, rmdir '/home/andrii/Projects/35-fit/nest-api/dist/src',
+sudo chown -R andrii:andrii /home/andrii/Projects/35-fit/nest-api/dist
+
+
 ```
 
 ## Migration database
