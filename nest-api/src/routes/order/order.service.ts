@@ -44,15 +44,27 @@ export class OrderService {
       ): Promise<any> => {
         let product = null;
         if (productType === 'scooter') {
-          product = await this.scooterRepository.findOne({
-            where: { id: productId },
-            relations: ['price'],
-          });
+          // product = await this.scooterRepository.findOne({
+          //   where: { id: productId },
+          //   relations: ['price'],
+          // });
+
+          product = await this.scooterRepository
+            .createQueryBuilder('scooter')
+            .leftJoinAndSelect('scooter.price', 'price')
+            .where('scooter.id = :id', { id: productId })
+            .getOne();
         } else if (productType === 'accessory') {
-          product = await this.accessoryRepository.findOne({
-            where: { id: productId },
-            relations: ['price'],
-          });
+          // product = await this.accessoryRepository.findOne({
+          //   where: { id: productId },
+          //   relations: ['price'],
+          // });
+
+          product = await this.accessoryRepository
+            .createQueryBuilder('accessory')
+            .leftJoinAndSelect('accessory.price', 'price')
+            .where('accessory.id = :id', { id: productId })
+            .getOne();
         }
 
         if (!product) {

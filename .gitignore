@@ -32,3 +32,5 @@ firebase-debug.*.log*
 # Compiled JavaScript files
 /functions/lib/**/*.js
 /functions/lib/**/*.js.map
+
+.DS_Store
