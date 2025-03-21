@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import cookieParser from 'cookie-parser';
 import { AuthGuard } from './guards/auth.guard';
 import { ExecutionTimeInterceptor } from './interceptors/execution.time';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -33,20 +34,21 @@ async function bootstrap() {
   // global interceptors
   app.useGlobalInterceptors(new ExecutionTimeInterceptor());
 
-  // app.use((req, res, next) => {
-  //   if (req.url === '/accessory/check') {
-  //     console.log(`🟢 Request started: ${req.method} ${req.url}`);
-  //   }
-  //   req.on('close', () => {
-  //     if (req.url === '/accessory/check') {
-  //       console.log(`🔴 Request closed: ${req.method} ${req.url}`);
-  //     }
-  //   });
-  //   next();
-  // });
+  // initializing Swagger
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('35-fit nest-api')
+    .setDescription('The NEST-API description for the 35-fit project')
+    .setVersion('1.0')
+    .build();
+  const documentFactory = () =>
+    SwaggerModule.createDocument(app, swaggerConfig);
+
+  SwaggerModule.setup('nest-api', app, documentFactory);
 
   await app.listen(port);
   console.log(`Nest app is running on local port: http://localhost:${port}`);
+  console.log();
+  console.log(`You should see the Swagger UI: http://localhost:3000/nest-api`);
 }
 
 bootstrap();
