@@ -1,0 +1,292 @@
+openapi: 3.0.0
+paths:
+  /:
+    get:
+      operationId: AppHello_getHello
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: Hello from Nest.js!
+      tags:
+        - AppHello
+  /user/create-new-user:
+    post:
+      operationId: UserController_createNewUser
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserDto"
+      responses:
+        "201":
+          description: ""
+      summary: create-new-user
+      tags: &a1
+        - User
+  /user/login:
+    post:
+      operationId: UserController_loginUser
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginUserDto"
+      responses:
+        "201":
+          description: ""
+      summary: login
+      tags: *a1
+  /user/validate:
+    get:
+      operationId: UserController_validateUserByAuthToken
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: validate
+      tags: *a1
+  /user/users:
+    get:
+      operationId: UserController_getAllUsers
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: users
+      tags: *a1
+  /user/logout:
+    post:
+      operationId: UserController_logoutUser
+      parameters: []
+      responses:
+        "201":
+          description: ""
+      summary: logout
+      tags: *a1
+  /file/read:
+    get:
+      operationId: DetailController_loadUserCollection
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: read
+      tags: &a2
+        - Detail
+  /file/write:
+    post:
+      operationId: DetailController_addNewDetailsUser
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserDetailsDto"
+      responses:
+        "201":
+          description: ""
+      summary: write
+      tags: *a2
+  /file/count-by-country:
+    get:
+      operationId: DetailController_getUsersCountByCountry
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: count-by-country
+      tags: *a2
+  /file/average-earnings-by-country:
+    get:
+      operationId: DetailController_getAverageEarningsByCountry
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: average-earnings-by-country
+      tags: *a2
+  /file/users/{id}:
+    get:
+      operationId: DetailController_findUserById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+      summary: users/:id
+      tags: *a2
+  /price/check-set:
+    get:
+      operationId: PriceController_checkSetPriceByName
+      parameters:
+        - name: priceName
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+      summary: check-set
+      tags: &a3
+        - Price
+  /price/create:
+    post:
+      operationId: PriceController_createProductPrice
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePriceDto"
+      responses:
+        "201":
+          description: ""
+      summary: create
+      tags: *a3
+  /scooter/check:
+    post:
+      operationId: ScooterController_checkExistingScooter
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateScooterDto"
+      responses:
+        "201":
+          description: ""
+      summary: check
+      tags: &a4
+        - Scooter
+  /scooter/create:
+    post:
+      operationId: ScooterController_createScooter
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateScooterDto"
+      responses:
+        "201":
+          description: ""
+      summary: create
+      tags: *a4
+  /accessory/check:
+    post:
+      operationId: AccessoryController_checkExistingAccessory
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAccessoryDto"
+      responses:
+        "201":
+          description: ""
+      summary: check
+      tags: &a5
+        - Accessory
+  /accessory/create:
+    post:
+      operationId: AccessoryController_createAccessory
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAccessoryDto"
+      responses:
+        "201":
+          description: ""
+      summary: create
+      tags: *a5
+  /order/create:
+    post:
+      operationId: OrderController_createUserOrder
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrderDto"
+      responses:
+        "201":
+          description: ""
+      summary: create
+      tags: &a6
+        - Order
+  /order/orders/{type}:
+    get:
+      operationId: OrderController_getUserOrders
+      parameters:
+        - name: type
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+      summary: orders/:type
+      tags: *a6
+info:
+  title: 35-fit nest-api
+  description: The NEST-API description for the 35-fit project
+  version: "1.0"
+  contact: {}
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+tags:
+  - name: nest-api
+    description: ""
+servers:
+  - url: http://localhost:3000
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    CreateUserDto:
+      type: object
+      properties: {}
+    LoginUserDto:
+      type: object
+      properties: {}
+    CreateUserDetailsDto:
+      type: object
+      properties: {}
+    CreatePriceDto:
+      type: object
+      properties: {}
+    CreateScooterDto:
+      type: object
+      properties: {}
+    CreateAccessoryDto:
+      type: object
+      properties: {}
+    CreateOrderDto:
+      type: object
+      properties: {}
+security:
+  - bearer: []

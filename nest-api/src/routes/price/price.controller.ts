@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
 import { PriceService } from './price.service';
 import { Public } from '../../guards/public.routes';
 import { CreatePriceDto } from './dto/create.price.dto';
@@ -10,6 +11,7 @@ export class PriceController {
 
   @Public()
   @Get('check-set')
+  @ApiOperation({ summary: 'check-set' })
   async checkSetPriceByName(
     @Query('priceName') priceName: string,
   ): Promise<string> {
@@ -18,6 +20,7 @@ export class PriceController {
 
   @Public()
   @Post('create')
+  @ApiOperation({ summary: 'create' })
   async createProductPrice(
     @Body() createPriceDto: CreatePriceDto,
   ): Promise<Price> {

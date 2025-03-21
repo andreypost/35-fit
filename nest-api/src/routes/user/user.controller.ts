@@ -8,6 +8,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
+import { ApiOperation } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { Public } from '../../guards/public.routes';
 import { Throttle, SkipThrottle } from '@nestjs/throttler';
@@ -24,6 +25,7 @@ export class UserController {
   @Throttle({ default: { ttl: 6000, limit: 2, blockDuration: 600000 } })
   @Public()
   @Post('create-new-user')
+  @ApiOperation({ summary: 'create-new-user' })
   async createNewUser(
     @Body() createUserDto: CreateUserDto,
     @HttpResponse() res: Response,
@@ -34,6 +36,7 @@ export class UserController {
   @Public()
   @Post('login')
   @UseInterceptors(ExecutionTimeInterceptor)
+  @ApiOperation({ summary: 'login' })
   async loginUser(
     @Body() { email, password, keepLoggedIn }: LoginUserDto,
     @HttpResponse() res: Response,
@@ -46,6 +49,7 @@ export class UserController {
 
   @Public()
   @Get('validate')
+  @ApiOperation({ summary: 'validate' })
   async validateUserByAuthToken(
     @Req() req: Request,
     @HttpResponse() res: Response,
@@ -56,11 +60,13 @@ export class UserController {
   @SkipThrottle()
   @Public()
   @Get('users')
+  @ApiOperation({ summary: 'users' })
   async getAllUsers(): Promise<User[]> {
     return await this.userService.getAllUsers();
   }
 
   @Post('logout')
+  @ApiOperation({ summary: 'logout' })
   async logoutUser(
     @Body('deleteAccount', ParseBoolPipe) deleteAccount: boolean,
     @CurrentUserEmail() email: string,
