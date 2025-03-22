@@ -53,7 +53,6 @@ async function bootstrap() {
   SwaggerModule.setup('nest-api-swagger', app, documentFactory, {
     jsonDocumentUrl: 'nest-api-swagger/json',
   });
-  // SwaggerModule.setup('nest-api', app, documentFactory);
 
   const yamlString = YAML.stringify(documentFactory);
 
@@ -62,7 +61,9 @@ async function bootstrap() {
   await app.listen(port);
   console.log(`Nest app is running on local port: http://localhost:${port}`);
   console.log();
-  console.log(`You should see the Swagger UI: http://localhost:3000/nest-api`);
+  console.log(
+    `You should see the Swagger UI: http://localhost:3000/nest-api-swagger`,
+  );
   console.log();
   console.log(
     `You should see the Swagger JSON: http://localhost:3000/nest-api-swagger/json`,
