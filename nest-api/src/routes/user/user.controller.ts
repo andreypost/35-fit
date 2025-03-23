@@ -6,6 +6,8 @@ import {
   Req,
   ParseBoolPipe,
   UseInterceptors,
+  Patch,
+  Param,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { ApiOperation } from '@nestjs/swagger';
@@ -73,5 +75,18 @@ export class UserController {
     @HttpResponse() res: Response,
   ): Promise<{ message: string }> {
     return await this.userService.logoutUser(deleteAccount, email, res);
+  }
+
+  @Patch(':id/privileges')
+  @ApiOperation({ summary: ':id/privileges' })
+  async updateUserPrivileges(
+    @Param('id') id: string,
+    @Body() { grantedPrivileges, deniedPrivileges },
+  ): Promise<User> {
+    return this.userService.updateUserPrivileges(
+      id,
+      grantedPrivileges,
+      deniedPrivileges,
+    );
   }
 }

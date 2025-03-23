@@ -7,7 +7,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { ExecutionTimeInterceptor } from './interceptors/execution.time';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as YAML from 'yaml';
-import { writeFile, writeFileSync } from 'fs';
+import { writeFileSync } from 'fs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

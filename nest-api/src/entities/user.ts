@@ -3,6 +3,7 @@ import { BaseSchema } from './base.schema';
 import { Transform } from 'class-transformer';
 import bcrypt from 'bcrypt';
 import { Order } from './order';
+import { UserPrivileges } from '../utils/user.roles';
 
 @Entity({ name: 'user' })
 export class User extends BaseSchema {
@@ -39,6 +40,12 @@ export class User extends BaseSchema {
 
   @Column()
   emergencyPhone?: string;
+
+  @Column({ type: 'int', default: UserPrivileges.None })
+  grantedPrivileges: number;
+
+  @Column({ type: 'int', default: UserPrivileges.None })
+  deniedPrivileges: number;
 
   @BeforeInsert()
   async hashPassword(): Promise<void> {

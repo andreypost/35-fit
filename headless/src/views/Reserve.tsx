@@ -13,6 +13,7 @@ import { errorModalMessage } from 'utils/errorModalMessage'
 import { isDevelopment } from 'utils/isDevelopment'
 import { apiEndpointCall } from 'utils/endpointApiCall'
 import { AppContext } from '../AppRouter'
+import { UserPrivileges } from 'utils/userRoles'
 
 const Main = styled.main`
   .reserve {
@@ -31,7 +32,7 @@ const Main = styled.main`
       }
       #authForm,
       #deleteForm,
-      #allUsersForm {
+      .additional_forms {
         .form_subtitle {
           font-size: 24px;
           margin-bottom: 40px;
@@ -270,8 +271,7 @@ const Reserve = () => {
       } else {
         const newUser = await axios.post(
           `${process.env.API_URL}/user/create-new-user`,
-          userData,
-          { withCredentials: true }
+          userData
         )
         dispatch(addNewDatabaseUser(newUser.data))
         dispatch(messageModal(t('messages.your_account_was_created')))
@@ -293,6 +293,20 @@ const Reserve = () => {
 
   const setFieldColor = <T extends string | undefined>(field: T): string => {
     return !field ? '#7fcbae' : '#004'
+  }
+
+  const updateUserPrivileges = async () => {
+    const grantedPrivileges = UserPrivileges.ProjectCreator
+    const deniedPrivileges = UserPrivileges.None
+
+    await apiEndpointCall(
+      'patch',
+      `user/${'d420365e-0d86-4130-9633-3a9725a5e131'}/privileges`,
+      {
+        grantedPrivileges,
+        deniedPrivileges,
+      }
+    )
   }
 
   return (
@@ -483,6 +497,16 @@ const Reserve = () => {
                     Get All Users
                   </button>
                 </form>
+                <button
+                  className="flex_center_center additional_submit b900 white"
+                  style={{
+                    opacity: currentUser ? 1 : 0.2,
+                    backgroundColor: currentUser ? '#59b894' : '#ff6376',
+                  }}
+                  onClick={updateUserPrivileges}
+                >
+                  Update User Privileges
+                </button>
               </div>
               {users?.length > 0 &&
                 users.map(({ name, email }: IAuth, index: any) => (

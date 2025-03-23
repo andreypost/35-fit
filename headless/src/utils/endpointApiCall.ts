@@ -2,7 +2,7 @@ import axios from 'axios'
 import { errorModalMessage } from './errorModalMessage'
 
 export const apiEndpointCall = async (
-  method: 'get' | 'post' | 'put' | 'delete',
+  method: 'get' | 'post' | 'put' | 'delete' | 'patch',
   route: string,
   body?: any,
   firstLoad?: boolean,

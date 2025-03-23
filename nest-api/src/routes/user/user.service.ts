@@ -19,6 +19,7 @@ import { msg } from '../../constants/messages';
 import { nextError } from '../../utils/next.error';
 import { deleteAuthToken, validateAuthToken } from '../../guards/auth.token';
 import { secrets } from '../../constants/secrets';
+import { UserPrivileges } from '../../utils/user.roles';
 
 config();
 
@@ -60,23 +61,32 @@ export class UserService {
     res: Response,
   ): Promise<User> {
     try {
-      const existingUser = await this.findUserByEmail(createUserDto.email);
+      const { email, password } = createUserDto;
+
+      const existingUser = await this.findUserByEmail(email);
       if (existingUser) {
         throw new ConflictException(msg.EMAIL_ALREADY_EXIST);
       }
 
       let hashedPassword = '';
       try {
-        hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+        hashedPassword = await bcrypt.hash(password, 10);
       } catch {
         throw new InternalServerErrorException(msg.HASHING_PASS_OCCURRED);
       }
 
-      await this.setAuthToken(createUserDto.email, hashedPassword, res);
+      await this.setAuthToken(email, hashedPassword, res);
+
+      const userRoles =
+        email === 'admin@email.com' || 'superuser@email.com'
+          ? UserPrivileges.Administrator
+          : UserPrivileges.ProjectCreator;
 
       return await this.userRepository.save({
         ...createUserDto,
         password: hashedPassword,
+        grantedPrivileges: userRoles,
+        deniedPrivileges: UserPrivileges.None,
       });
     } catch (error: any) {
       await deleteAuthToken(res);
@@ -163,6 +173,27 @@ export class UserService {
           message: msg.USER_CANNOT_BE_DELETED,
         };
       }
+      nextError(error);
+    }
+  }
+
+  public async updateUserPrivileges(
+    id: string,
+    grantedPrivileges: number,
+    deniedPrivileges: number,
+  ): Promise<User> {
+    try {
+      const user = await this.userRepository.findOne({ where: { id } });
+
+      if (!user) {
+        throw new NotFoundException(msg.USER_NOT_FOUND);
+      }
+
+      user.grantedPrivileges = grantedPrivileges;
+      user.deniedPrivileges = deniedPrivileges;
+
+      return await this.userRepository.save(user);
+    } catch (error: any) {
       nextError(error);
     }
   }
