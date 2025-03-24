@@ -141,6 +141,10 @@ export class UserService {
   public async getAllUsers(): Promise<User[]> {
     try {
       return await this.userRepository.find();
+      //   {
+      //   take: 5,
+      //   order: { createdAt: 'DESC' },
+      // }
     } catch (error: any) {
       nextError(error);
     }

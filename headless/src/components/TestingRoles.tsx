@@ -12,15 +12,24 @@ export const TestingRoles = () => {
   const isAdmin = useIsAdmin()
   const [users, setAllUsers] = useState<IAuth[]>([])
 
-  const handleGetAllUsers = async <T extends React.FormEvent<HTMLFormElement>>(
-    e: T
-  ): Promise<void> => {
-    e.preventDefault()
-    const response = await apiEndpointCall('get', 'user/users')
-    if (response?.data) {
-      setAllUsers(response.data)
+  // const handleGetAllUsers = async <T extends React.FormEvent<HTMLFormElement>>(
+  //   e: T
+  // ): Promise<void> => {
+  //   e.preventDefault()
+  //   const response = await apiEndpointCall('get', 'user/users')
+  //   if (response?.data) {
+  //     setAllUsers(response.data)
+  //   }
+  // }
+  useEffect(() => {
+    const handleGetAllUsers = async (): Promise<void> => {
+      const response = await apiEndpointCall('get', 'user/users')
+      if (response?.data) {
+        setAllUsers(response.data)
+      }
     }
-  }
+    handleGetAllUsers()
+  }, [])
 
   const updateUserPrivileges = async () => {
     const grantedPrivileges = UserPrivileges.Administrator
@@ -49,11 +58,17 @@ export const TestingRoles = () => {
     }
   }
 
+  const sorUserByEmail = () => {
+    setAllUsers(() =>
+      [...users].sort((a: any, b: any) => a?.email.localeCompare(b?.email))
+    )
+  }
+
   return (
     <>
       <h3 className="b900 blue">Additional Forms</h3>
       <div className="additional_forms margin_b_120_80">
-        <form id="allUsersForm" onSubmit={handleGetAllUsers}>
+        {/* <form id="allUsersForm" onSubmit={handleGetAllUsers}>
           <button
             type="submit"
             className="flex_center_center additional_submit b900 white"
@@ -64,7 +79,7 @@ export const TestingRoles = () => {
           >
             Get All Users
           </button>
-        </form>
+        </form> */}
         <button
           className="flex_center_center additional_submit b900 white"
           style={{
@@ -74,6 +89,12 @@ export const TestingRoles = () => {
           onClick={updateUserPrivileges}
         >
           Update User Privileges
+        </button>
+        <button
+          className="flex_center_center additional_submit b900 white"
+          onClick={sorUserByEmail}
+        >
+          Sort User By Email
         </button>
       </div>
       {users?.length > 0 &&
