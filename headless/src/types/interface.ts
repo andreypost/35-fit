@@ -1,4 +1,5 @@
 export interface IAuth {
+  id?: string
   name?: string
   surname?: string
   gender?: string
@@ -13,6 +14,8 @@ export interface IAuth {
   uid?: string
   displayName?: string
   photoURL?: string
+  grantedPrivileges?: number
+  deniedPrivileges?: number
 }
 
 export interface IUser {

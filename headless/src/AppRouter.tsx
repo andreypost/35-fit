@@ -66,8 +66,6 @@ const AppRouter = () => {
     setCurrentUser(user || databaseUser)
   }, [user, databaseUser])
 
-  // const currentUser = user || databaseUser
-
   useDebugValue(currentUser)
 
   useEffect(() => {

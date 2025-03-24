@@ -1,9 +1,9 @@
-import React, { useState, Fragment, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
 import axios from 'axios'
-import { IAuth, IUser } from 'types/interface'
+import { IAuth } from 'types/interface'
 import { PercentReserveSVG } from 'img/icons'
 import { TestingModule } from 'components/TestingModule'
 import { useAppDispatch } from 'utils/hooks'
@@ -11,9 +11,7 @@ import { addNewDatabaseUser } from 'slices/databaseUser.slice'
 import { messageModal } from 'slices/modal.slice'
 import { errorModalMessage } from 'utils/errorModalMessage'
 import { isDevelopment } from 'utils/isDevelopment'
-import { apiEndpointCall } from 'utils/endpointApiCall'
-import { AppContext } from '../AppRouter'
-import { UserPrivileges } from 'utils/userRoles'
+import { TestingRoles } from 'components/TestingRoles'
 
 const Main = styled.main`
   .reserve {
@@ -202,9 +200,7 @@ const Main = styled.main`
 
 const Reserve = () => {
   const { t } = useTranslation()
-  const { currentUser } = useContext(AppContext)
   const [userData, setUserData] = useState<IAuth>({})
-  const [users, setAllUsers] = useState<IAuth[]>([])
   const dispatch = useAppDispatch()
 
   const genderOptions = [
@@ -281,32 +277,8 @@ const Reserve = () => {
     }
   }
 
-  const handleGetAllUsers = async <T extends React.FormEvent<HTMLFormElement>>(
-    e: T
-  ): Promise<void> => {
-    e.preventDefault()
-    const response = await apiEndpointCall('get', 'user/users')
-    if (response?.data) {
-      setAllUsers(response?.data)
-    }
-  }
-
   const setFieldColor = <T extends string | undefined>(field: T): string => {
     return !field ? '#7fcbae' : '#004'
-  }
-
-  const updateUserPrivileges = async () => {
-    const grantedPrivileges = UserPrivileges.ProjectCreator
-    const deniedPrivileges = UserPrivileges.None
-
-    await apiEndpointCall(
-      'patch',
-      `user/${'d420365e-0d86-4130-9633-3a9725a5e131'}/privileges`,
-      {
-        grantedPrivileges,
-        deniedPrivileges,
-      }
-    )
   }
 
   return (
@@ -481,43 +453,7 @@ const Reserve = () => {
               {t('reserve.continue')}
             </button>
           </form>
-          {isDevelopment && (
-            <>
-              <h3 className="b900 blue">Additional Forms</h3>
-              <div className="additional_forms margin_b_120_80">
-                <form id="allUsersForm" onSubmit={handleGetAllUsers}>
-                  <button
-                    type="submit"
-                    className="flex_center_center additional_submit b900 white"
-                    style={{
-                      opacity: currentUser ? 1 : 0.2,
-                      backgroundColor: currentUser ? '#59b894' : '#ff6376',
-                    }}
-                  >
-                    Get All Users
-                  </button>
-                </form>
-                <button
-                  className="flex_center_center additional_submit b900 white"
-                  style={{
-                    opacity: currentUser ? 1 : 0.2,
-                    backgroundColor: currentUser ? '#59b894' : '#ff6376',
-                  }}
-                  onClick={updateUserPrivileges}
-                >
-                  Update User Privileges
-                </button>
-              </div>
-              {users?.length > 0 &&
-                users.map(({ name, email }: IAuth, index: any) => (
-                  <Fragment key={index}>
-                    <p>{name}</p>
-                    <p>{email}</p>
-                    <hr />
-                  </Fragment>
-                ))}
-            </>
-          )}
+          {isDevelopment && <TestingRoles />}
         </article>
       </section>
     </Main>

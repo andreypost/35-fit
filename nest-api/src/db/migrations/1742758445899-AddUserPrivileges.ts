@@ -4,7 +4,7 @@ export class AddUserPrivileges1742758445899 implements MigrationInterface {
     name = 'AddUserPrivileges1742758445899'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`DROP INDEX "public"."idx_order"`);
+        await queryRunner.query(`DROP INDEX IF EXISTS "public"."idx_order"`);
         await queryRunner.query(`ALTER TABLE "user" ADD "grantedPrivileges" integer NOT NULL DEFAULT '0'`);
         await queryRunner.query(`ALTER TABLE "user" ADD "deniedPrivileges" integer NOT NULL DEFAULT '0'`);
     }
@@ -16,3 +16,4 @@ export class AddUserPrivileges1742758445899 implements MigrationInterface {
     }
 
 }
+

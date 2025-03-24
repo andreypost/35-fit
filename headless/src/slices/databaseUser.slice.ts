@@ -4,17 +4,34 @@ import { AppDispatch, RootState } from 'store'
 import { IAuth, IUser } from 'types/interface'
 import { errorModalMessage } from 'utils/errorModalMessage'
 import { messageModal } from './modal.slice'
+import { UserPrivileges } from 'utils/userRoles'
 
 interface DatabaseUserState {
   databaseUser: IAuth | null
   databaseUserLoading: boolean
   databaseUserError: { message: string } | null
+  isAdmin: boolean
 }
 
 const initialState: DatabaseUserState = {
   databaseUser: null,
   databaseUserLoading: false,
   databaseUserError: null,
+  isAdmin: false,
+}
+
+const checkIsAdmin = (
+  grantedPrivileges: number | undefined,
+  deniedPrivileges: number | undefined
+): boolean => {
+  if (!grantedPrivileges) return false
+
+  const isAdmin = (grantedPrivileges & UserPrivileges.Administrator) !== 0
+  const isDenied = deniedPrivileges
+    ? (deniedPrivileges & UserPrivileges.Administrator) !== 0
+    : false
+
+  return isAdmin && !isDenied
 }
 
 export const loginUserFromDatabase = createAsyncThunk<
@@ -94,6 +111,9 @@ const databaseUserSlice = createSlice({
         state.databaseUserLoading = false
         state.databaseUser = action.payload
         state.databaseUserError = null
+
+        const { grantedPrivileges, deniedPrivileges } = action.payload
+        state.isAdmin = checkIsAdmin(grantedPrivileges, deniedPrivileges)
       })
       .addCase(loginUserFromDatabase.rejected, (state, action) => {
         state.databaseUserLoading = false
@@ -107,6 +127,9 @@ const databaseUserSlice = createSlice({
         state.databaseUserLoading = false
         state.databaseUser = action.payload
         state.databaseUserError = null
+
+        const { grantedPrivileges, deniedPrivileges } = action.payload
+        state.isAdmin = checkIsAdmin(grantedPrivileges, deniedPrivileges)
       })
       .addCase(validateAuthToken.rejected, (state, action) => {
         state.databaseUserLoading = false
