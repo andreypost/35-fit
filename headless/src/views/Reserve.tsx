@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
-import axios from 'axios'
+import { apiEndpointCall } from 'utils/endpointApiCall'
 import { IAuth } from 'types/interface'
 import { PercentReserveSVG } from 'img/icons'
 import { TestingModule } from 'components/TestingModule'
@@ -265,8 +265,9 @@ const Reserve = () => {
           }, 1500)
         })
       } else {
-        const newUser = await axios.post(
-          `${process.env.API_URL}/user/create-new-user`,
+        const newUser = await apiEndpointCall(
+          'post',
+          'user/create-new-user',
           userData
         )
         dispatch(addNewDatabaseUser(newUser.data))

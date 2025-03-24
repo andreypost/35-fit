@@ -10,9 +10,6 @@ import { AppContext } from '../AppRouter'
 
 const Div = styled.div`
   .user_name {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
     transition: color 0.2s;
   }
   .user_face {
@@ -121,7 +118,7 @@ export const User = ({ styleName }: IStyle) => {
           : dispatch(loginModal())
       }
     >
-      <p className="user_name b700 green">
+      <p className="user_name text_overflow b700 green">
         {currentUser?.displayName || currentUser?.name || t('nav.login')}
       </p>
       <img

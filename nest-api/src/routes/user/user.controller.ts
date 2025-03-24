@@ -24,7 +24,7 @@ import { ExecutionTimeInterceptor } from '../../interceptors/execution.time';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Throttle({ default: { ttl: 6000, limit: 2, blockDuration: 600000 } })
+  @Throttle({ default: { ttl: 6000, limit: 20, blockDuration: 600000 } })
   @Public()
   @Post('create-new-user')
   @ApiOperation({ summary: 'create-new-user' })

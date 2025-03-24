@@ -99,6 +99,9 @@ const databaseUserSlice = createSlice({
   reducers: {
     addNewDatabaseUser(state, action) {
       state.databaseUser = action.payload
+
+      const { grantedPrivileges, deniedPrivileges } = action.payload
+      state.isAdmin = checkIsAdmin(grantedPrivileges, deniedPrivileges)
     },
   },
   extraReducers: (builder) => {

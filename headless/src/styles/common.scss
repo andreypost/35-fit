@@ -322,6 +322,12 @@ textarea:focus {
   }
 }
 
+.text_overflow {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 // @media (orientation: landscape) {
 //   &_desk {
 //     display: flex;

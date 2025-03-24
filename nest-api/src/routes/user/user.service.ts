@@ -78,7 +78,7 @@ export class UserService {
       await this.setAuthToken(email, hashedPassword, res);
 
       const userRoles =
-        email === 'admin@email.com' || 'superuser@email.com'
+        email === 'admin@email.com' || 'super@email.com'
           ? UserPrivileges.Administrator
           : UserPrivileges.ProjectCreator;
 

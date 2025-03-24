@@ -27,8 +27,9 @@ export const TestingRoles = () => {
     const deniedPrivileges = UserPrivileges.None
     if (!isAdmin) {
       store.dispatch(
-        messageModal('You do not have the rights to assign privileges')
+        messageModal('You do not have the rights to update privileges')
       )
+      return
     }
     if (users?.length > 0) {
       // const someUser = Math.floor(Math.random() * users.length)
@@ -37,12 +38,12 @@ export const TestingRoles = () => {
         `user/${'a6c5e8b1-4c14-45bc-9f10-e492243e213e'}/privileges`,
         { grantedPrivileges, deniedPrivileges }
       )
-      //   for (let i = 0; i < users.length; i++) {
-      //     await apiEndpointCall('patch', `user/${users[i].id}/privileges`, {
-      //       grantedPrivileges,
-      //       deniedPrivileges,
-      //     })
-      //   }
+      /* for (let i = 0; i < users.length; i++) {
+          await apiEndpointCall('patch', `user/${users[i].id}/privileges`, {
+            grantedPrivileges,
+            deniedPrivileges,
+          })
+        } */
     } else {
       store.dispatch(messageModal('Ther is no user ID to update privileges'))
     }
@@ -76,12 +77,12 @@ export const TestingRoles = () => {
         </button>
       </div>
       {users?.length > 0 &&
-        users.map(({ email, id, name }: IAuth) => (
+        users.map(({ email, id, grantedPrivileges, name }: IAuth) => (
           <ul key={id}>
             <li>
               <p>{name}</p>
               <p>{email}</p>
-              <p>{id}</p>
+              <p>Granted Privileges: {grantedPrivileges}</p>
               <hr />
             </li>
           </ul>

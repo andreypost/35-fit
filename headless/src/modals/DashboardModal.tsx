@@ -2,6 +2,7 @@ import { useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { FirebaseAuthContext } from '../index'
+import { AppContext } from './../AppRouter'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectDashModalActive, unsetDashModal } from 'slices/modal.slice'
 import { BaseDiv } from './MenuModal'
@@ -17,6 +18,10 @@ const Div = styled(BaseDiv)`
     ul {
       padding: 20px;
       text-align: center;
+      .current_user {
+        font-size: 12px;
+        font-weight: 400;
+      }
       a {
         display: inline-block;
         font-size: 18px;
@@ -88,6 +93,7 @@ const Div = styled(BaseDiv)`
 
 export const DashboardModal = () => {
   const { user, firebaseAuth } = useContext(FirebaseAuthContext)
+  const { currentUser } = useContext(AppContext)
   const { t } = useTranslation()
   const modalState = useAppSelector(selectDashModalActive)
   const dispatch = useAppDispatch()
@@ -105,9 +111,12 @@ export const DashboardModal = () => {
           {/* {useMemo(
             () => (
               <User user={user} styleName="dashboard_modal" />
-            ),
-            [user]
-          )} */}
+              ),
+              [user]
+              )} */}
+          <p className="current_user text_overflow blue">
+            {currentUser?.email}
+          </p>
           <User styleName="dashboard_modal" />
           <NavigationLinks links={profileLinks} bold="b900" color="#59b894" />
           <li className="logout">
