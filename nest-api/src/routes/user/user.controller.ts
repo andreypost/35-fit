@@ -8,6 +8,7 @@ import {
   UseInterceptors,
   Patch,
   Param,
+  Query,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { ApiOperation } from '@nestjs/swagger';
@@ -88,5 +89,12 @@ export class UserController {
       grantedPrivileges,
       deniedPrivileges,
     );
+  }
+
+  @Throttle({ default: { ttl: 60000, limit: 100, blockDuration: 60000 } })
+  @Get('search')
+  @ApiOperation({ summary: 'search' })
+  async searchUsers(@Query('query') query: string): Promise<User[]> {
+    return this.userService.searchUsers(query);
   }
 }

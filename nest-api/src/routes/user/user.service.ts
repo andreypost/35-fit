@@ -8,7 +8,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Response, Request } from 'express';
 import bcrypt from 'bcrypt';
@@ -199,5 +199,13 @@ export class UserService {
     } catch (error: any) {
       nextError(error);
     }
+  }
+
+  public async searchUsers(query: string): Promise<User[]> {
+    return this.userRepository.find({
+      where: { email: Like(`%${query}%`) },
+      select: ['email', 'grantedPrivileges', 'id', 'name'],
+      take: 10,
+    });
   }
 }

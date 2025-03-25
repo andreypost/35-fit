@@ -82,6 +82,20 @@ paths:
           description: ""
       summary: :id/privileges
       tags: *a1
+  /user/search:
+    get:
+      operationId: UserController_searchUsers
+      parameters:
+        - name: query
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+      summary: search
+      tags: *a1
   /file/read:
     get:
       operationId: DetailController_loadUserCollection

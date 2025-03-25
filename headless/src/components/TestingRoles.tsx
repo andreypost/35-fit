@@ -1,31 +1,55 @@
-import { useContext, useEffect, useState } from 'react'
-import { AppContext } from './../AppRouter'
-import { useIsAdmin } from './../hooks/useIsAdmin'
+import { Fragment, useCallback, useEffect, useState } from 'react'
+import axios from 'axios'
+import styled from 'styled-components'
 import { IAuth } from 'types/interface'
+import { useIsAdmin } from './../hooks/useIsAdmin'
 import { apiEndpointCall } from 'utils/endpointApiCall'
 import { UserPrivileges } from 'utils/userRoles'
 import { store } from 'store'
 import { messageModal } from 'slices/modal.slice'
+import { errorModalMessage } from 'utils/errorModalMessage'
+
+const Div = styled.div`
+  .privileges_button {
+    flex-flow: column;
+    span {
+      font-weight: 400;
+      font-size: 12px;
+    }
+  }
+  .search_users_list {
+    background-color: white;
+    top: 55px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 420px;
+    z-index: 999;
+    border: 2px solid #ff6376;
+    border-radius: 6px;
+    padding: 10px;
+    box-sizing: border-box;
+    @media (hover: hover) {
+      li {
+        cursor: pointer;
+      }
+    }
+  }
+`
 
 export const TestingRoles = () => {
-  const { currentUser } = useContext(AppContext)
+  const [searchUsers, setSearchUsers] = useState<IAuth[] | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
   const isAdmin = useIsAdmin()
-  const [users, setAllUsers] = useState<IAuth[]>([])
+  const [allUsers, setAllUsers] = useState<IAuth[]>([])
+  const [userForUpdate, setUserForUpdate] = useState<IAuth>({})
 
-  // const handleGetAllUsers = async <T extends React.FormEvent<HTMLFormElement>>(
-  //   e: T
-  // ): Promise<void> => {
-  //   e.preventDefault()
-  //   const response = await apiEndpointCall('get', 'user/users')
-  //   if (response?.data) {
-  //     setAllUsers(response.data)
-  //   }
-  // }
   useEffect(() => {
     const handleGetAllUsers = async (): Promise<void> => {
       const response = await apiEndpointCall('get', 'user/users')
       if (response?.data) {
         setAllUsers(response.data)
+        // setSearchUsers(response.data)
       }
     }
     handleGetAllUsers()
@@ -40,19 +64,19 @@ export const TestingRoles = () => {
       )
       return
     }
-    if (users?.length > 0) {
+    if (userForUpdate?.id) {
       // const someUser = Math.floor(Math.random() * users.length)
-      await apiEndpointCall(
-        'patch',
-        `user/${'a6c5e8b1-4c14-45bc-9f10-e492243e213e'}/privileges`,
-        { grantedPrivileges, deniedPrivileges }
-      )
-      /* for (let i = 0; i < users.length; i++) {
-          await apiEndpointCall('patch', `user/${users[i].id}/privileges`, {
-            grantedPrivileges,
-            deniedPrivileges,
-          })
-        } */
+      await apiEndpointCall('patch', `user/${userForUpdate.id}/privileges`, {
+        grantedPrivileges,
+        deniedPrivileges,
+      })
+      setUserForUpdate({})
+      // for (let i = 0; i < allUsers.length; i++) {
+      //   await apiEndpointCall('patch', `user/${allUsers[i].id}/privileges`, {
+      //     grantedPrivileges: UserPrivileges.ProjectCreator,
+      //     deniedPrivileges,
+      //   })
+      // }
     } else {
       store.dispatch(messageModal('Ther is no user ID to update privileges'))
     }
@@ -60,35 +84,94 @@ export const TestingRoles = () => {
 
   const sorUserByEmail = () => {
     setAllUsers(() =>
-      [...users].sort((a: any, b: any) => a?.email.localeCompare(b?.email))
+      [...allUsers].sort((a: any, b: any) => a?.email.localeCompare(b?.email))
     )
   }
 
+  const debounce = <T extends (...args: any[]) => void>(
+    func: T,
+    delay: number
+  ) => {
+    let timerId: any = null
+    return (...args: Parameters<T>) => {
+      clearTimeout(timerId)
+      timerId = setTimeout(() => func(...args), delay)
+    }
+  }
+
+  const fetchUsersBySearch = async (searchQuery: string) => {
+    if (searchQuery?.length < 2) {
+      setSearchUsers(null)
+      return
+    }
+    try {
+      const response = await axios.get(`${process.env.API_URL}/user/search`, {
+        params: { query: searchQuery },
+        withCredentials: true,
+      })
+      if (response?.data) {
+        setSearchUsers(response.data)
+      }
+    } catch (error: any) {
+      errorModalMessage(error)
+    }
+  }
+
+  const debouncedFetchSearchUsers = useCallback(
+    debounce(fetchUsersBySearch, 300),
+    []
+  )
+
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    setSearchQuery(value)
+    debouncedFetchSearchUsers(value)
+  }
+
   return (
-    <>
-      <h3 className="b900 blue">Additional Forms</h3>
-      <div className="additional_forms margin_b_120_80">
-        {/* <form id="allUsersForm" onSubmit={handleGetAllUsers}>
-          <button
-            type="submit"
-            className="flex_center_center additional_submit b900 white"
-            style={{
-              opacity: currentUser ? 1 : 0.2,
-              backgroundColor: currentUser ? '#59b894' : '#ff6376',
-            }}
-          >
-            Get All Users
-          </button>
-        </form> */}
+    <Div>
+      <h3 className="b900 margin_b_60_30 blue">Additional Forms</h3>
+      <div className="additional_forms margin_b_120_80 relative">
+        <fieldset className="margin_b_60_30">
+          <legend>Search Query:</legend>
+          <input
+            type="text"
+            value={searchQuery}
+            placeholder="Search user by name..."
+            onChange={handleSearchInputChange}
+          />
+        </fieldset>
+        {searchUsers && searchUsers?.length > 0 && (
+          <ul className="search_users_list absolute">
+            {searchUsers.map(({ email, grantedPrivileges, id }: IAuth) => (
+              <Fragment key={email}>
+                <li
+                  onClick={() => {
+                    setUserForUpdate({ email, id })
+                    setSearchUsers([])
+                    setSearchQuery('')
+                  }}
+                >
+                  <p>email: {email}</p>
+                  <p>Granted Privileges: {grantedPrivileges}</p>
+                </li>
+                <br />
+              </Fragment>
+            ))}
+          </ul>
+        )}
         <button
-          className="flex_center_center additional_submit b900 white"
+          className="flex_center_center additional_submit privileges_button b900 white"
           style={{
-            opacity: isAdmin && users?.length ? 1 : 0.2,
-            backgroundColor: isAdmin && users?.length ? '#59b894' : '#ff6376',
+            opacity: isAdmin && userForUpdate?.email ? 1 : 0.2,
+            backgroundColor:
+              isAdmin && userForUpdate?.email ? '#59b894' : '#ff6376',
           }}
           onClick={updateUserPrivileges}
         >
           Update User Privileges
+          <br />
+          {userForUpdate?.email && <span>for: {userForUpdate.email}</span>}
         </button>
         <button
           className="flex_center_center additional_submit b900 white"
@@ -97,8 +180,8 @@ export const TestingRoles = () => {
           Sort User By Email
         </button>
       </div>
-      {users?.length > 0 &&
-        users.map(({ email, id, grantedPrivileges, name }: IAuth) => (
+      {allUsers?.length > 0 &&
+        allUsers.map(({ email, id, grantedPrivileges, name }: IAuth) => (
           <ul key={id}>
             <li>
               <p>{name}</p>
@@ -108,6 +191,6 @@ export const TestingRoles = () => {
             </li>
           </ul>
         ))}
-    </>
+    </Div>
   )
 }
