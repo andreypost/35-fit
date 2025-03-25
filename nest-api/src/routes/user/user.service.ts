@@ -77,10 +77,9 @@ export class UserService {
 
       await this.setAuthToken(email, hashedPassword, res);
 
-      const userRoles =
-        email === 'admin@email.com' || 'super@email.com'
-          ? UserPrivileges.Administrator
-          : UserPrivileges.ProjectCreator;
+      const userRoles = UserPrivileges.isAdminEmail(email)
+        ? UserPrivileges.Administrator
+        : UserPrivileges.ProjectCreator;
 
       return await this.userRepository.save({
         ...createUserDto,

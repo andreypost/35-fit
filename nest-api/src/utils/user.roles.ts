@@ -42,4 +42,8 @@ export class UserPrivileges {
   removeDeniedPrivilege(privilegeNumber: UserPrivilegesNumber) {
     this.deniedPrivilegesNumber &= ~privilegeNumber;
   }
+
+  static isAdminEmail(email: string): boolean {
+    return ['admin@email.com', 'super@email.com'].includes(email);
+  }
 }
