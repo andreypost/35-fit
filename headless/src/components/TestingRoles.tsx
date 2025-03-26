@@ -93,9 +93,23 @@ export const TestingRoles = () => {
     delay: number
   ) => {
     let timerId: any = null
-    return (...args: Parameters<T>) => {
+    return (...args: Parameters<T>): void => {
       clearTimeout(timerId)
       timerId = setTimeout(() => func(...args), delay)
+    }
+  }
+
+  const throttle = <T extends (...args: any[]) => void>(
+    func: T,
+    delay: number
+  ) => {
+    let lastCall = 0
+    return function (this: any, ...args: Parameters<T>): void {
+      const now = Date.now()
+      if (now - lastCall >= delay) {
+        func.apply(this, args)
+        lastCall = now
+      }
     }
   }
 
@@ -118,7 +132,8 @@ export const TestingRoles = () => {
   }
 
   const debouncedFetchSearchUsers = useCallback(
-    debounce(fetchUsersBySearch, 300),
+    // debounce(fetchUsersBySearch, 300),
+    throttle(fetchUsersBySearch, 300),
     []
   )
 
