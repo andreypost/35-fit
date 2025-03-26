@@ -2,8 +2,11 @@
   "name": "nuxt-headless",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
-    "dev": "nuxt -p 8080",
+    "dev": "nuxt -p 8000",
     "build": "nuxt build",
     "generate": "nuxt generate",
     "start": "nuxt start",

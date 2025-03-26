@@ -57,6 +57,10 @@ export class User extends BaseSchema {
     return bcrypt.compare(inputPassword, this.password);
   }
 
-  @OneToMany(() => Order, (order) => order.user)
+  @OneToMany(() => Order, (order) => order.user, {
+    nullable: false,
+    cascade: true,
+    orphanedRowAction: 'soft-delete', // Match BaseSchema
+  })
   orders!: Order[];
 }

@@ -28,7 +28,10 @@ export class Price extends BaseSchema {
   // @JoinColumn()
   // scooter?: Scooter;
 
-  @OneToMany(() => Scooter, (scooter) => scooter.price)
+  @OneToMany(() => Scooter, (scooter) => scooter.price, {
+    cascade: ['insert', 'update'],
+    orphanedRowAction: 'soft-delete', // Match BaseSchema pattern
+  })
   scooters?: Scooter[];
 
   // Each Accessory has a unique pricing model, the price is not intended to be reused across multiple accessory.
@@ -36,6 +39,9 @@ export class Price extends BaseSchema {
   // @JoinColumn()
   // accessory?: Accessory;
 
-  @OneToMany(() => Accessory, (accessory) => accessory.price)
+  @OneToMany(() => Accessory, (accessory) => accessory.price, {
+    cascade: ['insert', 'update'],
+    orphanedRowAction: 'soft-delete', // Match BaseSchema pattern
+  })
   accessories?: Accessory[];
 }

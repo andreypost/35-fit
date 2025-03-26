@@ -8,12 +8,13 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios'
 export default {
   name: 'FaqPage',
   scrollToTop: true,
   async asyncData({ env, $axios }: any) {
     try {
-      const getAuthAllUsers = await $axios.get(`${env.apiUrl}/user/users`, {
+      const getAuthAllUsers = await axios.get(`${env.apiUrl}/user/users`, {
         withCredentials: true,
       })
       console.log('/user/users - get all users: ', getAuthAllUsers.data)

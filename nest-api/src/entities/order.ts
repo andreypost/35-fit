@@ -1,4 +1,11 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { BaseSchema } from './base.schema';
 import { User } from './user';
 import { OrderItem } from './order.item';
@@ -9,15 +16,19 @@ export class Order extends BaseSchema {
   status!: string; // 'pending', 'shipped', 'delivered', 'cancelled'
 
   @ManyToOne(() => User, (user) => user.orders, {
-    // The database will throw an error if you try to delete a User with existing orders
-    onDelete: 'RESTRICT',
+    nullable: false,
+    // onDelete: 'RESTRICT' - The database will throw an error if you try to delete a User with existing orders
+    onDelete: 'NO ACTION', // Disable DB-level cascade (let TypeORM handle soft-delete)
     onUpdate: 'CASCADE',
   })
   @JoinColumn({ name: 'user_id' }) // Explicitly define the foreign key column
+  @Index()
   user!: User;
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
+    nullable: false,
     cascade: ['insert', 'update'],
+    orphanedRowAction: 'soft-delete',
   })
   items!: OrderItem[];
 
