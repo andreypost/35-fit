@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { BaseSchema } from "./BaseSchema";
 import { Price } from "./Price";
 
@@ -12,9 +12,11 @@ export class Accessory extends BaseSchema {
   // price!: Price;
 
   @ManyToOne(() => Price, (price) => price.accessories, {
-    nullable: true,
-    onDelete: "SET NULL",
+    nullable: false,
+    onDelete: "NO ACTION", // Disable DB-level cascade (let TypeORM handle soft-delete)
+    onUpdate: "CASCADE",
   })
-  @JoinColumn({ name: "price_id" }) // Without @JoinColumn(), TypeORM would generate a default column name based on price
+  @JoinColumn({ name: "price_id" })
+  @Index()
   price!: Price;
 }

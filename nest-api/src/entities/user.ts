@@ -42,10 +42,10 @@ export class User extends BaseSchema {
   emergencyPhone?: string;
 
   @Column({ type: 'int', default: UserPrivileges.None })
-  grantedPrivileges: number;
+  grantedPrivileges!: number;
 
   @Column({ type: 'int', default: UserPrivileges.None })
-  deniedPrivileges: number;
+  deniedPrivileges!: number;
 
   @BeforeInsert()
   async hashPassword(): Promise<void> {

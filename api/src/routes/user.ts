@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { body, validationResult } from "express-validator";
+import { Like } from "typeorm";
 import { loginLimiter } from "../middleware/rateLimiter";
 import {
   deleteAuthToken,
@@ -30,8 +31,12 @@ user.post(
   body("phone")
     .isMobilePhone(["uk-UA", "en-US", "pl-PL"])
     .withMessage(msg.PLEASE_ENTER_A_VALID_PHONE),
-  loginLimiter,
-  async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  // loginLimiter,
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     const err = validationResult(req);
     if (!err.isEmpty()) {
       return next({
@@ -96,12 +101,12 @@ user.post(
   body("password")
     .isLength({ min: 4 })
     .withMessage(msg.PASSWORD_MUTS_BE_AT_LEAST),
-  loginLimiter,
+  // loginLimiter,
   async (
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<User | any> => {
+  ): Promise<Response<User> | void> => {
     const err = validationResult(req);
     if (!err.isEmpty()) {
       return next({
@@ -148,13 +153,32 @@ user.get(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<User[] | any> => {
+  ): Promise<Response<User[]> | void> => {
     try {
       const { authToken } = req?.cookies;
       await validateAuthToken(authToken, res);
 
+      const users = await userRepository.find();
+      return res.status(200).json(users);
+    } catch (error: any) {
+      return next(error);
+    }
+  }
+);
+
+user.get(
+  "/search",
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<User[]> | void> => {
+    try {
+      const { query } = req.query;
       const users = await userRepository.find({
-        select: ["name", "age", "email"],
+        where: { email: Like(`%${query}%`) },
+        select: ["email", "grantedPrivileges", "id", "name"],
+        take: 10,
       });
       return res.status(200).json(users);
     } catch (error: any) {
@@ -165,7 +189,11 @@ user.get(
 
 user.get(
   "/validate",
-  async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<User> | void> => {
     try {
       const { authToken } = req?.cookies;
       if (!authToken) return;
@@ -193,7 +221,11 @@ user.get(
 
 user.post(
   "/logout",
-  async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     try {
       const { deleteAccount } = await req?.body;
       let repoResponse = null;

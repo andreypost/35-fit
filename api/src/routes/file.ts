@@ -32,42 +32,49 @@ let fileData: IFileUserDetails[] = [];
 let fileCountCache: Record<string, number> = {};
 let fileEarningsCache: Record<string, number> = {};
 
-file.get("/read", async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const authToken = req?.cookies?.authToken;
-    await validateAuthToken(authToken, res);
+file.get(
+  "/read",
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<IFileUserDetails> | void> => {
+    try {
+      const authToken = req?.cookies?.authToken;
+      await validateAuthToken(authToken, res);
 
-    // fs.rename(
-    //   fileFolder,
-    //   "../jsonData1",
-    //   (err) =>
-    //     err &&
-    //     next({
-    //       message: err.message,
-    //       status: 400,
-    //       type: "RenameError",
-    //     })
-    // );
+      // fs.rename(
+      //   fileFolder,
+      //   "../jsonData1",
+      //   (err) =>
+      //     err &&
+      //     next({
+      //       message: err.message,
+      //       status: 400,
+      //       type: "RenameError",
+      //     })
+      // );
 
-    // fs.access(
-    //   fileFolder,
-    //   (err) =>
-    //     err &&
-    //     next({
-    //       message: err.message,
-    //       status: 400,
-    //       type: "AccessFolderDirError",
-    //     })
-    // );
+      // fs.access(
+      //   fileFolder,
+      //   (err) =>
+      //     err &&
+      //     next({
+      //       message: err.message,
+      //       status: 400,
+      //       type: "AccessFolderDirError",
+      //     })
+      // );
 
-    if (!fileData?.length) {
-      fileData = await getFileData(filePath, next);
+      if (!fileData?.length) {
+        fileData = await getFileData(filePath, next);
+      }
+      return res.status(200).json(fileData);
+    } catch (error: any) {
+      return next(error);
     }
-    return res.status(200).json(fileData);
-  } catch (error: any) {
-    return next(error);
   }
-});
+);
 
 file.post(
   "/write",
@@ -75,7 +82,11 @@ file.post(
   body("earnings").notEmpty().withMessage(msg.EARNINGS_IS_REQUIRED),
   body("country").notEmpty().withMessage(msg.COUNTRY_IS_REQUIRED),
   body("name").notEmpty().withMessage(msg.NAME_IS_REQUIRED),
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     try {
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
@@ -113,7 +124,11 @@ file.post(
 
 file.get(
   "/count-by-country",
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<Record<string, number>> | void> => {
     try {
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
@@ -138,7 +153,11 @@ file.get(
 
 file.get(
   "/average-earnings-by-country",
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Record<string, any> | void> => {
     try {
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
@@ -160,7 +179,11 @@ file.get(
 
 file.get(
   "/users/:id",
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Record<string, any> | void> => {
     try {
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
