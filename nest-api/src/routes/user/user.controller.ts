@@ -92,6 +92,7 @@ export class UserController {
   }
 
   @Throttle({ default: { ttl: 60000, limit: 100, blockDuration: 60000 } })
+  @Public()
   @Get('search')
   @ApiOperation({ summary: 'search' })
   async searchUsers(@Query('query') query: string): Promise<User[]> {

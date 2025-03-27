@@ -1,14 +1,25 @@
 <template>
   <main data-aos="fade" class="faq_page page_view">
-    <!-- <div>
-      <h1 class="faq">Hello from FAQ page!</h1>
-      <h1>I am rendered on {{ renderedOn }}</h1>
-    </div> -->
+    <HeaderBanner
+      className="faq"
+      title="nav.faq"
+      description="header_banner.training_becomes"
+    >
+      <section class="section faq">
+        <TestingRoles />
+        <!-- <div>
+          <h1 class="faq">Hello from FAQ page!</h1>
+          <h1>I am rendered on {{ renderedOn }}</h1>
+        </div> -->
+      </section>
+    </HeaderBanner>
   </main>
 </template>
 
 <script lang="ts">
 import axios from 'axios'
+import HeaderBanner from '~/components/HeaderBanner.vue'
+import TestingRoles from '~/components/TestingRoles.vue'
 export default {
   name: 'FaqPage',
   scrollToTop: true,
