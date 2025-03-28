@@ -1,7 +1,11 @@
 import path, { join } from "path";
 import { Router, Request, Response, NextFunction } from "express";
 import { validateAuthToken } from "../auth/jsonWebToken";
-import { getFileData, writeFileData } from "../helpers/fileStream";
+import {
+  getFileData,
+  // writeFileData
+} from "../helpers/fileStream";
+const { writeFileData } = require("../helpers/fileStream");
 import { body, validationResult } from "express-validator";
 import { msg } from "../constants/messages";
 import { IFileUserDetails } from "../types/interface";
@@ -65,7 +69,6 @@ file.get(
       //       type: "AccessFolderDirError",
       //     })
       // );
-
       if (!fileData?.length) {
         fileData = await getFileData(filePath, next);
       }

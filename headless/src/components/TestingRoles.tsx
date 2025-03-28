@@ -45,14 +45,28 @@ export const TestingRoles = () => {
   const [userForUpdate, setUserForUpdate] = useState<IAuth>({})
 
   useEffect(() => {
-    const handleGetAllUsers = async (): Promise<void> => {
-      const response = await apiEndpointCall('get', 'user/users')
+    const urls = ['user/users', 'user/usei', 'user/users', 'user/users']
+    const handleGetAllUsers = async (path): Promise<void> => {
+      const response = await apiEndpointCall('get', path)
       if (response?.data) {
-        setAllUsers(response.data)
+        // setAllUsers(response.data)
         // setSearchUsers(response.data)
+        return response?.data
       }
     }
-    handleGetAllUsers()
+    // handleGetAllUsers('')
+
+    const parallelExecute = async (tasks, callback) => {
+      await Promise.all(tasks.map((url) => handleGetAllUsers(url)))
+        .then((response) => {
+          setAllUsers(response.flat())
+          callback(response)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+    parallelExecute(urls, (res) => console.log(res))
   }, [])
 
   const updateUserPrivileges = async () => {
@@ -196,8 +210,8 @@ export const TestingRoles = () => {
         </button>
       </div>
       {allUsers?.length > 0 &&
-        allUsers.map(({ email, id, grantedPrivileges, name }: IAuth) => (
-          <ul key={id}>
+        allUsers.map(({ email, id, grantedPrivileges, name }: IAuth, index) => (
+          <ul key={index}>
             <li>
               <p>{name}</p>
               <p>{email}</p>

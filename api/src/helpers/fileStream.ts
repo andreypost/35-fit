@@ -29,7 +29,7 @@ export const getFileData = (path: string, next: any): Promise<any> => {
   });
 };
 
-export const writeFileData = (path: string, data: any): Promise<void> => {
+const writeFileData = (path: string, data: any): Promise<void> => {
   return new Promise((res, rej) => {
     const writeStream = createWriteStream(path, {
       encoding: "utf-8",
@@ -44,3 +44,5 @@ export const writeFileData = (path: string, data: any): Promise<void> => {
     writeStream.end(JSON.stringify(data, null, 2));
   });
 };
+
+exports.writeFileData = writeFileData;
