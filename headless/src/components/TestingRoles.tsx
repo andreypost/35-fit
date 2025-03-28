@@ -45,7 +45,7 @@ export const TestingRoles = () => {
   const [userForUpdate, setUserForUpdate] = useState<IAuth>({})
 
   useEffect(() => {
-    const urls = ['user/users', 'user/usei', 'user/users', 'user/users']
+    const urls = ['user/users', 'user/users', 'user/users', 'user/users']
     const handleGetAllUsers = async (path): Promise<void> => {
       const response = await apiEndpointCall('get', path)
       if (response?.data) {
@@ -57,16 +57,57 @@ export const TestingRoles = () => {
     // handleGetAllUsers('')
 
     const parallelExecute = async (tasks, callback) => {
-      await Promise.all(tasks.map((url) => handleGetAllUsers(url)))
+      await Promise.any(tasks.map((url) => handleGetAllUsers(url)))
         .then((response) => {
           setAllUsers(response.flat())
-          callback(response)
+          // console.log('all: ', response.flat())
+
+          // response.forEach((result) => {
+          //   if (result.status === 'fulfilled') {
+          //   } else if (result.status === 'rejected') {
+          //     console.log('allSettled rejected: ', result.reason)
+          //   }
+          // })
         })
         .catch((error) => {
           console.error(error)
         })
     }
-    parallelExecute(urls, (res) => console.log(res))
+    parallelExecute(urls, (res: any) => console.log(res))
+  }, [])
+
+  useEffect(() => {
+    const sleep = async (delay: number) => {
+      return setTimeout(() => Promise.resolve(console.log('delay')), delay)
+    }
+
+    const maim = async () => {
+      console.log('now')
+      await sleep(2000)
+      console.log('triggers after delay')
+    }
+
+    // maim()
+  }, [])
+
+  useEffect(() => {
+    async function fetchUserAdnPost(userId: string) {
+      try {
+        const res = await apiEndpointCall('get', `file/users/${userId}`)
+        console.log('try catch: ', res)
+      } catch (error: any) {
+        console.error(error)
+      }
+      // or
+      await new Promise((res, rej) =>
+        res(apiEndpointCall('get', `file/users/${userId}`))
+      )
+        .then((response) => console.log('response', response))
+        .catch((error) => console.error('error', error))
+        .finally(() => console.log('Finally done!'))
+    }
+
+    fetchUserAdnPost('123')
   }, [])
 
   const updateUserPrivileges = async () => {

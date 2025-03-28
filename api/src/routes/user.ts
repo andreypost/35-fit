@@ -174,6 +174,9 @@ user.get(
     next: NextFunction
   ): Promise<Response<User[]> | void> => {
     try {
+      const { authToken } = req?.cookies;
+      await validateAuthToken(authToken, res);
+
       const { query } = req.query;
       const users = await userRepository.find({
         where: { email: Like(`%${query}%`) },

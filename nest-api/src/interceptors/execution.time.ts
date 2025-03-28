@@ -9,7 +9,10 @@ import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class ExecutionTimeInterceptor implements NestInterceptor {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler<any>,
+  ): Observable<any> | Promise<Observable<any>> {
     const now = Date.now();
 
     console.log('Before...');
