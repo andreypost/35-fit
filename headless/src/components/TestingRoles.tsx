@@ -117,12 +117,12 @@ export const TestingRoles = () => {
   const updateUserPrivileges = async () => {
     const grantedPrivileges = UserPrivileges.Administrator
     const deniedPrivileges = UserPrivileges.None
-    if (!isAdmin) {
-      store.dispatch(
-        messageModal('You do not have the rights to update privileges')
-      )
-      return
-    }
+    // if (!isAdmin) {
+    //   store.dispatch(
+    //     messageModal('You do not have the rights to update privileges')
+    //   )
+    //   return
+    // }
     if (userForUpdate?.id) {
       // const someUser = Math.floor(Math.random() * users.length)
       await apiEndpointCall('patch', `user/${userForUpdate.id}/privileges`, {

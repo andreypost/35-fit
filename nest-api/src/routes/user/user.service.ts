@@ -6,6 +6,7 @@ import {
   ServiceUnavailableException,
   ConflictException,
   InternalServerErrorException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
@@ -176,12 +177,35 @@ export class UserService {
     }
   }
 
+  public async searchUsers(query: string): Promise<User[]> {
+    return this.userRepository.find({
+      where: { email: Like(`%${query}%`) },
+      select: ['email', 'grantedPrivileges', 'id', 'name'],
+      take: 10,
+    });
+  }
+
   public async updateUserPrivileges(
+    email: string,
     id: string,
     grantedPrivileges: number,
     deniedPrivileges: number,
   ): Promise<User> {
     try {
+      const currentUser = await this.findUserByEmail(email);
+      if (!currentUser) {
+        throw new NotFoundException(msg.USER_NOT_FOUND);
+      }
+
+      const privileges = new UserPrivileges(
+        currentUser.grantedPrivileges,
+        currentUser.deniedPrivileges,
+      );
+
+      if (!privileges.hasGrantedPrivilege(UserPrivileges.Administrator)) {
+        throw new ForbiddenException(msg.YOU_DO_NOT_HAVE_PERMISSION);
+      }
+
       const user = await this.userRepository.findOne({ where: { id } });
 
       if (!user) {
@@ -195,13 +219,5 @@ export class UserService {
     } catch (error: any) {
       nextError(error);
     }
-  }
-
-  public async searchUsers(query: string): Promise<User[]> {
-    return this.userRepository.find({
-      where: { email: Like(`%${query}%`) },
-      select: ['email', 'grantedPrivileges', 'id', 'name'],
-      take: 10,
-    });
   }
 }

@@ -78,24 +78,26 @@ export class UserController {
     return await this.userService.logoutUser(deleteAccount, email, res);
   }
 
-  @Patch(':id/privileges')
-  @ApiOperation({ summary: ':id/privileges' })
-  async updateUserPrivileges(
-    @Param('id') id: string,
-    @Body() { grantedPrivileges, deniedPrivileges },
-  ): Promise<User> {
-    return this.userService.updateUserPrivileges(
-      id,
-      grantedPrivileges,
-      deniedPrivileges,
-    );
-  }
-
   @Throttle({ default: { ttl: 60000, limit: 100, blockDuration: 60000 } })
   @Public()
   @Get('search')
   @ApiOperation({ summary: 'search' })
   async searchUsers(@Query('query') query: string): Promise<User[]> {
     return this.userService.searchUsers(query);
+  }
+
+  @Patch(':id/privileges')
+  @ApiOperation({ summary: ':id/privileges' })
+  async updateUserPrivileges(
+    @CurrentUserEmail() email: string,
+    @Param('id') id: string,
+    @Body() { grantedPrivileges, deniedPrivileges },
+  ): Promise<User> {
+    return this.userService.updateUserPrivileges(
+      email,
+      id,
+      grantedPrivileges,
+      deniedPrivileges,
+    );
   }
 }

@@ -39,4 +39,6 @@ export const msg = {
   PRODUCT_PRICE_ALREADY_IN_USE:
     " - this Product Name and Price Name already in use",
   PRICE_NAME_ALREADY_EXIST: " - this Price Name already exist",
+  YOU_DO_NOT_HAVE_PERMISSION:
+    "You do not have permission to perform this action",
 };

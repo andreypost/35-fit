@@ -68,20 +68,6 @@ paths:
           description: ""
       summary: logout
       tags: *a1
-  /user/{id}/privileges:
-    patch:
-      operationId: UserController_updateUserPrivileges
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        "200":
-          description: ""
-      summary: :id/privileges
-      tags: *a1
   /user/search:
     get:
       operationId: UserController_searchUsers
@@ -95,6 +81,20 @@ paths:
         "200":
           description: ""
       summary: search
+      tags: *a1
+  /user/{id}/privileges:
+    patch:
+      operationId: UserController_updateUserPrivileges
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+      summary: :id/privileges
       tags: *a1
   /file/read:
     get:
