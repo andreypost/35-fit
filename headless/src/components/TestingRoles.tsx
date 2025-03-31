@@ -73,21 +73,25 @@ export const TestingRoles = () => {
           console.error(error)
         })
     }
-    parallelExecute(urls, (res: any) => console.log(res))
+    // parallelExecute(urls, (res: any) => console.log(res))
   }, [])
 
   useEffect(() => {
-    const sleep = async (delay: number) => {
-      return setTimeout(() => Promise.resolve(console.log('delay')), delay)
+    const sleep = async <T extends Function>(
+      delay: number,
+      func: T
+    ): Promise<any> => {
+      return new Promise((res) => setTimeout(() => res(func()), delay))
     }
 
-    const maim = async () => {
+    const maim = async (delay: number) => {
       console.log('now')
-      await sleep(2000)
-      console.log('triggers after delay')
+      await sleep(delay, () => console.log('delay: ', delay))
+      await new Promise((res) => setTimeout(res, delay))
+      console.log('triggers after both delays: ', delay)
     }
 
-    // maim()
+    maim(2000)
   }, [])
 
   useEffect(() => {
@@ -107,7 +111,7 @@ export const TestingRoles = () => {
         .finally(() => console.log('Finally done!'))
     }
 
-    fetchUserAdnPost('123')
+    // fetchUserAdnPost('123')
   }, [])
 
   const updateUserPrivileges = async () => {

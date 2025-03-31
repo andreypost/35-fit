@@ -151,7 +151,7 @@ export const TestingOrder = () => {
       ])
     }
 
-    checkSetPrices()
+    // checkSetPrices()
 
     return () => abortController.abort()
   }, [])
