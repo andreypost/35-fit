@@ -11,10 +11,10 @@ export class UserPrivileges {
   private deniedPrivilegesNumber: UserPrivilegesNumber;
 
   constructor(
-    privilegesNumber: UserPrivilegesNumber,
+    grantedPrivilegesNumber: UserPrivilegesNumber,
     deniedPrivilegesNumber: UserPrivilegesNumber,
   ) {
-    this.grantedPrivilegesNumber = privilegesNumber;
+    this.grantedPrivilegesNumber = grantedPrivilegesNumber;
     this.deniedPrivilegesNumber = deniedPrivilegesNumber;
   }
 
