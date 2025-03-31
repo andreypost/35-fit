@@ -1,14 +1,14 @@
 export type UserPrivilegesNumber = number
 
 export class UserPrivileges {
-  static None = 0
-  static Administrator = 1
-  static BillingPeriodManager = 1 << 1
-  static GlobalSupervisor = 1 << 2
-  static ProjectCreator = 1 << 3
+  static readonly None = 0
+  static readonly Administrator = 1
+  static readonly BillingPeriodManager = 1 << 1
+  static readonly GlobalSupervisor = 1 << 2
+  static readonly ProjectCreator = 1 << 3
 
-  grantedPrivilegesNumber: UserPrivilegesNumber
-  deniedPrivilegesNumber: UserPrivilegesNumber
+  private grantedPrivilegesNumber: UserPrivilegesNumber
+  private deniedPrivilegesNumber: UserPrivilegesNumber
 
   constructor(
     privilegesNumber: UserPrivilegesNumber,
@@ -18,28 +18,28 @@ export class UserPrivileges {
     this.deniedPrivilegesNumber = deniedPrivilegesNumber
   }
 
-  hasGrantedPrivilege(privilegeNumber: UserPrivilegesNumber): boolean {
+  public hasGrantedPrivilege(privilegeNumber: UserPrivilegesNumber): boolean {
     if (this.hasDeniedPrivilege(privilegeNumber)) return false
     return (this.grantedPrivilegesNumber & privilegeNumber) === privilegeNumber
   }
 
-  hasDeniedPrivilege(privilegeNumber: UserPrivilegesNumber): boolean {
+  public hasDeniedPrivilege(privilegeNumber: UserPrivilegesNumber): boolean {
     return (this.deniedPrivilegesNumber & privilegeNumber) === privilegeNumber
   }
 
-  addGrantedPrivilege(privilegeNumber: UserPrivilegesNumber) {
+  public addGrantedPrivilege(privilegeNumber: UserPrivilegesNumber) {
     this.grantedPrivilegesNumber |= privilegeNumber
   }
 
-  addDeniedPrivilege(privilegeNumber: UserPrivilegesNumber) {
+  public addDeniedPrivilege(privilegeNumber: UserPrivilegesNumber) {
     this.deniedPrivilegesNumber |= privilegeNumber
   }
 
-  removeGrantedPrivilege(privilegeNumber: UserPrivilegesNumber) {
+  public removeGrantedPrivilege(privilegeNumber: UserPrivilegesNumber) {
     this.grantedPrivilegesNumber &= ~privilegeNumber
   }
 
-  removeDeniedPrivilege(privilegeNumber: UserPrivilegesNumber) {
+  public removeDeniedPrivilege(privilegeNumber: UserPrivilegesNumber) {
     this.deniedPrivilegesNumber &= ~privilegeNumber
   }
 }
