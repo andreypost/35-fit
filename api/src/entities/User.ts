@@ -49,6 +49,7 @@ export class User extends BaseSchema {
 
   @BeforeInsert()
   async hashPassword(): Promise<void> {
+    console.log('hashPassword: ', this.password);
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
   }

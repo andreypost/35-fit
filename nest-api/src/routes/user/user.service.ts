@@ -61,32 +61,28 @@ export class UserService {
     res: Response,
   ): Promise<User> {
     try {
-      const { email, password } = createUserDto;
+      const { email } = createUserDto;
 
       const existingUser = await this.findUserByEmail(email);
       if (existingUser) {
         throw new ConflictException(msg.EMAIL_ALREADY_EXIST);
       }
 
-      let hashedPassword = '';
-      try {
-        hashedPassword = await bcrypt.hash(password, 10);
-      } catch {
-        throw new InternalServerErrorException(msg.HASHING_PASS_OCCURRED);
-      }
-
-      await this.setAuthToken(email, hashedPassword, res);
+      await this.setAuthToken(email, email, res);
 
       const userRoles = UserPrivileges.isAdminEmail(email)
         ? UserPrivileges.Administrator
         : UserPrivileges.ProjectCreator;
 
-      return await this.userRepository.save({
+      // this.userRepository.create(...) will hydrate a proper entity instance first,
+      // then will trigger @BeforeInsert() to hash password in User entity
+      const newUser = this.userRepository.create({
         ...createUserDto,
-        password: hashedPassword,
         grantedPrivileges: userRoles,
         deniedPrivileges: UserPrivileges.None,
       });
+
+      return await this.userRepository.save(newUser);
     } catch (error: any) {
       await deleteAuthToken(res);
       nextError(error);
