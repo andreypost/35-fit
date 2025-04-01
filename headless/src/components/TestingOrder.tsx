@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { memo, useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { IPrice } from 'types/interface'
 import { apiEndpointCall } from 'utils/endpointApiCall'
@@ -43,7 +43,7 @@ const Div = styled.div`
   }
 `
 
-export const TestingOrder = () => {
+export const TestingOrder = memo(() => {
   const { currentUser } = useContext(AppContext)
   const [scooterPriceId, setScooterPriceId] = useState('')
   const [accessoryPriceId, setAccessoryPriceId] = useState('')
@@ -55,6 +55,8 @@ export const TestingOrder = () => {
   const [accessoryPoductId, setAccessoryPoductId] = useState('')
   const abortController = new AbortController()
   const { signal } = abortController
+
+  // console.log('Testing Order is rerendering')
 
   const scooterPrice: IPrice = {
     name: 'Scooter Autunm Sale 2023',
@@ -341,4 +343,4 @@ export const TestingOrder = () => {
       </section>
     </Div>
   )
-}
+})
