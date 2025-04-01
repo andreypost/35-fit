@@ -7,6 +7,7 @@ import {
   ConflictException,
   InternalServerErrorException,
   ForbiddenException,
+  BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
@@ -64,13 +65,6 @@ export class UserService {
     try {
       const { email } = createUserDto;
 
-      const existingUser = await this.findUserByEmail(email);
-      if (existingUser) {
-        throw new ConflictException(msg.EMAIL_ALREADY_EXIST);
-      }
-
-      await this.setAuthToken(email, email, res);
-
       const userRoles = UserPrivileges.isAdminEmail(email)
         ? UserPrivileges.Administrator
         : UserPrivileges.ProjectCreator;
@@ -83,9 +77,16 @@ export class UserService {
         deniedPrivileges: UserPrivileges.None,
       });
 
-      return await this.userRepository.save(newUser);
+      const savedUser = await this.userRepository.save(newUser);
+
+      await this.setAuthToken(email, savedUser.id, res);
+
+      return savedUser;
     } catch (error: any) {
       await deleteAuthToken(res);
+      if (error.code === '23505') {
+        throw new ConflictException(msg.EMAIL_ALREADY_EXIST);
+      }
       nextError(error);
     }
   }
@@ -178,7 +179,7 @@ export class UserService {
   }
 
   public async searchUsers(query: string): Promise<User[]> {
-    return this.userRepository.find({
+    return await this.userRepository.find({
       where: { email: Like(`%${query}%`) },
       select: ['email', 'grantedPrivileges', 'id', 'name'],
       take: 10,
@@ -204,6 +205,10 @@ export class UserService {
 
       if (!privileges.hasGrantedPrivilege(UserPrivileges.Administrator)) {
         throw new ForbiddenException(msg.YOU_DO_NOT_HAVE_PERMISSION);
+      }
+
+      if (!id || id === 'undefined') {
+        throw new BadRequestException(msg.ID_IS_REQUIRED);
       }
 
       const user = await this.userRepository.findOne({ where: { id } });

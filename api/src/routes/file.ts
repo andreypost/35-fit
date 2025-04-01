@@ -193,14 +193,14 @@ file.get(
 
       const { id } = req.params;
       if (!id) {
-        return res.status(400).json({ message: "ID is required" });
+        return next({ message: msg.ID_IS_REQUIRED });
       }
       if (!fileData?.length) {
         fileData = await getFileData(filePath, next);
       }
       const user = fileData.find((user) => user.id.toString() === id);
       if (!user) {
-        return res.status(404).json(msg.USER_NOT_FOUND);
+        return next({ message: msg.USER_NOT_FOUND });
       }
       return res.status(200).json(user);
     } catch (error: any) {
