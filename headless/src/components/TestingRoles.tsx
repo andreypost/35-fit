@@ -37,7 +37,7 @@ const Div = styled.div`
     }
   }
 `
-// this is the same effect like freeze the function from re-creating on each re-render
+// this is the same as with useCallback in body component effect like freeze the function from re-creating on each re-render
 const handleGetAllUsers = async (path: string): Promise<void> => {
   const response = await apiEndpointCall('get', path)
   if (response?.data) {
@@ -53,6 +53,8 @@ export const TestingRoles = memo(() => {
   const [userForUpdate, setUserForUpdate] = useState<IAuth>({})
   console.log('Testing Roles is rerendering')
 
+  // wrapping handleGetAllUsers in useCallback prevents from re-rendering child <TestingCalllback...
+  // if this parent component get changes and re-rederes
   const handleGetAllUsers = useCallback(async (path): Promise<void> => {
     const response = await apiEndpointCall('get', path)
     if (response?.data) {
@@ -62,24 +64,23 @@ export const TestingRoles = memo(() => {
 
   useEffect(() => {
     const urls = ['user/users', 'user/users', 'user/users', 'user/users']
+    // handleGetAllUsers('')
 
-    const parallelExecute = async <T, R>(
-      tasks: T[],
-      callback: (result: PromiseSettledResult<R[]>[]) => void
-    ) => {
-      await Promise.allSettled(
-        tasks.map((url: any) => apiEndpointCall('get', url))
-      )
-        .then((response) => {
-          response.forEach((result) => {
-            if (result.status === 'fulfilled') {
-              setAllUsers(result.value.data)
-              // console.log('allSettled result: ', result.value)
-              callback(response)
-            } else if (result.status === 'rejected') {
-              console.error('allSettled rejected: ', result.reason)
-            }
-          })
+    const parallelExecute = async (
+      tasks: string[],
+      callback: Function
+    ): Promise<void> => {
+      await Promise.race(tasks.map((url: string) => handleGetAllUsers(url)))
+        .then((response: string[] | any) => {
+          setAllUsers(response.flat()) // for all, race, any Promises
+          // for allSettled Promise
+          // response.forEach((result: any) => {
+          //   if (result.status === 'fulfilled') {
+          //     setAllUsers((allUsers) => [...allUsers, ...result.value.flat()])
+          //   } else if (result.status === 'rejected') {
+          //     console.log('allSettled rejected: ', result.reason)
+          //   }
+          // })
         })
         .catch((error) => {
           console.error(error)
@@ -182,8 +183,8 @@ export const TestingRoles = memo(() => {
   }
 
   const debouncedFetchSearchUsers = useCallback(
-    // debounce(fetchUsersBySearch, 300),
-    throttle(fetchUsersBySearch, 1000),
+    debounce(fetchUsersBySearch, 1000), // every input will trigger the call only with 1000ms delay
+    // throttle(fetchUsersBySearch, 1000), // trigger on every first input at once right now, and following input will trigget with delay
     []
   )
 
@@ -192,16 +193,6 @@ export const TestingRoles = memo(() => {
     setSearchQuery(value)
     debouncedFetchSearchUsers(value)
   }
-
-  // wrapping handleGetAllUsers in useCallback prevents from re-rendering child <TestingCalllback...
-  // if this parent component get changes and re-rederes
-  const handleGetAllUsers = useCallback(async (path: string): Promise<void> => {
-    const response = await apiEndpointCall('get', path)
-    if (response?.data) {
-      setAllUsers(response.data)
-      return response?.data
-    }
-  }, [])
 
   return (
     <Div>
