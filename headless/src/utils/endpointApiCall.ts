@@ -21,7 +21,7 @@ export const apiEndpointCall = async (
     } else {
       result = await axios[method](url, body, config)
     }
-    // console.log(route, result)
+    // console.log('Api Endpoint Call Results: ', route, result)
     return result
   } catch (error: any) {
     if (axios.isCancel(error)) {

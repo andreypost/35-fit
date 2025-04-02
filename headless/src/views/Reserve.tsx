@@ -253,29 +253,28 @@ const Reserve = () => {
 
   const handleUserSubmit = async <T extends React.FormEvent<HTMLFormElement>>(
     e: T
-  ): Promise<void> => {
+  ): Promise<void | any> => {
     e.preventDefault()
-    try {
-      if (!isDevelopment) {
-        await new Promise((resolve) => {
-          setTimeout(() => {
+
+    if (!isDevelopment) {
+      return await new Promise((resolve) =>
+        setTimeout(
+          () =>
             resolve(
               dispatch(messageModal(t('messages.sorry_but_it_is_not_possible')))
-            )
-          }, 1500)
-        })
-      } else {
-        const newUser = await apiEndpointCall(
-          'post',
-          'user/create-new-user',
-          userData
+            ),
+          1500
         )
-        dispatch(addNewDatabaseUser(newUser.data))
-        dispatch(messageModal(t('messages.your_account_was_created')))
-      }
-    } catch (error: any) {
-      errorModalMessage(error)
+      )
     }
+
+    const newUser = await apiEndpointCall(
+      'post',
+      'user/create-new-user',
+      userData
+    )
+    dispatch(addNewDatabaseUser(newUser.data))
+    dispatch(messageModal(t('messages.your_account_was_created')))
   }
 
   const setFieldColor = <T extends string | undefined>(field: T): string => {

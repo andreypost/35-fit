@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useState } from 'react'
+import { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 import { IAuth } from 'types/interface'
@@ -8,6 +8,7 @@ import { UserPrivileges } from 'utils/userRoles'
 import { store } from 'store'
 import { messageModal } from 'slices/modal.slice'
 import { errorModalMessage } from 'utils/errorModalMessage'
+import { TestingCallback } from './TestingCallback'
 
 const Div = styled.div`
   .privileges_button {
@@ -44,12 +45,13 @@ const handleGetAllUsers = async (path: string): Promise<void> => {
   }
 }
 
-export const TestingRoles = () => {
+export const TestingRoles = memo(() => {
   const [searchUsers, setSearchUsers] = useState<IAuth[] | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const isAdmin = useIsAdmin()
   const [allUsers, setAllUsers] = useState<IAuth[]>([])
   const [userForUpdate, setUserForUpdate] = useState<IAuth>({})
+  console.log('Testing Roles is rerendering')
 
   const handleGetAllUsers = useCallback(async (path): Promise<void> => {
     const response = await apiEndpointCall('get', path)
@@ -60,23 +62,24 @@ export const TestingRoles = () => {
 
   useEffect(() => {
     const urls = ['user/users', 'user/users', 'user/users', 'user/users']
-    // handleGetAllUsers('')
 
-    const parallelExecute = async (
-      tasks: string[],
-      callback: Function
-    ): Promise<void> => {
-      await Promise.race(tasks.map((url: string) => handleGetAllUsers(url)))
-        .then((response: string[] | any) => {
-          setAllUsers(response.flat()) // for all, race, any Promises
-          // for allSettled Promise
-          // response.forEach((result: any) => {
-          //   if (result.status === 'fulfilled') {
-          //     setAllUsers((allUsers) => [...allUsers, ...result.value.flat()])
-          //   } else if (result.status === 'rejected') {
-          //     console.log('allSettled rejected: ', result.reason)
-          //   }
-          // })
+    const parallelExecute = async <T, R>(
+      tasks: T[],
+      callback: (result: PromiseSettledResult<R[]>[]) => void
+    ) => {
+      await Promise.allSettled(
+        tasks.map((url: any) => apiEndpointCall('get', url))
+      )
+        .then((response) => {
+          response.forEach((result) => {
+            if (result.status === 'fulfilled') {
+              setAllUsers(result.value.data)
+              // console.log('allSettled result: ', result.value)
+              callback(response)
+            } else if (result.status === 'rejected') {
+              console.error('allSettled rejected: ', result.reason)
+            }
+          })
         })
         .catch((error) => {
           console.error(error)
@@ -162,6 +165,7 @@ export const TestingRoles = () => {
   const fetchUsersBySearch = async (searchQuery: string) => {
     if (searchQuery?.length <= 2) {
       setSearchUsers(null)
+      setUserForUpdate({})
       return
     }
     try {
@@ -178,8 +182,8 @@ export const TestingRoles = () => {
   }
 
   const debouncedFetchSearchUsers = useCallback(
-    debounce(fetchUsersBySearch, 1000), // every input will trigger the call only with 1000ms delay
-    // throttle(fetchUsersBySearch, 1000), // trigger on every first input at once right now, and following input will trigget with delay
+    // debounce(fetchUsersBySearch, 300),
+    throttle(fetchUsersBySearch, 1000),
     []
   )
 
@@ -188,6 +192,16 @@ export const TestingRoles = () => {
     setSearchQuery(value)
     debouncedFetchSearchUsers(value)
   }
+
+  // wrapping handleGetAllUsers in useCallback prevents from re-rendering child <TestingCalllback...
+  // if this parent component get changes and re-rederes
+  const handleGetAllUsers = useCallback(async (path: string): Promise<void> => {
+    const response = await apiEndpointCall('get', path)
+    if (response?.data) {
+      setAllUsers(response.data)
+      return response?.data
+    }
+  }, [])
 
   return (
     <Div>
@@ -240,6 +254,10 @@ export const TestingRoles = () => {
         >
           Sort User By Email
         </button>
+        <TestingCallback
+          handleGetAllUsers={handleGetAllUsers}
+          userForUpdate={userForUpdate}
+        />
       </div>
       {allUsers?.length > 0 &&
         allUsers.map(({ email, id, grantedPrivileges, name }: IAuth, index) => (
@@ -254,4 +272,4 @@ export const TestingRoles = () => {
         ))}
     </Div>
   )
-}
+})

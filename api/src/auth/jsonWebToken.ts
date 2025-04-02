@@ -15,15 +15,15 @@ export const generateToken = async (
 };
 
 export const setAuthToken = async (
-  id: string | number | undefined,
   email: string,
+  id: string | number | undefined,
   res: any,
   keepLoggedIn: boolean = false
 ): Promise<any> => {
   const authToken = await generateToken(
     {
-      userId: id,
-      email: email,
+      email,
+      id,
     },
     keepLoggedIn
   );
