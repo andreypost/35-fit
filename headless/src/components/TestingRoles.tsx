@@ -36,6 +36,13 @@ const Div = styled.div`
     }
   }
 `
+// this is the same effect like freeze the function from re-creating on each re-render
+const handleGetAllUsers = async (path: string): Promise<void> => {
+  const response = await apiEndpointCall('get', path)
+  if (response?.data) {
+    return response?.data
+  }
+}
 
 export const TestingRoles = () => {
   const [searchUsers, setSearchUsers] = useState<IAuth[] | null>(null)
@@ -44,26 +51,28 @@ export const TestingRoles = () => {
   const [allUsers, setAllUsers] = useState<IAuth[]>([])
   const [userForUpdate, setUserForUpdate] = useState<IAuth>({})
 
+  const handleGetAllUsers = useCallback(async (path): Promise<void> => {
+    const response = await apiEndpointCall('get', path)
+    if (response?.data) {
+      return response?.data
+    }
+  }, [])
+
   useEffect(() => {
     const urls = ['user/users', 'user/users', 'user/users', 'user/users']
-    const handleGetAllUsers = async (path): Promise<void> => {
-      const response = await apiEndpointCall('get', path)
-      if (response?.data) {
-        // setAllUsers(response.data)
-        // setSearchUsers(response.data)
-        return response?.data
-      }
-    }
     // handleGetAllUsers('')
 
-    const parallelExecute = async (tasks, callback) => {
-      await Promise.any(tasks.map((url) => handleGetAllUsers(url)))
-        .then((response) => {
-          setAllUsers(response.flat())
-          // console.log('all: ', response.flat())
-
-          // response.forEach((result) => {
+    const parallelExecute = async (
+      tasks: string[],
+      callback: Function
+    ): Promise<void> => {
+      await Promise.race(tasks.map((url: string) => handleGetAllUsers(url)))
+        .then((response: string[] | any) => {
+          setAllUsers(response.flat()) // for all, race, any Promises
+          // for allSettled Promise
+          // response.forEach((result: any) => {
           //   if (result.status === 'fulfilled') {
+          //     setAllUsers((allUsers) => [...allUsers, ...result.value.flat()])
           //   } else if (result.status === 'rejected') {
           //     console.log('allSettled rejected: ', result.reason)
           //   }
@@ -73,8 +82,8 @@ export const TestingRoles = () => {
           console.error(error)
         })
     }
-    // parallelExecute(urls, (res: any) => console.log(res))
-  }, [])
+    parallelExecute(urls, (res: any) => console.log(res))
+  }, [handleGetAllUsers])
 
   useEffect(() => {
     const sleep = async <T extends Function>(
@@ -83,35 +92,13 @@ export const TestingRoles = () => {
     ): Promise<any> => {
       return new Promise((res) => setTimeout(() => res(func()), delay))
     }
-
     const maim = async (delay: number) => {
       console.log('now')
       await sleep(delay, () => console.log('delay: ', delay))
       await new Promise((res) => setTimeout(res, delay))
       console.log('triggers after both delays: ', delay)
     }
-
     // maim(2000)
-  }, [])
-
-  useEffect(() => {
-    async function fetchUserAdnPost(userId: string) {
-      try {
-        const res = await apiEndpointCall('get', `file/users/${userId}`)
-        console.log('try catch: ', res)
-      } catch (error: any) {
-        console.error(error)
-      }
-      // or
-      await new Promise((res, rej) =>
-        res(apiEndpointCall('get', `file/users/${userId}`))
-      )
-        .then((response) => console.log('response', response))
-        .catch((error) => console.error('error', error))
-        .finally(() => console.log('Finally done!'))
-    }
-
-    // fetchUserAdnPost('123')
   }, [])
 
   const updateUserPrivileges = async () => {
@@ -142,7 +129,7 @@ export const TestingRoles = () => {
   }
 
   const sorUserByEmail = () => {
-    setAllUsers(() =>
+    setAllUsers((allUsers) =>
       [...allUsers].sort((a: any, b: any) => a?.email.localeCompare(b?.email))
     )
   }
@@ -173,7 +160,7 @@ export const TestingRoles = () => {
   }
 
   const fetchUsersBySearch = async (searchQuery: string) => {
-    if (searchQuery?.length < 2) {
+    if (searchQuery?.length <= 2) {
       setSearchUsers(null)
       return
     }
@@ -191,8 +178,8 @@ export const TestingRoles = () => {
   }
 
   const debouncedFetchSearchUsers = useCallback(
-    // debounce(fetchUsersBySearch, 300),
-    throttle(fetchUsersBySearch, 300),
+    debounce(fetchUsersBySearch, 1000), // every input will trigger the call only with 1000ms delay
+    // throttle(fetchUsersBySearch, 1000), // trigger on every first input at once right now, and following input will trigget with delay
     []
   )
 
