@@ -1,13 +1,15 @@
 import React, {
   Fragment,
+  memo,
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
 import styled from 'styled-components'
-import { IGetImageById, IGetImages, IPrice } from 'types/interface'
+import { IGetImageById, IGetImages, IPrice, IUser } from 'types/interface'
 import { useQuery } from '@apollo/client'
 import { GET_IMAGES, GET_IMAGE_BY_ID } from 'queries'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
@@ -82,32 +84,9 @@ const Div = styled.div`
   )
 } */
 
-/* const throttle = (func: Function, limit: number) => {
-  let lastCall = 0
-  return function (this: any, ...args: any[]) {
-    const now = Date.now()
-    if (now - lastCall >= limit) {
-      lastCall = now
-      func.call(this, args)
-    }
-  }
-} */
-
-/* const debounce = <T extends (this: any, ...args: any[]) => void>(
-  func: Function,
-  delay: number
-) => {
-  let timerId: any = null
-  return function (this: Parameters<T>, ...args: Parameters<T>) {
-    if (timerId) {
-      clearTimeout(timerId)
-    }
-    timerId = setTimeout(() => func.apply(this, args), delay)
-  }
-} */
-
-export const TestingModule = () => {
+export const TestingModule = memo(() => {
   const [index, setIndex] = useState(0)
+  const timerRef = useRef<any>(null)
   // const [selectedImageId, setSelectedImageId] = useState<number>(0)
   // const {
   //   loading: imageLoading,
@@ -128,33 +107,20 @@ export const TestingModule = () => {
     'Netherlands',
     'France',
     'United Kingdom',
+    'Poland',
     'Ukraine',
-    'United Kingdom',
+    'Japan',
     'Mexico',
     'Spain',
     'Sweden',
     'South Korea',
+    'Australia',
+    'Thailand',
   ]
 
+  // console.log('Testing Module is rerendering')
+
   // const largeData = 'A'.repeat(1000000)
-
-  /*   const handleScroll = useCallback(
-    // throttle(() => console.log('throttle'), 500),
-    debounce(() => console.log('debounce'), 500),
-    []
-  ) */
-
-  /*  useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [handleScroll]) */
-
-  useEffect(() => {
-    // console.log('TestingModule: ', process.env.API_URL)
-    setIndex(Math.floor(Math.random() * countries.length))
-  }, [])
 
   // useEffect(() => {
   //   currentUser && dispatch(fetchFileData())
@@ -210,6 +176,60 @@ export const TestingModule = () => {
     }
   }, [filteredList]) */
 
+  useEffect(() => setIndex(Math.floor(Math.random() * countries.length)), [])
+
+  useEffect(() => {
+    const writeFile = async () => {
+      try {
+        const result = await axios.post(
+          `${process.env.API_URL}/file/write`,
+          {
+            id: Math.floor(1_000 + Math.random() * (1_000_000 - 1_000 + 1)),
+            earnings: `$${
+              Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) *
+              (index + 1)
+            }`,
+            country: countries[index],
+            name: 'Andrii Postoliuk',
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        console.log('Write File result: ', result)
+      } catch (error: any) {
+        throw error
+      }
+    }
+
+    const callWithDelay = async (
+      func: Function,
+      delay: number,
+      amount: number
+    ) => {
+      let response: any = null,
+        timerId: any = null
+      for (let i = 0; i < amount; i++) {
+        timerId = setTimeout(async () => {
+          response = await writeFile()
+            .then((res) => console.log(res))
+            .catch(() => clearTimeout(timerId))
+
+          if (response) {
+            console.log('setTimeout result: ', typeof response)
+            if (
+              response &&
+              response == 'Error: Request failed with status code 429'
+            ) {
+              clearTimeout(timerId)
+            }
+          }
+        }, i * delay)
+      }
+    }
+    // callWithDelay(writeFile, 5000, 300)
+  }, [])
+
   const handleStreamFileData = async <
     T extends React.FormEvent<HTMLFormElement>
   >(
@@ -217,22 +237,37 @@ export const TestingModule = () => {
   ): Promise<void> => {
     e.preventDefault()
 
-    const addFileData: any = await apiEndpointCall('post', 'file/write', {
-      id: Math.floor(200 + Math.random() * (1000 - 100 + 1)),
-      earnings: `$${
-        Math.floor(50 + Math.random() * (100 - 50 + 1)) * (index + 1)
-      }`,
-      country: countries[index],
-      name: 'Andrii Postoliuk',
-    })
+    const addFileData: Promise<IUser | void> = await apiEndpointCall(
+      'post',
+      'file/write',
+      {
+        id: Math.floor(1_000 + Math.random() * (1_000_000 - 1_000 + 1)),
+        earnings: `$${
+          Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) * (index + 1)
+        }`,
+        country: countries[index],
+        name: 'Andrii Postoliuk',
+      }
+    )
 
-    await apiEndpointCall('get', 'file/read')
+    console.log('file/write: ', addFileData)
 
-    await apiEndpointCall('get', 'file/count-by-country')
+    // console.log('file/read: ', await apiEndpointCall('get', 'file/read'))
 
-    await apiEndpointCall('get', 'file/average-earnings-by-country')
+    // console.log(
+    //   'file/count-by-country: ',
+    //   await apiEndpointCall('get', 'file/count-by-country')
+    // )
 
-    await apiEndpointCall('get', `file/users/${addFileData?.data?.id}`)
+    // console.log(
+    //   'file/average-earnings-by-country: ',
+    //   await apiEndpointCall('get', 'file/average-earnings-by-country')
+    // )
+
+    // console.log(
+    //   'file/users/:id: ',
+    //   await apiEndpointCall('get', `file/users/${addFileData?.data?.id}`)
+    // )
 
     setIndex(Math.floor(Math.random() * countries.length))
   }
@@ -313,4 +348,4 @@ export const TestingModule = () => {
       </form>
     </Div>
   )
-}
+})

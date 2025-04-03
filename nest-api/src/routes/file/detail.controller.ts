@@ -14,6 +14,7 @@ import { ApiOperation } from '@nestjs/swagger';
 import { DetailService } from './detail.service';
 import { CreateUserDetailsDto } from './dto/create.user.details.dto';
 import { Public } from '../../guards/public.routes';
+import { Throttle } from '@nestjs/throttler';
 
 // @UseGuards(AuthGuard) // add authToken check to all this routes
 @Public()
@@ -28,6 +29,7 @@ export class DetailController {
     // return this.detailService.loadUserCollection(req);
   }
 
+  @Throttle({ default: { ttl: 600_000, limit: 20, blockDuration: 600_000 } })
   @Post('write')
   @ApiOperation({ summary: 'write' })
   async addNewDetailsUser(

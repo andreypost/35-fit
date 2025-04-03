@@ -1,4 +1,11 @@
-import { Fragment, memo, useCallback, useEffect, useState } from 'react'
+import {
+  Fragment,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 import { IAuth } from 'types/interface'
@@ -51,7 +58,7 @@ export const TestingRoles = memo(() => {
   const isAdmin = useIsAdmin()
   const [allUsers, setAllUsers] = useState<IAuth[]>([])
   const [userForUpdate, setUserForUpdate] = useState<IAuth>({})
-  console.log('Testing Roles is rerendering')
+  // console.log('Testing Roles is rerendering')
 
   // wrapping handleGetAllUsers in useCallback prevents from re-rendering child <TestingCalllback...
   // if this parent component get changes and re-rederes
@@ -132,11 +139,14 @@ export const TestingRoles = memo(() => {
     }
   }
 
-  const sorUserByEmail = () => {
-    setAllUsers((allUsers) =>
-      [...allUsers].sort((a: any, b: any) => a?.email.localeCompare(b?.email))
-    )
-  }
+  const sortUserByEmail = useMemo(
+    () => (): void => {
+      setAllUsers((allUsers) =>
+        [...allUsers].sort((a: any, b: any) => a?.email.localeCompare(b?.email))
+      )
+    },
+    [allUsers]
+  )
 
   const debounce = <T extends (...args: any[]) => void>(
     func: T,
@@ -153,7 +163,7 @@ export const TestingRoles = memo(() => {
     func: T,
     delay: number
   ) => {
-    let lastCall = 0
+    let lastCall: number = 0
     return function (this: any, ...args: Parameters<T>): void {
       const now = Date.now()
       if (now - lastCall >= delay) {
@@ -183,8 +193,8 @@ export const TestingRoles = memo(() => {
   }
 
   const debouncedFetchSearchUsers = useCallback(
-    debounce(fetchUsersBySearch, 1000), // every input will trigger the call only with 1000ms delay
-    // throttle(fetchUsersBySearch, 1000), // trigger on every first input at once right now, and following input will trigget with delay
+    debounce(fetchUsersBySearch, 1000), // will only be called 1000ms after the user stops typing
+    // throttle(fetchUsersBySearch, 1000), // only executed once every specified interval
     []
   )
 
@@ -239,14 +249,8 @@ export const TestingRoles = memo(() => {
           <br />
           {userForUpdate?.email && <span>for: {userForUpdate.email}</span>}
         </button>
-        <button
-          className="flex_center_center additional_submit b900 white"
-          onClick={sorUserByEmail}
-        >
-          Sort User By Email
-        </button>
         <TestingCallback
-          handleGetAllUsers={handleGetAllUsers}
+          sortUserByEmail={sortUserByEmail}
           userForUpdate={userForUpdate}
         />
       </div>

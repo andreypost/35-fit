@@ -195,8 +195,8 @@ user.get(
     next: NextFunction
   ): Promise<Response<User[]> | void> => {
     try {
-      const { authToken } = req?.cookies;
-      await validateAuthToken(authToken, res);
+      // const { authToken } = req?.cookies;
+      // await validateAuthToken(authToken, res);
 
       const users = await userRepository.find();
       return res.status(200).json(users);
