@@ -86,7 +86,6 @@ const Div = styled.div`
 
 export const TestingModule = memo(() => {
   const [index, setIndex] = useState(0)
-  const timerRef = useRef<any>(null)
   // const [selectedImageId, setSelectedImageId] = useState<number>(0)
   // const {
   //   loading: imageLoading,
@@ -102,6 +101,8 @@ export const TestingModule = memo(() => {
   //   useAppSelector(setSlSortedList)
   // const { currentUser } = useContext(AppContext)
 
+  console.log('Testing Modules is rerendering')
+
   const countries = [
     'Chile',
     'Netherlands',
@@ -110,6 +111,7 @@ export const TestingModule = memo(() => {
     'Poland',
     'Ukraine',
     'Japan',
+    'Germany',
     'Mexico',
     'Spain',
     'Sweden',
@@ -179,7 +181,7 @@ export const TestingModule = memo(() => {
   useEffect(() => setIndex(Math.floor(Math.random() * countries.length)), [])
 
   useEffect(() => {
-    const writeFile = async () => {
+    const writeFile = async (): Promise<any> => {
       try {
         const result = await axios.post(
           `${process.env.API_URL}/file/write`,
@@ -203,31 +205,24 @@ export const TestingModule = memo(() => {
     }
 
     const callWithDelay = async (
-      func: Function,
+      func: () => Promise<any>,
       delay: number,
       amount: number
     ) => {
-      let response: any = null,
-        timerId: any = null
+      const timers: string | any[] = []
+      let shouldReturn: boolean = false
       for (let i = 0; i < amount; i++) {
-        timerId = setTimeout(async () => {
-          response = await writeFile()
-            .then((res) => console.log(res))
-            .catch(() => clearTimeout(timerId))
-
-          if (response) {
-            console.log('setTimeout result: ', typeof response)
-            if (
-              response &&
-              response == 'Error: Request failed with status code 429'
-            ) {
-              clearTimeout(timerId)
-            }
+        const timerId = setTimeout(async () => {
+          if (shouldReturn) {
+            timers.forEach((id: number) => clearTimeout(id))
+            return
           }
+          await func().catch(() => (shouldReturn = true))
         }, i * delay)
+        timers.push(timerId)
       }
     }
-    // callWithDelay(writeFile, 5000, 300)
+    callWithDelay(writeFile, 1000, 300)
   }, [])
 
   const handleStreamFileData = async <
@@ -237,37 +232,33 @@ export const TestingModule = memo(() => {
   ): Promise<void> => {
     e.preventDefault()
 
-    const addFileData: Promise<IUser | void> = await apiEndpointCall(
-      'post',
-      'file/write',
-      {
-        id: Math.floor(1_000 + Math.random() * (1_000_000 - 1_000 + 1)),
-        earnings: `$${
-          Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) * (index + 1)
-        }`,
-        country: countries[index],
-        name: 'Andrii Postoliuk',
-      }
-    )
+    const addFileData = await apiEndpointCall('post', 'file/write', {
+      id: Math.floor(1_000 + Math.random() * (1_000_000 - 1_000 + 1)),
+      earnings: `$${
+        Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) * (index + 1)
+      }`,
+      country: countries[index],
+      name: 'Andrii Postoliuk',
+    })
 
     console.log('file/write: ', addFileData)
 
-    // console.log('file/read: ', await apiEndpointCall('get', 'file/read'))
+    console.log('file/read: ', await apiEndpointCall('get', 'file/read'))
 
-    // console.log(
-    //   'file/count-by-country: ',
-    //   await apiEndpointCall('get', 'file/count-by-country')
-    // )
+    console.log(
+      'file/count-by-country: ',
+      await apiEndpointCall('get', 'file/count-by-country')
+    )
 
-    // console.log(
-    //   'file/average-earnings-by-country: ',
-    //   await apiEndpointCall('get', 'file/average-earnings-by-country')
-    // )
+    console.log(
+      'file/average-earnings-by-country: ',
+      await apiEndpointCall('get', 'file/average-earnings-by-country')
+    )
 
-    // console.log(
-    //   'file/users/:id: ',
-    //   await apiEndpointCall('get', `file/users/${addFileData?.data?.id}`)
-    // )
+    console.log(
+      'file/users/:id: ',
+      await apiEndpointCall('get', `file/users/${addFileData?.data?.id}`)
+    )
 
     setIndex(Math.floor(Math.random() * countries.length))
   }

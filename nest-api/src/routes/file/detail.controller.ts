@@ -29,7 +29,7 @@ export class DetailController {
     // return this.detailService.loadUserCollection(req);
   }
 
-  @Throttle({ default: { ttl: 600_000, limit: 20, blockDuration: 600_000 } })
+  @Throttle({ default: { ttl: 600_000, limit: 200, blockDuration: 600_000 } })
   @Post('write')
   @ApiOperation({ summary: 'write' })
   async addNewDetailsUser(
