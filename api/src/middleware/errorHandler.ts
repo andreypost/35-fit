@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { validationResult } from "express-validator";
 
 export class CustomErrorHandler extends Error {
   status: number;
@@ -13,12 +14,12 @@ export class CustomErrorHandler extends Error {
   }
 }
 
-export const errorHandler = (
+export const errorHandler = async (
   err: any,
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   console.error("Error Handler: ", err);
   return next(
     res.status(err.status || 500).json({
@@ -27,4 +28,18 @@ export const errorHandler = (
       type: err.type || "An unknown type",
     })
   );
+};
+
+export const errorValidationCheck = async (
+  req: Request,
+  next: NextFunction
+): Promise<void> => {
+  const err = validationResult(req);
+  if (!err.isEmpty()) {
+    return next({
+      message: err.array(),
+      status: 400,
+      type: "ValidationDataError",
+    });
+  }
 };

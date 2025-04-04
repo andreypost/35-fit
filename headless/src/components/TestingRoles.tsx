@@ -113,7 +113,7 @@ export const TestingRoles = memo(() => {
   }, [])
 
   const updateUserPrivileges = async () => {
-    const grantedPrivileges = UserPrivileges.Administrator
+    const grantedPrivileges = UserPrivileges.ProjectCreator
     const deniedPrivileges = UserPrivileges.None
     // if (!isAdmin) {
     //   store.dispatch(

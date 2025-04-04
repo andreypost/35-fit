@@ -194,6 +194,7 @@ export class UserService {
   ): Promise<User> {
     try {
       const currentUser = await this.findUserByEmail(email);
+
       if (!currentUser) {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }

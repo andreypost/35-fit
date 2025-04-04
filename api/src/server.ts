@@ -15,7 +15,7 @@ import { MutationSchema } from "./graphql/mutationSchema";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { styleText } from "util";
-import { loginLimiter } from "./middleware/rateLimiter";
+import { globalLimiter } from "./middleware/rateLimiter";
 
 const app: Application = express();
 
@@ -40,7 +40,7 @@ app.use(
   // logRequestDetails
 );
 
-app.use(loginLimiter);
+app.use(globalLimiter);
 
 app.use("/user", user);
 app.use("/file", file);

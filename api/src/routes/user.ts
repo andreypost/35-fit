@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { body, validationResult } from "express-validator";
+import { body, param, validationResult } from "express-validator";
 import { Like } from "typeorm";
-import { loginLimiter } from "../middleware/rateLimiter";
 import {
   deleteAuthToken,
   setAuthToken,
@@ -12,6 +11,7 @@ import bcrypt from "bcrypt";
 import { msg } from "../constants/messages";
 import { User } from "../entities/User";
 import { UserPrivileges } from "../utils/userRoles";
+import { errorValidationCheck } from "../middleware/errorHandler";
 
 export const user = Router();
 
@@ -32,20 +32,13 @@ user.post(
   body("phone")
     .isMobilePhone(["uk-UA", "en-US", "pl-PL"])
     .withMessage(msg.PLEASE_ENTER_A_VALID_PHONE),
-  // loginLimiter,
   async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<Response | void> => {
-    const err = validationResult(req);
-    if (!err.isEmpty()) {
-      return next({
-        message: err.array(),
-        status: 400,
-        type: "ValidationDataError",
-      });
-    }
+    await errorValidationCheck(req, next);
+
     try {
       const {
         name,
@@ -109,20 +102,12 @@ user.post(
   body("password")
     .isLength({ min: 4 })
     .withMessage(msg.PASSWORD_MUTS_BE_AT_LEAST),
-  // loginLimiter,
   async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<Response<User> | void> => {
-    const err = validationResult(req);
-    if (!err.isEmpty()) {
-      return next({
-        message: err.array(),
-        status: 400,
-        type: "ValidationDataError",
-      });
-    }
+    await errorValidationCheck(req, next);
 
     try {
       const { email, password, keepLoggedIn } = await req.body;
@@ -188,7 +173,6 @@ user.get(
 
 user.get(
   "/users",
-  // loginLimiter,
   async (
     req: Request,
     res: Response,
@@ -267,20 +251,29 @@ user.get(
 
 user.patch(
   "/:id/privileges",
+  param("id")
+    // .notEmpty() // does not work for the empty string if id is absent
+    // .withMessage(msg.ID_IS_REQUIRED)
+    // .bail()
+    .isUUID()
+    .withMessage(msg.ID_MUST_BE_UUID),
+  body("grantedPrivileges").notEmpty().withMessage(msg.GRANTED_PRINILEGES),
+  body("deniedPrivileges").notEmpty().withMessage(msg.DENIED_PRINILEGES),
   async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<Response<User> | void> => {
+    await errorValidationCheck(req, next);
+
     try {
       const { authToken } = req?.cookies;
-      await validateAuthToken(authToken, res);
-
-      const { email, grantedPrivileges, deniedPrivileges } = req?.body;
+      const { email } = await validateAuthToken(authToken, res);
 
       const currentUser = await userRepository.findOne({
         where: { email },
       });
+
       if (!currentUser) {
         return next({ message: msg.USER_NOT_FOUND });
       }
@@ -305,6 +298,8 @@ user.patch(
       if (!user) {
         return next({ message: msg.USER_NOT_FOUND });
       }
+
+      const { grantedPrivileges, deniedPrivileges } = req?.body;
 
       user.grantedPrivileges = grantedPrivileges;
       user.deniedPrivileges = deniedPrivileges;

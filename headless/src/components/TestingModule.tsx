@@ -222,7 +222,7 @@ export const TestingModule = memo(() => {
         timers.push(timerId)
       }
     }
-    callWithDelay(writeFile, 1000, 300)
+    callWithDelay(writeFile, 10000, 300)
   }, [])
 
   const handleStreamFileData = async <

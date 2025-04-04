@@ -9,6 +9,7 @@ export const msg = {
   PASSWORD_MUTS_BE_AT_LEAST: 'Password must be at least 4 characters long!',
   PLEASE_ENTER_A_VALID_PHONE: 'Please enter a valid phone number!',
   ID_IS_REQUIRED: 'Id is required!',
+  ID_MUST_BE_UUID: 'Id must be valid UUID id!',
   EARNINGS_IS_REQUIRED: 'Earnings is required!',
   FAILED_TO_GENERATE_TOKEN: 'Failed to generate auth token.',
   USER_CREATED_SUCCESSFULLY: 'User created successfully!',
@@ -18,7 +19,7 @@ export const msg = {
   LOGGED_OUT_SUCCESSFUL: 'You have successfully logged out!',
   USER_NOT_FOUND: 'User not found.',
   INVALID_CREDENTIALS: 'Invalid credentials.',
-  TOO_MANY_LOGIN_ATTEMPTS: 'Too many login attempts. Please try again later.',
+  TOO_MANY_REQUESTS: 'Too many requests from this IP, please try again after: ',
   YOU_MUST_TO_LOGIN: 'You must login first!',
   IMAGES_NOT_FOUND: 'Images not found.',
   USER_CANNOT_BE_DELETED:
@@ -41,4 +42,6 @@ export const msg = {
   PRICE_NAME_ALREADY_EXIST: ' - this Price Name already exist',
   YOU_DO_NOT_HAVE_PERMISSION:
     'You do not have permission to perform this action',
+  GRANTED_PRINILEGES: 'Granted Privileges is required!',
+  DENIED_PRINILEGES: 'Denied Privileges is required!',
 };

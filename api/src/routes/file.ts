@@ -10,6 +10,7 @@ import { body, validationResult } from "express-validator";
 import { msg } from "../constants/messages";
 import { IFileUserDetails } from "../types/interface";
 import { countCountryEarnings } from "../helpers/userCollection";
+import { fileWriteLimiter } from "../middleware/rateLimiter";
 
 export const file = Router();
 
@@ -81,6 +82,7 @@ file.get(
 
 file.post(
   "/write",
+  fileWriteLimiter,
   body("id").isInt({ min: 1 }).withMessage(msg.ID_IS_REQUIRED),
   body("earnings").notEmpty().withMessage(msg.EARNINGS_IS_REQUIRED),
   body("country").notEmpty().withMessage(msg.COUNTRY_IS_REQUIRED),
