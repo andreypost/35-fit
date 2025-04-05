@@ -6,6 +6,7 @@ export const msg = {
   COUNTRY_IS_REQUIRED: "Country is required!",
   CITY_IS_REQUIRED: "City is required!",
   VALID_EMAIL_IS_REQUIRED: "Valid email is required!",
+  PASSWORD_IS_REQUIRED: "Password is required!",
   PASSWORD_MUTS_BE_AT_LEAST: "Password must be at least 4 characters long!",
   PLEASE_ENTER_A_VALID_PHONE: "Please enter a valid phone number!",
   ID_IS_REQUIRED: "Id is required!",

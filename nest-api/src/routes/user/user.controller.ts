@@ -15,7 +15,12 @@ import { ApiOperation } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { Public } from '../../guards/public.routes';
 import { Throttle, SkipThrottle } from '@nestjs/throttler';
-import { CreateUserDto, LoginUserDto } from './dto/create.user.dto';
+import {
+  CreateUserDto,
+  IdParamDto,
+  LoginUserDto,
+  RolesPrivilegesDto,
+} from './dto/user.dto';
 import { User } from '../../entities/user';
 import { HttpResponse } from '../../pipes/http.response';
 import { CurrentUserEmail } from '../../pipes/current.user.email';
@@ -90,8 +95,8 @@ export class UserController {
   @ApiOperation({ summary: ':id/privileges' })
   async updateUserPrivileges(
     @CurrentUserEmail() email: string,
-    @Param('id') id: string,
-    @Body() { grantedPrivileges, deniedPrivileges },
+    @Param() { id }: IdParamDto,
+    @Body() { grantedPrivileges, deniedPrivileges }: RolesPrivilegesDto,
   ): Promise<User> {
     return this.userService.updateUserPrivileges(
       email,

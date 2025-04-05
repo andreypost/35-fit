@@ -85,12 +85,13 @@ paths:
   /user/{id}/privileges:
     patch:
       operationId: UserController_updateUserPrivileges
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RolesPrivilegesDto"
       responses:
         "200":
           description: ""
@@ -299,6 +300,9 @@ components:
       type: object
       properties: {}
     LoginUserDto:
+      type: object
+      properties: {}
+    RolesPrivilegesDto:
       type: object
       properties: {}
     CreateUserDetailsDto:

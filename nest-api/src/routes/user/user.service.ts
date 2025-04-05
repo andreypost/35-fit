@@ -16,7 +16,7 @@ import { Response, Request } from 'express';
 import bcrypt from 'bcrypt';
 import { config } from 'dotenv';
 import { User } from '../../entities/user';
-import { CreateUserDto, LoginUserDto } from './dto/create.user.dto';
+import { CreateUserDto, LoginUserDto } from './dto/user.dto';
 import { msg } from '../../constants/messages';
 import { nextError } from '../../utils/next.error';
 import { deleteAuthToken, validateAuthToken } from '../../guards/auth.token';
@@ -206,10 +206,6 @@ export class UserService {
 
       if (!privileges.hasGrantedPrivilege(UserPrivileges.Administrator)) {
         throw new ForbiddenException(msg.YOU_DO_NOT_HAVE_PERMISSION);
-      }
-
-      if (!id || id === 'undefined') {
-        throw new BadRequestException(msg.ID_IS_REQUIRED);
       }
 
       const user = await this.userRepository.findOne({ where: { id } });

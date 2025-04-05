@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 import { validateAuthToken } from '../../guards/auth.token';
 import { Repository } from 'typeorm';
 import { User } from '../../entities/user';
-import { CreateUserDto } from './dto/create.user.dto';
+import { CreateUserDto } from './dto/user.dto';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 
