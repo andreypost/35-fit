@@ -6,6 +6,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { user } from "./routes/user";
 import { file } from "./routes/file";
+import { price } from "./routes/price";
 import { order } from "./routes/order";
 import { errorHandler } from "./middleware/errorHandler";
 import { logRequestDetails } from "./middleware/logRequestDetails";
@@ -44,6 +45,7 @@ app.use(globalLimiter);
 
 app.use("/user", user);
 app.use("/file", file);
+app.use("/price", price);
 app.use("/order", order);
 
 const startApolloServer = async () => {

@@ -5,41 +5,35 @@ import {
   deleteAuthToken,
   setAuthToken,
   validateAuthToken,
-} from "../auth/jsonWebToken";
-import { userRepository } from "../config/database";
+} from "../../auth/jsonWebToken";
+import { userRepository } from "../../config/database";
 import bcrypt from "bcrypt";
-import { msg } from "../constants/messages";
-import { User } from "../entities/User";
-import { UserPrivileges } from "../utils/userRoles";
-import { errorValidationCheck } from "../middleware/errorHandler";
+import { msg } from "../../constants/messages";
+import { User } from "../../entities/User";
+import { UserPrivileges } from "../../utils/userRoles";
+import { errorValidationCheck } from "../../validators/errorValidationCheck";
+import { validateUserDto } from "./dto";
 
 export const user = Router();
 
 user.post(
   "/create-new-user",
-  body("name").notEmpty().withMessage(msg.NAME_IS_REQUIRED),
-  body("surname").notEmpty().withMessage(msg.SURNAME_IS_REQUIRED),
-  body("gender")
-    .isIn(["nonBinary", "male", "femail"])
-    .withMessage(msg.GENDER_IS_REQUIRED),
-  body("age").isInt({ min: 1, max: 111 }).withMessage(msg.VALID_AGE_REQUIRED),
-  body("country").notEmpty().withMessage(msg.COUNTRY_IS_REQUIRED),
-  body("city").notEmpty().withMessage(msg.CITY_IS_REQUIRED),
-  body("email").isEmail().withMessage(msg.VALID_EMAIL_IS_REQUIRED),
-  body("password")
-    .isLength({ min: 4 })
-    .withMessage(msg.PASSWORD_MUTS_BE_AT_LEAST),
-  body("phone")
-    .isMobilePhone(["uk-UA", "en-US", "pl-PL"])
-    .withMessage(msg.PLEASE_ENTER_A_VALID_PHONE),
+  validateUserDto,
   async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<Response | void> => {
-    await errorValidationCheck(req, next);
-
     try {
+      // await errorValidationCheck(req, next);
+      const err = validationResult(req);
+      if (!err.isEmpty()) {
+        return next({
+          message: err.array(),
+          status: 400,
+          type: "ValidationDataError",
+        });
+      }
       const {
         name,
         surname,
