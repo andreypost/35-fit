@@ -33,6 +33,8 @@ export const msg = {
   EMAIL_ALREADY_EXIST: 'Email already exists!',
   UNEXPECTED_ERROR: 'An unexpected error occurred!',
   HASHING_PASS_OCCURRED: 'Error occurred while hashing the password',
+  PRICE_NAME_IS_REQUIRED: 'Price name is required!',
+  PRICE_AMOUNT_IS_REQUIRED: 'Price amount is required!',
   PRICE_NOT_FOUND: 'Price not found',
   ORDER_NOT_FOUND: 'Order not found',
   PRODUCT_TYPE_IS_NOT_APPROPRIATE:
@@ -43,6 +45,7 @@ export const msg = {
   PRICE_NAME_ALREADY_EXIST: ' - this Price Name already exist',
   YOU_DO_NOT_HAVE_PERMISSION:
     'You do not have permission to perform this action',
+  SEARCH_QUERY_IS_REQUIRED: 'Search query is required!',
   GRANTED_PRINILEGES: 'Granted Privileges is required!',
   DENIED_PRINILEGES: 'Denied Privileges is required!',
 };

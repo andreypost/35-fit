@@ -84,3 +84,8 @@ export class IdParamDto {
   @IsUUID(undefined, { message: msg.ID_MUST_BE_UUID })
   id!: string;
 }
+
+export class SearchQueryDto {
+  @IsNotEmpty({ message: msg.SEARCH_QUERY_IS_REQUIRED })
+  searchQuery!: string;
+}

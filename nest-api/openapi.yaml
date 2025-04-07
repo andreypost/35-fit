@@ -71,12 +71,7 @@ paths:
   /user/search:
     get:
       operationId: UserController_searchUsers
-      parameters:
-        - name: query
-          required: true
-          in: query
-          schema:
-            type: string
+      parameters: []
       responses:
         "200":
           description: ""
@@ -157,12 +152,7 @@ paths:
   /price/check-set:
     get:
       operationId: PriceController_checkSetPriceByName
-      parameters:
-        - name: priceName
-          required: true
-          in: query
-          schema:
-            type: string
+      parameters: []
       responses:
         "200":
           description: ""

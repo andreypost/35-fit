@@ -9,6 +9,7 @@ import {
   Length,
   IsIn,
 } from 'class-validator';
+import { msg } from '../../../constants/messages';
 
 export class CreatePriceDto {
   // @IsOptional()
@@ -24,7 +25,7 @@ export class CreatePriceDto {
     { maxDecimalPlaces: 2 },
     { message: 'Price Amount must be a number with up to 2 decimal places' },
   )
-  @Min(0, { message: 'Price Amount must be a positive number' })
+  @Min(1, { message: 'Price Amount must be a positive number' })
   amount!: number;
 
   @IsOptional()
@@ -56,4 +57,9 @@ export class CreatePriceDto {
     message: 'Price Product Type must be Scooter, Accessory',
   })
   productType!: string;
+}
+
+export class PriceNameQueryDto {
+  @IsNotEmpty({ message: msg.PRICE_NAME_IS_REQUIRED })
+  priceName!: string;
 }

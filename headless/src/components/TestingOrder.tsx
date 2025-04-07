@@ -113,16 +113,16 @@ export const TestingOrder = memo(() => {
 
         setPriceId(priceId)
 
-        const { data: productId } = await apiEndpointCall(
-          'post',
-          checkEndpoint,
-          { ...product, priceId },
-          true,
-          signal
-        )
+        // const { data: productId } = await apiEndpointCall(
+        //   'post',
+        //   checkEndpoint,
+        //   { ...product, priceId },
+        //   true,
+        //   signal
+        // )
 
-        if (!productId || signal.aborted) return
-        setProductId(productId)
+        // if (!productId || signal.aborted) return
+        // setProductId(productId)
         setConflict(true)
       } catch (error) {
         if (!signal.aborted) {
@@ -153,7 +153,7 @@ export const TestingOrder = memo(() => {
       ])
     }
 
-    // checkSetPrices()
+    checkSetPrices()
 
     return () => abortController.abort()
   }, [])
@@ -161,6 +161,7 @@ export const TestingOrder = memo(() => {
   const handleCreatePrice = async (price: IPrice): Promise<string | void> => {
     apiEndpointCall('post', 'price/create', price, false, signal).then(
       ({ data }) => {
+        console.log(data)
         if (signal.aborted) return
         if (data.productType === 'scooter') {
           setScooterPriceId(data?.id)

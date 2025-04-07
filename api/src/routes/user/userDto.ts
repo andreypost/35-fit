@@ -1,4 +1,4 @@
-import { body, param } from "express-validator";
+import { body, param, query } from "express-validator";
 import { msg } from "../../constants/messages";
 import { validateEmailPasswordDto } from "../../validators/commonValidators";
 
@@ -25,4 +25,8 @@ export const validatePrivilegesDto = [
   param("id").isUUID().withMessage(msg.ID_MUST_BE_UUID),
   body("grantedPrivileges").notEmpty().withMessage(msg.GRANTED_PRINILEGES),
   body("deniedPrivileges").notEmpty().withMessage(msg.DENIED_PRINILEGES),
+];
+
+export const validateSearchQueryDto = [
+  query("searchQuery").notEmpty().withMessage(msg.SEARCH_QUERY_IS_REQUIRED),
 ];

@@ -188,7 +188,7 @@ export const TestingRoles = memo(() => {
     }
     try {
       const response = await axios.get(`${process.env.API_URL}/user/search`, {
-        params: { query: searchQuery },
+        params: { searchQuery },
         withCredentials: true,
       })
       if (response?.data) {

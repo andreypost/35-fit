@@ -20,6 +20,7 @@ import {
   IdParamDto,
   LoginUserDto,
   RolesPrivilegesDto,
+  SearchQueryDto,
 } from './dto/user.dto';
 import { User } from '../../entities/user';
 import { HttpResponse } from '../../pipes/http.response';
@@ -87,8 +88,8 @@ export class UserController {
   @Public()
   @Get('search')
   @ApiOperation({ summary: 'search' })
-  async searchUsers(@Query('query') query: string): Promise<User[]> {
-    return this.userService.searchUsers(query);
+  async searchUsers(@Query() { searchQuery }: SearchQueryDto): Promise<User[]> {
+    return this.userService.searchUsers(searchQuery);
   }
 
   @Patch(':id/privileges')

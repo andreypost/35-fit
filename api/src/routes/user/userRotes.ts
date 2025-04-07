@@ -7,7 +7,11 @@ import {
 } from "../../auth/jsonWebToken";
 import { userRepository } from "../../config/database";
 import bcrypt from "bcrypt";
-import { validatePrivilegesDto, validateUserDto } from "./userDto";
+import {
+  validateSearchQueryDto,
+  validatePrivilegesDto,
+  validateUserDto,
+} from "./userDto";
 import { validateEmailPasswordDto } from "../../validators/commonValidators";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { msg } from "../../constants/messages";
@@ -214,18 +218,23 @@ user.post(
 
 user.get(
   "/search",
+  validateSearchQueryDto,
   async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<Response<User[]> | void> => {
     try {
+      const isValid = errorValidationCheck(req, next);
+      if (!isValid) return;
+
       const { authToken } = req?.cookies;
       await validateAuthToken(authToken, res);
 
-      const { query } = req.query;
+      const { searchQuery } = req.query;
+
       const users = await userRepository.find({
-        where: { email: Like(`%${query}%`) },
+        where: { email: Like(`%${searchQuery}%`) },
         select: ["email", "grantedPrivileges", "id", "name"],
         take: 10,
       });
