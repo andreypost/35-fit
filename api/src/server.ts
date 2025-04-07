@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import { user } from "./routes/user/userRotes";
 import { file } from "./routes/file/fileRoutes";
 import { price } from "./routes/price/priceRoutes";
-import { order } from "./routes/order/order";
+import { order } from "./routes/order/orderRoutes";
 import { errorHandler } from "./middleware/errorHandler";
 import { logRequestDetails } from "./middleware/logRequestDetails";
 import { GraphQLSchema } from "graphql";

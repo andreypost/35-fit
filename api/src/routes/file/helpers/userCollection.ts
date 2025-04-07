@@ -1,4 +1,4 @@
-import { IFileUserDetails } from "../types/interface";
+import { IFileUserDetails } from "../../../types/interface";
 
 export const countCountryEarnings = async (
   userCollection: IFileUserDetails[]

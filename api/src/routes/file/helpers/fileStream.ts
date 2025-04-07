@@ -1,5 +1,5 @@
 import { existsSync, createReadStream, createWriteStream } from "fs";
-import { msg } from "../constants/messages";
+import { msg } from "../../../constants/messages";
 
 export const getFileData = (path: string, next: any): Promise<any> => {
   try {

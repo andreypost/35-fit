@@ -93,10 +93,10 @@ user.post(
     res: Response,
     next: NextFunction
   ): Promise<Response<User> | void> => {
-    const isValid = errorValidationCheck(req, next);
-    if (!isValid) return;
-
     try {
+      const isValid = errorValidationCheck(req, next);
+      if (!isValid) return;
+
       const { email, password, keepLoggedIn } = await req.body;
       const user = await userRepository.findOne({
         where: { email },
@@ -244,10 +244,10 @@ user.patch(
     res: Response,
     next: NextFunction
   ): Promise<Response<User> | void> => {
-    const isValid = errorValidationCheck(req, next);
-    if (!isValid) return;
-
     try {
+      const isValid = errorValidationCheck(req, next);
+      if (!isValid) return;
+
       const { authToken } = req?.cookies;
       const { email } = await validateAuthToken(authToken, res);
 
@@ -269,10 +269,6 @@ user.patch(
       }
 
       const { id } = req?.params;
-
-      if (!id || id === "undefined") {
-        return next({ message: msg.ID_IS_REQUIRED });
-      }
 
       const user = await userRepository.findOne({ where: { id } });
 

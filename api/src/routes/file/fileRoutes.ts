@@ -4,13 +4,15 @@ import { validateAuthToken } from "../../auth/jsonWebToken";
 import {
   getFileData,
   // writeFileData
-} from "../../helpers/fileStream";
-const { writeFileData } = require("../helpers/fileStream");
-import { body, validationResult } from "express-validator";
+} from "./helpers/fileStream";
+const { writeFileData } = require("./helpers/fileStream");
+import { param } from "express-validator";
 import { msg } from "../../constants/messages";
 import { IFileUserDetails } from "../../types/interface";
-import { countCountryEarnings } from "../../helpers/userCollection";
+import { countCountryEarnings } from "./helpers/userCollection";
 import { fileWriteLimiter } from "../../middleware/rateLimiter";
+import { validateFileWrite } from "./fileDto";
+import { errorValidationCheck } from "../../validators/errorValidationCheck";
 
 export const file = Router();
 
@@ -83,27 +85,18 @@ file.get(
 file.post(
   "/write",
   fileWriteLimiter,
-  body("id").isInt({ min: 1 }).withMessage(msg.ID_IS_REQUIRED),
-  body("earnings").notEmpty().withMessage(msg.EARNINGS_IS_REQUIRED),
-  body("country").notEmpty().withMessage(msg.COUNTRY_IS_REQUIRED),
-  body("name").notEmpty().withMessage(msg.NAME_IS_REQUIRED),
+  validateFileWrite,
   async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<Response | void> => {
     try {
+      const isValid = errorValidationCheck(req, next);
+      if (!isValid) return;
+
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
-
-      const err = validationResult(req);
-      if (!err.isEmpty()) {
-        return next({
-          message: err.array(),
-          status: 400,
-          type: "ValidationDataError",
-        });
-      }
 
       if (!fileData?.length) {
         fileData = await getFileData(filePath, next);
@@ -141,9 +134,11 @@ file.get(
       if (Object.keys(fileCountCache)?.length) {
         return res.status(200).json(fileCountCache);
       }
+
       if (!fileData?.length) {
         fileData = await getFileData(filePath, next);
       }
+
       fileCountCache = fileData.reduce((acc, { country }) => {
         !acc[country] ? (acc[country] = 1) : ++acc[country];
         return acc;
@@ -170,9 +165,11 @@ file.get(
       if (Object.keys(fileEarningsCache)?.length) {
         return res.status(200).json(fileEarningsCache);
       }
+
       if (!fileData?.length) {
         fileData = await getFileData(filePath, next);
       }
+
       fileEarningsCache = await countCountryEarnings(fileData);
 
       return res.status(200).json(fileEarningsCache);
@@ -184,26 +181,30 @@ file.get(
 
 file.get(
   "/users/:id",
+  param("id").isInt({ min: 1 }).withMessage(msg.ID_IS_REQUIRED),
   async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<Record<string, any> | void> => {
     try {
+      const isValid = errorValidationCheck(req, next);
+      if (!isValid) return;
+
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
 
       const { id } = req.params;
-      if (!id) {
-        return next({ message: msg.ID_IS_REQUIRED });
-      }
+
       if (!fileData?.length) {
         fileData = await getFileData(filePath, next);
       }
+
       const user = fileData.find((user) => user.id.toString() === id);
       if (!user) {
         return next({ message: msg.USER_NOT_FOUND });
       }
+
       return res.status(200).json(user);
     } catch (error: any) {
       return next(error);
