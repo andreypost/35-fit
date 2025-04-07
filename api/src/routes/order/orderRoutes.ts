@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { body, validationResult } from "express-validator";
-import { Order } from "../entities/Order";
-import { deleteAuthToken, validateAuthToken } from "../auth/jsonWebToken";
-import { orderRepository, userRepository } from "../config/database";
-import { msg } from "../constants/messages";
+import { Order } from "../../entities/Order";
+import { deleteAuthToken, validateAuthToken } from "../../auth/jsonWebToken";
+import { orderRepository, userRepository } from "../../config/database";
+import { msg } from "../../constants/messages";
 
 export const order = Router();
 

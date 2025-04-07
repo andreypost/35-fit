@@ -62,15 +62,18 @@ export const TestingRoles = memo(() => {
 
   // wrapping handleGetAllUsers in useCallback prevents from re-rendering child <TestingCalllback...
   // if this parent component get changes and re-rederes
-  const handleGetAllUsers = useCallback(async (path): Promise<void> => {
-    const response = await apiEndpointCall('get', path)
-    if (response?.data) {
-      return response?.data
-    }
-  }, [])
+  const urls = ['user/users', 'user/users', 'user/users', 'user/users']
+  const handleGetAllUsers = useCallback(
+    async (path): Promise<IAuth[] | undefined> => {
+      const response = await apiEndpointCall('get', path)
+      if (response?.data) {
+        return response?.data
+      }
+    },
+    []
+  )
 
   useEffect(() => {
-    const urls = ['user/users', 'user/users', 'user/users', 'user/users']
     // handleGetAllUsers('')
 
     const parallelExecute = async (
@@ -128,6 +131,10 @@ export const TestingRoles = memo(() => {
         deniedPrivileges,
       })
       setUserForUpdate({})
+      const allUsers = await handleGetAllUsers(urls[0])
+      if (allUsers?.length) {
+        setAllUsers(allUsers)
+      }
       // for (let i = 0; i < allUsers.length; i++) {
       //   await apiEndpointCall('patch', `user/${allUsers[i].id}/privileges`, {
       //     grantedPrivileges: UserPrivileges.ProjectCreator,

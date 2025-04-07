@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { body, param, validationResult } from "express-validator";
 import { Like } from "typeorm";
 import {
   deleteAuthToken,
@@ -8,11 +7,12 @@ import {
 } from "../../auth/jsonWebToken";
 import { userRepository } from "../../config/database";
 import bcrypt from "bcrypt";
+import { validatePrivilegesDto, validateUserDto } from "./userDto";
+import { validateEmailPasswordDto } from "../../validators/commonValidators";
+import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { msg } from "../../constants/messages";
 import { User } from "../../entities/User";
 import { UserPrivileges } from "../../utils/userRoles";
-import { errorValidationCheck } from "../../validators/errorValidationCheck";
-import { validateUserDto } from "./dto";
 
 export const user = Router();
 
@@ -25,15 +25,9 @@ user.post(
     next: NextFunction
   ): Promise<Response | void> => {
     try {
-      // await errorValidationCheck(req, next);
-      const err = validationResult(req);
-      if (!err.isEmpty()) {
-        return next({
-          message: err.array(),
-          status: 400,
-          type: "ValidationDataError",
-        });
-      }
+      const isValid = errorValidationCheck(req, next);
+      if (!isValid) return;
+
       const {
         name,
         surname,
@@ -77,6 +71,7 @@ user.post(
         .json({ message: msg.USER_CREATED_SUCCESSFULLY, success: true });
     } catch (error: any) {
       await deleteAuthToken(res);
+
       if (error.code === "23505") {
         return next({
           message: msg.EMAIL_ALREADY_EXIST,
@@ -92,16 +87,14 @@ user.post(
 
 user.post(
   "/login",
-  body("email").isEmail().withMessage(msg.VALID_EMAIL_IS_REQUIRED),
-  body("password")
-    .isLength({ min: 4 })
-    .withMessage(msg.PASSWORD_MUTS_BE_AT_LEAST),
+  validateEmailPasswordDto,
   async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<Response<User> | void> => {
-    await errorValidationCheck(req, next);
+    const isValid = errorValidationCheck(req, next);
+    if (!isValid) return;
 
     try {
       const { email, password, keepLoggedIn } = await req.body;
@@ -245,20 +238,14 @@ user.get(
 
 user.patch(
   "/:id/privileges",
-  param("id")
-    // .notEmpty() // does not work for the empty string if id is absent
-    // .withMessage(msg.ID_IS_REQUIRED)
-    // .bail()
-    .isUUID()
-    .withMessage(msg.ID_MUST_BE_UUID),
-  body("grantedPrivileges").notEmpty().withMessage(msg.GRANTED_PRINILEGES),
-  body("deniedPrivileges").notEmpty().withMessage(msg.DENIED_PRINILEGES),
+  validatePrivilegesDto,
   async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<Response<User> | void> => {
-    await errorValidationCheck(req, next);
+    const isValid = errorValidationCheck(req, next);
+    if (!isValid) return;
 
     try {
       const { authToken } = req?.cookies;

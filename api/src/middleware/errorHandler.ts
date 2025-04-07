@@ -14,18 +14,21 @@ export class CustomErrorHandler extends Error {
   }
 }
 
-export const errorHandler = async (
+export const errorHandler = (
   err: any,
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {
-  console.error("Error Handler: ", err);
-  return next(
-    res.status(err.status || 500).json({
-      message: err.message || "An unknown error occurred",
-      success: err.success || false,
-      type: err.type || "An unknown type",
-    })
-  );
+): void => {
+  console.error("Global Error Handler: ", err);
+
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  res.status(err.status || 500).json({
+    message: err.message || "An unknown error occurred",
+    success: err.success ?? false,
+    type: err.type || "UnknownError",
+  });
 };

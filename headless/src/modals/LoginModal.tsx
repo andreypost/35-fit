@@ -179,7 +179,7 @@ export const LoginModal = () => {
   const modalState = useAppSelector(selectLoginModalActive)
   const { t } = useTranslation()
   const [loginData, setLoginData] = useState({
-    email: 'email',
+    email: '',
     password: '9999',
     keepLoggedIn: false,
   })

@@ -1,16 +1,19 @@
 import { Request, NextFunction } from "express";
 import { validationResult } from "express-validator";
 
-export const errorValidationCheck = async (
+export const errorValidationCheck = (
   req: Request,
   next: NextFunction
-): Promise<void> => {
+): boolean => {
   const err = validationResult(req);
   if (!err.isEmpty()) {
-    return next({
+    console.error("Error Validation Check: ", err);
+    next({
       message: err.array(),
       status: 400,
       type: "ValidationDataError",
     });
+    return false;
   }
+  return true;
 };

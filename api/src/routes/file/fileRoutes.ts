@@ -1,16 +1,16 @@
 import path, { join } from "path";
 import { Router, Request, Response, NextFunction } from "express";
-import { validateAuthToken } from "../auth/jsonWebToken";
+import { validateAuthToken } from "../../auth/jsonWebToken";
 import {
   getFileData,
   // writeFileData
-} from "../helpers/fileStream";
+} from "../../helpers/fileStream";
 const { writeFileData } = require("../helpers/fileStream");
 import { body, validationResult } from "express-validator";
-import { msg } from "../constants/messages";
-import { IFileUserDetails } from "../types/interface";
-import { countCountryEarnings } from "../helpers/userCollection";
-import { fileWriteLimiter } from "../middleware/rateLimiter";
+import { msg } from "../../constants/messages";
+import { IFileUserDetails } from "../../types/interface";
+import { countCountryEarnings } from "../../helpers/userCollection";
+import { fileWriteLimiter } from "../../middleware/rateLimiter";
 
 export const file = Router();
 
