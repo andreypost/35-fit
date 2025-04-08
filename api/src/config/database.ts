@@ -36,6 +36,8 @@ AppDataSource.initialize()
 
 export const userRepository = AppDataSource.getRepository(User);
 export const priceRepository = AppDataSource.getRepository(Price);
+export const scooterRepository = AppDataSource.getRepository(Scooter);
+export const accessoryRepository = AppDataSource.getRepository(Accessory);
 export const orderRepository = AppDataSource.getRepository(Order);
 
 // import { Sequelize } from "sequelize";

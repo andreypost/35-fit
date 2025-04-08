@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import { user } from "./routes/user/userRotes";
 import { file } from "./routes/file/fileRoutes";
 import { price } from "./routes/price/priceRoutes";
+import { scooter } from "./routes/scooter/scooterRoutes";
 import { order } from "./routes/order/orderRoutes";
 import { errorHandler } from "./middleware/errorHandler";
 import { logRequestDetails } from "./middleware/logRequestDetails";
@@ -46,6 +47,7 @@ app.use(globalLimiter);
 app.use("/user", user);
 app.use("/file", file);
 app.use("/price", price);
+app.use("/scooter", scooter);
 app.use("/order", order);
 
 const startApolloServer = async () => {

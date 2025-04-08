@@ -45,7 +45,7 @@ file.get(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<IFileUserDetails> | void> => {
+  ): Promise<Response<IFileUserDetails[]> | void> => {
     try {
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
@@ -90,7 +90,7 @@ file.post(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response | void> => {
+  ): Promise<Response<IFileUserDetails[]> | void> => {
     try {
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;

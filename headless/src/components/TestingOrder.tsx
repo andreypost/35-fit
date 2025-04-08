@@ -113,16 +113,16 @@ export const TestingOrder = memo(() => {
 
         setPriceId(priceId)
 
-        // const { data: productId } = await apiEndpointCall(
-        //   'post',
-        //   checkEndpoint,
-        //   { ...product, priceId },
-        //   true,
-        //   signal
-        // )
+        const { data: productId } = await apiEndpointCall(
+          'post',
+          checkEndpoint,
+          { ...product, priceId },
+          true,
+          signal
+        )
 
-        // if (!productId || signal.aborted) return
-        // setProductId(productId)
+        if (!productId || signal.aborted) return
+        setProductId(productId)
         setConflict(true)
       } catch (error) {
         if (!signal.aborted) {
@@ -142,14 +142,14 @@ export const TestingOrder = memo(() => {
           setScooterPoductId,
           setScooterConflictProductId
         ),
-        fetchPriceAndCheckProduct(
-          accessoryPrice.name,
-          setAccessoryPriceId,
-          'accessory/check',
-          accessoryProduct,
-          setAccessoryPoductId,
-          setAccessoryConflictProductId
-        ),
+        // fetchPriceAndCheckProduct(
+        //   accessoryPrice.name,
+        //   setAccessoryPriceId,
+        //   'accessory/check',
+        //   accessoryProduct,
+        //   setAccessoryPoductId,
+        //   setAccessoryConflictProductId
+        // ),
       ])
     }
 

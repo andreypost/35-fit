@@ -23,7 +23,7 @@ export class ScooterService {
   public async checkExistingScooter(
     createScooterDto: CreateScooterDto,
     returnedProductId: boolean = false,
-  ): Promise<Price | any> {
+  ): Promise<Price | string | any> {
     try {
       const { model, priceId } = createScooterDto;
       const price = await this.priceService.getPriceById(priceId);
@@ -51,9 +51,7 @@ export class ScooterService {
         );
       }
 
-      if (!returnedProductId) {
-        return price;
-      }
+      return returnedProductId ? undefined : price;
     } catch (error: any) {
       nextError(error);
     }

@@ -56,6 +56,7 @@ export class PriceService {
       const price = await this.priceRepository.findOne({
         where: { id: priceId },
       });
+
       if (!price) {
         throw new NotFoundException(msg.PRICE_NOT_FOUND);
       }

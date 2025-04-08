@@ -11,7 +11,7 @@ const checkSetPriceByName = async (
   priceName: string,
   returnPrice: boolean = false,
   next: NextFunction
-) => {
+): Promise<boolean | string> => {
   const existingPrice = await priceRepository.findOne({
     where: { name: priceName },
   });
@@ -29,6 +29,26 @@ const checkSetPriceByName = async (
     }
   }
   return false;
+};
+
+export const getPriceById = async (
+  priceId: string,
+  next: NextFunction
+): Promise<Price | void> => {
+  try {
+    const price = await priceRepository.findOne({
+      where: { id: priceId },
+    });
+    if (!price) {
+      next({
+        message: msg.PRICE_NOT_FOUND,
+      });
+      return;
+    }
+    return price;
+  } catch (error: any) {
+    next(error);
+  }
 };
 
 price.get(

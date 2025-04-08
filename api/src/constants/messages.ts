@@ -1,4 +1,6 @@
 export const msg = {
+  MUST_BE_STRING: "- must be a string!",
+  MUST_BE_NUMBER: " - must be a number!",
   NAME_IS_REQUIRED: "Name is required!",
   SURNAME_IS_REQUIRED: "Surname is required!",
   GENDER_IS_REQUIRED: "Gender is required!",
@@ -36,6 +38,8 @@ export const msg = {
   PRICE_NAME_IS_REQUIRED: "Price name is required!",
   PRICE_AMOUNT_IS_REQUIRED: "Price amount is required!",
   PRICE_NOT_FOUND: "Price not found",
+  SCOOTER_MODEL_IS_REQUIRED: "Scooter model is required!",
+  ACCESSORY_NAME_IS_REQUIRED: "Accessory name is required!",
   ORDER_NOT_FOUND: "Order not found",
   PRODUCT_TYPE_IS_NOT_APPROPRIATE:
     " - this Product Type is not appropriate to the Price",

@@ -4,8 +4,9 @@ import { msg } from "../../constants/messages";
 export const validatePriceNameQueryDto = [
   query("priceName")
     .notEmpty()
+    .withMessage(msg.PRICE_NAME_IS_REQUIRED)
     .isString()
-    .withMessage(msg.PRICE_NAME_IS_REQUIRED),
+    .withMessage(`Price name ${msg.MUST_BE_STRING}`),
 ];
 
 export const validatePriceDto = [
