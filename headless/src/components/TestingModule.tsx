@@ -20,7 +20,8 @@ import { AppContext } from '../AppRouter'
 import { TestingOrder } from './TestingOrder'
 
 const Div = styled.div`
-  #streamFileDataForm {
+  #streamFileDataForm,
+  #csvFileDataForm {
     margin-left: auto;
     margin-right: auto;
     input[type='email'],
@@ -222,7 +223,7 @@ export const TestingModule = memo(() => {
         timers.push(timerId)
       }
     }
-    callWithDelay(writeFile, 10000, 300)
+    // callWithDelay(writeFile, 10000, 300)
   }, [])
 
   const handleStreamFileData = async <
@@ -261,6 +262,16 @@ export const TestingModule = memo(() => {
     )
 
     setIndex(Math.floor(Math.random() * countries.length))
+  }
+
+  const handleGetCsvFileData = async <
+    T extends React.FormEvent<HTMLFormElement>
+  >(
+    e: T
+  ): Promise<void> => {
+    e.preventDefault()
+    const csvFileData = await apiEndpointCall('get', 'csv-stream/users')
+    console.log('csvFileData: ', csvFileData)
   }
 
   return (
@@ -336,6 +347,23 @@ export const TestingModule = memo(() => {
         <button type="submit" className="grey_button">
           Stream File Data
         </button>
+      </form>
+      <form
+        action=""
+        id="csvFileDataForm"
+        className="flex_str_col margin_b_60_30"
+        onSubmit={handleGetCsvFileData}
+      >
+        <button type="submit" className="grey_button margin_b_60_30">
+          Get Csv File Data
+        </button>
+        <a
+          href={`${process.env.API_URL}/csv-stream/users`}
+          className="grey_button"
+          download
+        >
+          Download CSV File
+        </a>
       </form>
     </Div>
   )

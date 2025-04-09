@@ -6,6 +6,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { user } from "./routes/user/userRotes";
 import { file } from "./routes/file/fileRoutes";
+import { csvStream } from "./routes/csv-stream/csvStreamRoutes";
 import { price } from "./routes/price/priceRoutes";
 import { scooter } from "./routes/scooter/scooterRoutes";
 import { order } from "./routes/order/orderRoutes";
@@ -46,6 +47,7 @@ app.use(globalLimiter);
 
 app.use("/user", user);
 app.use("/file", file);
+app.use("/csv-stream", csvStream);
 app.use("/price", price);
 app.use("/scooter", scooter);
 app.use("/order", order);
