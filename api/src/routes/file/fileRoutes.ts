@@ -13,15 +13,17 @@ import { countCountryEarnings } from "./helpers/userCollection";
 import { fileWriteLimiter } from "../../middleware/rateLimiter";
 import { validateFileWrite } from "./fileDto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
+import { existsSync, mkdirSync } from "fs";
 
 export const file = Router();
 
-const filePath: string = (() => {
+const userCollection = "jsonData/user-collection.json";
+
+export const handleFilePath = (path: string) => {
   const basePath = process.cwd();
-  const jsonDataPath = "jsonData/user-collection.json";
 
   if (process.platform === "win32") {
-    return join(basePath, "..", jsonDataPath);
+    return join(basePath, "..", path);
   }
 
   // if (isDocker) {
@@ -29,11 +31,11 @@ const filePath: string = (() => {
   // }
 
   if (process.platform === "linux" || process.platform === "darwin") {
-    return join(basePath, "..", jsonDataPath); // POSIX-specific path for Linux and Mac
+    return join(basePath, "..", path); // POSIX-specific path for Linux and Mac
   }
 
-  return join(basePath, jsonDataPath);
-})();
+  return join(basePath, path);
+};
 
 let fileData: IFileUserDetails[] = [];
 let fileCountCache: Record<string, number> = {};
@@ -73,7 +75,11 @@ file.get(
       //     })
       // );
       if (!fileData?.length) {
-        fileData = await getFileData(filePath, next);
+        fileData = await getFileData(
+          handleFilePath(userCollection),
+          false,
+          next
+        );
       }
       return res.status(200).json(fileData);
     } catch (error: any) {
@@ -99,14 +105,19 @@ file.post(
       await validateAuthToken(authToken, res);
 
       if (!fileData?.length) {
-        fileData = await getFileData(filePath, next);
+        const data = await getFileData(
+          handleFilePath(userCollection),
+          true,
+          next
+        );
+        if (data) fileData = data;
       }
 
       const { body } = req;
 
       fileData.push(body);
 
-      await writeFileData(filePath, fileData);
+      await writeFileData(handleFilePath(userCollection), fileData);
       fileData = [];
       fileCountCache = {};
       return res.status(200).json({
@@ -136,7 +147,13 @@ file.get(
       }
 
       if (!fileData?.length) {
-        fileData = await getFileData(filePath, next);
+        const data = await getFileData(
+          handleFilePath(userCollection),
+          false,
+          next
+        );
+        if (!data) return;
+        fileData = data;
       }
 
       fileCountCache = fileData.reduce((acc, { country }) => {
@@ -167,7 +184,13 @@ file.get(
       }
 
       if (!fileData?.length) {
-        fileData = await getFileData(filePath, next);
+        const data = await getFileData(
+          handleFilePath(userCollection),
+          false,
+          next
+        );
+        if (!data) return;
+        fileData = data;
       }
 
       fileEarningsCache = await countCountryEarnings(fileData);
@@ -197,7 +220,13 @@ file.get(
       const { id } = req.params;
 
       if (!fileData?.length) {
-        fileData = await getFileData(filePath, next);
+        const data = await getFileData(
+          handleFilePath(userCollection),
+          false,
+          next
+        );
+        if (!data) return;
+        fileData = data;
       }
 
       const user = fileData.find((user) => user.id.toString() === id);

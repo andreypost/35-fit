@@ -1,37 +1,47 @@
-import { existsSync, createReadStream, createWriteStream } from "fs";
+import { existsSync, createReadStream, createWriteStream, mkdirSync } from "fs";
+import path from "path";
 import { msg } from "../../../constants/messages";
 
-export const getFileData = (path: string, next: any): Promise<any> => {
+export const getFileData = async (
+  filePath: string,
+  writeFile: boolean,
+  next: any
+): Promise<any> => {
   try {
-    if (!existsSync(path)) {
-      next({
-        message: msg.FILE_DOES_NOT_EXIST,
-        status: 404,
-        type: "AccessFileDirError",
-      });
+    if (!existsSync(filePath)) {
+      if (writeFile) {
+        const dir = path.dirname(filePath);
+        mkdirSync(dir, { recursive: true });
+      } else {
+        next({
+          message: msg.FILE_DOES_NOT_EXIST,
+          status: 404,
+          type: "AccessFileDirError",
+        });
+      }
+      return;
     }
+    return new Promise((res, rej) => {
+      let jsonData = "";
+      createReadStream(filePath, "utf-8")
+        .on("error", (err) => rej(`Error parsing JSON: ${err}`))
+        .on("data", (chunk) => (jsonData += chunk))
+        .on("end", () => {
+          try {
+            res(JSON.parse(jsonData));
+          } catch (err: any) {
+            rej(`Error parsing JSON: ${err}`);
+          }
+        });
+    });
   } catch (error: any) {
     next(error);
   }
-
-  return new Promise((res, rej) => {
-    let jsonData = "";
-    createReadStream(path, "utf-8")
-      .on("error", (err) => rej(`Error parsing JSON: ${err}`))
-      .on("data", (chunk) => (jsonData += chunk))
-      .on("end", () => {
-        try {
-          res(JSON.parse(jsonData));
-        } catch (err: any) {
-          rej(`Error parsing JSON: ${err}`);
-        }
-      });
-  });
 };
 
-const writeFileData = (path: string, data: any): Promise<void> => {
+const writeFileData = async (filePath: string, data: any): Promise<void> => {
   return new Promise((res, rej) => {
-    const writeStream = createWriteStream(path, {
+    const writeStream = createWriteStream(filePath, {
       encoding: "utf-8",
       flags: "w", // Ensures file creation if it doesn't exist
       // flags: "r+", // this flag does not create a new file if does not exists

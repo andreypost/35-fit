@@ -231,7 +231,7 @@ const Reserve = () => {
         surname: 'Postoliuk',
         gender: 'male',
         age: 25,
-        country: '',
+        country: 'Ukraine',
         city: 'Kyiv',
         email: '',
         password: '9999',
