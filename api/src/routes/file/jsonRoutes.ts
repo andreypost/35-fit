@@ -14,7 +14,7 @@ import { fileWriteLimiter } from "../../middleware/rateLimiter";
 import { validateFileWrite } from "./fileDto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
 
-export const file = Router();
+export const jsonRoute = Router();
 
 const userCollectionPath = "jsonData/user-collection.json";
 
@@ -40,7 +40,7 @@ let userCollection: IFileUserDetails[] = [];
 let usersCountCache: Record<string, number> = {};
 let usersAverageEarningsCache: Record<string, number> = {};
 
-file.get(
+jsonRoute.get(
   "/read",
   async (
     req: Request,
@@ -65,7 +65,7 @@ file.get(
   }
 );
 
-file.post(
+jsonRoute.post(
   "/write",
   fileWriteLimiter,
   validateFileWrite,
@@ -111,7 +111,7 @@ file.post(
   }
 );
 
-file.get(
+jsonRoute.get(
   "/count-by-country",
   async (
     req: Request,
@@ -148,7 +148,7 @@ file.get(
   }
 );
 
-file.get(
+jsonRoute.get(
   "/average-earnings-by-country",
   async (
     req: Request,
@@ -182,7 +182,7 @@ file.get(
   }
 );
 
-file.get(
+jsonRoute.get(
   "/users/:id",
   param("id").isInt({ min: 1 }).withMessage(msg.ID_IS_REQUIRED),
   async (
