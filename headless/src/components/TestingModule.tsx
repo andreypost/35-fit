@@ -233,7 +233,7 @@ export const TestingModule = memo(() => {
   ): Promise<void> => {
     e.preventDefault()
 
-    const addFileData = await apiEndpointCall('post', 'file/write', {
+    const addFileData = await apiEndpointCall('post', 'file/json/write', {
       id: Math.floor(1_000 + Math.random() * (1_000_000 - 1_000 + 1)),
       earnings: `$${
         Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) * (index + 1)
@@ -242,23 +242,26 @@ export const TestingModule = memo(() => {
       name: 'Andrii Postoliuk',
     })
 
-    console.log('file/write: ', addFileData)
-
-    console.log('file/read: ', await apiEndpointCall('get', 'file/read'))
+    console.log('file/json/write: ', addFileData)
 
     console.log(
-      'file/count-by-country: ',
-      await apiEndpointCall('get', 'file/count-by-country')
+      'file/json/read: ',
+      await apiEndpointCall('get', 'file/json/read')
     )
 
     console.log(
-      'file/average-earnings-by-country: ',
-      await apiEndpointCall('get', 'file/average-earnings-by-country')
+      'file/json/count-by-country: ',
+      await apiEndpointCall('get', 'file/json/count-by-country')
     )
 
     console.log(
-      'file/users/:id: ',
-      await apiEndpointCall('get', `file/users/${addFileData?.data?.id}`)
+      'file/json/average-earnings-by-country: ',
+      await apiEndpointCall('get', 'file/json/average-earnings-by-country')
+    )
+
+    console.log(
+      'file/json/users/:id: ',
+      await apiEndpointCall('get', `file/json/users/${addFileData?.data?.id}`)
     )
 
     setIndex(Math.floor(Math.random() * countries.length))
@@ -271,7 +274,7 @@ export const TestingModule = memo(() => {
   ): Promise<void> => {
     e.preventDefault()
     await axios
-      .get(`${process.env.API_URL}/csv-stream/users`, { responseType: 'blob' })
+      .get(`${process.env.API_URL}/file/csv/users`, { responseType: 'blob' })
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]))
         const link = document.createElement('a')
@@ -283,7 +286,7 @@ export const TestingModule = memo(() => {
       })
       .catch((err) => console.error(err))
     // or that can be done simpler with DOM element:
-    // <a href={`${process.env.API_URL}/csv-stream/users`} download>
+    // <a href={`${process.env.API_URL}/file/csv/users`} download>
     // Download CSV File
     // </a>
   }

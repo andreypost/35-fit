@@ -2,12 +2,11 @@ import { NextFunction, Request, Response, Router } from "express";
 import { createReadStream, createWriteStream, existsSync, mkdirSync } from "fs";
 import path from "path";
 import * as csv from "fast-csv";
-import { format } from "@fast-csv/format";
-import { resolveFilePath } from "../file/fileRoutes";
+import { resolveFilePath } from "./jsonRoutes";
 import { msg } from "../../constants/messages";
 import { userRepository } from "../../config/database";
 
-export const csvStream = Router();
+export const csvRoute = Router();
 
 const usersDataPath = resolveFilePath("csvData/users-data.csv");
 
@@ -33,7 +32,7 @@ const writeCsvFile = async (
   next: NextFunction
 ): Promise<void> => {};
 
-csvStream.get(
+csvRoute.get(
   "/users",
   async (
     req: Request,
@@ -81,7 +80,7 @@ csvStream.get(
         phone: row.phone,
       });
 
-      const csvStream = format({ headers: true, transform });
+      const csvStream = csv.format({ headers: true, transform });
 
       // <-- 00 without saving csv file to disk
       // allUsers.forEach((user) => csvStream.write(user));
