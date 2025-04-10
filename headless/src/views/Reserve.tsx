@@ -227,7 +227,7 @@ const Reserve = () => {
   useEffect(() => {
     isDevelopment &&
       setUserData({
-        name: 'Andrii Postoliuk',
+        name: 'Andrii',
         surname: 'Postoliuk',
         gender: 'male',
         age: 25,

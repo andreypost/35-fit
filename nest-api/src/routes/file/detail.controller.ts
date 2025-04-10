@@ -3,18 +3,19 @@ import {
   Body,
   Controller,
   Get,
-  Res,
   Param,
   // ParseUUIDPipe,
   Post,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { ApiOperation } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 // import { AuthGuard } from '../utils/auth.guard';
 import { DetailService } from './detail.service';
-import { CreateUserDetailsDto } from './dto/create.user.details.dto';
+import {
+  CreateUserDetailsDto,
+  IdParamStringDto,
+} from './dto/create.user.details.dto';
 import { Public } from '../../guards/public.routes';
-import { Throttle } from '@nestjs/throttler';
 
 // @UseGuards(AuthGuard) // add authToken check to all this routes
 @Public()
@@ -25,8 +26,7 @@ export class DetailController {
   @Get('read')
   @ApiOperation({ summary: 'read' })
   async loadUserCollection(): Promise<CreateUserDetailsDto[]> {
-    return await this.detailService.getStreamFile();
-    // return this.detailService.loadUserCollection(req);
+    return await this.detailService.loadUserCollection(false);
   }
 
   @Throttle({ default: { ttl: 600_000, limit: 200, blockDuration: 600_000 } })
@@ -34,12 +34,8 @@ export class DetailController {
   @ApiOperation({ summary: 'write' })
   async addNewDetailsUser(
     @Body() createUserDetailsDto: CreateUserDetailsDto,
-    @Res() res: Response,
-  ): Promise<CreateUserDetailsDto> {
-    return await this.detailService.addNewDetailsUser(
-      createUserDetailsDto,
-      res,
-    );
+  ): Promise<CreateUserDetailsDto | void> {
+    return await this.detailService.addNewDetailsUser(createUserDetailsDto);
   }
 
   @Get('count-by-country')
@@ -57,8 +53,7 @@ export class DetailController {
   @Get('users/:id')
   @ApiOperation({ summary: 'users/:id' })
   async findUserById(
-    // @Param('id', ParseUUIDPipe) id: string,
-    @Param('id') id: string,
+    @Param() { id }: IdParamStringDto,
   ): Promise<CreateUserDetailsDto> {
     return await this.detailService.findUserById(id);
   }

@@ -1,4 +1,4 @@
-import path, { join } from "path";
+import { join } from "path";
 import { Router, Request, Response, NextFunction } from "express";
 import { validateAuthToken } from "../../auth/jsonWebToken";
 import {
@@ -13,33 +13,32 @@ import { countCountryEarnings } from "./helpers/userCollection";
 import { fileWriteLimiter } from "../../middleware/rateLimiter";
 import { validateFileWrite } from "./fileDto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
-import { existsSync, mkdirSync } from "fs";
 
 export const file = Router();
 
-const userCollection = "jsonData/user-collection.json";
+const userCollectionPath = "jsonData/user-collection.json";
 
-export const handleFilePath = (path: string) => {
+export const resolveFilePath = (filePath: string) => {
   const basePath = process.cwd();
 
   if (process.platform === "win32") {
-    return join(basePath, "..", path);
+    return join(basePath, "..", filePath); // Windows-specific path
   }
 
   // if (isDocker) {
-  //   return join(basePath, jsonDataPath); // Docker-specific path
+  //   return join(basePath, filePath); // Docker-specific path
   // }
 
   if (process.platform === "linux" || process.platform === "darwin") {
-    return join(basePath, "..", path); // POSIX-specific path for Linux and Mac
+    return join(basePath, "..", filePath); // POSIX-specific path for Linux and Mac
   }
 
-  return join(basePath, path);
+  return join(basePath, filePath);
 };
 
-let fileData: IFileUserDetails[] = [];
-let fileCountCache: Record<string, number> = {};
-let fileEarningsCache: Record<string, number> = {};
+let userCollection: IFileUserDetails[] = [];
+let usersCountCache: Record<string, number> = {};
+let usersAverageEarningsCache: Record<string, number> = {};
 
 file.get(
   "/read",
@@ -52,36 +51,14 @@ file.get(
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
 
-      // fs.rename(
-      //   fileFolder,
-      //   "../jsonData1",
-      //   (err) =>
-      //     err &&
-      //     next({
-      //       message: err.message,
-      //       status: 400,
-      //       type: "RenameError",
-      //     })
-      // );
-
-      // fs.access(
-      //   fileFolder,
-      //   (err) =>
-      //     err &&
-      //     next({
-      //       message: err.message,
-      //       status: 400,
-      //       type: "AccessFolderDirError",
-      //     })
-      // );
-      if (!fileData?.length) {
-        fileData = await getFileData(
-          handleFilePath(userCollection),
+      if (!userCollection?.length) {
+        userCollection = await getFileData(
+          resolveFilePath(userCollectionPath),
           false,
           next
         );
       }
-      return res.status(200).json(fileData);
+      return res.status(200).json(userCollection);
     } catch (error: any) {
       return next(error);
     }
@@ -96,7 +73,7 @@ file.post(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<IFileUserDetails[]> | void> => {
+  ): Promise<Response<IFileUserDetails> | void> => {
     try {
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
@@ -104,25 +81,28 @@ file.post(
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
 
-      if (!fileData?.length) {
-        const data = await getFileData(
-          handleFilePath(userCollection),
+      if (!userCollection?.length) {
+        userCollection = await getFileData(
+          resolveFilePath(userCollectionPath),
           true,
           next
         );
-        if (data) fileData = data;
       }
 
       const { body } = req;
 
-      fileData.push(body);
+      // userCollection.push(body); // Not thread-safe if multiple clients hit /write in parallel
+      const newData = userCollection?.length
+        ? [...userCollection, body]
+        : [body];
 
-      await writeFileData(handleFilePath(userCollection), fileData);
-      fileData = [];
-      fileCountCache = {};
+      await writeFileData(resolveFilePath(userCollectionPath), newData);
+      userCollection = [];
+      usersCountCache = {};
+      usersAverageEarningsCache = {};
+
       return res.status(200).json({
         message: msg.FILE_WAS_WRITTEN_SUCCESSFULLY,
-        success: true,
         ...body,
       });
     } catch (error: any) {
@@ -142,26 +122,26 @@ file.get(
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
 
-      if (Object.keys(fileCountCache)?.length) {
-        return res.status(200).json(fileCountCache);
+      if (Object.keys(usersCountCache)?.length) {
+        return res.status(200).json(usersCountCache);
       }
 
-      if (!fileData?.length) {
+      if (!userCollection?.length) {
         const data = await getFileData(
-          handleFilePath(userCollection),
+          resolveFilePath(userCollectionPath),
           false,
           next
         );
         if (!data) return;
-        fileData = data;
+        userCollection = data;
       }
 
-      fileCountCache = fileData.reduce((acc, { country }) => {
+      usersCountCache = userCollection.reduce((acc, { country }) => {
         !acc[country] ? (acc[country] = 1) : ++acc[country];
         return acc;
       }, {} as Record<string, number>);
 
-      return res.status(200).json(fileCountCache);
+      return res.status(200).json(usersCountCache);
     } catch (error: any) {
       return next(error);
     }
@@ -179,23 +159,23 @@ file.get(
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
 
-      if (Object.keys(fileEarningsCache)?.length) {
-        return res.status(200).json(fileEarningsCache);
+      if (Object.keys(usersAverageEarningsCache)?.length) {
+        return res.status(200).json(usersAverageEarningsCache);
       }
 
-      if (!fileData?.length) {
+      if (!userCollection?.length) {
         const data = await getFileData(
-          handleFilePath(userCollection),
+          resolveFilePath(userCollectionPath),
           false,
           next
         );
         if (!data) return;
-        fileData = data;
+        userCollection = data;
       }
 
-      fileEarningsCache = await countCountryEarnings(fileData);
+      usersAverageEarningsCache = await countCountryEarnings(userCollection);
 
-      return res.status(200).json(fileEarningsCache);
+      return res.status(200).json(usersAverageEarningsCache);
     } catch (error: any) {
       return next(error);
     }
@@ -219,17 +199,17 @@ file.get(
 
       const { id } = req.params;
 
-      if (!fileData?.length) {
+      if (!userCollection?.length) {
         const data = await getFileData(
-          handleFilePath(userCollection),
+          resolveFilePath(userCollectionPath),
           false,
           next
         );
         if (!data) return;
-        fileData = data;
+        userCollection = data;
       }
 
-      const user = fileData.find((user) => user.id.toString() === id);
+      const user = userCollection.find((user) => user.id.toString() === id);
       if (!user) {
         return next({ message: msg.USER_NOT_FOUND });
       }

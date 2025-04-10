@@ -1,4 +1,10 @@
-import { existsSync, createReadStream, createWriteStream, mkdirSync } from "fs";
+import {
+  existsSync,
+  createReadStream,
+  createWriteStream,
+  mkdirSync,
+  writeFileSync,
+} from "fs";
 import path from "path";
 import { msg } from "../../../constants/messages";
 
@@ -12,6 +18,8 @@ export const getFileData = async (
       if (writeFile) {
         const dir = path.dirname(filePath);
         mkdirSync(dir, { recursive: true });
+        writeFileSync(filePath, "[]");
+        console.log(`Created new file at ${filePath}`);
       } else {
         next({
           message: msg.FILE_DOES_NOT_EXIST,
@@ -30,7 +38,8 @@ export const getFileData = async (
           try {
             res(JSON.parse(jsonData));
           } catch (err: any) {
-            rej(`Error parsing JSON: ${err}`);
+            console.warn("File corrupted, returning empty array");
+            res([]);
           }
         });
     });
@@ -41,17 +50,21 @@ export const getFileData = async (
 
 const writeFileData = async (filePath: string, data: any): Promise<void> => {
   return new Promise((res, rej) => {
-    const writeStream = createWriteStream(filePath, {
-      encoding: "utf-8",
-      flags: "w", // Ensures file creation if it doesn't exist
-      // flags: "r+", // this flag does not create a new file if does not exists
-    })
-      .on("error", (err) => rej(`Error writing file: ${err}`))
-      .on("finish", () => res());
+    try {
+      const writeStream = createWriteStream(filePath, {
+        encoding: "utf-8",
+        flags: "w", // Ensures file creation if it doesn't exist
+        // flags: "r+", // this flag does not create a new file if does not exists
+      });
+      writeStream.on("error", (err) => rej(`Error writing file: ${err}`));
+      writeStream.on("finish", () => res());
 
-    // writeStream.write(JSON.stringify(data, null, 2));
-    // The end function on streams can also take in some optional data to send as the last bit of data on the stream
-    writeStream.end(JSON.stringify(data, null, 2));
+      // writeStream.write(JSON.stringify(data, null, 2));
+      // The end function on streams can also take in some optional data to send as the last bit of data on the stream
+      writeStream.end(JSON.stringify(data, null, 2));
+    } catch (error: any) {
+      rej(`Failed to prepare directory or write stream: ${error}`);
+    }
   });
 };
 
