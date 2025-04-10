@@ -270,8 +270,22 @@ export const TestingModule = memo(() => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    const csvFileData = await apiEndpointCall('get', 'csv-stream/users')
-    console.log('csvFileData: ', csvFileData)
+    await axios
+      .get(`${process.env.API_URL}/csv-stream/users`, { responseType: 'blob' })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', 'users-data.csv')
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+      })
+      .catch((err) => console.error(err))
+    // or that can be done simpler with DOM element:
+    // <a href={`${process.env.API_URL}/csv-stream/users`} download>
+    // Download CSV File
+    // </a>
   }
 
   return (
@@ -345,7 +359,7 @@ export const TestingModule = memo(() => {
         onSubmit={handleStreamFileData}
       >
         <button type="submit" className="grey_button">
-          Stream File Data
+          Stream JSON File Data
         </button>
       </form>
       <form
@@ -355,15 +369,8 @@ export const TestingModule = memo(() => {
         onSubmit={handleGetCsvFileData}
       >
         <button type="submit" className="grey_button margin_b_60_30">
-          Get Csv File Data
-        </button>
-        <a
-          href={`${process.env.API_URL}/csv-stream/users`}
-          className="grey_button"
-          download
-        >
           Download CSV File
-        </a>
+        </button>
       </form>
     </Div>
   )

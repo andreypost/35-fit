@@ -79,7 +79,7 @@ export class RolesPrivilegesDto {
   deniedPrivileges!: number;
 }
 
-export class IdParamDto {
+export class IdParamUUIDDto {
   @IsNotEmpty({ message: msg.ID_IS_REQUIRED })
   @IsUUID(undefined, { message: msg.ID_MUST_BE_UUID })
   id!: string;

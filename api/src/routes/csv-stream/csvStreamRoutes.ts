@@ -2,33 +2,25 @@ import { NextFunction, Request, Response, Router } from "express";
 import { createReadStream, createWriteStream, existsSync, mkdirSync } from "fs";
 import path from "path";
 import * as csv from "fast-csv";
-import { handleFilePath } from "../file/fileRoutes";
+import { format } from "@fast-csv/format";
+import { resolveFilePath } from "../file/fileRoutes";
 import { msg } from "../../constants/messages";
 import { userRepository } from "../../config/database";
 
 export const csvStream = Router();
 
-const usersDataPath = handleFilePath("csvData/users-data.csv");
+const usersDataPath = resolveFilePath("csvData/users-data.csv");
 
-const User = {
-  id: "bbb55502-670f-49a2-baf4-901da70c2d23",
-  createdAt: "2025-04-06T18:14:48.243Z",
-  updatedAt: "2025-04-06T18:14:48.243Z",
-  deletedAt: null,
-  name: "Andrii Postoliuk",
-  surname: "Postoliuk",
-  gender: "male",
-  age: 0,
-  country: "",
-  city: "Kyiv",
-  email: "test_22@email.com",
-  password: "$2b$10$OdQslWd0N.0xY5fvnnXvReenRAFClISiPNsHzzXodMv7o0dKjhsCy",
-  phone: "0673788612",
-  emergencyName: "",
-  emergencyPhone: "",
-  grantedPrivileges: 8,
-  deniedPrivileges: 0,
-};
+interface CsvUser {
+  name: string;
+  surname: string;
+  gender: string;
+  age: number;
+  country: string;
+  city: string;
+  email: string;
+  phone: string;
+}
 
 const readCsvFile = async (
   usersDataPath: string,
@@ -49,21 +41,55 @@ csvStream.get(
     next: NextFunction
   ): Promise<Request | void> => {
     try {
+      const allUsers = await userRepository
+        .createQueryBuilder("user")
+        .select([
+          "user.name AS name",
+          "user.surname AS surname",
+          "user.gender AS gender",
+          "user.age AS age",
+          "user.country AS country",
+          "user.city AS city",
+          "user.email AS email",
+          "user.phone AS phone",
+        ])
+        .getRawMany();
+
+      console.log("allUsers: ", allUsers);
+
+      if (!allUsers?.length) return;
+
       if (!existsSync(usersDataPath)) {
         const dirr = path.dirname(usersDataPath);
         mkdirSync(dirr, { recursive: true });
       }
 
-      const allUsers = await userRepository
-        .createQueryBuilder("user")
-        .select(["user.name", "user.surname", "user.email", "user.phone"])
-        .getMany();
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="users-data.csv"'
+      );
+      res.setHeader("Content-Type", "text/csv");
 
-      // console.log("allUsers: ", allUsers);
+      const transform = (row: CsvUser): CsvUser => ({
+        name: row.name.toUpperCase(),
+        surname: row.surname.toUpperCase(),
+        gender: row.gender.toUpperCase(),
+        age: row.age,
+        country: row.country,
+        city: row.city,
+        email: row.email,
+        phone: row.phone,
+      });
 
-      if (!allUsers?.length) return;
+      const csvStream = format({ headers: true, transform });
 
-      const csvStream = csv.format({ headers: true });
+      // <-- 00 without saving csv file to disk
+      // allUsers.forEach((user) => csvStream.write(user));
+      // csvStream.pipe(res);
+      // csvStream.end();
+      // <-- 00 end
+
+      // <-- 01 with saving csv file to disk
       const writable = createWriteStream(usersDataPath, {
         encoding: "utf-8",
         flags: "w",
@@ -80,8 +106,9 @@ csvStream.get(
       writable.on("error", (err) => {
         next(err);
       });
+      // <-- 01 end
 
-      // console.log("csvStream: ", csvStream);
+      console.log("csvStream: ", csvStream);
     } catch (error: any) {
       next(error);
     }

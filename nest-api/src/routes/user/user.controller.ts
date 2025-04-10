@@ -17,7 +17,7 @@ import { Public } from '../../guards/public.routes';
 import { Throttle, SkipThrottle } from '@nestjs/throttler';
 import {
   CreateUserDto,
-  IdParamDto,
+  IdParamUUIDDto,
   LoginUserDto,
   RolesPrivilegesDto,
   SearchQueryDto,
@@ -96,7 +96,7 @@ export class UserController {
   @ApiOperation({ summary: ':id/privileges' })
   async updateUserPrivileges(
     @CurrentUserEmail() email: string,
-    @Param() { id }: IdParamDto,
+    @Param() { id }: IdParamUUIDDto,
     @Body() { grantedPrivileges, deniedPrivileges }: RolesPrivilegesDto,
   ): Promise<User> {
     return this.userService.updateUserPrivileges(
