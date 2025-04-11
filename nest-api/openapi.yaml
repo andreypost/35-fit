@@ -92,58 +92,6 @@ paths:
           description: ""
       summary: :id/privileges
       tags: *a1
-  /file/read:
-    get:
-      operationId: DetailController_loadUserCollection
-      parameters: []
-      responses:
-        "200":
-          description: ""
-      summary: read
-      tags: &a2
-        - Detail
-  /file/write:
-    post:
-      operationId: DetailController_addNewDetailsUser
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateUserDetailsDto"
-      responses:
-        "201":
-          description: ""
-      summary: write
-      tags: *a2
-  /file/count-by-country:
-    get:
-      operationId: DetailController_getUsersCountByCountry
-      parameters: []
-      responses:
-        "200":
-          description: ""
-      summary: count-by-country
-      tags: *a2
-  /file/average-earnings-by-country:
-    get:
-      operationId: DetailController_getAverageEarningsByCountry
-      parameters: []
-      responses:
-        "200":
-          description: ""
-      summary: average-earnings-by-country
-      tags: *a2
-  /file/users/{id}:
-    get:
-      operationId: DetailController_findUserById
-      parameters: []
-      responses:
-        "200":
-          description: ""
-      summary: users/:id
-      tags: *a2
   /price/check-set:
     get:
       operationId: PriceController_checkSetPriceByName
@@ -152,7 +100,7 @@ paths:
         "200":
           description: ""
       summary: check-set
-      tags: &a3
+      tags: &a2
         - Price
   /price/create:
     post:
@@ -168,7 +116,7 @@ paths:
         "201":
           description: ""
       summary: create
-      tags: *a3
+      tags: *a2
   /scooter/check:
     post:
       operationId: ScooterController_checkExistingScooter
@@ -183,7 +131,7 @@ paths:
         "201":
           description: ""
       summary: check
-      tags: &a4
+      tags: &a3
         - Scooter
   /scooter/create:
     post:
@@ -199,7 +147,7 @@ paths:
         "201":
           description: ""
       summary: create
-      tags: *a4
+      tags: *a3
   /accessory/check:
     post:
       operationId: AccessoryController_checkExistingAccessory
@@ -214,7 +162,7 @@ paths:
         "201":
           description: ""
       summary: check
-      tags: &a5
+      tags: &a4
         - Accessory
   /accessory/create:
     post:
@@ -230,7 +178,7 @@ paths:
         "201":
           description: ""
       summary: create
-      tags: *a5
+      tags: *a4
   /order/create:
     post:
       operationId: OrderController_createUserOrder
@@ -245,7 +193,7 @@ paths:
         "201":
           description: ""
       summary: create
-      tags: &a6
+      tags: &a5
         - Order
   /order/orders/{type}:
     get:
@@ -260,6 +208,58 @@ paths:
         "200":
           description: ""
       summary: orders/:type
+      tags: *a5
+  /file/json/read:
+    get:
+      operationId: JsonController_loadUserCollection
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: file/json/read
+      tags: &a6
+        - Json
+  /file/json/write:
+    post:
+      operationId: JsonController_addNewDetailsUser
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserJsonDto"
+      responses:
+        "201":
+          description: ""
+      summary: file/json/write
+      tags: *a6
+  /file/json/count-by-country:
+    get:
+      operationId: JsonController_getUsersCountByCountry
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: file/json/count-by-country
+      tags: *a6
+  /file/json/average-earnings-by-country:
+    get:
+      operationId: JsonController_getAverageEarningsByCountry
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: file/json/average-earnings-by-country
+      tags: *a6
+  /file/json/users/{id}:
+    get:
+      operationId: JsonController_findUserById
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: file/json/users/:id
       tags: *a6
 info:
   title: 35-fit nest-api
@@ -290,9 +290,6 @@ components:
     RolesPrivilegesDto:
       type: object
       properties: {}
-    CreateUserDetailsDto:
-      type: object
-      properties: {}
     CreatePriceDto:
       type: object
       properties: {}
@@ -303,6 +300,9 @@ components:
       type: object
       properties: {}
     CreateOrderDto:
+      type: object
+      properties: {}
+    CreateUserJsonDto:
       type: object
       properties: {}
 security:

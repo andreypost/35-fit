@@ -4,15 +4,15 @@ import {
   // StreamableFile,
 } from '@nestjs/common';
 import { join } from 'path';
-import { isDocker } from '../../utils/is.docker';
-import { getFileData, writeFileData } from './helpers/file.stream';
-import { CreateUserDetailsDto } from './dto/create.user.details.dto';
-import { nextError } from '../../utils/next.error';
-import { msg } from '../../constants/messages';
-import { countCountryEarnings } from './helpers/user.collection';
+import { isDocker } from '../../../utils/is.docker';
+import { getFileData, writeFileData } from '../helpers/file.stream';
+import { CreateUserJsonDto } from '../dto/create.user.json.dto';
+import { nextError } from '../../../utils/next.error';
+import { msg } from '../../../constants/messages';
+import { countCountryEarnings } from '../helpers/user.collection';
 
 @Injectable()
-export class DetailService {
+export class JsonService {
   private userCollectionPath = 'jsonData/user-collection.json';
 
   public readonly resolveFilePath = (filePath: string) => {
@@ -33,13 +33,13 @@ export class DetailService {
     return join(basePath, filePath);
   };
 
-  private userCollection: CreateUserDetailsDto[] = [];
+  private userCollection: CreateUserJsonDto[] = [];
   private usersCountCache: Record<string, number> = {};
   private usersAverageEarningsCache: Record<string, number> = {};
 
   public async loadUserCollection(
     writeFile: boolean,
-  ): Promise<CreateUserDetailsDto[]> {
+  ): Promise<CreateUserJsonDto[]> {
     try {
       if (!this.userCollection?.length) {
         return (this.userCollection = await getFileData(
@@ -54,12 +54,12 @@ export class DetailService {
   }
 
   public async addNewDetailsUser(
-    createUserDetailsDto: CreateUserDetailsDto,
+    createUserDetailsDto: CreateUserJsonDto,
   ): Promise<any> {
     try {
       await this.loadUserCollection(true);
 
-      // this.userCollection.push(createUserDetailsDto); // Not thread-safe if multiple clients hit /write in parallel
+      // this.userCollection.push(CreateUserJsonDto); // Not thread-safe if multiple clients hit /write in parallel
 
       const newData = this.userCollection?.length
         ? [...this.userCollection, createUserDetailsDto]
@@ -118,11 +118,11 @@ export class DetailService {
     }
   }
 
-  public async findUserById(id: string): Promise<CreateUserDetailsDto> {
+  public async findUserById(id: string): Promise<CreateUserJsonDto> {
     try {
       await this.loadUserCollection(false);
 
-      const user: CreateUserDetailsDto = this.userCollection.find(
+      const user: CreateUserJsonDto = this.userCollection.find(
         (user) => user.id.toString() === id,
       );
       if (!user) throw new NotFoundException(`User with id ${id} not found.`);
