@@ -59,8 +59,7 @@ csvRoute.get(
       if (!allUsers?.length) return;
 
       if (!existsSync(usersDataPath)) {
-        const dirr = path.dirname(usersDataPath);
-        mkdirSync(dirr, { recursive: true });
+        mkdirSync(path.dirname(usersDataPath), { recursive: true });
       }
 
       res.setHeader(

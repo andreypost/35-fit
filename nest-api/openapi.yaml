@@ -261,6 +261,16 @@ paths:
           description: ""
       summary: file/json/users/:id
       tags: *a6
+  /file/csv/read:
+    get:
+      operationId: CsvController_csvReadFile
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: file/csv/read
+      tags:
+        - Csv
 info:
   title: 35-fit nest-api
   description: The NEST-API description for the 35-fit project
