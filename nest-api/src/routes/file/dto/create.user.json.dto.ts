@@ -1,6 +1,6 @@
-import { isNotEmpty, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
-export class CreateUserDetailsDto {
+export class CreateUserJsonDto {
   @IsNotEmpty()
   id?: string;
 

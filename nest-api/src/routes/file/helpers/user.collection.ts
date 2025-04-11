@@ -1,7 +1,7 @@
-import { CreateUserDetailsDto } from '../dto/create.user.details.dto';
+import { CreateUserJsonDto } from '../dto/create.user.json.dto';
 
 export const countCountryEarnings = async (
-  userCollection: CreateUserDetailsDto[],
+  userCollection: CreateUserJsonDto[],
 ) => {
   let averageEarnings = {};
   const countryEarnings = userCollection.reduce(

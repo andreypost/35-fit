@@ -107,7 +107,7 @@ csvRoute.get(
       });
       // <-- 01 end
 
-      console.log("csvStream: ", csvStream);
+      // console.log("csvStream: ", csvStream);
     } catch (error: any) {
       next(error);
     }

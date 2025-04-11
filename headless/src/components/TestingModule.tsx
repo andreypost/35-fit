@@ -274,7 +274,7 @@ export const TestingModule = memo(() => {
   ): Promise<void> => {
     e.preventDefault()
     await axios
-      .get(`${process.env.API_URL}/file/csv/users`, { responseType: 'blob' })
+      .get(`${process.env.API_URL}/file/csv/read`, { responseType: 'blob' })
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]))
         const link = document.createElement('a')
@@ -286,7 +286,7 @@ export const TestingModule = memo(() => {
       })
       .catch((err) => console.error(err))
     // or that can be done simpler with DOM element:
-    // <a href={`${process.env.API_URL}/file/csv/users`} download>
+    // <a href={`${process.env.API_URL}/file/csv/read`} download>
     // Download CSV File
     // </a>
   }

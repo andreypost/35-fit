@@ -15,11 +15,10 @@ import { AuditLoggerMiddleware } from './middlewares/audit.logger';
 import { AuthGuard } from './guards/auth.guard';
 import { secrets } from './constants/secrets';
 import { AppHello } from './app.hello';
+import { FileModule } from './routes/file/file.module';
 import { UserService } from './routes/user/user.service';
-import { DetailService } from './routes/file/detail.service';
 import { PriceService } from './routes/price/price.service';
 import { UserController } from './routes/user/user.controller';
-import { DetailController } from './routes/file/detail.controller';
 import { PriceController } from './routes/price/price.controller';
 import { ScooterController } from './routes/scooter/scooter.controller';
 import { AccessoryController } from './routes/accessory/accessory.controller';
@@ -53,11 +52,11 @@ config();
         },
       ],
     }),
+    FileModule,
   ],
   controllers: [
     AppHello,
     UserController,
-    DetailController,
     PriceController,
     ScooterController,
     AccessoryController,
@@ -67,7 +66,6 @@ config();
     // { provide: APP_GUARD, useClass: AuthGuard }, // already included with useGlobalGuards in main.ts
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     UserService,
-    DetailService,
     PriceService,
     ScooterService,
     AccessoryService,

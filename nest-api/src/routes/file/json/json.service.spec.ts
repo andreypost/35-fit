@@ -5,11 +5,11 @@ import {
 import { existsSync } from 'fs';
 import { readFile } from 'fs/promises';
 import { Request } from 'express';
-import { DetailService } from './detail.service';
-import { msg } from '../../constants/messages';
-import { validateAuthToken } from '../../guards/auth.token';
-import { nextError } from '../../utils/next.error';
-import { CreateUserDetailsDto } from './dto/create.user.details.dto';
+import { JsonService } from './json.service';
+import { msg } from '../../../constants/messages';
+import { validateAuthToken } from '../../../guards/auth.token';
+import { nextError } from '../../../utils/next.error';
+import { CreateUserDetailsDto } from '../dto/create.user.json.dto';
 // import { Test, TestingModule } from '@nestjs/testing';
 
 jest.mock('fs');
@@ -26,7 +26,7 @@ jest.mock('../helpers/next.error');
 // }));
 
 describe('DetailService', () => {
-  let detailService: DetailService;
+  let detailService: JsonService;
   // const path = '../../../../jsonData/user-collection.json';
 
   beforeEach(async () => {
@@ -34,7 +34,7 @@ describe('DetailService', () => {
     //   providers: [DetailService],
     // }).compile();
     // detailService = module.get<DetailService>(DetailService);
-    detailService = new DetailService();
+    detailService = new JsonService();
     // (detailService as any).filePath = path;
   });
 
