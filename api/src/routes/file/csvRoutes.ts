@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { createReadStream, createWriteStream, existsSync, mkdirSync } from "fs";
+import { createWriteStream, existsSync, mkdirSync } from "fs";
 import path from "path";
 import { format } from "fast-csv";
 import { resolveFilePath } from "./jsonRoutes";
-import { msg } from "../../constants/messages";
 import { userRepository } from "../../config/database";
-import { Readable } from "stream";
+import { msg } from "../../constants/messages";
 
 export const csvRoute = Router();
 
@@ -22,25 +21,16 @@ interface CsvUser {
   phone: string;
 }
 
-const readCsvFile = async (
-  usersDataPath: string,
-  next: NextFunction
-): Promise<void | boolean> => {};
-
-const writeCsvFile = async (
-  path: string,
-  data: any,
-  next: NextFunction
-): Promise<void> => {};
-
 csvRoute.get(
   "/read",
   async (
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Request | Readable | void> => {
+  ): Promise<Request | void> => {
     try {
+      const saveToDisk: boolean = true;
+
       const allUsers = await userRepository
         .createQueryBuilder("user")
         .select([
@@ -55,19 +45,7 @@ csvRoute.get(
         ])
         .getRawMany();
 
-      // console.log("allUsers: ", allUsers);
-
       if (!allUsers?.length) return;
-
-      if (!existsSync(usersDataPath)) {
-        mkdirSync(path.dirname(usersDataPath), { recursive: true });
-      }
-
-      res.setHeader(
-        "Content-Disposition",
-        'attachment; filename="users-data.csv"'
-      );
-      res.setHeader("Content-Type", "text/csv");
 
       const transform = (row: CsvUser): CsvUser => ({
         name: row.name.toUpperCase(),
@@ -82,33 +60,45 @@ csvRoute.get(
 
       const csvStream = format({ headers: true, transform });
 
-      // <-- 00 without saving csv file to disk
-      // allUsers.forEach((user) => csvStream.write(user));
-      // csvStream.pipe(res);
-      // csvStream.end();
-      // <-- 00 end
+      if (saveToDisk) {
+        if (!existsSync(usersDataPath)) {
+          mkdirSync(path.dirname(usersDataPath), { recursive: true });
+        }
 
-      // <-- 01 with saving csv file to disk
-      const writable = createWriteStream(usersDataPath, {
-        encoding: "utf-8",
-        flags: "w",
-      });
+        const writable = createWriteStream(usersDataPath, {
+          encoding: "utf-8",
+          flags: "w",
+        });
 
-      csvStream.pipe(writable);
-      allUsers.forEach((user) => csvStream.write(user));
-      csvStream.end();
+        csvStream.pipe(writable);
+        allUsers.map((user) => csvStream.write(user));
+        csvStream.end();
 
-      writable.on("finish", () => {
-        return res.download(usersDataPath, "users-data.csv");
-      });
+        await new Promise<void>((res, rej) => {
+          writable.on("finish", res);
+          writable.on("error", rej);
+        });
 
-      writable.on("error", (err) => {
-        next(err);
-      });
-      // <-- 01 end
+        res.setHeader("Content-type", "text/csv");
+        return res.download(usersDataPath, "user-data.csv");
+      } else {
+        res.setHeader(
+          "Content-Disposition",
+          'attachment; filename="users-data.csv"'
+        );
+        res.setHeader("Content-Type", "text/csv");
 
-      // console.log("csvStream: ", csvStream);
-      return csvStream;
+        csvStream.pipe(res).on("finish", () =>
+          // Trigger something after the stream completes (like clean-up, closing connections)
+          console.log("CSV stream to client")
+        );
+
+        allUsers.map((user) => csvStream.write(user));
+
+        csvStream.end();
+
+        return;
+      }
     } catch (error: any) {
       next(error);
     }

@@ -263,7 +263,7 @@ paths:
       tags: *a6
   /file/csv/read:
     get:
-      operationId: CsvController_csvReadFile
+      operationId: CsvController_csvReadWriteFile
       parameters: []
       responses:
         "200":
