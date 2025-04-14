@@ -18,3 +18,14 @@ export class IdParamStringDto {
   @IsNotEmpty()
   id!: string;
 }
+
+export interface CsvUser {
+  name: string;
+  surname: string;
+  gender: string;
+  age: number;
+  country: string;
+  city: string;
+  email: string;
+  phone: string;
+}

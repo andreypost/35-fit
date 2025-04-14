@@ -2,14 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Response } from 'express';
-import { Readable } from 'stream';
-import { existsSync, mkdir, mkdirSync } from 'fs';
+import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import path from 'path';
 import { format } from 'fast-csv';
 import { User } from '../../../entities/user';
 import { nextError } from '../../../utils/next.error';
 import { JsonService } from '../json/json.service';
 import { msg } from '../../../constants/messages';
+import { CsvUser } from '../dto/create.user.json.dto';
 
 @Injectable()
 export class CsvService {
@@ -21,7 +21,10 @@ export class CsvService {
   private readonly usersDataPath = this.jsonService.resolveFilePath(
     'csvData/users-data.csv',
   );
-  public readonly csvReadFile = async (res: Response): Promise<Readable> => {
+  public readonly csvReadWriteFile = async (
+    res: Response,
+    saveToDisk: boolean = false,
+  ): Promise<void> => {
     try {
       const allUsers = await this.userRepository
         .createQueryBuilder('user')
@@ -40,23 +43,59 @@ export class CsvService {
       if (!allUsers?.length) {
         throw new NotFoundException(msg.FILE_DOES_NOT_EXIST);
       }
-      // <-- 00 without saving csv file to disk
-      const csvStream = format({ headers: true });
-      allUsers.forEach((user) => csvStream.write(user));
-      csvStream.end();
-      // <-- 00 end
 
-      // <-- 01 with saving csv file to disk
-      // if (!existsSync(this.usersDataPath)) {
-      //   mkdirSync(path.dirname(this.usersDataPath), { recursive: true });
-      // }
+      const transform = (row: CsvUser): CsvUser => ({
+        name: row.name.toUpperCase(),
+        surname: row.surname.toUpperCase(),
+        gender: row.gender.toUpperCase(),
+        age: row.age,
+        country: row.country,
+        city: row.city,
+        email: row.email,
+        phone: row.phone,
+      });
 
-      // csvStream.pipe(res).on('finish', () => {
-      //   console.log('CSV streamed successfully to client');
-      // });
-      // <-- 01 end
+      const csvStream = format({ headers: true, transform });
 
-      return csvStream;
+      if (saveToDisk) {
+        if (!existsSync(this.usersDataPath)) {
+          mkdirSync(path.dirname(this.usersDataPath), { recursive: true });
+        }
+
+        const writable = createWriteStream(this.usersDataPath, {
+          encoding: 'utf-8',
+          flags: 'w',
+        });
+
+        csvStream.pipe(writable);
+        allUsers.forEach((user) => csvStream.write(user));
+        csvStream.end();
+
+        await new Promise<void>((res, rej) => {
+          writable.on('finish', res);
+          writable.on('error', rej);
+        });
+
+        res.setHeader('Content-Type', 'text/csv');
+        return res.download(this.usersDataPath, 'user-data.csv');
+      } else {
+        res.setHeader(
+          'Content-Disposition',
+          'attachment; filename="users-data.csv"',
+        );
+        res.setHeader('Content-Type', 'text/csv');
+
+        csvStream.pipe(res).on('finish', () =>
+          // Trigger something after the stream completes (like clean-up, closing connections)
+          console.log('CSV stream to client'),
+        );
+
+        allUsers.forEach((user) => csvStream.write(user));
+
+        csvStream.end();
+
+        return;
+      }
     } catch (error: any) {
       return nextError(error);
     }
