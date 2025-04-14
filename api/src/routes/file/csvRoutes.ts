@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { createReadStream, createWriteStream, existsSync, mkdirSync } from "fs";
 import path from "path";
-import * as csv from "fast-csv";
+import { format } from "fast-csv";
 import { resolveFilePath } from "./jsonRoutes";
 import { msg } from "../../constants/messages";
 import { userRepository } from "../../config/database";
+import { Readable } from "stream";
 
 export const csvRoute = Router();
 
@@ -33,12 +34,12 @@ const writeCsvFile = async (
 ): Promise<void> => {};
 
 csvRoute.get(
-  "/users",
+  "/read",
   async (
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Request | void> => {
+  ): Promise<Request | Readable | void> => {
     try {
       const allUsers = await userRepository
         .createQueryBuilder("user")
@@ -54,7 +55,7 @@ csvRoute.get(
         ])
         .getRawMany();
 
-      console.log("allUsers: ", allUsers);
+      // console.log("allUsers: ", allUsers);
 
       if (!allUsers?.length) return;
 
@@ -79,7 +80,7 @@ csvRoute.get(
         phone: row.phone,
       });
 
-      const csvStream = csv.format({ headers: true, transform });
+      const csvStream = format({ headers: true, transform });
 
       // <-- 00 without saving csv file to disk
       // allUsers.forEach((user) => csvStream.write(user));
@@ -107,6 +108,7 @@ csvRoute.get(
       // <-- 01 end
 
       // console.log("csvStream: ", csvStream);
+      return csvStream;
     } catch (error: any) {
       next(error);
     }

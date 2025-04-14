@@ -18,6 +18,7 @@ import { apiEndpointCall } from 'utils/endpointApiCall'
 import axios from 'axios'
 import { AppContext } from '../AppRouter'
 import { TestingOrder } from './TestingOrder'
+import { errorModalMessage } from 'utils/errorModalMessage'
 
 const Div = styled.div`
   #streamFileDataForm,
@@ -274,7 +275,10 @@ export const TestingModule = memo(() => {
   ): Promise<void> => {
     e.preventDefault()
     await axios
-      .get(`${process.env.API_URL}/file/csv/read`, { responseType: 'blob' })
+      .get(`${process.env.API_URL}/file/csv/read`, {
+        responseType: 'blob',
+        withCredentials: true,
+      })
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]))
         const link = document.createElement('a')
@@ -284,7 +288,10 @@ export const TestingModule = memo(() => {
         link.click()
         link.remove()
       })
-      .catch((err) => console.error(err))
+      .catch((err) => {
+        console.error(err)
+        errorModalMessage(err)
+      })
     // or that can be done simpler with DOM element:
     // <a href={`${process.env.API_URL}/file/csv/read`} download>
     // Download CSV File

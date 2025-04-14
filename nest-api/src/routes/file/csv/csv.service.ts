@@ -1,12 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Response, Request } from 'express';
+import { Response } from 'express';
+import { Readable } from 'stream';
+import { existsSync, mkdir, mkdirSync } from 'fs';
+import path from 'path';
+import { format } from 'fast-csv';
 import { User } from '../../../entities/user';
 import { nextError } from '../../../utils/next.error';
 import { JsonService } from '../json/json.service';
-import { existsSync, mkdir, mkdirSync } from 'fs';
-import path from 'path';
+import { msg } from '../../../constants/messages';
 
 @Injectable()
 export class CsvService {
@@ -18,7 +21,7 @@ export class CsvService {
   private readonly usersDataPath = this.jsonService.resolveFilePath(
     'csvData/users-data.csv',
   );
-  public readonly csvReadFile = async (res: Response): Promise<any> => {
+  public readonly csvReadFile = async (res: Response): Promise<Readable> => {
     try {
       const allUsers = await this.userRepository
         .createQueryBuilder('user')
@@ -33,15 +36,29 @@ export class CsvService {
           'user.phone AS phone',
         ])
         .getRawMany();
-      if (!allUsers?.length) return;
 
-      if (!existsSync(this.usersDataPath)) {
-        mkdirSync(path.dirname(this.usersDataPath), { recursive: true });
+      if (!allUsers?.length) {
+        throw new NotFoundException(msg.FILE_DOES_NOT_EXIST);
       }
+      // <-- 00 without saving csv file to disk
+      const csvStream = format({ headers: true });
+      allUsers.forEach((user) => csvStream.write(user));
+      csvStream.end();
+      // <-- 00 end
 
-      return allUsers;
+      // <-- 01 with saving csv file to disk
+      // if (!existsSync(this.usersDataPath)) {
+      //   mkdirSync(path.dirname(this.usersDataPath), { recursive: true });
+      // }
+
+      // csvStream.pipe(res).on('finish', () => {
+      //   console.log('CSV streamed successfully to client');
+      // });
+      // <-- 01 end
+
+      return csvStream;
     } catch (error: any) {
-      nextError;
+      return nextError(error);
     }
   };
 }
