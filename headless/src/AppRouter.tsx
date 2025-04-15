@@ -27,6 +27,8 @@ import { DashboardModal } from 'modals/DashboardModal'
 import { IAppConfig, IAuth, IUser } from 'types/interface'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { setDatabaseUser, validateAuthToken } from 'slices/databaseUser.slice'
+import { getSpinnerState } from 'slices/action.slice'
+import { Spinner } from 'Spinner'
 // import { createBrowserHistory } from 'history'
 // const history = createBrowserHistory()
 // console.log(history.location.pathname)
@@ -43,6 +45,7 @@ const AppRouter = () => {
   const [firebaseLoading, setFirebaseLoading] = useState(true)
   const dispatch = useAppDispatch()
   const [currentUser, setCurrentUser] = useState<IAuth | null>(null)
+  const { spinnerState } = useAppSelector(getSpinnerState)
 
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
@@ -79,6 +82,7 @@ const AppRouter = () => {
       value={{ language, setLanguage, currentUser, setCurrentUser }}
     >
       <HashRouter basename="/">
+        {spinnerState && <Spinner />}
         {/* <BrowserRouter basename="/"> */}
         <HeaderNavigate />
         {/* {useMemo(

@@ -68,7 +68,9 @@ export class CsvService {
         });
 
         csvStream.pipe(writable);
-        allUsers.forEach((user) => csvStream.write(user));
+        for (let i = 0; i < 1_000_000; i++) {
+          allUsers.forEach((user) => csvStream.write(user));
+        }
         csvStream.end();
 
         await new Promise<void>((res, rej) => {

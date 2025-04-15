@@ -71,7 +71,10 @@ csvRoute.get(
         });
 
         csvStream.pipe(writable);
-        allUsers.map((user) => csvStream.write(user));
+        for (let i = 0; i < 1_000_000; i++) {
+          // simulating with 1M+ rows
+          allUsers.forEach((user) => csvStream.write(user));
+        }
         csvStream.end();
 
         await new Promise<void>((res, rej) => {
@@ -93,7 +96,10 @@ csvRoute.get(
           console.log("CSV stream to client")
         );
 
-        allUsers.map((user) => csvStream.write(user));
+        for (let i = 0; i < 1_000_000; i++) {
+          // simulating with 1M+ rows
+          allUsers.forEach((user) => csvStream.write(user));
+        }
 
         csvStream.end();
 

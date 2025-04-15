@@ -29,9 +29,12 @@ export const fetchFileData = createAsyncThunk<UserData[]>(
   'fileData/fetchFileData',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${process.env.API_URL}/file/read`, {
-        withCredentials: true,
-      })
+      const response = await axios.get(
+        `${process.env.API_URL}/file/json/read`,
+        {
+          withCredentials: true,
+        }
+      )
       return response.data
     } catch (error: any) {
       console.error(error?.response?.data)

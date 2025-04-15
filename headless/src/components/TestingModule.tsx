@@ -19,6 +19,7 @@ import axios from 'axios'
 import { AppContext } from '../AppRouter'
 import { TestingOrder } from './TestingOrder'
 import { errorModalMessage } from 'utils/errorModalMessage'
+import { getSpinnerState, spinnerIsVisibile } from 'slices/action.slice'
 
 const Div = styled.div`
   #streamFileDataForm,
@@ -98,10 +99,11 @@ export const TestingModule = memo(() => {
   //   skip: !selectedImageId,
   //   context: { credentials: 'include' },
   // })
-  // const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
   // const { slFileSortedList, slFileListLoading, slFileListError } =
   //   useAppSelector(setSlSortedList)
   // const { currentUser } = useContext(AppContext)
+  const { spinnerState } = useAppSelector(getSpinnerState)
 
   console.log('Testing Modules is rerendering')
 
@@ -274,6 +276,7 @@ export const TestingModule = memo(() => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
+    dispatch(spinnerIsVisibile(true))
     await axios
       .get(`${process.env.API_URL}/file/csv/read`, {
         responseType: 'blob',
@@ -292,11 +295,23 @@ export const TestingModule = memo(() => {
         console.error(err)
         errorModalMessage(err)
       })
+      .finally(() => dispatch(spinnerIsVisibile(false)))
     // or that can be done simpler with DOM element:
     // <a href={`${process.env.API_URL}/file/csv/read`} download>
     // Download CSV File
     // </a>
   }
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent): void | string => {
+      if (spinnerState) {
+        e.preventDefault()
+        return ''
+      }
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
+  }, [spinnerState])
 
   return (
     <Div>
