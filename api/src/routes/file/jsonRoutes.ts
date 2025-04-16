@@ -13,6 +13,7 @@ import { countCountryEarnings } from "./helpers/userCollection";
 import { fileWriteLimiter } from "../../middleware/rateLimiter";
 import { validateFileWrite } from "./fileDto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
+import { scanDirectory } from "./helpers/scanDirectory";
 
 export const jsonRoute = Router();
 
@@ -50,6 +51,8 @@ jsonRoute.get(
     try {
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
+
+      await scanDirectory("./api/src/routes", next);
 
       if (!userCollection?.length) {
         userCollection = await getFileData(
