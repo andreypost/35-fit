@@ -52,7 +52,17 @@ jsonRoute.get(
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
 
-      await scanDirectory("./api/src/routes", next);
+      // await scanDirectory(__dirname, next);
+      // await scanDirectory(__filename, next);
+      console.log("__dirname: ", __dirname);
+      console.log("__filename: ", __filename);
+
+      const buffer = Buffer.from("Hello 555");
+      console.log("buffer: ", buffer);
+      console.log("buffer: ", buffer.toString());
+      console.log("global: ", global);
+      // console.log("buffer: ", buffer.toString());
+
 
       if (!userCollection?.length) {
         userCollection = await getFileData(

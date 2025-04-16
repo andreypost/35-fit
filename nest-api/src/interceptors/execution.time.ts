@@ -15,10 +15,14 @@ export class ExecutionTimeInterceptor implements NestInterceptor {
   ): Observable<any> | Promise<Observable<any>> {
     const now = Date.now();
 
-    console.log('Before...');
+    console.log('Nest Interceptor Before...');
 
     return next
       .handle()
-      .pipe(tap(() => console.log(`After... ${Date.now() - now} ms`)));
+      .pipe(
+        tap(() =>
+          console.log(`Nest Interceptor After... ${Date.now() - now} ms`),
+        ),
+      );
   }
 }

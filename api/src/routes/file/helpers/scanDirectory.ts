@@ -6,7 +6,7 @@ export const scanDirectory = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const files = readdir(directory, { withFileTypes: true, recursive: true });
+    const files = await readdir(directory, { withFileTypes: true, recursive: true });
     if (!files) {
       return next();
     }

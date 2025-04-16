@@ -4,10 +4,10 @@ import { Request, Response, NextFunction } from 'express';
 @Injectable()
 export class AuditLoggerMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-    console.log('AuditLoggerMiddleware Request Body: ', req.body);
-    console.log('AuditLoggerMiddleware Request Query: ', req.query);
-    console.log('AuditLoggerMiddleware Request Url: ', req.url);
-    // console.log('AuditLoggerMiddleware Response: ', res);
+    console.log('Audit Logger Middleware Request Body: ', req.body);
+    console.log('Audit Logger Middleware Request Query: ', req.query);
+    console.log('Audit Logger Middleware Request Url: ', req.url);
+    // console.log('Audit Logger Middleware Response: ', res);
     next();
   }
 }
