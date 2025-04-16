@@ -79,12 +79,6 @@ export class RolesPrivilegesDto {
   deniedPrivileges!: number;
 }
 
-export class IdParamUUIDDto {
-  @IsNotEmpty({ message: msg.ID_IS_REQUIRED })
-  @IsUUID(undefined, { message: msg.ID_MUST_BE_UUID })
-  id!: string;
-}
-
 export class SearchQueryDto {
   @IsNotEmpty({ message: msg.SEARCH_QUERY_IS_REQUIRED })
   searchQuery!: string;

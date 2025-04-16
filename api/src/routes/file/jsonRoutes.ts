@@ -52,15 +52,15 @@ jsonRoute.get(
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
 
-      // await scanDirectory(__dirname, next);
+      await scanDirectory(__dirname, next);
       // await scanDirectory(__filename, next);
       console.log("__dirname: ", __dirname);
       console.log("__filename: ", __filename);
 
-      const buffer = Buffer.from("Hello 555");
-      console.log("buffer: ", buffer);
-      console.log("buffer: ", buffer.toString());
-      console.log("global: ", global);
+      // const buffer = Buffer.from('888');
+      // console.log("buffer: ", buffer);
+      // console.log("buffer: ", buffer.toString());
+      // console.log("global: ", global);
       // console.log("buffer: ", buffer.toString());
 
 

@@ -42,10 +42,13 @@ export class JsonService {
   ): Promise<CreateUserJsonDto[]> {
     try {
       if (!this.userCollection?.length) {
-        return (this.userCollection = await getFileData(
-          this.resolveFilePath(this.userCollectionPath),
-          writeFile,
-        ));
+        for (let i = 0; i < 1_000; i++) {
+          this.userCollection = await getFileData(
+            this.resolveFilePath(this.userCollectionPath),
+            writeFile,
+          );
+        }
+        return this.userCollection;
       }
       return this.userCollection;
     } catch (error: any) {
@@ -118,12 +121,12 @@ export class JsonService {
     }
   }
 
-  public async findUserById(id: string): Promise<CreateUserJsonDto> {
+  public async findUserById(id: number): Promise<CreateUserJsonDto> {
     try {
       await this.loadUserCollection(false);
 
       const user: CreateUserJsonDto = this.userCollection.find(
-        (user) => user.id.toString() === id,
+        (user) => user.id === id,
       );
       if (!user) throw new NotFoundException(`User with id ${id} not found.`);
       return user;

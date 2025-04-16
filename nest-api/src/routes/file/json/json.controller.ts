@@ -4,17 +4,14 @@ import {
   Controller,
   Get,
   Param,
-  // ParseUUIDPipe,
+  ParseIntPipe,
   Post,
 } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 // import { AuthGuard } from '../utils/auth.guard';
 import { JsonService } from './json.service';
-import {
-  CreateUserJsonDto,
-  IdParamStringDto,
-} from '../dto/create.user.json.dto';
+import { CreateUserJsonDto } from '../dto/create.user.json.dto';
 import { Public } from '../../../guards/public.routes';
 
 // @UseGuards(AuthGuard) // add authToken check to all this routes
@@ -53,7 +50,7 @@ export class JsonController {
   @Get('users/:id')
   @ApiOperation({ summary: 'file/json/users/:id' })
   async findUserById(
-    @Param() { id }: IdParamStringDto,
+    @Param('id', ParseIntPipe) id: number,
   ): Promise<CreateUserJsonDto> {
     return await this.jsonService.findUserById(id);
   }

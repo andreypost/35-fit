@@ -80,7 +80,12 @@ paths:
   /user/{id}/privileges:
     patch:
       operationId: UserController_updateUserPrivileges
-      parameters: []
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -255,7 +260,12 @@ paths:
   /file/json/users/{id}:
     get:
       operationId: JsonController_findUserById
-      parameters: []
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
       responses:
         "200":
           description: ""
