@@ -27,6 +27,7 @@ import { ScooterService } from './routes/scooter/scooter.service';
 import { AccessoryService } from './routes/accessory/accessory.service';
 import { OrderService } from './routes/order/order.service';
 import { Chat } from './gateways/chat';
+import { JsonController } from './routes/file/json/json.controller';
 
 config();
 
@@ -78,8 +79,7 @@ export class AppModule implements NestModule {
     consumer
       .apply(AuditLoggerMiddleware)
       // .exclude({ path: 'price/check', method: RequestMethod.GET })
-      .forRoutes(AccessoryController);
-    // .forRoutes('accessory', 'file', 'order', 'price', 'scooter', 'user');
+      .forRoutes(AccessoryController, JsonController, UserController);
     // .forRoutes({ path: 'price/*', method: RequestMethod.GET });
   }
 }
