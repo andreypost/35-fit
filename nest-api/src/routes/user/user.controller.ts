@@ -9,6 +9,7 @@ import {
   Patch,
   Param,
   Query,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { ApiOperation } from '@nestjs/swagger';
@@ -17,7 +18,6 @@ import { Public } from '../../guards/public.routes';
 import { Throttle, SkipThrottle } from '@nestjs/throttler';
 import {
   CreateUserDto,
-  IdParamUUIDDto,
   LoginUserDto,
   RolesPrivilegesDto,
   SearchQueryDto,
@@ -96,7 +96,7 @@ export class UserController {
   @ApiOperation({ summary: ':id/privileges' })
   async updateUserPrivileges(
     @CurrentUserEmail() email: string,
-    @Param() { id }: IdParamUUIDDto,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() { grantedPrivileges, deniedPrivileges }: RolesPrivilegesDto,
   ): Promise<User> {
     return this.userService.updateUserPrivileges(

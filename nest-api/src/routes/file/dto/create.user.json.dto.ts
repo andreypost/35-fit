@@ -2,7 +2,7 @@ import { IsNotEmpty } from 'class-validator';
 
 export class CreateUserJsonDto {
   @IsNotEmpty()
-  id?: string;
+  id?: number;
 
   @IsNotEmpty()
   earnings!: string;
@@ -12,11 +12,6 @@ export class CreateUserJsonDto {
 
   @IsNotEmpty()
   name!: string;
-}
-
-export class IdParamStringDto {
-  @IsNotEmpty()
-  id!: string;
 }
 
 export interface CsvUser {
