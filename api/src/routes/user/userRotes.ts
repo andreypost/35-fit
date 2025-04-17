@@ -298,3 +298,24 @@ user.patch(
     }
   }
 );
+
+user.get(
+  "/sql",
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<User> | void> => {
+    try {
+      const { email } = req.query;
+
+      console.log("query email: ", email);
+      const unsafeQuery = `SELECT * FROM "user" WHERE email = '${email}'`;
+
+      const testUsers = await userRepository.query(unsafeQuery);
+      return res.status(200).json(testUsers);
+    } catch (error: any) {
+      return next(error);
+    }
+  }
+);

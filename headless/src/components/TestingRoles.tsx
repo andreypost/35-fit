@@ -199,6 +199,20 @@ export const TestingRoles = memo(() => {
     }
   }
 
+  const simulateSqlInjection = async () => {
+    try {
+      const r = await axios.get(
+        `${process.env.API_URL}/user/sql/?email=' OR '1'='1`,
+        {
+          withCredentials: true,
+        }
+      )
+      console.log(r)
+    } catch (error) {
+      errorModalMessage(error)
+    }
+  }
+
   const debouncedFetchSearchUsers = useCallback(
     debounce(fetchUsersBySearch, 1000), // will only be called 1000ms after the user stops typing
     // throttle(fetchUsersBySearch, 1000), // only executed once every specified interval
@@ -213,6 +227,7 @@ export const TestingRoles = memo(() => {
 
   return (
     <Div>
+      <button onClick={simulateSqlInjection}>simulateSqlInjection</button>
       <h3 className="b900 margin_b_60_30 blue">Additional Forms</h3>
       <div className="additional_forms margin_b_120_80 relative">
         <fieldset className="margin_b_60_30">

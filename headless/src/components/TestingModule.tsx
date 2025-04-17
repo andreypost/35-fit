@@ -102,7 +102,7 @@ export const TestingModule = memo(() => {
   const dispatch = useAppDispatch()
   // const { slFileSortedList, slFileListLoading, slFileListError } =
   //   useAppSelector(setSlSortedList)
-  // const { currentUser } = useContext(AppContext)
+  const { currentUser } = useContext(AppContext)
   const { spinnerState } = useAppSelector(getSpinnerState)
 
   console.log('Testing Modules is rerendering')
@@ -235,17 +235,17 @@ export const TestingModule = memo(() => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    dispatch(spinnerIsVisibile(true))
-    const addFileData = await apiEndpointCall('post', 'file/json/write', {
-      id: Math.floor(1_000 + Math.random() * (1_000_000 - 1_000 + 1)),
-      earnings: `$${
-        Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) * (index + 1)
-      }`,
-      country: countries[index],
-      name: 'Andrii Postoliuk',
-    })
+    currentUser && dispatch(spinnerIsVisibile(true))
+    // const addFileData = await apiEndpointCall('post', 'file/json/write', {
+    //   id: Math.floor(1_000 + Math.random() * (1_000_000 - 1_000 + 1)),
+    //   earnings: `$${
+    //     Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) * (index + 1)
+    //   }`,
+    //   country: countries[index],
+    //   name: 'Andrii Postoliuk',
+    // })
 
-    console.log('file/json/write: ', addFileData)
+    // console.log('file/json/write: ', addFileData)
 
     console.log(
       'file/json/read: ',
@@ -262,10 +262,11 @@ export const TestingModule = memo(() => {
       await apiEndpointCall('get', 'file/json/average-earnings-by-country')
     )
 
-    console.log(
-      'file/json/users/:id: ',
-      await apiEndpointCall('get', `file/json/users/${addFileData?.data?.id}`)
-    )
+    // console.log(
+    //   'file/json/users/:id: ',
+    //   await apiEndpointCall('get', `file/json/users/${addFileData?.data?.id}`)
+    // )
+    
     dispatch(spinnerIsVisibile(false))
 
     setIndex(Math.floor(Math.random() * countries.length))
