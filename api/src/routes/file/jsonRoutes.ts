@@ -63,13 +63,16 @@ jsonRoute.get(
       // console.log("global: ", global);
       // console.log("buffer: ", buffer.toString());
 
-
       if (!userCollection?.length) {
-        userCollection = await getFileData(
-          resolveFilePath(userCollectionPath),
-          false,
-          next
-        );
+        let current: IFileUserDetails[] = [];
+        for (let i = 0; i < 1_000; i++) {
+          current = await getFileData(
+            resolveFilePath(userCollectionPath),
+            false,
+            next
+          );
+        }
+        userCollection = current;
       }
       return res.status(200).json(userCollection);
     } catch (error: any) {
