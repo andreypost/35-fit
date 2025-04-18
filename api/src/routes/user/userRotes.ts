@@ -307,13 +307,13 @@ user.get(
     next: NextFunction
   ): Promise<Response<User> | void> => {
     try {
-      const { email } = req.query;
+      const { email, password } = req.query;
 
       console.log("query email: ", email);
       const unsafeQuery = `SELECT * FROM "user" WHERE email = '${email}'`;
 
-      const testUsers = await userRepository.query(unsafeQuery);
-      return res.status(200).json(testUsers);
+      const unsafeResult = await userRepository.query(unsafeQuery);
+      return res.status(200).json(unsafeResult);
     } catch (error: any) {
       return next(error);
     }

@@ -199,20 +199,6 @@ export const TestingRoles = memo(() => {
     }
   }
 
-  const simulateSqlInjection = async () => {
-    try {
-      const r = await axios.get(
-        `${process.env.API_URL}/user/sql/?email=' OR '1'='1`,
-        {
-          withCredentials: true,
-        }
-      )
-      console.log(r)
-    } catch (error) {
-      errorModalMessage(error)
-    }
-  }
-
   const debouncedFetchSearchUsers = useCallback(
     debounce(fetchUsersBySearch, 1000), // will only be called 1000ms after the user stops typing
     // throttle(fetchUsersBySearch, 1000), // only executed once every specified interval
@@ -225,9 +211,22 @@ export const TestingRoles = memo(() => {
     debouncedFetchSearchUsers(value)
   }
 
+  const simulateSqlInjection = async () => {
+    try {
+      const r = await axios.get(
+        `${process.env.API_URL}/user/sql/?email=' OR '1'='1&password=' OR'1'='1`,
+        {
+          withCredentials: true,
+        }
+      )
+      console.log(r)
+    } catch (error) {
+      errorModalMessage(error)
+    }
+  }
+
   return (
     <Div>
-      <button onClick={simulateSqlInjection}>simulateSqlInjection</button>
       <h3 className="b900 margin_b_60_30 blue">Additional Forms</h3>
       <div className="additional_forms margin_b_120_80 relative">
         <fieldset className="margin_b_60_30">
@@ -259,7 +258,7 @@ export const TestingRoles = memo(() => {
           </ul>
         )}
         <button
-          className="flex_center_center additional_submit privileges_button b900 white"
+          className="flex_center_center additional_submit privileges_button b700 white"
           style={{
             opacity: isAdmin && userForUpdate?.email ? 1 : 0.2,
             backgroundColor:
@@ -270,6 +269,17 @@ export const TestingRoles = memo(() => {
           Update User Privileges
           <br />
           {userForUpdate?.email && <span>for: {userForUpdate.email}</span>}
+        </button>
+        <button
+          className="flex_center_center additional_submit b700"
+          style={{
+            backgroundColor: 'white',
+            border: '1px solid #ff6376',
+            color: '#ff6376',
+          }}
+          onClick={simulateSqlInjection}
+        >
+          Simulate Sql Injection
         </button>
         <TestingCallback
           sortUserByEmail={sortUserByEmail}

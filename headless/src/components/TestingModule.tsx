@@ -266,7 +266,7 @@ export const TestingModule = memo(() => {
     //   'file/json/users/:id: ',
     //   await apiEndpointCall('get', `file/json/users/${addFileData?.data?.id}`)
     // )
-    
+
     dispatch(spinnerIsVisibile(false))
 
     setIndex(Math.floor(Math.random() * countries.length))

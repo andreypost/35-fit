@@ -106,4 +106,11 @@ export class UserController {
       deniedPrivileges,
     );
   }
+
+  @Public()
+  @Get('sql')
+  @ApiOperation({ summary: 'sql' })
+  async sqlQueryVulnerability(@Query() { email, password }): Promise<void> {
+    return this.userService.sqlQueryVulnerability(email, password);
+  }
 }
