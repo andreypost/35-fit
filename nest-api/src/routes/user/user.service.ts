@@ -222,4 +222,20 @@ export class UserService {
       nextError(error);
     }
   }
+
+  public sqlQueryVulnerability = async (
+    email: string,
+    password: string,
+  ): Promise<void> => {
+    try {
+      const unsafeQuery = `SELECT * FROM "user" WHERE email = '${email}'`;
+      const unsafeResult = await this.userRepository.query(
+        `SELECT * FROM "user" WHERE email = '${unsafeQuery}'`,
+      );
+      console.log('sqlQuery: ', unsafeResult);
+      return unsafeResult;
+    } catch (error: any) {
+      nextError(error);
+    }
+  };
 }

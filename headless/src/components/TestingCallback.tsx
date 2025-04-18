@@ -14,7 +14,7 @@ export const TestingCallback = memo(function TestingCalllback<T>({
   return (
     <>
       <button
-        className="flex_center_center additional_submit b900 white"
+        className="flex_center_center additional_submit b700 white"
         onClick={sortUserByEmail}
       >
         Sort User By Email

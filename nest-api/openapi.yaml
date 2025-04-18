@@ -97,6 +97,15 @@ paths:
           description: ""
       summary: :id/privileges
       tags: *a1
+  /user/sql:
+    get:
+      operationId: UserController_sqlQueryVulnerability
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: sql
+      tags: *a1
   /price/check-set:
     get:
       operationId: PriceController_checkSetPriceByName
