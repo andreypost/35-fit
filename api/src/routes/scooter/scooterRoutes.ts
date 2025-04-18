@@ -12,7 +12,7 @@ export const scooter = Router();
 const checkExistingScooter = async (
   model: string,
   priceId: string,
-  returnedProductId = false,
+  returnedProductId: boolean = false,
   next: NextFunction
 ): Promise<Price | string | undefined> => {
   try {
