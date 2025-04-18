@@ -21,7 +21,7 @@ const checkSetPriceByName = async (
       return existingPrice?.id;
     } else if (!returnPrice) {
       next({
-        message: `${existingPrice.name} ${msg.PRICE_NAME_ALREADY_EXIST}`,
+        message: `${existingPrice?.name} ${msg.PRICE_NAME_ALREADY_EXIST}`,
         status: 400,
         type: "ConflictDatabaseError",
       });

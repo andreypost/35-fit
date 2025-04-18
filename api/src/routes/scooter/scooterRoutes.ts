@@ -38,10 +38,10 @@ const checkExistingScooter = async (
 
     if (existingScooter) {
       if (returnedProductId) {
-        return existingScooter.id;
+        return existingScooter?.id;
       }
       next({
-        message: `${model} ${existingScooter.price?.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
+        message: `${model} ${existingScooter?.price?.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
         status: 400,
         type: "ValidationError",
       });
@@ -67,9 +67,11 @@ scooter.post(
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
 
-      const { model, priceId } = req.body;
+      const { model, priceId } = req?.body;
 
       const id = await checkExistingScooter(model, priceId, true, next);
+
+      if (!id) return;
 
       return res.status(200).json(id);
     } catch (error: any) {
@@ -90,7 +92,7 @@ scooter.post(
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
 
-      const { model, priceId, rentalPricePerDay, saleType } = req.body;
+      const { model, priceId, rentalPricePerDay, saleType } = req?.body;
 
       const price = await checkExistingScooter(model, priceId, false, next);
       if (!price || typeof price === "string") return;
