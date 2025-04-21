@@ -14,7 +14,7 @@ export class OrderController {
   async createUserOrder(
     @Body() createOrderDto: CreateOrderDto,
     @CurrentUserEmail() email: string,
-  ): Promise<Order> {
+  ): Promise<Order | void> {
     return await this.orderService.createUserOrder(createOrderDto, email);
   }
 
@@ -23,7 +23,7 @@ export class OrderController {
   async getUserOrders(
     @Param('type') type: string,
     @CurrentUserEmail() email: string,
-  ): Promise<Order[]> {
+  ): Promise<Order[] | void> {
     return await this.orderService.getUserOrders(email, type);
   }
 }

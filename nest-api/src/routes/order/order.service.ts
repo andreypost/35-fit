@@ -28,10 +28,10 @@ export class OrderService {
   public async createUserOrder(
     createOrderDto: CreateOrderDto,
     email: string,
-  ): Promise<Order> {
+  ): Promise<Order | void> {
     try {
-      const user = await this.userService.findUserByEmail(email);
-      if (!user) {
+      const currentUser = await this.userService.findUserByEmail(email);
+      if (!currentUser) {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
 
@@ -94,7 +94,7 @@ export class OrderService {
 
       const newOrder = this.orderRepository.create({
         status,
-        user,
+        user: currentUser,
         items: orderItems.map(
           ({ price, productId, productName, productType, quantity }) => {
             return this.orderItemRepository.create({
@@ -116,7 +116,10 @@ export class OrderService {
     }
   }
 
-  public async getUserOrders(email: string, type: string): Promise<Order[]> {
+  public async getUserOrders(
+    email: string,
+    type: string,
+  ): Promise<Order[] | void> {
     try {
       const user = await this.userService.findUserByEmail(email);
       if (!user) {

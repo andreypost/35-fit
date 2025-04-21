@@ -1,23 +1,11 @@
-import {
-  IsUUID,
-  IsOptional,
-  IsEnum,
-  IsNotEmpty,
-  IsArray,
-  ValidateNested,
-} from 'class-validator';
+import { IsEnum, IsArray, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateOrderItemDto } from './create.order.item.dto';
 
 export class CreateOrderDto {
-  // @IsOptional()
-  // @IsUUID('4', { message: 'ID must be a valid UUID' })
-  // id?: string;
-
-  @IsNotEmpty({ message: 'Order Status is required' })
   @IsEnum(['pending', 'shipped', 'delivered', 'cancelled'], {
     message:
-      'Order Status must be one of: Pending, Shipped, Delivered or Cancelled',
+      'Order Status is required and must be one of: pending, shipped, delivered, or cancelled',
   })
   status!: string;
 
