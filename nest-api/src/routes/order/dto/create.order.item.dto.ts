@@ -12,7 +12,7 @@ export class CreateOrderItemDto {
   })
   productId!: string;
 
-  @IsInt()
-  @Min(1, { message: 'Order Quantity must be a number and at least 1' })
+  @IsInt({ message: 'Order Quantity must be an integer number and at least 1' })
+  @Min(1)
   quantity!: number;
 }

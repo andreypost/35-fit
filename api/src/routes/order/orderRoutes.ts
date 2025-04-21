@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
+import { param } from "express-validator";
 import { validateAuthToken } from "../../auth/jsonWebToken";
 import {
   accessoryRepository,
@@ -10,10 +11,9 @@ import {
 import { msg } from "../../constants/messages";
 import { validateOrderDto } from "./orderDto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
+import { Order } from "../../entities/Order";
 import { Scooter } from "../../entities/Scooter";
 import { Accessory } from "../../entities/Accessory";
-import { Order } from "sequelize";
-import { param } from "express-validator";
 
 export const order = Router();
 
@@ -79,8 +79,6 @@ order.post(
           });
         }
 
-        console.log(product);
-
         return {
           price: product.price,
           productId: product.id,
@@ -127,8 +125,6 @@ order.post(
 
       const savedOrder = await orderRepository.save(newOrder);
 
-      console.log("orderItems: ", newOrder);
-      console.log("items: ", savedOrder);
       return res.status(200).json(savedOrder);
     } catch (error: any) {
       next(error);
@@ -138,16 +134,48 @@ order.post(
 
 order.get(
   "/orders/:type",
-  param("type").notEmpty().withMessage("Param type is required"),
+  param("type")
+    .isIn(["scooter", "accessory"])
+    .withMessage("Param type must be either scooter or accessory"),
   async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<Response<Order[]> | void> => {
     try {
+      const isValid = errorValidationCheck(req, next);
+      if (!isValid) return;
+
+      const { authToken } = req?.cookies;
+      const { email } = await validateAuthToken(authToken, res);
+
+      const currentUser = await userRepository.findOne({
+        where: { email },
+      });
+      if (!currentUser) {
+        return next({ message: msg.USER_NOT_FOUND });
+      }
+
       const { type } = req.params;
-      console.log("params: ", type);
-      res.status(200).json({});
+
+      const orders = await orderRepository.find({
+        where: { user: { id: currentUser?.id } },
+        relations: {
+          user: true,
+          items: {
+            price: true,
+          },
+        },
+      });
+
+      const filteredOrders = orders
+        .map((order) => ({
+          ...order,
+          items: order.items.filter(({ productType }) => productType === type),
+        }))
+        .filter(({ items }) => items.length > 0);
+
+      res.status(200).json(filteredOrders);
     } catch (error: any) {
       next(error);
     }

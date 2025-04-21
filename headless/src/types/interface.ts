@@ -117,3 +117,11 @@ export interface IPrice {
   currency: string
   productType: string
 }
+
+export type IOrder = {
+  finalTotalPrice: number
+  id: string
+  items: object[]
+  status: string
+  user: IUser
+}

@@ -121,8 +121,8 @@ export class OrderService {
     type: string,
   ): Promise<Order[] | void> {
     try {
-      const user = await this.userService.findUserByEmail(email);
-      if (!user) {
+      const currentUser = await this.userService.findUserByEmail(email);
+      if (!currentUser) {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
 
@@ -131,7 +131,7 @@ export class OrderService {
         .leftJoinAndSelect('order.items', 'order_item')
         .leftJoinAndSelect('order_item.price', 'price')
         .leftJoinAndSelect('order.user', 'user')
-        .where('user.id =:userId', { userId: user.id })
+        .where('user.id =:userId', { userId: currentUser.id })
         .andWhere('price.productType =:type', { type })
         .getMany();
     } catch (error: any) {
