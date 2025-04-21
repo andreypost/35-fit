@@ -142,14 +142,14 @@ export const TestingOrder = memo(() => {
           setScooterPoductId,
           setScooterConflictProductId
         ),
-        // fetchPriceAndCheckProduct(
-        //   accessoryPrice.name,
-        //   setAccessoryPriceId,
-        //   'accessory/check',
-        //   accessoryProduct,
-        //   setAccessoryPoductId,
-        //   setAccessoryConflictProductId
-        // ),
+        fetchPriceAndCheckProduct(
+          accessoryPrice.name,
+          setAccessoryPriceId,
+          'accessory/check',
+          accessoryProduct,
+          setAccessoryPoductId,
+          setAccessoryConflictProductId
+        ),
       ])
     }
 

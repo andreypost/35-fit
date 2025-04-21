@@ -1,109 +1,155 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { body, validationResult } from "express-validator";
-import { Order } from "../../entities/Order";
-import { deleteAuthToken, validateAuthToken } from "../../auth/jsonWebToken";
-import { orderRepository, userRepository } from "../../config/database";
+import { validateAuthToken } from "../../auth/jsonWebToken";
+import {
+  accessoryRepository,
+  orderItemRepository,
+  orderRepository,
+  scooterRepository,
+  userRepository,
+} from "../../config/database";
 import { msg } from "../../constants/messages";
+import { validateOrderDto } from "./orderDto";
+import { errorValidationCheck } from "../../validators/errorValidationCheck";
+import { Scooter } from "../../entities/Scooter";
+import { Accessory } from "../../entities/Accessory";
+import { Order } from "sequelize";
+import { param } from "express-validator";
 
 export const order = Router();
 
-// order.post(
-//   "/create",
-//   body("quantity")
-//     .isInt({ min: 1 })
-//     .withMessage("Order Quantity must be at least 1."),
-//   body("status")
-//     .isString()
-//     .isIn(["Pending", "Shipped", "Delivered", "Cancelled"])
-//     .withMessage(
-//       "Order status must be one of: Pending, Shipped, Delivered, Cancelled."
-//     ),
-//   body("totalCost")
-//     .isFloat({ min: 0 })
-//     .withMessage("Total Cost must be a positive value.")
-//     .custom((value) => {
-//       if (!/^\d+(\.00)?$/.test(value.toString())) {
-//         throw new Error("Total Cost must have up to 2 decimal places.");
-//       }
-//       return true;
-//     }),
-//   async (
-//     req: Request,
-//     res: Response,
-//     next: NextFunction
-//   ): Promise<Order | any> => {
-//     try {
-//       const err = validationResult(req);
-//       if (!err.isEmpty()) {
-//         return next({
-//           message: err.array(),
-//           status: 400,
-//           type: "ValidationDataError",
-//         });
-//       }
-//       const { authToken } = req?.cookies;
-//       const { email } = await validateAuthToken(authToken, res);
-//       const currentUser = await userRepository.findOne({
-//         where: { email },
-//       });
+order.post(
+  "/create",
+  validateOrderDto,
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<Order> | void> => {
+    try {
+      const isValid = errorValidationCheck(req, next);
+      if (!isValid) return;
 
-//       if (!currentUser) {
-//         await deleteAuthToken(res);
-//         return next({
-//           message: msg.USER_NOT_FOUND,
-//           status: 404,
-//           type: "FindUserError",
-//         });
-//       }
+      const { authToken } = req?.cookies;
+      const { email } = await validateAuthToken(authToken, res);
 
-//       const { quantity, status, totalCost } = await req.body;
+      const currentUser = await userRepository.findOne({ where: { email } });
+      if (!currentUser) {
+        return next({ message: msg.USER_NOT_FOUND });
+      }
 
-//       const newOrder = orderRepository.create({
-//         quantity,
-//         status,
-//         totalCost,
-//         user: currentUser,
-//       });
+      const { status, items } = req?.body;
 
-//       await orderRepository.save(newOrder);
-//       return res.status(200).json(newOrder);
-//     } catch (error: any) {
-//       next(error);
-//     }
-//   }
-// );
+      const createOrderItems = async (
+        productId: string,
+        productType: string,
+        quantity: number
+      ): Promise<any> => {
+        let product = null;
+        if (productType === "scooter") {
+          //   product = await scooterRepository.findOne({
+          //     where: { id: productId },
+          //     relations: ["price"],
+          //   });
 
-// order.get(
-//   "/orders",
-//   async (
-//     req: Request,
-//     res: Response,
-//     next: NextFunction
-//   ): Promise<Order[] | any> => {
-//     try {
-//       const { authToken } = req?.cookies;
-//       const { email } = await validateAuthToken(authToken, res);
-//       const currentUser = await userRepository.findOne({
-//         where: { email },
-//       });
+          product = await scooterRepository
+            .createQueryBuilder("scooter")
+            .leftJoinAndSelect("scooter.price", "price")
+            .where("scooter.id = :id", { id: productId })
+            .getOne();
+        } else if (productType === "accessory") {
+          //   product = await accessoryRepository.findOne({
+          //     where: { id: productId },
+          //     relations: ["price"],
+          //   });
 
-//       if (!currentUser) {
-//         await deleteAuthToken(res);
-//         return next({
-//           message: msg.USER_NOT_FOUND,
-//           status: 404,
-//           type: "FindUserError",
-//         });
-//       }
+          product = await accessoryRepository
+            .createQueryBuilder("accessory")
+            .leftJoinAndSelect("accessory.price", "price")
+            .where("accessory.id = :id", { id: productId })
+            .getOne();
+        }
 
-//       const orders = await orderRepository.find({
-//         where: { user: { id: currentUser.id } },
-//         relations: ["user"],
-//       });
-//       console.log(currentUser, orders);
-//       return res.status(200).json(orders);
-//     } catch (error: any) {
-//       next(error);
-//     }
-//   }
-// );
+        if (!product) {
+          return next({ message: msg.ORDER_NOT_FOUND });
+        }
+
+        if (!product.price) {
+          return next({
+            message: `Product with ID ${productId} has no price assigned.`,
+          });
+        }
+
+        console.log(product);
+
+        return {
+          price: product.price,
+          productId: product.id,
+          productName:
+            productType === "scooter"
+              ? (product as Scooter).model
+              : (product as Accessory).name,
+          productType,
+          quantity,
+        };
+      };
+
+      const orderItems = await Promise.all(
+        items.map(
+          async ({
+            productId,
+            productType,
+            quantity,
+          }: {
+            productId: string;
+            productType: string;
+            quantity: number;
+          }) => createOrderItems(productId, productType, quantity)
+        )
+      );
+
+      const newOrder = orderRepository.create({
+        status,
+        user: currentUser,
+        items: orderItems.map(
+          ({ price, productId, productName, productType, quantity }) => {
+            return orderItemRepository.create({
+              price,
+              productId,
+              productName,
+              productType,
+              quantity,
+            });
+          }
+        ),
+      });
+
+      newOrder.calculateFinalTotalPrice();
+
+      const savedOrder = await orderRepository.save(newOrder);
+
+      console.log("orderItems: ", newOrder);
+      console.log("items: ", savedOrder);
+      return res.status(200).json(savedOrder);
+    } catch (error: any) {
+      next(error);
+    }
+  }
+);
+
+order.get(
+  "/orders/:type",
+  param("type").notEmpty().withMessage("Param type is required"),
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<Order[]> | void> => {
+    try {
+      const { type } = req.params;
+      console.log("params: ", type);
+      res.status(200).json({});
+    } catch (error: any) {
+      next(error);
+    }
+  }
+);
