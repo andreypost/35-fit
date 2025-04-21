@@ -23,5 +23,5 @@ export const validateOrderDto = [
 
   body("items.*.quantity")
     .isInt({ min: 1 })
-    .withMessage("Order Quantity must be a number and at least 1"),
+    .withMessage("Order Quantity must be an integer number and at least 1"),
 ];

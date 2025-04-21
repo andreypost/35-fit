@@ -1,6 +1,6 @@
 import { memo, useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { IPrice } from 'types/interface'
+import { IOrder, IPrice } from 'types/interface'
 import { apiEndpointCall } from 'utils/endpointApiCall'
 import { AppContext } from '../AppRouter'
 
@@ -190,6 +190,34 @@ export const TestingOrder = memo(() => {
     )
   }
 
+  const makeProductOrder = async (
+    productType: string,
+    productId: string,
+    quantity: number
+  ): Promise<IOrder | void> => {
+    const productOrder = await apiEndpointCall('post', 'order/create', {
+      status: 'pending',
+      items: [
+        {
+          productType,
+          productId,
+          quantity,
+        },
+      ],
+    })
+    console.log(`Created Order for ${productType}: `, productOrder)
+  }
+
+  const getAllProductTypeOrders = async (
+    productType: string
+  ): Promise<IOrder[] | void> => {
+    const productTypeOrders = await apiEndpointCall(
+      'get',
+      `order/orders/${productType}`
+    )
+    console.log(`Product Type Orders for ${productType}: `, productTypeOrders)
+  }
+
   return (
     <Div>
       <section id="orderBox" className="flex_str_col">
@@ -264,18 +292,7 @@ export const TestingOrder = memo(() => {
                   ? '#59b894'
                   : '#ff6376',
               }}
-              onClick={() =>
-                apiEndpointCall('post', 'order/create', {
-                  status: 'pending',
-                  items: [
-                    {
-                      productType: 'scooter',
-                      productId: scooterPoductId,
-                      quantity: 2,
-                    },
-                  ],
-                })
-              }
+              onClick={() => makeProductOrder('scooter', scooterPoductId, 1)}
             >
               MAKE SCOOTER ORDER
             </button>
@@ -294,16 +311,7 @@ export const TestingOrder = memo(() => {
                   : '#ff6376',
               }}
               onClick={() =>
-                apiEndpointCall('post', 'order/create', {
-                  status: 'pending',
-                  items: [
-                    {
-                      productType: 'accessory',
-                      productId: accessoryPoductId,
-                      quantity: 4,
-                    },
-                  ],
-                })
+                makeProductOrder('accessory', accessoryPoductId, 4)
               }
             >
               MAKE ACCESSORY ORDER
@@ -321,10 +329,11 @@ export const TestingOrder = memo(() => {
                 opacity: currentUser ? 1 : 0.2,
                 backgroundColor: currentUser ? '#59b894' : 'skyblue',
               }}
-              onClick={() => apiEndpointCall('get', 'order/orders/scooter')}
+              onClick={() => getAllProductTypeOrders('scooter')}
             >
               Get Scooter Orders
             </button>
+            <p>{}</p>
           </div>
           <div className="flex_str_col">
             <button
@@ -334,7 +343,7 @@ export const TestingOrder = memo(() => {
                 opacity: currentUser ? 1 : 0.2,
                 backgroundColor: currentUser ? '#59b894' : 'skyblue',
               }}
-              onClick={() => apiEndpointCall('get', 'order/orders/accessory')}
+              onClick={() => getAllProductTypeOrders('accessory')}
             >
               Get Accessory Orders
             </button>

@@ -25,11 +25,9 @@ const app: Application = express();
 const HOST = env.HOST || "127.0.0.1";
 const PORT = env.PORT ? parseInt(env.PORT, 10) : 3000;
 
-const allowedOrigins = [
-  env.HEADLESS_URL,
-  "https://fit-35.web.app",
-  "https://fit-35.web.app/#/",
-].filter((origin) => origin !== undefined) as string[];
+const allowedOrigins = [env.HEADLESS_URL, "https://fit-35.web.app"].filter(
+  Boolean
+) as string[];
 
 app.use(
   express.json({ limit: "10kb" }),
