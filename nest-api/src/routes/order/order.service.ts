@@ -52,7 +52,7 @@ export class OrderService {
           product = await this.scooterRepository
             .createQueryBuilder('scooter')
             .leftJoinAndSelect('scooter.price', 'price')
-            .where('scooter.id = :id', { id: productId })
+            .where('scooter.id = :productId', { productId })
             .getOne();
         } else if (productType === 'accessory') {
           // product = await this.accessoryRepository.findOne({
@@ -63,7 +63,7 @@ export class OrderService {
           product = await this.accessoryRepository
             .createQueryBuilder('accessory')
             .leftJoinAndSelect('accessory.price', 'price')
-            .where('accessory.id = :id', { id: productId })
+            .where('accessory.id = :productId', { productId })
             .getOne();
         }
 
@@ -126,14 +126,30 @@ export class OrderService {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
 
-      return await this.orderRepository
+      /* const orders = await this.orderRepository.find({
+        where: { user: { id: currentUser?.id } },
+        relations: ['items'],
+      });
+
+      for (const order of orders) {
+        order.items = order.items.filter(
+          ({ productType }) => productType === type,
+        );
+      }
+
+      const filteredOrders = orders.filter(({ items }) => items?.length > 0);
+
+      return filteredOrders; */
+
+      const ordersByType = await this.orderRepository
         .createQueryBuilder('order')
         .leftJoinAndSelect('order.items', 'order_item')
-        .leftJoinAndSelect('order_item.price', 'price')
         .leftJoinAndSelect('order.user', 'user')
-        .where('user.id =:userId', { userId: currentUser.id })
-        .andWhere('price.productType =:type', { type })
+        .where('user.id = :userId', { userId: currentUser.id })
+        .andWhere('order_item.productType = :type', { type })
         .getMany();
+
+      return ordersByType;
     } catch (error: any) {
       nextError(error);
     }

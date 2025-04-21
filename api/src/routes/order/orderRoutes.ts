@@ -54,7 +54,7 @@ order.post(
           product = await scooterRepository
             .createQueryBuilder("scooter")
             .leftJoinAndSelect("scooter.price", "price")
-            .where("scooter.id = :id", { id: productId })
+            .where("scooter.id = :productId", { productId })
             .getOne();
         } else if (productType === "accessory") {
           //   product = await accessoryRepository.findOne({
@@ -65,7 +65,7 @@ order.post(
           product = await accessoryRepository
             .createQueryBuilder("accessory")
             .leftJoinAndSelect("accessory.price", "price")
-            .where("accessory.id = :id", { id: productId })
+            .where("accessory.id = :productId", { productId })
             .getOne();
         }
 
@@ -158,7 +158,7 @@ order.get(
 
       const { type } = req.params;
 
-      const orders = await orderRepository.find({
+      /* const orders = await orderRepository.find({
         where: { user: { id: currentUser?.id } },
         relations: {
           user: true,
@@ -173,9 +173,17 @@ order.get(
           ...order,
           items: order.items.filter(({ productType }) => productType === type),
         }))
-        .filter(({ items }) => items.length > 0);
+        .filter(({ items }) => items.length > 0); */
 
-      res.status(200).json(filteredOrders);
+      const ordersByType = await orderRepository
+        .createQueryBuilder("order")
+        .leftJoinAndSelect("order.items", "order_item")
+        .leftJoinAndSelect("order.user", "user")
+        .where("user.id = :userId", { userId: currentUser.id })
+        .andWhere("order_item.productType = :type", { type })
+        .getMany();
+
+      res.status(200).json(ordersByType);
     } catch (error: any) {
       next(error);
     }
