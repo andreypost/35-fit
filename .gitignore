@@ -34,3 +34,6 @@ firebase-debug.*.log*
 /functions/lib/**/*.js.map
 
 .DS_Store
+
+# Large files
+/csvData/
