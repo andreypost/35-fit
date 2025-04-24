@@ -21,7 +21,7 @@ export class ExecutionTimeInterceptor implements NestInterceptor {
       tap(() =>
         console.log(`Nest Interceptor After... ${Date.now() - now} ms`),
       ),
-      map((data) => ({ data, success: true })),
+      // map((data) => ({ data, success: true })),
     );
   }
 }

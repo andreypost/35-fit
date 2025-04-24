@@ -7,26 +7,22 @@ import {
   IsString,
   IsEnum,
 } from 'class-validator';
+import { msg } from 'src/constants/messages';
 
 export class CreateScooterDto {
-  // @IsOptional()
-  // @IsUUID('4', { message: 'ID must be a valid UUID' })
-  // id?: string;
-
-  @IsNotEmpty({ message: 'Scooter Model is required' })
-  @IsString({ message: 'Scooter Model must be a string' })
+  @IsString({
+    message: `${msg.SCOOTER_MODEL_IS_REQUIRED} and Model Name ${msg.MUST_BE_STRING}`,
+  })
   model!: string;
 
-  @IsNotEmpty({ message: 'Scooter Price ID is required' })
-  @IsUUID('4', { message: 'Scooter Price ID must be a valid UUID' })
+  @IsUUID('4', { message: msg.ID_MUST_BE_UUID })
   priceId!: string;
 
   @IsOptional()
   @IsNumber(
     { maxDecimalPlaces: 2 },
     {
-      message:
-        'Scooter Rental Price Per Day must be a number with up to 2 decimal places',
+      message: `Scooter Rental price per day ${msg.MUST_BE_NUMBER}`,
     },
   )
   @Min(0, { message: 'Scooter Rental Price Per Day must be a positive number' })
