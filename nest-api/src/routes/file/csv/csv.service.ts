@@ -7,20 +7,17 @@ import path from 'path';
 import { format } from 'fast-csv';
 import { User } from '../../../entities/user';
 import { nextError } from '../../../utils/next.error';
-import { JsonService } from '../json/json.service';
 import { msg } from '../../../constants/messages';
 import { CsvUser } from '../dto/create.user.json.dto';
+import { resolveFilePath } from '../helpers/resolve.file.path';
 
 @Injectable()
 export class CsvService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    private readonly jsonService: JsonService,
   ) {}
-  private readonly usersDataPath = this.jsonService.resolveFilePath(
-    'csvData/users-data.csv',
-  );
+  private readonly usersDataPath = resolveFilePath('csvData/users-data.csv');
   public readonly csvReadWriteFile = async (
     res: Response,
     saveToDisk: boolean = false,

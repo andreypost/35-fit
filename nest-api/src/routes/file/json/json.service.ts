@@ -3,10 +3,9 @@ import {
   NotFoundException,
   // StreamableFile,
 } from '@nestjs/common';
-import { join } from 'path';
-import { isDocker } from '../../../utils/is.docker';
 import { getFileData, writeFileData } from '../helpers/file.stream';
 import { CreateUserJsonDto } from '../dto/create.user.json.dto';
+import { resolveFilePath } from '../helpers/resolve.file.path';
 import { nextError } from '../../../utils/next.error';
 import { msg } from '../../../constants/messages';
 import { countCountryEarnings } from '../helpers/user.collection';
@@ -14,24 +13,6 @@ import { countCountryEarnings } from '../helpers/user.collection';
 @Injectable()
 export class JsonService {
   private userCollectionPath = 'jsonData/user-collection.json';
-
-  public readonly resolveFilePath = (filePath: string) => {
-    const basePath = process.cwd();
-
-    if (process.platform === 'win32') {
-      return join(basePath, '..', filePath); // Windows-specific path
-    }
-
-    if (isDocker) {
-      return join(basePath, filePath); // Docker-specific path
-    }
-
-    if (process.platform === 'linux' || process.platform === 'darwin') {
-      return join(basePath, '..', filePath); // POSIX-specific path for Linux and Mac
-    }
-
-    return join(basePath, filePath);
-  };
 
   private userCollection: CreateUserJsonDto[] = [];
   private usersCountCache: Record<string, number> = {};
@@ -44,7 +25,7 @@ export class JsonService {
       if (!this.userCollection?.length) {
         for (let i = 0; i < 1_000; i++) {
           this.userCollection = await getFileData(
-            this.resolveFilePath(this.userCollectionPath),
+            resolveFilePath(this.userCollectionPath),
             writeFile,
           );
         }
@@ -68,10 +49,7 @@ export class JsonService {
         ? [...this.userCollection, createUserDetailsDto]
         : [createUserDetailsDto];
 
-      await writeFileData(
-        this.resolveFilePath(this.userCollectionPath),
-        newData,
-      );
+      await writeFileData(resolveFilePath(this.userCollectionPath), newData);
 
       this.userCollection = [];
       this.usersCountCache = {};

@@ -290,6 +290,16 @@ paths:
       summary: file/csv/read
       tags:
         - Csv
+  /file/dir/structure:
+    get:
+      operationId: DirController_structureDir
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: file/dir/structure
+      tags:
+        - Dir
 info:
   title: 35-fit nest-api
   description: The NEST-API description for the 35-fit project

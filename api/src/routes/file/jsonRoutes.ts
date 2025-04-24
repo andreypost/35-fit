@@ -1,4 +1,3 @@
-import { join } from "path";
 import { Router, Request, Response, NextFunction } from "express";
 import { validateAuthToken } from "../../auth/jsonWebToken";
 import {
@@ -13,29 +12,11 @@ import { countCountryEarnings } from "./helpers/userCollection";
 import { fileWriteLimiter } from "../../middleware/rateLimiter";
 import { validateFileWrite } from "./fileDto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
-import { scanDirectory } from "./helpers/scanDirectory";
+import { resolveFilePath } from "./helpers/resolveFilePath";
 
 export const jsonRoute = Router();
 
 const userCollectionPath = "jsonData/user-collection.json";
-
-export const resolveFilePath = (filePath: string) => {
-  const basePath = process.cwd();
-
-  if (process.platform === "win32") {
-    return join(basePath, "..", filePath); // Windows-specific path
-  }
-
-  // if (isDocker) {
-  //   return join(basePath, filePath); // Docker-specific path
-  // }
-
-  if (process.platform === "linux" || process.platform === "darwin") {
-    return join(basePath, "..", filePath); // POSIX-specific path for Linux and Mac
-  }
-
-  return join(basePath, filePath);
-};
 
 let userCollection: IFileUserDetails[] = [];
 let usersCountCache: Record<string, number> = {};
@@ -51,17 +32,6 @@ jsonRoute.get(
     try {
       const authToken = req?.cookies?.authToken;
       await validateAuthToken(authToken, res);
-
-      await scanDirectory(__dirname, next);
-      // await scanDirectory(__filename, next);
-      console.log("__dirname: ", __dirname);
-      console.log("__filename: ", __filename);
-
-      // const buffer = Buffer.from('888');
-      // console.log("buffer: ", buffer);
-      // console.log("buffer: ", buffer.toString());
-      // console.log("global: ", global);
-      // console.log("buffer: ", buffer.toString());
 
       if (!userCollection?.length) {
         let current: IFileUserDetails[] = [];

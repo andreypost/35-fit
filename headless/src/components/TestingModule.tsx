@@ -105,7 +105,7 @@ export const TestingModule = memo(() => {
   const { currentUser } = useContext(AppContext)
   const { spinnerState } = useAppSelector(getSpinnerState)
 
-  console.log('Testing Modules is rerendering')
+  // console.log('Testing Modules is rerendering')
 
   const countries = [
     'Chile',
@@ -315,6 +315,14 @@ export const TestingModule = memo(() => {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [spinnerState])
 
+  const structureDirectories = async (): Promise<void> => {
+    const structureDirResult = await apiEndpointCall(
+      'get',
+      'file/dir/structure'
+    )
+    console.log('structureDirResult: ', structureDirResult)
+  }
+
   return (
     <Div>
       <TestingOrder />
@@ -399,6 +407,12 @@ export const TestingModule = memo(() => {
           Download CSV File
         </button>
       </form>
+      <button
+        className="grey_button margin_b_60_30"
+        onClick={structureDirectories}
+      >
+        Structure Directories
+      </button>
     </Div>
   )
 })

@@ -2,11 +2,11 @@ import { NextFunction, Request, Response, Router } from "express";
 import { createWriteStream, existsSync, mkdirSync } from "fs";
 import path from "path";
 import { format } from "fast-csv";
-import { resolveFilePath } from "./jsonRoutes";
+import { resolveFilePath } from "./helpers/resolveFilePath";
 import { userRepository } from "../../config/database";
 import { msg } from "../../constants/messages";
 
-export const csvRoute = Router();
+export const csvRoutes = Router();
 
 const usersDataPath = resolveFilePath("csvData/users-data.csv");
 
@@ -21,7 +21,7 @@ interface CsvUser {
   phone: string;
 }
 
-csvRoute.get(
+csvRoutes.get(
   "/read",
   async (
     req: Request,
