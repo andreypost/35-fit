@@ -7,18 +7,21 @@ import {
 } from "fs";
 import path from "path";
 import { msg } from "../../../constants/messages";
+import { mkdir, writeFile } from "fs/promises";
 
 export const getFileData = async (
   filePath: string,
-  writeFile: boolean,
+  addToFile: boolean,
   next: any
 ): Promise<any> => {
   try {
     if (!existsSync(filePath)) {
-      if (writeFile) {
+      if (addToFile) {
         const dir = path.dirname(filePath);
-        mkdirSync(dir, { recursive: true });
-        writeFileSync(filePath, "[]");
+        await mkdir(dir, { recursive: true });
+        // mkdirSync(dir, { recursive: true });
+        await writeFile(filePath, "[]");
+        // writeFileSync(filePath, "[]");
         console.log(`Created new file at ${filePath}`);
       } else {
         next({

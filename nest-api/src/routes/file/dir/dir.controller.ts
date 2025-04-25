@@ -10,7 +10,14 @@ export class DirController {
   @Public()
   @Get('structure')
   @ApiOperation({ summary: 'file/dir/structure' })
-  async structureDir(): Promise<any> {
+  async structureDir(): Promise<void> {
     return this.dirService.structureDir();
+  }
+
+  @Public()
+  @Get('destructure')
+  @ApiOperation({ summary: 'file/dir/destructure' })
+  async destructureDir(): Promise<void> {
+    return this.dirService.destructureDir();
   }
 }

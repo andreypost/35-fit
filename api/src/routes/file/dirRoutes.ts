@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { readdir } from "fs/promises";
+import { mkdir, readdir, rename, rm } from "fs/promises";
 import { existsSync, mkdirSync, renameSync } from "fs";
 import path from "path";
 import { resolveFilePath } from "./helpers/resolveFilePath";
@@ -21,7 +21,7 @@ dirRoutes.get(
         // recursive: true, // all files including nested
       });
 
-      fileTree.forEach((entry) => {
+      for (let entry of fileTree) {
         if (!entry.isFile()) return;
 
         const fileSourceName = path.join(basePath, entry.name);
@@ -31,15 +31,17 @@ dirRoutes.get(
         const targetDir = path.join(basePath, fileExtension);
 
         if (!existsSync(targetDir)) {
-          mkdirSync(targetDir);
+          await mkdir(targetDir);
+          // mkdirSync(targetDir);
         }
 
         const fileName = path.basename(entry.name);
 
         const targetPath = path.join(targetDir, fileName);
 
-        renameSync(fileSourceName, targetPath);
-      });
+        await rename(fileSourceName, targetPath);
+        // renameSync(fileSourceName, targetPath);
+      }
       res.status(200).json(fileTree);
     } catch (error: any) {
       next(error);
@@ -59,6 +61,27 @@ dirRoutes.get(
         withFileTypes: true,
         // recursive: true, // all files including nested
       });
+
+      for (let entry of fileTree) {
+        if (!entry.isDirectory()) continue;
+
+        const folderPath = path.join(basePath, entry.name);
+
+        const files = await readdir(folderPath, { withFileTypes: true });
+
+        for (let file of files) {
+          if (!file.isFile()) continue;
+
+          const fileSourceName = path.join(folderPath, file.name);
+
+          const targetPath = path.join(basePath, file.name);
+
+          await rename(fileSourceName, targetPath);
+          // renameSync(sourcePath, targetPath);
+        }
+
+        await rm(folderPath, { recursive: true });
+      }
 
       res.status(200).json(fileTree);
     } catch (error: any) {

@@ -19,15 +19,15 @@ export class JsonService {
   private usersAverageEarningsCache: Record<string, number> = {};
 
   public async loadUserCollection(
-    writeFile: boolean,
+    addToFile: boolean,
   ): Promise<CreateUserJsonDto[]> {
     try {
       if (!this.userCollection?.length) {
         for (let i = 0; i < 1_000; i++) {
-          this.userCollection = await getFileData(
-            resolveFilePath(this.userCollectionPath),
-            writeFile,
-          );
+        this.userCollection = await getFileData(
+          resolveFilePath(this.userCollectionPath),
+          addToFile,
+        );
         }
         return this.userCollection;
       }

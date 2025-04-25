@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { readdir } from 'fs/promises';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { mkdir, readdir, rename, rm } from 'fs/promises';
 import path from 'path';
 import { existsSync, mkdirSync, renameSync } from 'fs';
 import { resolveFilePath } from '../helpers/resolve.file.path';
@@ -16,8 +16,8 @@ export class DirService {
         // recursive: true, // all files including nested
       });
 
-      fileTree.forEach((entry) => {
-        if (!entry.isFile()) return;
+      for (let entry of fileTree) {
+        if (!entry.isFile()) continue;
 
         const fileSourceName = path.join(this.basePath, entry.name);
 
@@ -26,18 +26,54 @@ export class DirService {
         const targetDir = path.join(this.basePath, fileExtension);
 
         if (!existsSync(targetDir)) {
-          mkdirSync(targetDir);
+          await mkdir(targetDir);
+          // mkdirSync(targetDir);
         }
 
         const fileName = path.basename(entry.name);
 
         const targetPath = path.join(targetDir, fileName);
 
-        renameSync(fileSourceName, targetPath);
-      });
+        await rename(fileSourceName, targetPath);
+        // renameSync(fileSourceName, targetPath);
+      }
+
       return fileTree;
     } catch (error: any) {
       nextError(error);
     }
   };
+
+  public async destructureDir(): Promise<void | any> {
+    try {
+      const fileTree = await readdir(this.basePath, {
+        withFileTypes: true,
+        // recursive: true, // all files including nested
+      });
+
+      for (let entry of fileTree) {
+        if (!entry.isDirectory()) continue;
+
+        const folderPath = path.join(this.basePath, entry.name);
+
+        const files = await readdir(folderPath, { withFileTypes: true });
+
+        for (let file of files) {
+          if (!file.isFile()) continue;
+
+          const fileSourceName = path.join(folderPath, file.name);
+
+          const targetPath = path.join(this.basePath, file.name);
+
+          await rename(fileSourceName, targetPath);
+          // renameSync(sourcePath, targetPath);
+        }
+        await rm(folderPath, { recursive: true });
+      }
+
+      return fileTree;
+    } catch (error: any) {
+      nextError(error);
+    }
+  }
 }

@@ -298,8 +298,17 @@ paths:
         "200":
           description: ""
       summary: file/dir/structure
-      tags:
+      tags: &a7
         - Dir
+  /file/dir/destructure:
+    get:
+      operationId: DirController_destructureDir
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: file/dir/destructure
+      tags: *a7
 info:
   title: 35-fit nest-api
   description: The NEST-API description for the 35-fit project

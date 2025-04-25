@@ -1,5 +1,4 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { validateAuthToken } from "../../auth/jsonWebToken";
 import {
   getFileData,
   // writeFileData
@@ -30,9 +29,6 @@ jsonRoute.get(
     next: NextFunction
   ): Promise<Response<IFileUserDetails[]> | void> => {
     try {
-      const authToken = req?.cookies?.authToken;
-      await validateAuthToken(authToken, res);
-
       if (!userCollection?.length) {
         let current: IFileUserDetails[] = [];
         for (let i = 0; i < 1_000; i++) {
@@ -63,9 +59,6 @@ jsonRoute.post(
     try {
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
-
-      const authToken = req?.cookies?.authToken;
-      await validateAuthToken(authToken, res);
 
       if (!userCollection?.length) {
         userCollection = await getFileData(
@@ -105,9 +98,6 @@ jsonRoute.get(
     next: NextFunction
   ): Promise<Response<Record<string, number>> | void> => {
     try {
-      const authToken = req?.cookies?.authToken;
-      await validateAuthToken(authToken, res);
-
       if (Object.keys(usersCountCache)?.length) {
         return res.status(200).json(usersCountCache);
       }
@@ -142,9 +132,6 @@ jsonRoute.get(
     next: NextFunction
   ): Promise<Record<string, any> | void> => {
     try {
-      const authToken = req?.cookies?.authToken;
-      await validateAuthToken(authToken, res);
-
       if (Object.keys(usersAverageEarningsCache)?.length) {
         return res.status(200).json(usersAverageEarningsCache);
       }
@@ -179,9 +166,6 @@ jsonRoute.get(
     try {
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
-
-      const authToken = req?.cookies?.authToken;
-      await validateAuthToken(authToken, res);
 
       const { id } = req.params;
 
