@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useState } from 'react'
 import { IAuth } from 'types/interface'
 
 interface TestingCallbackProps<T> {
@@ -6,13 +6,62 @@ interface TestingCallbackProps<T> {
   userForUpdate: IAuth
 }
 
+const Square = ({ index, color, handleClick }) => {
+  return (
+    <div
+      style={{
+        backgroundColor: color,
+        width: '20px',
+        height: '20px',
+        margin: '10px',
+        textAlign: 'center',
+        color: 'white',
+      }}
+      onClick={() => {
+        handleClick(index)
+      }}
+    >
+      {index}
+    </div>
+  )
+}
+
 export const TestingCallback = memo(function TestingCalllback<T>({
   sortUserByEmail,
   userForUpdate,
 }: TestingCallbackProps<T>) {
   // console.log('Testing Calllback is rerendering')
+  const [colors, setColors] = useState(['red', 'green', 'red'])
+
+  const handleClick = (index: number) => {
+    setColors((prevColors) => {
+      const newColors = [...prevColors]
+      if (newColors[index] === 'green') {
+        newColors[index] = 'red'
+        return [...newColors, 'green']
+      } else {
+        newColors.splice(index, 1)
+        return newColors
+      }
+    })
+  }
+
   return (
     <>
+      <div
+        style={{
+          display: 'flex',
+        }}
+      >
+        {colors.map((color, i) => (
+          <Square
+            key={`${color}-${i}`}
+            index={i}
+            color={color}
+            handleClick={handleClick}
+          />
+        ))}
+      </div>
       <button
         className="flex_center_center additional_submit b700 white"
         onClick={sortUserByEmail}
