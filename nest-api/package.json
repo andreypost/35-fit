@@ -27,7 +27,10 @@
     "typeorm:show": "npm run typeorm migration:show",
     "typeorm:run": "npm run typeorm migration:run",
     "typeorm:revert": "npm run typeorm migration:revert",
-    "typeorm:drop": "npm run typeorm schema:drop"
+    "typeorm:drop": "npm run typeorm schema:drop",
+    "build:docker": "NODE_ENV=docker npm run build",
+    "typeorm:docker": "npm run build:docker && NODE_ENV=docker npx typeorm -d dist/src/db/database.source.js",
+    "typeorm:run:docker": "npm run typeorm:docker migration:run"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

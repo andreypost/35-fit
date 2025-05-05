@@ -1,5 +1,5 @@
 # Use Node.js 20.10.0 as the base image
-FROM node:20.10.0
+FROM node:20.10.0-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -16,5 +16,5 @@ COPY . .
 # Expose the backend port
 EXPOSE 3000
 
-# Start the application
+# Start the app
 CMD ["npm", "run", "start:docker"]
