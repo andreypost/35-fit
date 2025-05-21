@@ -10,7 +10,9 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
-@WebSocketGateway({ cors: { origin: '*' } })
+@WebSocketGateway({
+  cors: { origin: process.env.HEADLESS_URL || 'http://localhost:3000' },
+})
 export class Chat
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {

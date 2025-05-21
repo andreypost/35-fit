@@ -177,11 +177,15 @@ export class UserService {
   }
 
   public async searchUsers(searchQuery: string): Promise<User[]> {
-    return await this.userRepository.find({
-      where: { email: Like(`%${searchQuery}%`) },
-      select: ['email', 'grantedPrivileges', 'id', 'name'],
-      take: 10,
-    });
+    try {
+      return await this.userRepository.find({
+        where: { email: Like(`%${searchQuery}%`) },
+        select: ['email', 'grantedPrivileges', 'id', 'name'],
+        take: 10,
+      });
+    } catch (error: any) {
+      nextError(error);
+    }
   }
 
   public async updateUserPrivileges(
@@ -226,11 +230,10 @@ export class UserService {
     password: string,
   ): Promise<void> => {
     try {
+      console.log('sqlQueryVulnerability email: ', email);
       const unsafeQuery = `SELECT * FROM "user" WHERE email = '${email}'`;
-      const unsafeResult = await this.userRepository.query(
-        `SELECT * FROM "user" WHERE email = '${unsafeQuery}'`,
-      );
-      console.log('sqlQuery: ', unsafeResult);
+      const unsafeResult = await this.userRepository.query(unsafeQuery);
+      console.log('sqlQueryVulnerability: ', unsafeResult);
       return unsafeResult;
     } catch (error: any) {
       nextError(error);

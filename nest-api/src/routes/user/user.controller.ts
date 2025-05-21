@@ -5,7 +5,7 @@ import {
   Get,
   Req,
   ParseBoolPipe,
-  UseInterceptors,
+  // UseInterceptors,
   Patch,
   Param,
   Query,
@@ -25,7 +25,7 @@ import {
 import { User } from '../../entities/user';
 import { HttpResponse } from '../../pipes/http.response';
 import { CurrentUserEmail } from '../../pipes/current.user.email';
-import { ExecutionTimeInterceptor } from '../../interceptors/execution.time';
+// import { ExecutionTimeInterceptor } from '../../interceptors/execution.time';
 
 @Controller('user')
 export class UserController {
@@ -44,7 +44,7 @@ export class UserController {
 
   @Public()
   @Post('login')
-  @UseInterceptors(ExecutionTimeInterceptor)
+  // @UseInterceptors(ExecutionTimeInterceptor) // could be also added to single route
   @ApiOperation({ summary: 'login' })
   async loginUser(
     @Body() { email, password, keepLoggedIn }: LoginUserDto,

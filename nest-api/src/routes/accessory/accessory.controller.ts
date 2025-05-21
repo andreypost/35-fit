@@ -1,9 +1,8 @@
-import { Body, Controller, Post, Req, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { ApiOperation } from '@nestjs/swagger';
 import { AccessoryService } from './accessory.service';
 import { Public } from '../../guards/public.routes';
-import { ExecutionTimeInterceptor } from '../../interceptors/execution.time';
 import { Accessory } from '../../entities/accessory';
 import { CreateAccessoryDto } from './dto/create.accessory.dto';
 
@@ -14,7 +13,6 @@ export class AccessoryController {
   @Public()
   @Post('check')
   @ApiOperation({ summary: 'check' })
-  @UseInterceptors(ExecutionTimeInterceptor)
   async checkExistingAccessory(
     @Body() createAccessoryDto: CreateAccessoryDto,
     @Req() req: Request,
