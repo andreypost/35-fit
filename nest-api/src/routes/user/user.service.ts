@@ -1,19 +1,15 @@
 import {
   Injectable,
-  HttpStatus,
   UnauthorizedException,
   NotFoundException,
   ServiceUnavailableException,
   ConflictException,
-  InternalServerErrorException,
   ForbiddenException,
-  BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Response, Request } from 'express';
-import bcrypt from 'bcrypt';
 import { config } from 'dotenv';
 import { User } from '../../entities/user';
 import { CreateUserDto, LoginUserDto } from './dto/user.dto';
@@ -71,6 +67,7 @@ export class UserService {
 
       // this.userRepository.create(...) will hydrate a proper entity instance first,
       // then will trigger @BeforeInsert() to hash password in User entity
+
       const newUser = this.userRepository.create({
         ...createUserDto,
         grantedPrivileges: userRoles,
@@ -101,7 +98,8 @@ export class UserService {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
 
-      const isValidPassword = await bcrypt.compare(password, user.password);
+      const isValidPassword = await user.checkPassword(password);
+
       if (!isValidPassword) {
         throw new UnauthorizedException(msg.INVALID_CREDENTIALS);
       }

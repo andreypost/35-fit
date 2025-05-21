@@ -14,7 +14,7 @@ async function bootstrap() {
     cors: {
       credentials: true,
       // methods: ['GET', 'POST'],
-      origin: true,
+      origin: process.env.HEADLESS_URL || 'http://localhost:3000',
     },
     forceCloseConnections: true,
   });

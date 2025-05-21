@@ -3,7 +3,6 @@ import { IFileUserDetails } from "../../../types/interface";
 export const countCountryEarnings = async (
   userCollection: IFileUserDetails[]
 ) => {
-  let averageEarnings: any = {};
   const countryEarnings = userCollection.reduce(
     (acc, { country, earnings }) => {
       const formattedEarnings = parseInt(earnings.replace(/[$]/, ""));
@@ -15,15 +14,14 @@ export const countCountryEarnings = async (
     {} as Record<string, number[]>
   );
 
-  for (const country in countryEarnings) {
-    const topEarnings = countryEarnings[country]
+  return Object.entries(countryEarnings).reduce((acc, [country, earnings]) => {
+    const topEarnings = earnings
       .sort((a: number, b: number) => b - a)
       .slice(0, 10);
-    const total = topEarnings.reduce(
-      (acc: number, sum: number) => acc + sum,
-      0
+    acc[country] = Math.round(
+      topEarnings.reduce((c: number, n: number) => c + n, 0) /
+        topEarnings.length
     );
-    averageEarnings[country] = Math.round(total / topEarnings.length);
-  }
-  return averageEarnings;
+    return acc;
+  }, {} as Record<string, number>);
 };

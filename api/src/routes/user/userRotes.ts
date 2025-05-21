@@ -112,7 +112,7 @@ user.post(
           type: "FindUserError",
         });
       } else {
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await user.checkPassword(password);
         if (!isPasswordValid) {
           return next({
             message: msg.INVALID_CREDENTIALS,

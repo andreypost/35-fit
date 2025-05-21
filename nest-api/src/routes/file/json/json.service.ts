@@ -24,10 +24,10 @@ export class JsonService {
     try {
       if (!this.userCollection?.length) {
         for (let i = 0; i < 1_000; i++) {
-        this.userCollection = await getFileData(
-          resolveFilePath(this.userCollectionPath),
-          addToFile,
-        );
+          this.userCollection = await getFileData(
+            resolveFilePath(this.userCollectionPath),
+            addToFile,
+          );
         }
         return this.userCollection;
       }
