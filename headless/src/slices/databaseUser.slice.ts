@@ -38,21 +38,24 @@ export const loginUserFromDatabase = createAsyncThunk<
   IAuth,
   { email: string; password: string },
   { dispatch: AppDispatch }
->('databaseUser/loginUserFromDatabase', async (credentials, { dispatch }) => {
-  // dispatch is able in this obj
-  try {
-    const response = await axios.post(
-      `${process.env.API_URL}/user/login`,
-      credentials,
-      { withCredentials: true }
-    )
-    dispatch(messageModal(response?.data?.message || 'Login successful.'))
-    return response.data
-  } catch (error: any) {
-    errorModalMessage(error)
-    throw error
+>(
+  'databaseUser/loginUserFromDatabase',
+  async (credentials, { dispatch }): Promise<any> => {
+    // dispatch is able in this obj
+    try {
+      const response = await axios.post(
+        `${process.env.API_URL}/user/login`,
+        credentials,
+        { withCredentials: true }
+      )
+      dispatch(messageModal(response?.data?.message || 'Login successful.'))
+      return response.data
+    } catch (error: any) {
+      errorModalMessage(error)
+      throw error
+    }
   }
-})
+)
 
 export const validateAuthToken = createAsyncThunk<IAuth>(
   'databaseUser/validateAuthToken',

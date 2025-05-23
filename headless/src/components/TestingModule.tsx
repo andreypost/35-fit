@@ -235,7 +235,8 @@ export const TestingModule = memo(() => {
     e: T
   ): Promise<void> => {
     e.preventDefault()
-    currentUser && dispatch(spinnerIsVisibile(true))
+    dispatch(spinnerIsVisibile(true))
+    // currentUser && dispatch(spinnerIsVisibile(true))
 
     const addFileData = await apiEndpointCall('post', 'file/json/write', {
       id: Math.floor(1_000 + Math.random() * (1_000_000 - 1_000 + 1)),

@@ -174,12 +174,6 @@
     "name": "Vernon Short"
   },
   {
-    "id": 2,
-    "earnings": "$72.93",
-    "country": "Russian Federation",
-    "name": "Beverly Grant"
-  },
-  {
     "id": 49,
     "earnings": "$39.93",
     "country": "Vietnam",
@@ -372,12 +366,6 @@
     "name": "Keegan Martinez"
   },
   {
-    "id": 16,
-    "earnings": "$10.64",
-    "country": "Russian Federation",
-    "name": "Wylie Goff"
-  },
-  {
     "id": 34,
     "earnings": "$74.61",
     "country": "Philippines",
@@ -406,12 +394,6 @@
     "earnings": "$67.45",
     "country": "New Zealand",
     "name": "Hyatt Golden"
-  },
-  {
-    "id": 18,
-    "earnings": "$34.45",
-    "country": "Russian Federation",
-    "name": "Adrienne Snow"
   },
   {
     "id": 90,
@@ -454,12 +436,6 @@
     "earnings": "$34.98",
     "country": "Brazil",
     "name": "Bianca Villarreal"
-  },
-  {
-    "id": 56,
-    "earnings": "$8.72",
-    "country": "Russian Federation",
-    "name": "Rina Leon"
   },
   {
     "id": 23,
@@ -25863,6 +25839,36 @@
     "id": 14213,
     "earnings": "$35930",
     "country": "Spain",
+    "name": "Andrii Postoliuk"
+  },
+  {
+    "id": 543590,
+    "earnings": "$9318",
+    "country": "France",
+    "name": "Andrii Postoliuk"
+  },
+  {
+    "id": 716747,
+    "earnings": "$23364",
+    "country": "Mexico",
+    "name": "Andrii Postoliuk"
+  },
+  {
+    "id": 410736,
+    "earnings": "$48924",
+    "country": "South Korea",
+    "name": "Andrii Postoliuk"
+  },
+  {
+    "id": 403951,
+    "earnings": "$28590",
+    "country": "Ukraine",
+    "name": "Andrii Postoliuk"
+  },
+  {
+    "id": 900481,
+    "earnings": "$47377",
+    "country": "Sweden",
     "name": "Andrii Postoliuk"
   }
 ]
