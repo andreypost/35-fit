@@ -1,9 +1,12 @@
 import { IFileUserDetails } from "../../../types/interface";
 
+type CountryEarnings = Record<string, number[]>;
+type CountryAverageEarnings = Record<string, number>;
+
 export const countCountryEarnings = async (
   userCollection: IFileUserDetails[]
 ) => {
-  const countryEarnings = userCollection.reduce(
+  const countryEarnings: CountryEarnings = userCollection.reduce(
     (acc, { country, earnings }) => {
       const formattedEarnings = parseInt(earnings.replace(/[$]/, ""));
       !acc[country]
@@ -11,7 +14,7 @@ export const countCountryEarnings = async (
         : acc[country].push(formattedEarnings);
       return acc;
     },
-    {} as Record<string, number[]>
+    {} as CountryEarnings
   );
 
   return Object.entries(countryEarnings).reduce((acc, [country, earnings]) => {
@@ -23,5 +26,5 @@ export const countCountryEarnings = async (
         topEarnings.length
     );
     return acc;
-  }, {} as Record<string, number>);
+  }, {} as CountryAverageEarnings);
 };

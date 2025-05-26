@@ -1,17 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { mkdir, readdir, rename, rm } from 'fs/promises';
 import path from 'path';
-import { existsSync, mkdirSync, renameSync } from 'fs';
+import { Dirent, existsSync, mkdirSync, renameSync } from 'fs';
 import { resolveFilePath } from '../helpers/resolve.file.path';
-import { nextError } from '../../../utils/next.error';
+import { handleError } from '../../../utils/handle.error';
 
 @Injectable()
 export class DirService {
   private basePath: string = resolveFilePath('scan');
 
-  public structureDir = async (): Promise<any> => {
+  public structureDir = async (): Promise<Dirent[]> => {
     try {
-      const fileTree = await readdir(this.basePath, {
+      const fileTree: Dirent[] = await readdir(this.basePath, {
         withFileTypes: true,
         // recursive: true, // all files including nested
       });
@@ -39,14 +39,14 @@ export class DirService {
       }
 
       return fileTree;
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   };
 
-  public async destructureDir(): Promise<void | any> {
+  public async destructureDir(): Promise<Dirent[]> {
     try {
-      const fileTree = await readdir(this.basePath, {
+      const fileTree: Dirent[] = await readdir(this.basePath, {
         withFileTypes: true,
         // recursive: true, // all files including nested
       });
@@ -72,8 +72,8 @@ export class DirService {
       }
 
       return fileTree;
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 }

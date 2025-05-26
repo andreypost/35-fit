@@ -8,6 +8,7 @@ import {
 import path from "path";
 import { msg } from "../../../constants/messages";
 import { mkdir, writeFile } from "fs/promises";
+import { nextError } from "../../../utils/nextError";
 
 export const getFileData = async (
   filePath: string,
@@ -46,8 +47,8 @@ export const getFileData = async (
           }
         });
     });
-  } catch (error: any) {
-    next(error);
+  } catch (error: unknown) {
+    nextError(next, error);
   }
 };
 

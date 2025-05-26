@@ -12,6 +12,7 @@ import { fileWriteLimiter } from "../../middleware/rateLimiter";
 import { validateFileWrite } from "./fileDto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { resolveFilePath } from "./helpers/resolveFilePath";
+import { nextError } from "../../utils/nextError";
 
 export const jsonRoute = Router();
 
@@ -41,8 +42,8 @@ jsonRoute.get(
         userCollection = current;
       }
       return res.status(200).json(userCollection);
-    } catch (error: any) {
-      return next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -76,6 +77,7 @@ jsonRoute.post(
         : [body];
 
       await writeFileData(resolveFilePath(userCollectionPath), newData);
+
       userCollection = [];
       usersCountCache = {};
       usersAverageEarningsCache = {};
@@ -84,8 +86,8 @@ jsonRoute.post(
         message: msg.FILE_WAS_WRITTEN_SUCCESSFULLY,
         ...body,
       });
-    } catch (error: any) {
-      return next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -118,8 +120,8 @@ jsonRoute.get(
       }, {} as Record<string, number>);
 
       return res.status(200).json(usersCountCache);
-    } catch (error: any) {
-      return next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -149,8 +151,8 @@ jsonRoute.get(
       usersAverageEarningsCache = await countCountryEarnings(userCollection);
 
       return res.status(200).json(usersAverageEarningsCache);
-    } catch (error: any) {
-      return next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -185,8 +187,8 @@ jsonRoute.get(
       }
 
       return res.status(200).json(user);
-    } catch (error: any) {
-      return next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );

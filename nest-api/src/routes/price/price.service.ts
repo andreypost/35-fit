@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Price } from '../../entities/price';
 import { CreatePriceDto } from './dto/create.price.dto';
-import { nextError } from '../../utils/next.error';
+import { handleError } from '../../utils/handle.error';
 import { msg } from '../../constants/messages';
 
 @Injectable()
@@ -35,8 +35,8 @@ export class PriceService {
           );
         }
       }
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 
@@ -47,7 +47,7 @@ export class PriceService {
       await this.checkSetPriceByName(createPriceDTO.name);
       return await this.priceRepository.save(createPriceDTO);
     } catch (error: any) {
-      nextError(error);
+      handleError(error);
     }
   }
 
@@ -62,8 +62,8 @@ export class PriceService {
       }
 
       return price;
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 
@@ -80,8 +80,8 @@ export class PriceService {
       }
 
       return priceByType.id;
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   } */
 }

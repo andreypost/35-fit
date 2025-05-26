@@ -1,9 +1,12 @@
 import { join } from "path";
 
-export const resolveFilePath = (filePath: string) => {
-  const currentPath = process.cwd();
+type Platform = "win32" | "linux" | "darwin";
 
-  if (process.platform === "win32") {
+export const resolveFilePath = (filePath: string): string => {
+  const currentPath = process.cwd();
+  let platform = process.platform as Platform;
+
+  if (platform === "win32") {
     return join(currentPath, "..", filePath); // Windows-specific path
   }
 
@@ -11,7 +14,7 @@ export const resolveFilePath = (filePath: string) => {
   //   return join(currentPath, filePath); // Docker-specific path
   // }
 
-  if (process.platform === "linux" || process.platform === "darwin") {
+  if (platform === "linux" || platform === "darwin") {
     return join(currentPath, "..", filePath); // POSIX-specific path for Linux and Mac
   }
 

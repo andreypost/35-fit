@@ -6,7 +6,7 @@ import {
 import { getFileData, writeFileData } from '../helpers/file.stream';
 import { CreateUserJsonDto } from '../dto/create.user.json.dto';
 import { resolveFilePath } from '../helpers/resolve.file.path';
-import { nextError } from '../../../utils/next.error';
+import { handleError } from '../../../utils/handle.error';
 import { msg } from '../../../constants/messages';
 import { countCountryEarnings } from '../helpers/user.collection';
 
@@ -32,14 +32,14 @@ export class JsonService {
         return this.userCollection;
       }
       return this.userCollection;
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 
   public async addNewDetailsUser(
     createUserDetailsDto: CreateUserJsonDto,
-  ): Promise<any> {
+  ): Promise<{ message: string } & CreateUserJsonDto> {
     try {
       await this.loadUserCollection(true);
 
@@ -59,8 +59,8 @@ export class JsonService {
         message: msg.FILE_WAS_WRITTEN_SUCCESSFULLY,
         ...createUserDetailsDto,
       };
-    } catch (error: any) {
-      return nextError(error);
+    } catch (error: unknown) {
+      return handleError(error);
     }
   }
 
@@ -78,8 +78,8 @@ export class JsonService {
         },
         {} as Record<string, number>,
       ));
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 
@@ -94,8 +94,8 @@ export class JsonService {
       return (this.usersAverageEarningsCache = await countCountryEarnings(
         this.userCollection,
       ));
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 
@@ -108,8 +108,8 @@ export class JsonService {
       );
       if (!user) throw new NotFoundException(`User with id ${id} not found.`);
       return user;
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 }

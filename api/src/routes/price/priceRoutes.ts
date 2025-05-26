@@ -4,6 +4,7 @@ import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { priceRepository } from "../../config/database";
 import { Price } from "../../entities/Price";
 import { msg } from "../../constants/messages";
+import { nextError } from "../../utils/nextError";
 
 export const price = Router();
 
@@ -46,8 +47,8 @@ export const getPriceById = async (
       return;
     }
     return price;
-  } catch (error: any) {
-    next(error);
+  } catch (error: unknown) {
+    nextError(next, error);
   }
 };
 
@@ -69,8 +70,8 @@ price.get(
       if (!priceExists) return;
 
       return res.status(200).json(priceExists);
-    } catch (error: any) {
-      next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -108,8 +109,8 @@ price.post(
       const savedPrice = await priceRepository.save(newPrice);
 
       return res.status(200).json(savedPrice);
-    } catch (error: any) {
-      next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );

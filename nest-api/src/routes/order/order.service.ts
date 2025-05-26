@@ -8,7 +8,7 @@ import { Order } from '../../entities/order';
 import { UserService } from '../user/user.service';
 import { CreateOrderItemDto } from './dto/create.order.item.dto';
 import { CreateOrderDto } from './dto/create.order.dto';
-import { nextError } from '../../utils/next.error';
+import { handleError } from '../../utils/handle.error';
 import { msg } from '../../constants/messages';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class OrderService {
   public async createUserOrder(
     createOrderDto: CreateOrderDto,
     email: string,
-  ): Promise<Order | void> {
+  ): Promise<Order> {
     try {
       const currentUser = await this.userService.findUserByEmail(email);
       if (!currentUser) {
@@ -111,15 +111,12 @@ export class OrderService {
       newOrder.calculateFinalTotalPrice();
 
       return await this.orderRepository.save(newOrder);
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 
-  public async getUserOrders(
-    email: string,
-    type: string,
-  ): Promise<Order[] | void> {
+  public async getUserOrders(email: string, type: string): Promise<Order[]> {
     try {
       const currentUser = await this.userService.findUserByEmail(email);
       if (!currentUser) {
@@ -150,8 +147,8 @@ export class OrderService {
         .getMany();
 
       return ordersByType;
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 }

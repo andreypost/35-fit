@@ -8,7 +8,7 @@ import { Request } from 'express';
 import { JsonService } from './json.service';
 import { msg } from '../../../constants/messages';
 import { validateAuthToken } from '../../../guards/auth.token';
-import { nextError } from '../../../utils/next.error';
+import { nextError } from '../../../utils/handle.error';
 import { CreateUserDetailsDto } from '../dto/create.user.json.dto';
 // import { Test, TestingModule } from '@nestjs/testing';
 

@@ -14,7 +14,7 @@ import { config } from 'dotenv';
 import { User } from '../../entities/user';
 import { CreateUserDto, LoginUserDto } from './dto/user.dto';
 import { msg } from '../../constants/messages';
-import { nextError } from '../../utils/next.error';
+import { isPgUniqueViolation, handleError } from '../../utils/handle.error';
 import { deleteAuthToken, validateAuthToken } from '../../guards/auth.token';
 import { secrets } from '../../constants/secrets';
 import { UserPrivileges } from '../../utils/user.roles';
@@ -41,6 +41,9 @@ export class UserService {
   ): Promise<void> {
     try {
       const authToken = this.jwtService.sign({ email, id });
+      if (!authToken) {
+        throw new ServiceUnavailableException(msg.FAILED_TO_GENERATE_TOKEN);
+      }
       res.cookie('authToken', authToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -48,9 +51,8 @@ export class UserService {
         maxAge: keepLoggedIn ? secrets.LONG_EXPIRES_IN : secrets.EXPIRES_IN,
         // path: "/",
       });
-    } catch (error: any) {
-      console.error(error);
-      throw new ServiceUnavailableException(msg.FAILED_TO_GENERATE_TOKEN);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 
@@ -79,12 +81,12 @@ export class UserService {
       await this.setAuthToken(email, savedUser.id, res);
 
       return savedUser;
-    } catch (error: any) {
-      await deleteAuthToken(res);
-      if (error.code === '23505') {
+    } catch (error: unknown) {
+      deleteAuthToken(res);
+      if (isPgUniqueViolation(error, '23505')) {
         throw new ConflictException(msg.EMAIL_ALREADY_EXIST);
       }
-      nextError(error);
+      handleError(error);
     }
   }
 
@@ -107,8 +109,8 @@ export class UserService {
       await this.setAuthToken(email, user.id, res, keepLoggedIn);
 
       return user;
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 
@@ -124,12 +126,12 @@ export class UserService {
 
       const user = await this.findUserByEmail(email);
       if (!user) {
-        await deleteAuthToken(res);
+        deleteAuthToken(res);
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
       return user;
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 
@@ -140,8 +142,8 @@ export class UserService {
       //   take: 5,
       //   order: { createdAt: 'DESC' },
       // }
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 
@@ -160,19 +162,17 @@ export class UserService {
           };
         }
       }
-      await deleteAuthToken(res);
+      deleteAuthToken(res);
       return {
         message: repoResponse?.affected
           ? msg.USER_DELETED_SUCCESSFULLY
           : msg.LOGGED_OUT_SUCCESSFUL,
       };
-    } catch (error: any) {
-      if (error.code === '23503') {
-        return {
-          message: msg.USER_CANNOT_BE_DELETED,
-        };
+    } catch (error: unknown) {
+      if (isPgUniqueViolation(error, '23503')) {
+        throw new ConflictException(msg.USER_CANNOT_BE_DELETED);
       }
-      nextError(error);
+      handleError(error);
     }
   }
 
@@ -183,8 +183,8 @@ export class UserService {
         select: ['email', 'grantedPrivileges', 'id', 'name'],
         take: 10,
       });
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 
@@ -220,8 +220,8 @@ export class UserService {
       user.deniedPrivileges = deniedPrivileges;
 
       return await this.userRepository.save(user);
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 
@@ -235,8 +235,8 @@ export class UserService {
       const unsafeResult = await this.userRepository.query(unsafeQuery);
       console.log('sqlQueryVulnerability: ', unsafeResult);
       return unsafeResult;
-    } catch (error: any) {
-      nextError(error);
+    } catch (error: unknown) {
+      handleError(error);
     }
   };
 }

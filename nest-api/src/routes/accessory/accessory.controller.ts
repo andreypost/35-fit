@@ -1,10 +1,9 @@
-import { Body, Controller, Post, Req } from '@nestjs/common';
-import { Request } from 'express';
+import { Body, Controller, Post } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { AccessoryService } from './accessory.service';
 import { Public } from '../../guards/public.routes';
-import { Accessory } from '../../entities/accessory';
 import { CreateAccessoryDto } from './dto/create.accessory.dto';
+import { Accessory } from '../../entities/accessory';
 
 @Controller('accessory')
 export class AccessoryController {
@@ -15,12 +14,10 @@ export class AccessoryController {
   @ApiOperation({ summary: 'check' })
   async checkExistingAccessory(
     @Body() createAccessoryDto: CreateAccessoryDto,
-    @Req() req: Request,
   ): Promise<string> {
     return await this.accessoryService.checkExistingAccessory(
       createAccessoryDto,
       true,
-      req,
     );
   }
 

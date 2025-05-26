@@ -1,8 +1,9 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { mkdir, readdir, rename, rm } from "fs/promises";
-import { existsSync, mkdirSync, renameSync } from "fs";
+import { Dirent, existsSync, mkdirSync, renameSync } from "fs";
 import path from "path";
 import { resolveFilePath } from "./helpers/resolveFilePath";
+import { nextError } from "../../utils/nextError";
 
 export const dirRoutes = Router();
 
@@ -16,7 +17,7 @@ dirRoutes.get(
     next: NextFunction
   ): Promise<Response | void> => {
     try {
-      const fileTree = await readdir(basePath, {
+      const fileTree: Dirent[] = await readdir(basePath, {
         withFileTypes: true,
         // recursive: true, // all files including nested
       });
@@ -43,8 +44,8 @@ dirRoutes.get(
         // renameSync(fileSourceName, targetPath);
       }
       res.status(200).json(fileTree);
-    } catch (error: any) {
-      next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -57,7 +58,7 @@ dirRoutes.get(
     next: NextFunction
   ): Promise<Response | void> => {
     try {
-      const fileTree = await readdir(basePath, {
+      const fileTree: Dirent[] = await readdir(basePath, {
         withFileTypes: true,
         // recursive: true, // all files including nested
       });
@@ -84,8 +85,8 @@ dirRoutes.get(
       }
 
       res.status(200).json(fileTree);
-    } catch (error: any) {
-      next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );

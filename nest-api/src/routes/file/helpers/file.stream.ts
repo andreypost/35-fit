@@ -7,14 +7,14 @@ import {
 } from 'fs';
 import path from 'path';
 import { InternalServerErrorException } from '@nestjs/common';
-import { nextError } from '../../../utils/next.error';
+import { handleError } from '../../../utils/handle.error';
 import { msg } from '../../../constants/messages';
 import { mkdir, writeFile } from 'fs/promises';
 
 export const getFileData = async (
   filePath: string,
   addToFile: boolean,
-): Promise<any> => {
+): Promise<any[]> => {
   try {
     if (!existsSync(filePath)) {
       if (addToFile) {
@@ -43,14 +43,14 @@ export const getFileData = async (
           }
         });
     });
-  } catch (error: any) {
-    nextError(error);
+  } catch (error: unknown) {
+    handleError(error);
   }
 };
 
-export const writeFileData = async (
+export const writeFileData = async <T = any>(
   filePath: string,
-  data: any,
+  data: T,
 ): Promise<void> => {
   return new Promise((res, rej) => {
     try {
@@ -65,7 +65,7 @@ export const writeFileData = async (
       // writeStream.write(JSON.stringify(data, null, 2));
       // The end function on streams can also take in some optional data to send as the last bit of data on the stream
       writeStream.end(JSON.stringify(data, null, 2));
-    } catch (error: any) {
+    } catch (error: unknown) {
       rej(`Failed to prepare directory or write stream: ${error}`);
     }
   });

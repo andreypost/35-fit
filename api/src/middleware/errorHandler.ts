@@ -32,3 +32,15 @@ export const errorHandler = (
     type: err.type || "UnknownError",
   });
 };
+
+export const isPgUniqueViolation = (
+  error: unknown,
+  statusCode: string
+): boolean => {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    error.code === statusCode
+  );
+};

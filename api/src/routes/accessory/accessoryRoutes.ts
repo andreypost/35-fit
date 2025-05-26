@@ -6,6 +6,7 @@ import { msg } from "../../constants/messages";
 import { accessoryRepository } from "../../config/database";
 import { validateAccessoryDto } from "./accessoryDto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
+import { nextError } from "../../utils/nextError";
 
 export const accessory = Router();
 
@@ -46,8 +47,8 @@ const checkExistingAccessory = async (
       }
     }
     return returnedProductId ? undefined : price;
-  } catch (error: any) {
-    next(error);
+  } catch (error: unknown) {
+    nextError(next, error);
   }
 };
 
@@ -70,8 +71,8 @@ accessory.post(
       if (!id) return;
 
       return res.status(200).json(id);
-    } catch (error: any) {
-      next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -101,8 +102,8 @@ accessory.post(
       const savedAccessory = await accessoryRepository.save(newAccessory);
 
       return res.status(200).json(savedAccessory);
-    } catch (error: any) {
-      next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );

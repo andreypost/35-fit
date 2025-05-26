@@ -6,6 +6,7 @@ import { Price } from "../../entities/Price";
 import { getPriceById } from "../price/priceRoutes";
 import { msg } from "../../constants/messages";
 import { scooterRepository } from "../../config/database";
+import { nextError } from "../../utils/nextError";
 
 export const scooter = Router();
 
@@ -49,9 +50,8 @@ const checkExistingScooter = async (
     }
 
     return returnedProductId ? undefined : price;
-  } catch (error: any) {
-    next(error);
-    return;
+  } catch (error: unknown) {
+    nextError(next, error);
   }
 };
 
@@ -74,8 +74,8 @@ scooter.post(
       if (!id) return;
 
       return res.status(200).json(id);
-    } catch (error: any) {
-      next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -107,8 +107,8 @@ scooter.post(
       const savedScooter = await scooterRepository.save(newScooter);
 
       return res.status(200).json(savedScooter);
-    } catch (error: any) {
-      next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );

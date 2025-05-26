@@ -6,7 +6,7 @@ import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import path from 'path';
 import { format } from 'fast-csv';
 import { User } from '../../../entities/user';
-import { nextError } from '../../../utils/next.error';
+import { handleError } from '../../../utils/handle.error';
 import { msg } from '../../../constants/messages';
 import { CsvUser } from '../dto/create.user.json.dto';
 import { resolveFilePath } from '../helpers/resolve.file.path';
@@ -95,8 +95,8 @@ export class CsvService {
 
         return;
       }
-    } catch (error: any) {
-      return nextError(error);
+    } catch (error: unknown) {
+      return handleError(error);
     }
   };
 }

@@ -56,7 +56,7 @@ export const MutationSchema = new GraphQLObjectType({
       resolve: async (
         parent,
         { email, password, keepLoggedIn },
-        { res }
+        context
       ): Promise<User> => {
         const errors = await validateLoginInput(email, password);
 
@@ -68,6 +68,8 @@ export const MutationSchema = new GraphQLObjectType({
             },
           });
         }
+
+        const { res, next } = context;
 
         const user = await userRepository.findOne({
           where: { email },
@@ -92,7 +94,7 @@ export const MutationSchema = new GraphQLObjectType({
           });
         }
 
-        await setAuthToken(user.email, user.id, res, keepLoggedIn);
+        await setAuthToken(user.email, user.id, res, next, keepLoggedIn);
 
         return user;
       },

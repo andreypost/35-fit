@@ -6,7 +6,6 @@ import {
   validateAuthToken,
 } from "../../auth/jsonWebToken";
 import { userRepository } from "../../config/database";
-import bcrypt from "bcrypt";
 import {
   validateSearchQueryDto,
   validatePrivilegesDto,
@@ -17,6 +16,8 @@ import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { msg } from "../../constants/messages";
 import { User } from "../../entities/User";
 import { UserPrivileges } from "../../utils/userRoles";
+import { isPgUniqueViolation } from "../../middleware/errorHandler";
+import { nextError } from "../../utils/nextError";
 
 export const user = Router();
 
@@ -68,23 +69,21 @@ user.post(
 
       const savedUser = await userRepository.save(newUser);
 
-      await setAuthToken(email, savedUser.id, res);
+      await setAuthToken(email, savedUser.id, res, next);
 
       return res
         .status(201)
         .json({ message: msg.USER_CREATED_SUCCESSFULLY, success: true });
-    } catch (error: any) {
-      await deleteAuthToken(res);
-
-      if (error.code === "23505") {
+    } catch (error: unknown) {
+      deleteAuthToken(res);
+      if (isPgUniqueViolation(error, "23505")) {
         return next({
           message: msg.EMAIL_ALREADY_EXIST,
           status: 400,
           type: "DatabaseValidationError",
         });
-      } else {
-        return next(error);
       }
+      nextError(next, error);
     }
   }
 );
@@ -121,11 +120,11 @@ user.post(
           });
         }
 
-        await setAuthToken(user.email, user.id, res, keepLoggedIn);
+        await setAuthToken(user.email, user.id, res, next, keepLoggedIn);
         return res.status(201).json({ message: msg.LOGIN_SUCCESSFUL, ...user });
       }
-    } catch (error: any) {
-      return next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -148,7 +147,7 @@ user.get(
       });
 
       if (!user) {
-        await deleteAuthToken(res);
+        deleteAuthToken(res);
         return next({
           message: msg.USER_NOT_FOUND,
           status: 404,
@@ -156,8 +155,8 @@ user.get(
         });
       }
       return res.status(200).json(user);
-    } catch (error: any) {
-      return next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -175,8 +174,8 @@ user.get(
 
       const users = await userRepository.find();
       return res.status(200).json(users);
-    } catch (error: any) {
-      return next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -203,15 +202,22 @@ user.post(
           });
         }
       }
-      await deleteAuthToken(res);
+      deleteAuthToken(res);
       return res.status(200).json({
         message: repoResponse?.affected
           ? msg.USER_DELETED_SUCCESSFULLY
           : msg.LOGGED_OUT_SUCCESSFUL,
         success: true,
       });
-    } catch (error: any) {
-      return next(error);
+    } catch (error: unknown) {
+      if (isPgUniqueViolation(error, "23503")) {
+        return next({
+          message: msg.USER_CANNOT_BE_DELETED,
+          status: 400,
+          type: "DatabaseValidationError",
+        });
+      }
+      nextError(next, error);
     }
   }
 );
@@ -239,8 +245,8 @@ user.get(
         take: 10,
       });
       return res.status(200).json(users);
-    } catch (error: any) {
-      return next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -293,8 +299,8 @@ user.patch(
       const savedUser = await userRepository.save(user);
 
       return res.status(200).json(savedUser);
-    } catch (error: any) {
-      return next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -314,8 +320,8 @@ user.get(
 
       const unsafeResult = await userRepository.query(unsafeQuery);
       return res.status(200).json(unsafeResult);
-    } catch (error: any) {
-      return next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );

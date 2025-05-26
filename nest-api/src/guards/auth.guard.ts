@@ -1,5 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { Response } from 'express';
 import { IS_PUBLIC_KEY } from './public.routes';
 import { CustomRequest } from '../types/custom.request';
 import { validateAuthToken } from './auth.token';

@@ -14,6 +14,7 @@ import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { Order } from "../../entities/Order";
 import { Scooter } from "../../entities/Scooter";
 import { Accessory } from "../../entities/Accessory";
+import { nextError } from "../../utils/nextError";
 
 export const order = Router();
 
@@ -126,8 +127,8 @@ order.post(
       const savedOrder = await orderRepository.save(newOrder);
 
       return res.status(200).json(savedOrder);
-    } catch (error: any) {
-      next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
@@ -184,8 +185,8 @@ order.get(
         .getMany();
 
       res.status(200).json(ordersByType);
-    } catch (error: any) {
-      next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );

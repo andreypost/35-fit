@@ -4,7 +4,7 @@ import path from "path";
 import { format } from "fast-csv";
 import { resolveFilePath } from "./helpers/resolveFilePath";
 import { userRepository } from "../../config/database";
-import { msg } from "../../constants/messages";
+import { nextError } from "../../utils/nextError";
 
 export const csvRoutes = Router();
 
@@ -105,8 +105,8 @@ csvRoutes.get(
 
         return;
       }
-    } catch (error: any) {
-      next(error);
+    } catch (error: unknown) {
+      nextError(next, error);
     }
   }
 );
