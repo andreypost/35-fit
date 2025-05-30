@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { AppDispatch, RootState } from 'store'
-import { IAuth, IUser } from 'types/interface'
+import { IAuth, IUserPrivileges } from 'types/interface'
 import { errorModalMessage } from 'utils/errorModalMessage'
 import { messageModal } from './modal.slice'
 import { UserPrivileges } from 'utils/userRoles'
@@ -21,8 +21,8 @@ const initialState: DatabaseUserState = {
 }
 
 const checkIsAdmin = (
-  grantedPrivileges: number | undefined,
-  deniedPrivileges: number | undefined
+  grantedPrivileges: IUserPrivileges['grantedPrivileges'],
+  deniedPrivileges: IUserPrivileges['deniedPrivileges']
 ): boolean => {
   if (!grantedPrivileges) return false
 
@@ -40,7 +40,7 @@ export const loginUserFromDatabase = createAsyncThunk<
   { dispatch: AppDispatch }
 >(
   'databaseUser/loginUserFromDatabase',
-  async (credentials, { dispatch }): Promise<any> => {
+  async (credentials, { dispatch }): Promise<IAuth> => {
     // dispatch is able in this obj
     try {
       const response = await axios.post(
@@ -50,22 +50,27 @@ export const loginUserFromDatabase = createAsyncThunk<
       )
       dispatch(messageModal(response?.data?.message || 'Login successful.'))
       return response.data
-    } catch (error: any) {
+    } catch (error: unknown) {
       errorModalMessage(error)
       throw error
     }
   }
 )
 
-export const validateAuthToken = createAsyncThunk<IAuth>(
+export const validateAuthToken = createAsyncThunk<IUserPrivileges>(
   'databaseUser/validateAuthToken',
-  async () => {
+  async (
+    _
+    // thunkApi,
+    // { dispatch }
+  ): Promise<IUserPrivileges> => {
     try {
       const { data } = await axios.get(`${process.env.API_URL}/user/validate`, {
         withCredentials: true,
       })
+      // const { dispatch } = thunkApi
       return data
-    } catch (error: any) {
+    } catch (error: unknown) {
       throw error
     }
   }
@@ -74,10 +79,10 @@ export const validateAuthToken = createAsyncThunk<IAuth>(
 export const logoutUserWithAuthToken = createAsyncThunk<
   void,
   { deleteAccount: boolean },
-  { rejectValue: { message: string } }
+  { rejectValue: { message: string }; dispatch: any }
 >(
   'databaseUser/logoutUserFromDatabase',
-  async ({ deleteAccount }, { rejectWithValue, dispatch }) => {
+  async ({ deleteAccount }, { rejectWithValue, dispatch }): Promise<void> => {
     try {
       const logoutResponse = await axios.post(
         `${process.env.API_URL}/user/logout`,
@@ -87,7 +92,7 @@ export const logoutUserWithAuthToken = createAsyncThunk<
         }
       )
       dispatch(messageModal(logoutResponse?.data?.message))
-    } catch (error: any) {
+    } catch (error: unknown) {
       errorModalMessage(error)
       // return rejectWithValue(
       //   error?.response?.data || { message: 'Logout failed' }

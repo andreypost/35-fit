@@ -22,6 +22,11 @@ export interface IUser {
   user: IAuth
 }
 
+export type IUserPrivileges = {
+  grantedPrivileges: number | undefined
+  deniedPrivileges: number | undefined
+} & IUser
+
 export interface IFirebaseProps {
   user?: IAuth
   firebase?: any
