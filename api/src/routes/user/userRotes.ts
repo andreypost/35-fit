@@ -6,6 +6,7 @@ import {
   validateAuthToken,
 } from "../../auth/jsonWebToken";
 import { userRepository } from "../../config/database";
+import { rateLimitHandler } from "../../middleware/rateLimiter";
 import {
   validateSearchQueryDto,
   validatePrivilegesDto,
@@ -23,6 +24,7 @@ export const user = Router();
 
 user.post(
   "/create-new-user",
+  rateLimitHandler(2 * 60 * 1000, 5, msg.TOO_MANY_REQUESTS),
   validateUserDto,
   async (
     req: Request,
