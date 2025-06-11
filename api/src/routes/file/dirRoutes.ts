@@ -90,3 +90,40 @@ dirRoutes.get(
     }
   }
 );
+
+dirRoutes.post(
+  "/upload-slowly",
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<{ message: string }> | void> => {
+    try {
+      console.log(
+        "[Server] Received /upload-slowly request. Waiting for body..."
+      );
+      let dataReceived = 0;
+      req.on("data", (chunk) => {
+        dataReceived += chunk.length;
+        console.log(`[Server] Received ${dataReceived} bytes of body data.`);
+      });
+      req.on("end", () => {
+        console.log(
+          `[Server] Finished receiving body for /upload-slowly. Total bytes: ${dataReceived}`
+        );
+        res.status(200).send(`Received ${dataReceived} bytes of data.`);
+      });
+      req.on("close", () => {
+        console.log(
+          "[Server] /upload-slowly connection closed by client or server timeout during body receipt."
+        );
+      });
+      req.on("error", (err) => {
+        console.error("[Server] Request stream error:", err.message);
+      });
+      res.status(200).json({ message: "Upload successful!" });
+    } catch (error: unknown) {
+      nextError(next, error);
+    }
+  }
+);

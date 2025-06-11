@@ -333,6 +333,36 @@ export const TestingModule = memo(() => {
     console.log('deStructureDirectories: ', deStructuredDirResult)
   }
 
+  const sendSlowUpload = async () => {
+    console.log('Client: Starting slow upload...')
+
+    const slowStream = new ReadableStream({
+      start(controller) {
+        let count = 0
+        const interval = setInterval(() => {
+          if (count < 2) {
+            // Send 2 chunks slowly, each takes 6 seconds (total 12s)
+            const chunk = `Chunk ${count + 1} of slow data.\n`
+            controller.enqueue(new TextEncoder().encode(chunk))
+            console.log(`Client: Enqueued chunk ${count + 1}`)
+            count++
+          } else {
+            clearInterval(interval)
+            controller.close()
+            console.log('Client: Finished enqueuing all chunks.')
+          }
+        }, 6000) // Send a chunk every 6 seconds
+      },
+    })
+
+    const response = await apiEndpointCall(
+      'post',
+      'file/dir/upload-slowly',
+      slowStream
+    )
+    console.log('Client: Upload result:', response)
+  }
+
   return (
     <Div>
       <TestingOrder />
@@ -428,6 +458,9 @@ export const TestingModule = memo(() => {
         onClick={deStructureDirectories}
       >
         Destructure Directories
+      </button>
+      <button className="grey_button margin_b_60_30" onClick={sendSlowUpload}>
+        Send Slow Upload
       </button>
     </Div>
   )

@@ -80,9 +80,14 @@ app.get("/", (req: Request, res: Response) =>
 
 app.use(errorHandler);
 
-app.listen(PORT, HOST, () =>
+const server = app.listen(PORT, HOST, () =>
   console.log(
     styleText(["underline", "blueBright"], "Server is running on port:"),
     styleText(["underline", "cyanBright"], `http://${HOST}:${PORT}`)
   )
 );
+
+server.headersTimeout = 5000;
+server.requestTimeout = 10000;
+server.timeout = 15000;
+server.keepAliveTimeout = 7000;
