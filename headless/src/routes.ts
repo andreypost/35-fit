@@ -8,8 +8,8 @@ const Club = lazy(() => import('views/Club'))
 const Faq = lazy(() => import('views/Faq'))
 const Reserve = lazy(() => import('views/Reserve'))
 const Coach = lazy(() => import('views/Coach'))
-const Flower = lazy(() => import('views/Flower'))
 const Chat = lazy(() => import('views/Chat'))
+const Test = lazy(() => import('views/Test'))
 
 import {
   MAIN_ROUTE,
@@ -20,9 +20,9 @@ import {
   CLUB_ROUTE,
   FAQ_ROUTE,
   RESERVE_ROUTE,
-  FLOWER_ROUTE,
-  CHAT_ROUTE,
   COACH_ROUTE,
+  CHAT_ROUTE,
+  TEST_ROUTE,
 } from 'constants/routes'
 
 export const publicRoutes = [
@@ -66,11 +66,11 @@ export const publicRoutes = [
 
 export const privatRoutes = [
   {
-    path: FLOWER_ROUTE,
-    Component: Flower,
-  },
-  {
     path: CHAT_ROUTE,
     Component: Chat,
+  },
+  {
+    path: TEST_ROUTE,
+    Component: Test,
   },
 ]

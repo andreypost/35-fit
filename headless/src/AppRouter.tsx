@@ -103,14 +103,14 @@ const AppRouter = () => {
               <Component />
             </Route>
           ))}
-          {currentUser &&
+          {databaseUser &&
             privatRoutes.map(({ path, Component }) => (
               <Route key={path} path={path} exact={true}>
                 {/* <Component user={currentUser} /> */}
                 <Component />
               </Route>
             ))}
-          <Redirect to={MAIN_ROUTE} />
+          {/* <Redirect to={MAIN_ROUTE} /> */}
         </Switch>
         <Footer />
         {/* {useMemo(

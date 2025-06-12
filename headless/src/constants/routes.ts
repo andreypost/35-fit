@@ -7,8 +7,8 @@ export const CLUB_ROUTE = '/club'
 export const FAQ_ROUTE = '/faq'
 export const RESERVE_ROUTE = '/reserve'
 export const COACH_ROUTE = '/coach/:name'
-export const FLOWER_ROUTE = '/flower'
 export const CHAT_ROUTE = '/chat'
+export const TEST_ROUTE = '/test'
 
 export const publicLinks = [
   { route: TRAIN_ROUTE, dictionary: 'nav.training' },
@@ -18,6 +18,8 @@ export const publicLinks = [
   { route: CLUB_ROUTE, dictionary: 'nav.club' },
   { route: FAQ_ROUTE, dictionary: 'nav.faq' },
 ]
+
+export const privateLinks = [{ route: TEST_ROUTE, dictionary: 'nav.test' }]
 
 export const profileLinks = [
   { route: MAIN_ROUTE, dictionary: 'nav.dashboard' },

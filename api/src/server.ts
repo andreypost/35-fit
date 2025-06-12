@@ -88,6 +88,6 @@ const server = app.listen(PORT, HOST, () =>
 );
 
 server.headersTimeout = 5000;
-server.requestTimeout = 10000;
+server.requestTimeout = 5000;
 server.timeout = 15000;
 server.keepAliveTimeout = 7000;

@@ -5,7 +5,13 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { selectBurgerValue, menuModal } from 'slices/modal.slice'
-import { MAIN_ROUTE, publicLinks, RESERVE_ROUTE } from 'constants/routes'
+import { setDatabaseUser } from 'slices/databaseUser.slice'
+import {
+  MAIN_ROUTE,
+  privateLinks,
+  publicLinks,
+  RESERVE_ROUTE,
+} from 'constants/routes'
 import { Language } from './Language'
 import { User } from './User'
 import { LogoSVG } from '../img/icons'
@@ -160,6 +166,7 @@ const Header = styled.header`
 
 export const HeaderNavigate = () => {
   const { t } = useTranslation()
+  const { databaseUser } = useAppSelector(setDatabaseUser)
   const dispatch = useAppDispatch()
   const burgerState = useAppSelector(selectBurgerValue)
 
@@ -172,7 +179,11 @@ export const HeaderNavigate = () => {
         <LogoSVG />
       </Link>
       <ul className="navigate_routes">
-        <NavigationLinks links={publicLinks} bold="b700" color="#737373" />
+        <NavigationLinks
+          links={databaseUser ? publicLinks.concat(privateLinks) : publicLinks}
+          bold="b700"
+          color="#737373"
+        />
       </ul>
       <div className="navigate_menu">
         {useMemo(

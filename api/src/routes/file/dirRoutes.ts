@@ -111,6 +111,7 @@ dirRoutes.post(
         console.log(
           `[Server] Finished receiving body for /upload-slowly. Total bytes: ${dataReceived}`
         );
+        // This response should only be sent AFTER the 'end' event fires
         res.status(200).send(`Received ${dataReceived} bytes of data.`);
       });
       req.on("close", () => {
@@ -121,8 +122,10 @@ dirRoutes.post(
       req.on("error", (err) => {
         console.error("[Server] Request stream error:", err.message);
       });
-      res.status(200).json({ message: "Upload successful!" });
+      // REMOVE or comment out the immediate response here:
+      // res.status(200).json({ message: "Upload successful!" }); // <-- REMOVE THIS!
     } catch (error: unknown) {
+      console.error("/upload-slowly: ", error)
       nextError(next, error);
     }
   }
