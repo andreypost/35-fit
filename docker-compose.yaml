@@ -1,7 +1,7 @@
 services:
   database:
     image: postgres:16.8 # Uses PostgreSQL 16.8
-    container_name: fitdb
+    container_name: fit-db
     restart: always
     env_file:
       - ./.env
@@ -12,7 +12,7 @@ services:
     ports:
       - ${DOCKERPORT}:${PGPORT}
     volumes:
-      - fitdb-data:/var/lib/postgresql/data
+      - fit-db-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-d", "${PGDATABASE}", "-U", "${PGUSER}"]
       interval: 5s
