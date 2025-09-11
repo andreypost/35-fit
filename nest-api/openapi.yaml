@@ -309,6 +309,16 @@ paths:
           description: ""
       summary: file/dir/destructure
       tags: *a7
+  /file/image/upload:
+    post:
+      operationId: ImageController_uploadImages
+      parameters: []
+      responses:
+        "201":
+          description: ""
+      summary: upload
+      tags:
+        - Image
 info:
   title: 35-fit nest-api
   description: The NEST-API description for the 35-fit project

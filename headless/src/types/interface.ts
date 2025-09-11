@@ -130,3 +130,11 @@ export type IOrder = {
   status: string
   user: IUser
 }
+
+export interface IUploadImages {
+  file: File
+  name: string
+  size: number
+  type: string
+  previewUrl: string
+}

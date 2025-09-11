@@ -227,7 +227,6 @@ export const TestingRoles = memo(() => {
 
   return (
     <Div>
-      <h3 className="b900 margin_b_60_30 blue">Additional Forms</h3>
       <div className="additional_forms margin_b_120_80 relative">
         <fieldset className="margin_b_60_30">
           <legend>Search Query:</legend>
