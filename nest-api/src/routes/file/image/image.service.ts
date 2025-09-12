@@ -60,14 +60,14 @@ export class ImageService {
 
     private async unploadSingleImages(file: Express.Multer.File): Promise<string> {
         try {
-            console.log("unploadSingleImages: ", file)
+            // console.log("unploadSingleImages: ", file)
             const timestamp = new Date().toISOString().split('T')[0]
             const uniqueId = uuidv4()
             const fileExtention = file.mimetype.split("/")[1]
             const fileName = `buoys/${timestamp}/${uniqueId}.${fileExtention}`
 
-            console.log("buffer: ", file.buffer)
-            console.log("fileName: ", fileName)
+            // console.log("buffer: ", file.buffer)
+            // console.log("fileName: ", fileName)
 
             this.logger.debug(`Uploading file: ${fileName} to bucket: ${this.bucketName}`)
 
@@ -84,7 +84,7 @@ export class ImageService {
                 },
             })
 
-            await this.s3Client.send(command)
+            // await this.s3Client.send(command)
             this.logger.log(`Successfully uploaded: ${fileName}`)
 
             return `https://${this.bucketName}.s3.${this.region}.amazonaws.com/${fileName}`
