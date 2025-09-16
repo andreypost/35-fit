@@ -10,25 +10,26 @@ export class ImageController {
     constructor(
         private readonly imageService: ImageService
     ) { }
+    
     @Post('upload')
+    @ApiOperation({ summary: 'upload' })
     @UseInterceptors(FilesInterceptor('images', 5, {
         limits: {
             fileSize: 5 * 1024 * 1024, // 5MB
             files: 5
         },
         fileFilter: (req, file, callback) => {
-            const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            const allowedMimeTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'];
             if (allowedMimeTypes.includes(file.mimetype)) {
                 callback(null, true);
             } else {
-                callback(new BadRequestException('Only JPG, PNG, and WebP images are allowed'), false);
+                callback(new BadRequestException('Only JPG, JPEG, PNG, and WebP images are allowed!'), false);
             }
         },
     }))
-    @ApiOperation({ summary: 'upload' })
     async uploadImages(
-        @UploadedFiles() images: Express.Multer.File[],
+        @UploadedFiles() files: Express.Multer.File[],
     ) {
-        return await this.imageService.uploadImages(images)
+        return await this.imageService.uploadImages(files)
     }
 }
