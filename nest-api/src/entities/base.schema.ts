@@ -2,13 +2,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Index,
-  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 export abstract class BaseSchema {
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  // @PrimaryGeneratedColumn('uuid')
+  // id!: string;
 
   @CreateDateColumn({ update: false }) // Explicitly non-updatable
   readonly createdAt!: Date;

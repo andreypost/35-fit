@@ -1,10 +1,13 @@
-import { Entity, Column, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseSchema } from './base.schema';
 import { Scooter } from './scooter';
 import { Accessory } from './accessory';
 
 @Entity({ name: 'price' })
 export class Price extends BaseSchema {
+  @PrimaryGeneratedColumn('uuid', { name: 'price_id' })
+  id!: string;
+
   @Column()
   name!: string;
 
@@ -30,7 +33,7 @@ export class Price extends BaseSchema {
 
   @OneToMany(() => Scooter, (scooter) => scooter.price, {
     cascade: ['insert', 'update'],
-    orphanedRowAction: 'soft-delete', // Match BaseSchema pattern
+    orphanedRowAction: 'soft-delete',
   })
   scooters?: Scooter[];
 
@@ -41,7 +44,7 @@ export class Price extends BaseSchema {
 
   @OneToMany(() => Accessory, (accessory) => accessory.price, {
     cascade: ['insert', 'update'],
-    orphanedRowAction: 'soft-delete', // Match BaseSchema pattern
+    orphanedRowAction: 'soft-delete',
   })
   accessories?: Accessory[];
 }

@@ -1,12 +1,16 @@
-import { Entity, Column, BeforeInsert, OneToMany } from 'typeorm';
+import { Entity, Column, BeforeInsert, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseSchema } from './base.schema';
 import { Transform } from 'class-transformer';
 import bcrypt from 'bcrypt';
 import { Order } from './order';
 import { UserPrivileges } from '../utils/user.roles';
+import { UserImage } from './user.image';
 
 @Entity({ name: 'user' })
 export class User extends BaseSchema {
+  @PrimaryGeneratedColumn('uuid', { name: 'user_id' })
+  id!: string;
+
   @Column()
   name!: string;
 
@@ -58,9 +62,14 @@ export class User extends BaseSchema {
   }
 
   @OneToMany(() => Order, (order) => order.user, {
-    nullable: false,
-    cascade: true,
-    orphanedRowAction: 'soft-delete', // Match BaseSchema
+    cascade: ['insert', 'update'],
+    orphanedRowAction: 'soft-delete',
   })
   orders!: Order[];
+
+  @OneToMany(() => UserImage, (image) => image.user, {
+    cascade: ['insert', 'update'],
+    orphanedRowAction: 'soft-delete',
+  })
+  images!: UserImage[]
 }
