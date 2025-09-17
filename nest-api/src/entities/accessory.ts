@@ -1,4 +1,12 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 import { BaseSchema } from './base.schema';
 import { Price } from './price';
 
@@ -20,5 +28,5 @@ export class Accessory extends BaseSchema {
   price!: Price;
 
   @RelationId((a: Accessory) => a.price)
-  priceId!: string
+  priceId!: string;
 }

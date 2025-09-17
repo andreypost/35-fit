@@ -7,6 +7,7 @@ import { Scooter } from '../entities/scooter';
 import { Accessory } from '../entities/accessory';
 import { OrderItem } from '../entities/order.item';
 import { Order } from '../entities/order';
+import { UserImage } from '../entities/user.image';
 
 ConfigModule.forRoot({
   envFilePath: process.env.NODE_ENV === 'docker' ? '.env.docker' : '.env.local',
@@ -26,7 +27,7 @@ export const dataBaseOptions = {
   database: configService.get<string>('PGDATABASE'),
   synchronize: false,
   logging: true,
-  entities: [User, Price, Scooter, Accessory, OrderItem, Order],
+  entities: [User, Price, Scooter, Accessory, OrderItem, Order, UserImage],
   // migrations:
   //   process.env.NODE_ENV === 'production'
   //     ? []

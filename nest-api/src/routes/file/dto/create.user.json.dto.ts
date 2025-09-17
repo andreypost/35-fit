@@ -27,20 +27,17 @@ export interface CsvUser {
 
 export class ImageUplodDTO {
   @IsNotEmpty()
-  lastModified: number
-
-  @IsOptional()
-  lastModifiedDate?: Date
+  id: string;
 
   @IsNotEmpty()
-  name: string
+  imageUrl: string;
 
   @IsNotEmpty()
-  size: string
+  displayOrder: number;
 
   @IsNotEmpty()
-  type: number
+  mimeType: string;
 
-  @IsOptional()
-  webkitRelativePath?: string
+  @IsNotEmpty()
+  userId: string;
 }

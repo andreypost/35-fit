@@ -132,9 +132,8 @@ export type IOrder = {
 }
 
 export interface IUploadImages {
-  file: File
-  name: string
-  size: number
-  type: string
-  previewUrl: string
+  id: string
+  imageUrl: string
+  displayOrder: number
+  mimeType: string
 }

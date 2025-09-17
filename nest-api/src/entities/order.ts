@@ -38,7 +38,7 @@ export class Order extends BaseSchema {
   })
   items!: OrderItem[];
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column('decimal', { name: 'final_total_price', precision: 10, scale: 2 })
   finalTotalPrice!: number;
 
   calculateFinalTotalPrice() {

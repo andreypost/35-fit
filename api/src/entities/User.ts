@@ -1,12 +1,22 @@
-import { Entity, Column, BeforeInsert, OneToMany } from "typeorm";
+import {
+  Entity,
+  Column,
+  BeforeInsert,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { BaseSchema } from "./BaseSchema";
 import { Transform } from "class-transformer";
 import bcrypt from "bcrypt";
 import { Order } from "./Order";
 import { UserPrivileges } from "../utils/userRoles";
+import { UserImage } from "./UserImage";
 
 @Entity({ name: "user" })
 export class User extends BaseSchema {
+  @PrimaryGeneratedColumn("uuid", { name: "user_id" })
+  id!: string;
+
   @Column()
   name!: string;
 
@@ -35,16 +45,24 @@ export class User extends BaseSchema {
   @Column()
   phone!: string;
 
-  @Column()
+  @Column({ name: "emergency_name" })
   emergencyName?: string;
 
-  @Column()
+  @Column({ name: "emergency_phone" })
   emergencyPhone?: string;
 
-  @Column({ type: "int", default: UserPrivileges.None })
+  @Column({
+    name: "granted_privileges",
+    type: "int",
+    default: UserPrivileges.None,
+  })
   grantedPrivileges!: number;
 
-  @Column({ type: "int", default: UserPrivileges.None })
+  @Column({
+    name: "denied_privileges",
+    type: "int",
+    default: UserPrivileges.None,
+  })
   deniedPrivileges!: number;
 
   @BeforeInsert()
@@ -58,9 +76,14 @@ export class User extends BaseSchema {
   }
 
   @OneToMany(() => Order, (order) => order.user, {
-    nullable: false,
-    cascade: true,
-    orphanedRowAction: "soft-delete", // Match BaseSchema
+    cascade: ["insert", "update"],
+    orphanedRowAction: "soft-delete",
   })
   orders!: Order[];
+
+  @OneToMany(() => UserImage, (image) => image.user, {
+    cascade: ["insert", "update"],
+    orphanedRowAction: "soft-delete",
+  })
+  images!: UserImage[];
 }

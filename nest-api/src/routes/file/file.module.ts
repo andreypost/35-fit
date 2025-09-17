@@ -8,10 +8,11 @@ import { DirController } from './dir/dir.controller';
 import { ImageController } from './image/image.controller';
 import { DirService } from './dir/dir.service';
 import { ImageService } from './image/image.service';
+import { UserService } from '../user/user.service';
 
 @Module({
   imports: [DataBaseModule],
   controllers: [JsonController, CsvController, DirController, ImageController],
-  providers: [JsonService, CsvService, DirService, ImageService],
+  providers: [JsonService, CsvService, DirService, ImageService, UserService],
 })
-export class FileModule { }
+export class FileModule {}

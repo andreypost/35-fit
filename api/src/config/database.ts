@@ -7,6 +7,7 @@ import { Scooter } from "../entities/Scooter";
 import { Accessory } from "../entities/Accessory";
 import { OrderItem } from "../entities/OrderItem";
 import { Order } from "../entities/Order";
+import { UserImage } from "../entities/UserImage";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -17,7 +18,7 @@ export const AppDataSource = new DataSource({
   database: env.DB_NAME,
   synchronize: false,
   logging: false,
-  entities: [User, Price, Scooter, Accessory, OrderItem, Order],
+  entities: [User, Price, Scooter, Accessory, OrderItem, Order, UserImage],
   migrations: env.NODE_ENV === "production" ? [] : ["dist/migration/**/*.js"],
 });
 
@@ -40,6 +41,7 @@ export const scooterRepository = AppDataSource.getRepository(Scooter);
 export const accessoryRepository = AppDataSource.getRepository(Accessory);
 export const orderItemRepository = AppDataSource.getRepository(OrderItem);
 export const orderRepository = AppDataSource.getRepository(Order);
+export const ouserImageRepository = AppDataSource.getRepository(UserImage);
 
 // import { Sequelize } from "sequelize";
 // import dotenv from "dotenv";

@@ -5,6 +5,8 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
+  RelationId,
 } from "typeorm";
 import { BaseSchema } from "./BaseSchema";
 import { User } from "./User";
@@ -12,27 +14,31 @@ import { OrderItem } from "./OrderItem";
 
 @Entity({ name: "order" })
 export class Order extends BaseSchema {
+  @PrimaryGeneratedColumn("uuid", { name: "order_id" })
+  id!: string;
+
   @Column()
   status!: string; // 'pending', 'shipped', 'delivered', 'cancelled'
 
   @ManyToOne(() => User, (user) => user.orders, {
     nullable: false,
-    // onDelete: 'RESTRICT' - The database will throw an error if you try to delete a User with existing orders
-    onDelete: "NO ACTION", // Disable DB-level cascade (let TypeORM handle soft-delete)
+    onDelete: "RESTRICT",
     onUpdate: "CASCADE",
   })
-  @JoinColumn({ name: "user_id" }) // Explicitly define the foreign key column
-  @Index()
+  @JoinColumn({ name: "user_id" })
+  @Index("idx_order_user_id")
   user!: User;
 
+  @RelationId((o: Order) => o.user)
+  userId!: string;
+
   @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
-    nullable: false,
     cascade: ["insert", "update"],
     orphanedRowAction: "soft-delete",
   })
   items!: OrderItem[];
 
-  @Column("decimal", { precision: 10, scale: 2 })
+  @Column("decimal", { name: "final_total_price", precision: 10, scale: 2 })
   finalTotalPrice!: number;
 
   calculateFinalTotalPrice() {

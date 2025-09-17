@@ -52,4 +52,5 @@ export const msg = {
   SEARCH_QUERY_IS_REQUIRED: "Search query is required!",
   GRANTED_PRINILEGES: "Granted Privileges is required!",
   DENIED_PRINILEGES: "Denied Privileges is required!",
+  IMAGES_LIMIT: " - images is the limit!",
 };

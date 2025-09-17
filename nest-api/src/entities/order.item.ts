@@ -1,4 +1,12 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 import { BaseSchema } from './base.schema';
 import { Order } from './order';
 import { Price } from './price';
@@ -8,16 +16,16 @@ export class OrderItem extends BaseSchema {
   @PrimaryGeneratedColumn('uuid', { name: 'order_item_id' })
   id!: string;
 
-  @Column()
+  @Column({ name: 'product_name' })
   productName!: string;
 
   @Column('int')
   quantity!: number;
 
-  @Column()
+  @Column({ name: 'product_type' })
   productType!: string;
 
-  @Column('uuid')
+  @Column('uuid', { name: 'product_id' })
   productId!: string; // UUID of the scooter or accessory
 
   @ManyToOne(() => Order, (order) => order.items, {

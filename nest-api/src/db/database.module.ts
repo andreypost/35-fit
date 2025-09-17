@@ -7,6 +7,7 @@ import { Scooter } from '../entities/scooter';
 import { Order } from '../entities/order';
 import { OrderItem } from '../entities/order.item';
 import { Accessory } from '../entities/accessory';
+import { UserImage } from '../entities/user.image';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { Accessory } from '../entities/accessory';
       Accessory,
       OrderItem,
       Order,
+      UserImage,
     ]),
   ],
   exports: [TypeOrmModule],

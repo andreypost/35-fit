@@ -1,9 +1,20 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from "typeorm";
 import { BaseSchema } from "./BaseSchema";
 import { Price } from "./Price";
 
 @Entity({ name: "scooter" })
 export class Scooter extends BaseSchema {
+  @PrimaryGeneratedColumn("uuid", { name: "scooter_id" })
+  id!: string;
+
   @Column()
   model!: string;
 
@@ -13,14 +24,22 @@ export class Scooter extends BaseSchema {
 
   @ManyToOne(() => Price, (price) => price.scooters, {
     nullable: false,
-    onDelete: "NO ACTION", // Disable DB-level cascade (let TypeORM handle soft-delete)
+    onDelete: "RESTRICT",
     onUpdate: "CASCADE",
   })
   @JoinColumn({ name: "price_id" })
-  @Index()
+  @Index("idx_scooter_price_id")
   price!: Price;
 
-  @Column("decimal", { precision: 10, scale: 2, nullable: true })
+  @RelationId((s: Scooter) => s.price)
+  priceId!: string;
+
+  @Column("decimal", {
+    name: "rental_price_per_day",
+    precision: 10,
+    scale: 2,
+    nullable: true,
+  })
   rentalPricePerDay?: number;
 
   @Column({ default: "sale" }) // sale or rental

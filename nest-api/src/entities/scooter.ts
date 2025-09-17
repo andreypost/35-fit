@@ -1,4 +1,12 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 import { BaseSchema } from './base.schema';
 import { Price } from './price';
 
@@ -26,7 +34,12 @@ export class Scooter extends BaseSchema {
   @RelationId((s: Scooter) => s.price)
   priceId!: string;
 
-  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  @Column('decimal', {
+    name: 'rental_price_per_day',
+    precision: 10,
+    scale: 2,
+    nullable: true,
+  })
   rentalPricePerDay?: number;
 
   @Column({ default: 'sale' }) // sale or rental

@@ -23,7 +23,7 @@ export class Price extends BaseSchema {
   @Column()
   currency!: string;
 
-  @Column()
+  @Column({ name: 'product_type' })
   productType!: string; // 'scooter' or 'accessory'
 
   // Each Scooter has a unique pricing model, the price is not intended to be reused across multiple scooters.
