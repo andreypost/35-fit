@@ -17,7 +17,7 @@ export class UserImage extends BaseSchema {
 
   @ManyToOne(() => User, (user) => user.images, {
     nullable: false,
-    onDelete: "CASCADE",
+    onDelete: "RESTRICT",
     onUpdate: "CASCADE",
   })
   @JoinColumn({ name: "user_id" })

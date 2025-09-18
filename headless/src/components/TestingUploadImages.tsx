@@ -1,3 +1,4 @@
+import { CrossRedSVG } from 'img/icons'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { IUploadImages } from 'types/interface'
@@ -5,25 +6,45 @@ import { apiEndpointCall } from 'utils/endpointApiCall'
 
 const Div = styled.div`
   .upload_images {
-    p {
+    .upload_images_input {
       margin-bottom: 20px;
+      p {
+        margin-bottom: 20px;
+      }
+      input {
+        width: 93%;
+        font-size: 14px;
+        font-weight: 700;
+        border: none;
+        background-color: transparent;
+        color: #004;
+      }
+      input::placeholder {
+        color: #7fcbae;
+      }
+      input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 1000px white inset !important;
+        box-shadow: 0 0 0 1000px white inset !important;
+        -webkit-text-fill-color: #004 !important;
+        background-color: transparent !important;
+      }
     }
-    input {
-      width: 93%;
-      font-size: 14px;
-      font-weight: 700;
-      border: none;
-      background-color: transparent;
-      color: #004;
-    }
-    input::placeholder {
-      color: #7fcbae;
-    }
-    input:-webkit-autofill {
-      -webkit-box-shadow: 0 0 0 1000px white inset !important;
-      box-shadow: 0 0 0 1000px white inset !important;
-      -webkit-text-fill-color: #004 !important;
-      background-color: transparent !important;
+    .upload_images_container {
+      gap: 20px;
+      .upload_images_box {
+        img {
+          max-height: 120px;
+          width: auto;
+        }
+        .upload_images_cross {
+          right: 6px;
+          top: 6px;
+          width: 14px;
+          height: 14px;
+          z-index: 999;
+          cursor: pointer;
+        }
+      }  
     }
   }
 `
@@ -32,7 +53,7 @@ export const TestingUploadImages = () => {
 
   useEffect(() => {
     const getAllImages = async () => {
-      const response = await apiEndpointCall('get', 'file/image/all')
+      const response = await apiEndpointCall('get', 'file/image/all', {}, true)
       if (response?.data) {
         console.log('getAllImages: ', response.data)
         setImages(response.data)
@@ -76,21 +97,38 @@ export const TestingUploadImages = () => {
     console.log('formData: ', formData.get('meta'))
     console.log('handleUploadImages: response: ', response)
   }
+
+  const handleDeleteImage = async (id: string) => {
+    // const url = new URL(imageUrl)
+    // const key = url.pathname.slice(1)
+    // console.log(key)
+    const response = await apiEndpointCall('delete', `file/image/${id}`)
+    console.log("handleDeleteImage response: ", response)
+  }
+
   return (
     <Div>
       <div className="upload_images margin_b_120_80">
-        {images?.length > 0 &&
-          images.map(({ imageUrl, id }) => (
-            <img src={imageUrl} alt="" key={id} />
-          ))}
-        <p>Upload Images</p>
-        <input
-          type="file"
-          multiple
-          accept="image/jpeg, image/png, image/webp"
-          onChange={handleUploadImages}
-          placeholder="Upload Images"
-        />
+        <div className="upload_images_input">
+          <p>Upload Images</p>
+          <input
+            type="file"
+            multiple
+            accept="image/jpeg, image/png, image/webp"
+            onChange={handleUploadImages}
+            placeholder="Upload Images"
+          />
+        </div>
+        <div className='upload_images_container flex wrap'>
+          {images?.length > 0 &&
+            images.map(({ displayOrder, imageUrl, id }) => (
+              <div className='upload_images_box relative' key={id} >
+                <img src={imageUrl} alt="nature image" />
+                <CrossRedSVG className='upload_images_cross absolute' onClick={() => handleDeleteImage(id)} />
+                <p>{displayOrder}</p>
+              </div>
+            ))}
+        </div>
       </div>
     </Div>
   )

@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Init1758126416421 implements MigrationInterface {
-    name = 'Init1758126416421'
+export class Init1758229702927 implements MigrationInterface {
+    name = 'Init1758229702927'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "scooter" ("created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP DEFAULT now(), "deleted_at" TIMESTAMP, "scooter_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "model" character varying NOT NULL, "rental_price_per_day" numeric(10,2), "saleType" character varying NOT NULL DEFAULT 'sale', "price_id" uuid NOT NULL, CONSTRAINT "PK_df038cb32616a3f79fcc3f897fb" PRIMARY KEY ("scooter_id"))`);
@@ -29,7 +29,7 @@ export class Init1758126416421 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "order_item" ADD CONSTRAINT "FK_e9674a6053adbaa1057848cddfa" FOREIGN KEY ("order_id") REFERENCES "order"("order_id") ON DELETE NO ACTION ON UPDATE CASCADE`);
         await queryRunner.query(`ALTER TABLE "order_item" ADD CONSTRAINT "FK_96061445fe14aa45cdfc1770e2f" FOREIGN KEY ("price_id") REFERENCES "price"("price_id") ON DELETE RESTRICT ON UPDATE CASCADE`);
         await queryRunner.query(`ALTER TABLE "order" ADD CONSTRAINT "FK_199e32a02ddc0f47cd93181d8fd" FOREIGN KEY ("user_id") REFERENCES "user"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE`);
-        await queryRunner.query(`ALTER TABLE "user_image" ADD CONSTRAINT "FK_60db7aa78ee9dfbdbd4c7311a05" FOREIGN KEY ("user_id") REFERENCES "user"("user_id") ON DELETE CASCADE ON UPDATE CASCADE`);
+        await queryRunner.query(`ALTER TABLE "user_image" ADD CONSTRAINT "FK_60db7aa78ee9dfbdbd4c7311a05" FOREIGN KEY ("user_id") REFERENCES "user"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
@@ -39,25 +39,25 @@ export class Init1758126416421 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "order_item" DROP CONSTRAINT "FK_e9674a6053adbaa1057848cddfa"`);
         await queryRunner.query(`ALTER TABLE "accessory" DROP CONSTRAINT "FK_67cc7d79289a35437ce076670ad"`);
         await queryRunner.query(`ALTER TABLE "scooter" DROP CONSTRAINT "FK_9f4db2a8e5d4ca951124cce10e7"`);
-        await queryRunner.query(`DROP INDEX "IDX_22b81d3ed19a0bffcb660800f4"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_22b81d3ed19a0bffcb660800f4"`);
         await queryRunner.query(`DROP TABLE "user"`);
-        await queryRunner.query(`DROP INDEX "idx_user_image_user_id"`);
-        await queryRunner.query(`DROP INDEX "IDX_63b2dc0a577ece04ad97a5bffa"`);
+        await queryRunner.query(`DROP INDEX "public"."idx_user_image_user_id"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_63b2dc0a577ece04ad97a5bffa"`);
         await queryRunner.query(`DROP TABLE "user_image"`);
-        await queryRunner.query(`DROP INDEX "idx_order_user_id"`);
-        await queryRunner.query(`DROP INDEX "IDX_4e529e216c7ffb66d2427fb13e"`);
+        await queryRunner.query(`DROP INDEX "public"."idx_order_user_id"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_4e529e216c7ffb66d2427fb13e"`);
         await queryRunner.query(`DROP TABLE "order"`);
-        await queryRunner.query(`DROP INDEX "idx_order_item_price_id"`);
-        await queryRunner.query(`DROP INDEX "idx_order_item_order_id"`);
-        await queryRunner.query(`DROP INDEX "IDX_76c7fdeb1dee75389547bec3cf"`);
+        await queryRunner.query(`DROP INDEX "public"."idx_order_item_price_id"`);
+        await queryRunner.query(`DROP INDEX "public"."idx_order_item_order_id"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_76c7fdeb1dee75389547bec3cf"`);
         await queryRunner.query(`DROP TABLE "order_item"`);
-        await queryRunner.query(`DROP INDEX "IDX_8bfdcefcb1def77577a150023d"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_8bfdcefcb1def77577a150023d"`);
         await queryRunner.query(`DROP TABLE "price"`);
-        await queryRunner.query(`DROP INDEX "idx_accessory_price_id"`);
-        await queryRunner.query(`DROP INDEX "IDX_7dbdaec395fa248a3c2a7a0293"`);
+        await queryRunner.query(`DROP INDEX "public"."idx_accessory_price_id"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_7dbdaec395fa248a3c2a7a0293"`);
         await queryRunner.query(`DROP TABLE "accessory"`);
-        await queryRunner.query(`DROP INDEX "idx_scooter_price_id"`);
-        await queryRunner.query(`DROP INDEX "IDX_bcac1e9e42dbd0b78650e780c5"`);
+        await queryRunner.query(`DROP INDEX "public"."idx_scooter_price_id"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_bcac1e9e42dbd0b78650e780c5"`);
         await queryRunner.query(`DROP TABLE "scooter"`);
     }
 

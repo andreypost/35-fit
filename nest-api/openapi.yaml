@@ -328,6 +328,20 @@ paths:
           description: ""
       summary: upload
       tags: *a8
+  /file/image/{id}:
+    delete:
+      operationId: ImageController_deleteImage
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+      summary: delete
+      tags: *a8
 info:
   title: 35-fit nest-api
   description: The NEST-API description for the 35-fit project

@@ -167,4 +167,14 @@ export class ImageService {
       handleError(error);
     }
   }
+
+  async deleteImage(id: string): Promise<string> {
+    try {
+      const removedImage = await this.userImageRepository.delete(id)
+      console.log("deleteImage: ", removedImage)
+      return 'Successfully'
+    } catch (error: unknown) {
+      handleError(error)
+    }
+  }
 }
