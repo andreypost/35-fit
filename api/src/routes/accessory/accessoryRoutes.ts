@@ -3,7 +3,7 @@ import { Price } from "../../entities/Price";
 import { Accessory } from "../../entities/Accessory";
 import { getPriceById } from "../price/priceRoutes";
 import { msg } from "../../constants/messages";
-import { accessoryRepository } from "../../config/database";
+import { accessoryRepository } from "../../db/database";
 import { validateAccessoryDto } from "./accessoryDto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { nextError } from "../../utils/nextError";

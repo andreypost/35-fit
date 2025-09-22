@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import "./config/env";
-import { env } from "./config/env";
+import "./db/env";
+import { env } from "./db/env";
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";

@@ -5,7 +5,7 @@ import {
   setAuthToken,
   validateAuthToken,
 } from "../../auth/jsonWebToken";
-import { userRepository } from "../../config/database";
+import { userRepository } from "../../db/database";
 import { rateLimitHandler } from "../../middleware/rateLimiter";
 import {
   validateSearchQueryDto,

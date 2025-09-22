@@ -5,7 +5,7 @@ import {
   GraphQLBoolean,
   GraphQLInt,
 } from "graphql";
-import { userRepository } from "../config/database";
+import { userRepository } from "../db/database";
 import bcrypt from "bcrypt";
 import { setAuthToken } from "../auth/jsonWebToken";
 import { msg } from "../constants/messages";

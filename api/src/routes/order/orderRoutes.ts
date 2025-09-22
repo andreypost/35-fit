@@ -7,7 +7,7 @@ import {
   orderRepository,
   scooterRepository,
   userRepository,
-} from "../../config/database";
+} from "../../db/database";
 import { msg } from "../../constants/messages";
 import { validateOrderDto } from "./orderDto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";

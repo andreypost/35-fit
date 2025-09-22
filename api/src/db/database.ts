@@ -19,8 +19,8 @@ export const AppDataSource = new DataSource({
   synchronize: false,
   logging: false,
   entities: [User, Price, Scooter, Accessory, OrderItem, Order, UserImage],
-  // migrations: env.NODE_ENV === "production" ? [] : ["dist/migration/**/*.js"],
-  migrations: ["dist/migration/**/*.js"],
+  // migrations: env.NODE_ENV === "production" ? [] : ["dist/src/db/migrations/**/*.js"],
+  migrations: ["dist/src/db/migrations/**/*.js"],
 });
 
 AppDataSource.initialize()

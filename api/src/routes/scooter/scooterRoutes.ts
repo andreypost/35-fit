@@ -5,7 +5,7 @@ import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { Price } from "../../entities/Price";
 import { getPriceById } from "../price/priceRoutes";
 import { msg } from "../../constants/messages";
-import { scooterRepository } from "../../config/database";
+import { scooterRepository } from "../../db/database";
 import { nextError } from "../../utils/nextError";
 
 export const scooter = Router();

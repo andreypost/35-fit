@@ -3,7 +3,7 @@ import { createWriteStream, existsSync, mkdirSync } from "fs";
 import path from "path";
 import { format } from "fast-csv";
 import { resolveFilePath } from "./helpers/resolveFilePath";
-import { userRepository } from "../../config/database";
+import { userRepository } from "../../db/database";
 import { nextError } from "../../utils/nextError";
 
 export const csvRoutes = Router();

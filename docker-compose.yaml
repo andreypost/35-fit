@@ -1,7 +1,7 @@
 services:
   database:
     image: postgres:16.8 # Uses PostgreSQL 16.8
-    container_name: fit-db
+    container_name: n-fit
     restart: always
     env_file:
       - ./.env
@@ -12,7 +12,7 @@ services:
     ports:
       - ${DOCKERPORT}:${PGPORT}
     volumes:
-      - fit-db-data:/var/lib/postgresql/data
+      - n-fit-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-d", "${PGDATABASE}", "-U", "${PGUSER}"]
       interval: 5s
@@ -58,4 +58,4 @@ services:
     # command: ["npx", "serve", "-s", "dist", "-l", "8080"] # Explicitly force serving dist/
 
 volumes:
-  fitdb-data: # Persistent PostgreSQL storage
+  n-fit-data: # Persistent PostgreSQL storage

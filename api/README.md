@@ -29,7 +29,9 @@ $ npm run start:dev:inspect
 npm run typeorm cache:clear
 
 # create migration
-npm run typeorm:generate src/migration/YOUR-MIGRATION-NAME
+npm run typeorm:generate src/db/migrations/YOUR-MIGRATION-NAME
+
+# npm run typeorm:generate src/migration/YOUR-MIGRATION-NAME
 
 npm run typeorm:show
 

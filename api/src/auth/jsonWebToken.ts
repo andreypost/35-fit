@@ -1,4 +1,4 @@
-import { env } from "../config/env";
+import { env } from "../db/env";
 import { sign, verify } from "jsonwebtoken";
 import { Response, NextFunction } from "express";
 import { CustomErrorHandler } from "../middleware/errorHandler";
