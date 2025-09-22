@@ -6,10 +6,12 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   RelationId,
+  Unique,
 } from 'typeorm';
 import { BaseSchema } from './base.schema';
 import { User } from './user';
 
+@Unique('user_image_display_order', ['user', 'displayOrder'])
 @Entity('user_image')
 export class UserImage extends BaseSchema {
   @PrimaryGeneratedColumn('uuid', { name: 'user_image_id' })

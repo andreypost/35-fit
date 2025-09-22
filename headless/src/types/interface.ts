@@ -135,5 +135,4 @@ export interface IUploadImages {
   id: string
   imageUrl: string
   displayOrder: number
-  mimeType: string
 }

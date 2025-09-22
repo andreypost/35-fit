@@ -17,7 +17,7 @@ import { ImageUplodDTO } from '../dto/create.user.json.dto';
 
 @Controller('file/image')
 export class ImageController {
-  constructor(private readonly imageService: ImageService) { }
+  constructor(private readonly imageService: ImageService) {}
 
   @Get('all')
   @ApiOperation({ summary: 'all' })
@@ -45,11 +45,11 @@ export class ImageController {
         allowedMimeTypes.includes(file.mimetype)
           ? callback(null, true)
           : callback(
-            new BadRequestException(
-              'Only JPG, JPEG, PNG, and WebP images are allowed!',
-            ),
-            false,
-          );
+              new BadRequestException(
+                'Only JPG, JPEG, PNG, and WebP images are allowed!',
+              ),
+              false,
+            );
       },
     }),
   )
@@ -64,9 +64,9 @@ export class ImageController {
   @Delete(':id')
   @ApiOperation({ summary: 'delete' })
   async deleteImage(
-    @Param('id') id: string
-    // @Body() imageUrl: string
+    @Param('id') imageId: string,
+    @CurrentUserEmail() email: string,
   ): Promise<string> {
-    return this.imageService.deleteImage(id)
+    return this.imageService.deleteImage(imageId, email);
   }
 }

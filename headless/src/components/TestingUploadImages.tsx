@@ -1,8 +1,10 @@
 import { CrossRedSVG } from 'img/icons'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { spinnerIsVisibile } from 'slices/action.slice'
 import { IUploadImages } from 'types/interface'
 import { apiEndpointCall } from 'utils/endpointApiCall'
+import { useAppDispatch } from 'utils/hooks'
 
 const Div = styled.div`
   .upload_images {
@@ -12,7 +14,6 @@ const Div = styled.div`
         margin-bottom: 20px;
       }
       input {
-        width: 93%;
         font-size: 14px;
         font-weight: 700;
         border: none;
@@ -44,21 +45,23 @@ const Div = styled.div`
           z-index: 999;
           cursor: pointer;
         }
-      }  
+      }
     }
   }
 `
 export const TestingUploadImages = () => {
   const [images, setImages] = useState<IUploadImages[]>([])
+  const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    const getAllImages = async () => {
-      const response = await apiEndpointCall('get', 'file/image/all', {}, true)
-      if (response?.data) {
-        console.log('getAllImages: ', response.data)
-        setImages(response.data)
-      }
+  const getAllImages = async () => {
+    dispatch(spinnerIsVisibile(true))
+    const response = await apiEndpointCall('get', 'file/image/all', {}, true)
+    if (response?.data) {
+      setImages(response.data)
     }
+    setTimeout(() => dispatch(spinnerIsVisibile(false)), 1000)
+  }
+  useEffect(() => {
     getAllImages()
   }, [])
 
@@ -66,19 +69,11 @@ export const TestingUploadImages = () => {
     e
   ) => {
     if (!e.target.files) return
+
+    dispatch(spinnerIsVisibile(true))
     const files: File[] = Array.from(e.target.files)
 
     console.log('e.target.files: ', files)
-
-    // const imageObjects: IUploadImages[] = files.map((file) => ({
-    //   file,
-    //   name: file.name,
-    //   size: file.size,
-    //   type: file.type,
-    //   previewUrl: URL.createObjectURL(file),
-    // }))
-
-    // console.log('imageObjects: ', imageObjects)
 
     const formData = new FormData()
 
@@ -93,17 +88,15 @@ export const TestingUploadImages = () => {
       'file/image/upload',
       formData
     )
-    console.log('formData: ', formData.get('images'))
-    console.log('formData: ', formData.get('meta'))
     console.log('handleUploadImages: response: ', response)
+    getAllImages()
   }
 
   const handleDeleteImage = async (id: string) => {
-    // const url = new URL(imageUrl)
-    // const key = url.pathname.slice(1)
-    // console.log(key)
+    dispatch(spinnerIsVisibile(true))
     const response = await apiEndpointCall('delete', `file/image/${id}`)
-    console.log("handleDeleteImage response: ", response)
+    console.log('handleDeleteImage response: ', response)
+    getAllImages()
   }
 
   return (
@@ -119,12 +112,15 @@ export const TestingUploadImages = () => {
             placeholder="Upload Images"
           />
         </div>
-        <div className='upload_images_container flex wrap'>
+        <div className="upload_images_container flex wrap">
           {images?.length > 0 &&
             images.map(({ displayOrder, imageUrl, id }) => (
-              <div className='upload_images_box relative' key={id} >
+              <div className="upload_images_box relative" key={id}>
                 <img src={imageUrl} alt="nature image" />
-                <CrossRedSVG className='upload_images_cross absolute' onClick={() => handleDeleteImage(id)} />
+                <CrossRedSVG
+                  className="upload_images_cross absolute"
+                  onClick={() => handleDeleteImage(id)}
+                />
                 <p>{displayOrder}</p>
               </div>
             ))}

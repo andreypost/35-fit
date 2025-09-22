@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
@@ -7,6 +7,7 @@ import { IAuth } from 'types/interface'
 import { PercentReserveSVG } from 'img/icons'
 import { TestingModule } from 'components/TestingModule'
 import { useAppDispatch } from 'utils/hooks'
+import { AppContext } from '../AppRouter'
 import { addNewDatabaseUser } from 'slices/databaseUser.slice'
 import { messageModal } from 'slices/modal.slice'
 import { errorModalMessage } from 'utils/errorModalMessage'
@@ -203,6 +204,7 @@ const Reserve = () => {
   const { t } = useTranslation()
   const [userData, setUserData] = useState<IAuth>({})
   const dispatch = useAppDispatch()
+  const { currentUser } = useContext(AppContext)
 
   const genderOptions = [
     { value: '', label: 'Select Gender' },
@@ -300,11 +302,12 @@ const Reserve = () => {
         </aside>
 
         <article className="reserve_article">
-          {isDevelopment &&
+          {isDevelopment && (
             <>
-              <TestingUploadImages />
+              {currentUser && <TestingUploadImages />}
               <TestingModule />
-            </>}
+            </>
+          )}
           <header className="grey">
             <h4 className="b900">
               {t('reserve.new_to_fit')}
@@ -453,16 +456,17 @@ const Reserve = () => {
             <button
               className="flex_center_center reserve_submit margin_b_60_30 b900 white"
               type="submit"
-            // hidden={user ? true : false}
+              // hidden={user ? true : false}
             >
               {t('reserve.continue')}
             </button>
           </form>
-          {isDevelopment &&
+          {isDevelopment && (
             <>
               <h3 className="b900 margin_b_60_30 blue">Additional Forms</h3>
               <TestingRoles />
-            </>}
+            </>
+          )}
         </article>
       </section>
     </Main>

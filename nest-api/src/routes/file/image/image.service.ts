@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   Logger,
   NotAcceptableException,
@@ -7,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import {
   S3Client,
   HeadObjectCommand,
@@ -35,6 +36,7 @@ export class ImageService {
     private userImageRepository: Repository<UserImage>,
     private readonly configService: ConfigService,
     private readonly userService: UserService,
+    private readonly dataSource: DataSource,
   ) {
     this.bucketName = this.configService.get<string>('AWS_BUCKET_NAME');
     this.region = this.configService.get<string>('AWS_REGION');
@@ -122,14 +124,10 @@ export class ImageService {
     order: number,
   ): Promise<string> {
     try {
-      // console.log("unploadSingleImages: ", file)
       const timestamp = new Date().toISOString().split('T')[0];
       const uniqueId = uuidv4();
       const fileExtention = file.mimetype.split('/')[1];
       const fileName = `buoys/${timestamp}/${uniqueId}.${fileExtention}`;
-
-      // console.log("buffer: ", file.buffer)
-      // console.log("fileName: ", fileName)
 
       this.logger.debug(
         `Uploading file: ${fileName} to bucket: ${this.bucketName}`,
@@ -148,7 +146,8 @@ export class ImageService {
         },
       });
 
-      // await this.s3Client.send(command)
+      await this.s3Client.send(command);
+
       this.logger.log(`Successfully uploaded: ${fileName}`);
 
       const userImage = this.userImageRepository.create({
@@ -160,21 +159,69 @@ export class ImageService {
 
       await this.userImageRepository.save(userImage);
 
-      console.log('unploadSingleImages userImage:', userImage);
-
       return `https://${this.bucketName}.s3.${this.region}.amazonaws.com/${fileName}`;
     } catch (error: unknown) {
       handleError(error);
     }
   }
 
-  async deleteImage(id: string): Promise<string> {
+  async deleteImage(imageId: string, email: string): Promise<string> {
     try {
-      const removedImage = await this.userImageRepository.delete(id)
-      console.log("deleteImage: ", removedImage)
-      return 'Successfully'
+      const currentUser = await this.userService.findUserByEmail(email);
+      if (!currentUser) {
+        throw new NotFoundException(msg.USER_NOT_FOUND);
+      }
+
+      this.userId = currentUser.id;
+
+      await this.dataSource.transaction(async (manager) => {
+        const userImageRepo = manager.getRepository(UserImage);
+
+        const result = await userImageRepo
+          .createQueryBuilder()
+          .delete()
+          .from(UserImage)
+          .where('user_image_id = :id', { id: imageId })
+          .returning('*')
+          .execute();
+
+        if (result?.raw?.length > 0) {
+          const { display_order, image_url } = result.raw[0];
+
+          if (!image_url.includes(this.bucketName)) {
+            throw new BadRequestException(msg.INVALID_IMAGE_URL);
+          }
+
+          const url = new URL(image_url);
+          const key = url.pathname.slice(1);
+
+          const command = new DeleteObjectCommand({
+            Bucket: this.bucketName,
+            Key: key,
+          });
+
+          this.logger.debug(
+            `Deleting file: ${key} from bucket: ${this.bucketName}`,
+          );
+
+          await this.s3Client.send(command);
+
+          if (Number.isFinite(display_order)) {
+            await manager.query(
+              `
+              UPDATE "user_image"
+              SET "display_order" = "display_order" - 1
+              WHERE "user_id" = $1 AND "display_order" > $2
+              `,
+              [this.userId, display_order],
+            );
+          }
+        }
+      });
+
+      return msg.IMAGE_DELETED_SUCCESSFULLY;
     } catch (error: unknown) {
-      handleError(error)
+      handleError(error);
     }
   }
 }

@@ -34,10 +34,4 @@ export class ImageUplodDTO {
 
   @IsNotEmpty()
   displayOrder: number;
-
-  @IsNotEmpty()
-  mimeType: string;
-
-  @IsNotEmpty()
-  userId: string;
 }
