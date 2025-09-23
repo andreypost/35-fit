@@ -23,7 +23,7 @@ export class ImageController {
   @ApiOperation({ summary: 'all' })
   async getAllImages(
     @CurrentUserEmail() email: string,
-  ): Promise<ImageUplodDTO[]> {
+  ): Promise<ImageUplodDTO[] | number> {
     return this.imageService.getAllImages(email);
   }
 

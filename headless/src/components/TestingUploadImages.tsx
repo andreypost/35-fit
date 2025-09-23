@@ -50,6 +50,7 @@ const Div = styled.div`
   }
 `
 export const TestingUploadImages = () => {
+  const [uploadInput, setUploadInput] = useState<string>('')
   const [images, setImages] = useState<IUploadImages[]>([])
   const dispatch = useAppDispatch()
 
@@ -88,15 +89,18 @@ export const TestingUploadImages = () => {
       'file/image/upload',
       formData
     )
+      .finally(() => {
+        setUploadInput('')
+        getAllImages()
+      })
     console.log('handleUploadImages: response: ', response)
-    getAllImages()
   }
 
   const handleDeleteImage = async (id: string) => {
     dispatch(spinnerIsVisibile(true))
     const response = await apiEndpointCall('delete', `file/image/${id}`)
+      .finally(() => getAllImages())
     console.log('handleDeleteImage response: ', response)
-    getAllImages()
   }
 
   return (
@@ -108,6 +112,7 @@ export const TestingUploadImages = () => {
             type="file"
             multiple
             accept="image/jpeg, image/png, image/webp"
+            value={uploadInput}
             onChange={handleUploadImages}
             placeholder="Upload Images"
           />
