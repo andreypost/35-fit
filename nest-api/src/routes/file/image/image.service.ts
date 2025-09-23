@@ -89,14 +89,9 @@ export class ImageService {
 
   async uploadImages(
     files: Express.Multer.File[],
-    meta: string,
     email: string,
   ): Promise<string[]> {
     try {
-      // console.log('uploadPromises files: ', files);
-
-      // const displayOrders: Array<{ displayOrder: number }> = JSON.parse(meta); // ## TO DO
-      // console.log('uploadPromises meta: ', displayOrders);
 
       const allImages = await this.getAllImages(email);
 
@@ -146,7 +141,7 @@ export class ImageService {
         },
       });
 
-      await this.s3Client.send(command);
+      // await this.s3Client.send(command);
 
       this.logger.log(`Successfully uploaded: ${fileName}`);
 
@@ -204,7 +199,7 @@ export class ImageService {
             `Deleting file: ${key} from bucket: ${this.bucketName}`,
           );
 
-          await this.s3Client.send(command);
+          // await this.s3Client.send(command);
 
           if (Number.isFinite(display_order)) {
             await manager.query(

@@ -17,7 +17,7 @@ import { ImageUplodDTO } from '../dto/create.user.json.dto';
 
 @Controller('file/image')
 export class ImageController {
-  constructor(private readonly imageService: ImageService) {}
+  constructor(private readonly imageService: ImageService) { }
 
   @Get('all')
   @ApiOperation({ summary: 'all' })
@@ -45,20 +45,19 @@ export class ImageController {
         allowedMimeTypes.includes(file.mimetype)
           ? callback(null, true)
           : callback(
-              new BadRequestException(
-                'Only JPG, JPEG, PNG, and WebP images are allowed!',
-              ),
-              false,
-            );
+            new BadRequestException(
+              'Only JPG, JPEG, PNG, and WebP images are allowed!',
+            ),
+            false,
+          );
       },
     }),
   )
   async uploadImages(
     @UploadedFiles() files: Express.Multer.File[],
-    @Body('meta') meta: string,
     @CurrentUserEmail() email: string,
   ) {
-    return await this.imageService.uploadImages(files, meta, email);
+    return await this.imageService.uploadImages(files, email);
   }
 
   @Delete(':id')
