@@ -55,4 +55,5 @@ export const msg = {
   IMAGES_LIMIT: ' - images is the limit!',
   IMAGE_DELETED_SUCCESSFULLY: 'Image deleted successfully!',
   INVALID_IMAGE_URL: 'Invalid image URL - not from our bucket!',
+  IMAGES_SWIPED_SUCCESSFULLY: 'Images swiped successfully!',
 };

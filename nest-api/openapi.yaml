@@ -342,6 +342,23 @@ paths:
           description: ""
       summary: delete
       tags: *a8
+  /file/image/order:
+    put:
+      operationId: ImageController_moveImages
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: order
+      tags: *a8
 info:
   title: 35-fit nest-api
   description: The NEST-API description for the 35-fit project

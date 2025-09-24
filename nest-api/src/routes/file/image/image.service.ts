@@ -29,8 +29,8 @@ export class ImageService {
   private bucketName: string;
   private region: string;
   private s3Client: S3Client;
-  private MAX_IMAGES: number = 5
-  private SHIFT: number = 1_000
+  private MAX_IMAGES: number = 5;
+  private SHIFT: number = 1_000;
 
   constructor(
     @InjectRepository(UserImage)
@@ -70,7 +70,10 @@ export class ImageService {
     );
   }
 
-  async getAllImages(email: string, count: boolean = false): Promise<ImageUplodDTO[] | number> {
+  async getAllImages(
+    email: string,
+    count: boolean = false,
+  ): Promise<ImageUplodDTO[] | number> {
     try {
       const currentUser = await this.userService.findUserByEmail(email);
       if (!currentUser) {
@@ -78,23 +81,22 @@ export class ImageService {
       }
       const userId = currentUser.id;
 
-      return count ?
-        await this.userImageRepository.count({
-          where: { user: { id: userId } }
-        })
-        :
-        await this.userImageRepository.find({
-          where: { user: { id: userId } },
-          order: { displayOrder: 'ASC' },
-        });
+      return count
+        ? await this.userImageRepository.count({
+            where: { user: { id: userId } },
+          })
+        : await this.userImageRepository.find({
+            where: { user: { id: userId } },
+            order: { displayOrder: 'ASC' },
+          });
     } catch (error: unknown) {
       handleError(error);
     }
   }
 
   async uploadImages(
-    files: Express.Multer.File[],
     email: string,
+    files: Express.Multer.File[],
   ): Promise<string[]> {
     try {
       const currentUser = await this.userService.findUserByEmail(email);
@@ -113,7 +115,7 @@ export class ImageService {
 
       return await Promise.all(
         files.map(async (file) => {
-          const imageUrl = await this.unploadToS3(file)
+          const imageUrl = await this.unploadToS3(file);
           const userImage = this.userImageRepository.create({
             user: { id: userId },
             imageUrl,
@@ -121,17 +123,15 @@ export class ImageService {
             mimeType: file.mimetype,
           });
           await this.userImageRepository.save(userImage);
-          return imageUrl
-        })
+          return imageUrl;
+        }),
       );
     } catch (error: unknown) {
       handleError(error);
     }
   }
 
-  private async unploadToS3(
-    file: Express.Multer.File,
-  ): Promise<string> {
+  private async unploadToS3(file: Express.Multer.File): Promise<string> {
     try {
       const timestamp = new Date().toISOString().split('T')[0];
       const uniqueId = uuidv4();
@@ -165,7 +165,7 @@ export class ImageService {
     }
   }
 
-  async deleteImage(imageId: string, email: string): Promise<string> {
+  async deleteImage(email: string, imageId: string): Promise<string> {
     try {
       const currentUser = await this.userService.findUserByEmail(email);
       if (!currentUser) {
@@ -173,10 +173,9 @@ export class ImageService {
       }
       const userId = currentUser.id;
 
-      let s3KeyToDelete: string | null = null
+      let s3KeyToDelete: string | null = null;
 
       await this.dataSource.transaction(async (manager) => {
-
         const result = await manager
           .createQueryBuilder()
           .delete()
@@ -185,44 +184,65 @@ export class ImageService {
           .returning('*')
           .execute();
 
-        if (!result?.raw?.length) throw new NotFoundException(msg.IMAGES_NOT_FOUND)
+        if (!result?.raw?.length)
+          throw new NotFoundException(msg.IMAGES_NOT_FOUND);
 
         const deletedOrder = Number(result.raw[0].display_order);
         const imageUrl: string = result.raw[0].image_url;
 
         s3KeyToDelete = new URL(imageUrl).pathname.replace(/^\/+/, '');
 
-        await manager.query(`
+        await manager.query(
+          `
               UPDATE "user_image"
               SET "display_order" = "display_order" + ${this.SHIFT}
               WHERE "user_id" = $1 AND "display_order" > $2
               `,
-          [userId, deletedOrder]);
+          [userId, deletedOrder],
+        );
 
-        await manager.query(`
+        await manager.query(
+          `
               UPDATE "user_image"
               SET "display_order" = "display_order" - ${this.SHIFT + 1}
               WHERE "user_id" = $1 AND "display_order" >= $2 + 1 + ${this.SHIFT}
               `,
-          [userId, deletedOrder]);
-      })
+          [userId, deletedOrder],
+        );
+      });
 
       if (s3KeyToDelete) {
         this.logger.debug(
           `Deleting file: ${s3KeyToDelete} from bucket: ${this.bucketName}`,
         );
         try {
-          await this.s3Client.send(new DeleteObjectCommand({
-            Bucket: this.bucketName,
-            Key: s3KeyToDelete,
-          }));
+          await this.s3Client.send(
+            new DeleteObjectCommand({
+              Bucket: this.bucketName,
+              Key: s3KeyToDelete,
+            }),
+          );
         } catch (error: unknown) {
-          handleError(error)
+          handleError(error);
         }
       }
       return msg.IMAGE_DELETED_SUCCESSFULLY;
     } catch (error: unknown) {
-      handleError(error)
+      handleError(error);
+    }
+  }
+
+  async moveImages(email: string, order: string[]): Promise<string> {
+    try {
+      const currentUser = await this.userService.findUserByEmail(email);
+      if (!currentUser) {
+        throw new NotFoundException(msg.USER_NOT_FOUND);
+      }
+
+      console.log('moveImages order: ', order);
+      return msg.IMAGES_SWIPED_SUCCESSFULLY;
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 }

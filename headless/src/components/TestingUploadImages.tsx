@@ -5,6 +5,21 @@ import { spinnerIsVisibile } from 'slices/action.slice'
 import { IUploadImages } from 'types/interface'
 import { apiEndpointCall } from 'utils/endpointApiCall'
 import { useAppDispatch } from 'utils/hooks'
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  rectSortingStrategy,
+  SortableContext,
+  useSortable,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 const Div = styled.div`
   .upload_images {
@@ -50,16 +65,16 @@ const Div = styled.div`
   }
 `
 export const TestingUploadImages = () => {
-  const [uploadInput, setUploadInput] = useState<string>('')
   const [images, setImages] = useState<IUploadImages[]>([])
+  const [uploadInput, setUploadInput] = useState<string>('')
   const dispatch = useAppDispatch()
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const getAllImages = async () => {
     dispatch(spinnerIsVisibile(true))
-    const response = await apiEndpointCall('get', 'file/image/all', {}, true)
-    if (response?.data) {
-      setImages(response.data)
-    }
+    const res = await apiEndpointCall('get', 'file/image/all', {}, true)
+    if (res?.data) setImages(res.data)
     setTimeout(() => dispatch(spinnerIsVisibile(false)), 1000)
   }
   useEffect(() => {
@@ -70,37 +85,66 @@ export const TestingUploadImages = () => {
     e
   ) => {
     if (!e.target.files) return
-
     dispatch(spinnerIsVisibile(true))
+
     const files: File[] = Array.from(e.target.files)
-
-    console.log('e.target.files: ', files)
-
     const formData = new FormData()
-
     files.forEach((file) => formData.append('images', file))
 
-    const meta = files.map((_, displayOrder) => ({ displayOrder }))
-
-    formData.append('meta', JSON.stringify(meta))
-
-    const response = await apiEndpointCall(
+    const res = await apiEndpointCall(
       'post',
       'file/image/upload',
       formData
-    )
-      .finally(() => {
-        setUploadInput('')
-        getAllImages()
-      })
-    console.log('handleUploadImages: response: ', response)
+    ).finally(() => {
+      setUploadInput('')
+      getAllImages()
+    })
+    console.log('handleUploadImages: res: ', res)
   }
 
   const handleDeleteImage = async (id: string) => {
     dispatch(spinnerIsVisibile(true))
-    const response = await apiEndpointCall('delete', `file/image/${id}`)
-      .finally(() => getAllImages())
-    console.log('handleDeleteImage response: ', response)
+    const res = await apiEndpointCall('delete', `file/image/${id}`).finally(
+      () => getAllImages()
+    )
+    console.log('handleDeleteImage res: ', res)
+  }
+
+  const onReorder = async (idsInNewOrder: string[]) => {
+    await apiEndpointCall('put', 'file/image/order', idsInNewOrder, true)
+  }
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+  )
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (!over || active.id === over.id) return
+
+    const oldIndex = images.findIndex((i) => i.id === String(active.id))
+    const newIndex = images.findIndex((i) => i.id === String(over.id))
+    if (oldIndex === -1 || newIndex === -1) return
+
+    const next = arrayMove(images, oldIndex, newIndex).map((it, idx) => ({
+      ...it,
+      displayOrder: idx,
+    }))
+
+    const prev = images
+    setImages(next)
+    setSaving(true)
+    setError(null)
+
+    try {
+      await onReorder(next.map((i) => i.id))
+    } catch (e: any) {
+      setImages(prev)
+      setError(e?.message ?? 'Failed to save order')
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
@@ -118,19 +162,81 @@ export const TestingUploadImages = () => {
           />
         </div>
         <div className="upload_images_container flex wrap">
-          {images?.length > 0 &&
-            images.map(({ displayOrder, imageUrl, id }) => (
-              <div className="upload_images_box relative" key={id}>
-                <img src={imageUrl} alt="nature image" />
-                <CrossRedSVG
-                  className="upload_images_cross absolute"
-                  onClick={() => handleDeleteImage(id)}
-                />
-                <p>{displayOrder}</p>
-              </div>
-            ))}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={images.map((i) => i.id)}
+              strategy={rectSortingStrategy}
+            >
+              {images?.length > 0 &&
+                images.map(({ displayOrder, imageUrl, id }) => (
+                  <SortableImageCard
+                    key={id}
+                    id={id}
+                    imageUrl={imageUrl}
+                    displayOrder={displayOrder}
+                    handleDeleteImage={handleDeleteImage}
+                  />
+                ))}
+            </SortableContext>
+          </DndContext>
+        </div>
+        <div className="mt-2 text-sm">
+          {saving && <span>Saving order…</span>}
+          {error && <span className="text-red-600">{error}</span>}
         </div>
       </div>
     </Div>
+  )
+}
+
+const SortableImageCard = ({
+  id,
+  imageUrl,
+  displayOrder,
+  handleDeleteImage,
+}: {
+  id: string
+  imageUrl: string
+  displayOrder: number
+  handleDeleteImage: (id: string) => void
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id })
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.6 : 1,
+    cursor: 'grab',
+  }
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="relative rounded-xl shadow overflow-hidden upload_images_box"
+      {...attributes}
+      {...listeners}
+    >
+      <img
+        src={imageUrl}
+        alt="image"
+        className="block w-full h-40 object-cover"
+      />
+      <CrossRedSVG
+        className="upload_images_cross absolute"
+        onClick={() => handleDeleteImage(id)}
+      />
+      <p>{displayOrder}</p>
+    </div>
   )
 }

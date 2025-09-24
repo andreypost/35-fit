@@ -6,6 +6,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
@@ -17,7 +18,7 @@ import { ImageUplodDTO } from '../dto/create.user.json.dto';
 
 @Controller('file/image')
 export class ImageController {
-  constructor(private readonly imageService: ImageService) { }
+  constructor(private readonly imageService: ImageService) {}
 
   @Get('all')
   @ApiOperation({ summary: 'all' })
@@ -45,27 +46,36 @@ export class ImageController {
         allowedMimeTypes.includes(file.mimetype)
           ? callback(null, true)
           : callback(
-            new BadRequestException(
-              'Only JPG, JPEG, PNG, and WebP images are allowed!',
-            ),
-            false,
-          );
+              new BadRequestException(
+                'Only JPG, JPEG, PNG, and WebP images are allowed!',
+              ),
+              false,
+            );
       },
     }),
   )
   async uploadImages(
-    @UploadedFiles() files: Express.Multer.File[],
     @CurrentUserEmail() email: string,
+    @UploadedFiles() files: Express.Multer.File[],
   ) {
-    return await this.imageService.uploadImages(files, email);
+    return await this.imageService.uploadImages(email, files);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'delete' })
   async deleteImage(
-    @Param('id') imageId: string,
     @CurrentUserEmail() email: string,
+    @Param('id') imageId: string,
   ): Promise<string> {
-    return this.imageService.deleteImage(imageId, email);
+    return this.imageService.deleteImage(email, imageId);
+  }
+
+  @Put('order')
+  @ApiOperation({ summary: 'order' })
+  async moveImages(
+    @CurrentUserEmail() email: string,
+    @Body() order: string[],
+  ): Promise<string> {
+    return this.imageService.moveImages(email, order);
   }
 }
