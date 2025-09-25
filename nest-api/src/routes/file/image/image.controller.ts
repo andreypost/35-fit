@@ -72,10 +72,10 @@ export class ImageController {
 
   @Put('order')
   @ApiOperation({ summary: 'order' })
-  async moveImages(
+  async reorderImages(
     @CurrentUserEmail() email: string,
     @Body() order: string[],
   ): Promise<string> {
-    return this.imageService.moveImages(email, order);
+    return this.imageService.reorderImages(email, order);
   }
 }

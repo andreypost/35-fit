@@ -344,7 +344,7 @@ paths:
       tags: *a8
   /file/image/order:
     put:
-      operationId: ImageController_moveImages
+      operationId: ImageController_reorderImages
       parameters: []
       requestBody:
         required: true

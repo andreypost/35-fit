@@ -111,6 +111,11 @@ export const TestingUploadImages = () => {
   }
 
   const onReorder = async (idsInNewOrder: string[]) => {
+    // [
+    //   'e7805058-b751-4397-b9c4-38dacff6a407',
+    //   '79c60086-3116-4d79-a75c-5fc3cd565c93',
+    //   'a31dc7a1-15a0-4c8b-9abe-a862776d9854',
+    // ]
     await apiEndpointCall('put', 'file/image/order', idsInNewOrder, true)
   }
 

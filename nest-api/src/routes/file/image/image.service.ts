@@ -232,14 +232,64 @@ export class ImageService {
     }
   }
 
-  async moveImages(email: string, order: string[]): Promise<string> {
+  async reorderImages(email: string, order: string[]): Promise<string> {
     try {
       const currentUser = await this.userService.findUserByEmail(email);
       if (!currentUser) {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
+      const userId = currentUser.id;
 
-      console.log('moveImages order: ', order);
+      await this.dataSource.transaction(async (manager) => {
+        await manager.query('SELECT pg_advisory_xact_lock(hashtext($1))', [
+          userId,
+        ]);
+
+        const repo = manager.getRepository(UserImage);
+
+        const current = await repo.find({
+          where: { user: { id: userId } },
+          select: { id: true },
+          order: { displayOrder: 'ASC' },
+        });
+
+        const currentIds = current.map(({ id }) => id);
+
+        if (order.length !== currentIds.length) {
+          throw new BadRequestException(
+            'Order must be a permutation of existing image IDs',
+          );
+        }
+
+        await manager.query(
+          `
+            UPDATE "user_image"
+            SET "display_order" = "display_order" + ${this.SHIFT}
+            WHERE "user_id" = $1
+          `,
+          [userId],
+        );
+
+        const params: Record<string, any> = { userId };
+
+        const when = order
+          .map((id, idx) => {
+            params[`id${idx}`] = id;
+            return `WHEN "user_image_id" = :id${idx} THEN ${idx}`;
+          })
+          .join(' ');
+
+        const inList = order.map((_, idx) => `:id${idx}`).join(',');
+
+        await manager
+          .createQueryBuilder()
+          .update(UserImage)
+          .set({ displayOrder: () => `CASE ${when} ELSE "display_order" END` })
+          .where(`"user_id" = :userId AND "user_image_id" IN (${inList})`)
+          .setParameters(params)
+          .execute();
+      });
+
       return msg.IMAGES_SWIPED_SUCCESSFULLY;
     } catch (error: unknown) {
       handleError(error);
