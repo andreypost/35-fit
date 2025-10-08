@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { validateScooterDto } from "./scooterDto";
-import { Scooter } from "../../entities/Scooter";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { Price } from "../../entities/Price";
 import { getPriceById } from "../price/priceRoutes";
@@ -87,7 +86,7 @@ scooter.post(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<Scooter> | void> => {
+  ): Promise<Response<string> | void> => {
     try {
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
@@ -106,7 +105,7 @@ scooter.post(
 
       const savedScooter = await scooterRepository.save(newScooter);
 
-      return res.status(200).json(savedScooter);
+      return res.status(200).json(savedScooter.id);
     } catch (error: unknown) {
       nextError(next, error);
     }

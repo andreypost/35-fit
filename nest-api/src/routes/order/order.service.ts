@@ -6,10 +6,11 @@ import { Accessory } from '../../entities/accessory';
 import { OrderItem } from '../../entities/order.item';
 import { Order } from '../../entities/order';
 import { UserService } from '../user/user.service';
-import { CreateOrderItemDto } from './dto/create.order.item.dto';
-import { CreateOrderDto } from './dto/create.order.dto';
+import { CreateOrderItemDto } from './dto/order.dto';
+import { CreateOrderDto } from './dto/order.dto';
 import { handleError } from '../../utils/handle.error';
 import { msg } from '../../constants/messages';
+import { IOrder } from './types/interfaces';
 
 @Injectable()
 export class OrderService {
@@ -28,7 +29,7 @@ export class OrderService {
   public async createUserOrder(
     createOrderDto: CreateOrderDto,
     email: string,
-  ): Promise<Order> {
+  ): Promise<IOrder> {
     try {
       const currentUser = await this.userService.findUserByEmail(email);
       if (!currentUser) {
@@ -110,13 +111,21 @@ export class OrderService {
 
       newOrder.calculateFinalTotalPrice();
 
-      return await this.orderRepository.save(newOrder);
+      const savedOrder = await this.orderRepository.save(newOrder);
+
+      return {
+        id: savedOrder.id,
+        status: savedOrder.status,
+        finalTotalPrice: savedOrder.finalTotalPrice,
+        items: savedOrder.items,
+        user: { name: savedOrder.user.name, email: savedOrder.user.email },
+      };
     } catch (error: unknown) {
       handleError(error);
     }
   }
 
-  public async getUserOrders(email: string, type: string): Promise<Order[]> {
+  public async getUserOrders(email: string, type: string): Promise<IOrder[]> {
     try {
       const currentUser = await this.userService.findUserByEmail(email);
       if (!currentUser) {

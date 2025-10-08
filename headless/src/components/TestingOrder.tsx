@@ -161,12 +161,11 @@ export const TestingOrder = memo(() => {
   const handleCreatePrice = async (price: IPrice): Promise<string | void> => {
     apiEndpointCall('post', 'price/create', price, false, signal).then(
       ({ data }) => {
-        console.log(data)
         if (signal.aborted) return
         if (data.productType === 'scooter') {
-          setScooterPriceId(data?.id)
+          setScooterPriceId(data)
         } else {
-          setAccessoryPriceId(data?.id)
+          setAccessoryPriceId(data)
         }
       }
     )
@@ -180,10 +179,10 @@ export const TestingOrder = memo(() => {
       ({ data }) => {
         if (signal.aborted) return
         if (type === 'scooter') {
-          setScooterPoductId(data.id)
+          setScooterPoductId(data)
           setScooterConflictProductId(true)
         } else {
-          setAccessoryPoductId(data.id)
+          setAccessoryPoductId(data)
           setAccessoryConflictProductId(true)
         }
       }

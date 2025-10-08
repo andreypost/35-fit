@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import { PriceService } from '../price/price.service';
 import { Price } from '../../entities/price';
 import { Accessory } from '../../entities/accessory';
-import { CreateAccessoryDto } from './dto/create.accessory.dto';
+import { CreateAccessoryDto } from './dto/accessory.dto';
 import { handleError } from '../../utils/handle.error';
 import { msg } from '../../constants/messages';
 
@@ -69,16 +69,19 @@ export class AccessoryService {
 
   public async createAccessory(
     createAccessoryDto: CreateAccessoryDto,
-  ): Promise<Accessory> {
+  ): Promise<string> {
     try {
       const price = await this.checkExistingAccessory(
         createAccessoryDto,
         false,
       );
-      return await this.accessoryRepository.save({
+
+      const newAccessory = await this.accessoryRepository.save({
         ...createAccessoryDto,
         price,
       });
+
+      return newAccessory.id;
     } catch (error: unknown) {
       handleError(error);
     }

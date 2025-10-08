@@ -4,11 +4,12 @@ import {
   // StreamableFile,
 } from '@nestjs/common';
 import { getFileData, writeFileData } from '../helpers/file.stream';
-import { CreateUserJsonDto } from '../dto/create.user.json.dto';
+import { CreateUserJsonDto } from './dto/json.dto';
 import { resolveFilePath } from '../helpers/resolve.file.path';
 import { handleError } from '../../../utils/handle.error';
 import { msg } from '../../../constants/messages';
 import { countCountryEarnings } from '../helpers/user.collection';
+import { IUserJsonResponse } from './types/interfaces';
 
 @Injectable()
 export class JsonService {
@@ -20,7 +21,7 @@ export class JsonService {
 
   public async loadUserCollection(
     addToFile: boolean,
-  ): Promise<CreateUserJsonDto[]> {
+  ): Promise<IUserJsonResponse[]> {
     try {
       if (!this.userCollection?.length) {
         for (let i = 0; i < 1_000; i++) {
@@ -39,7 +40,7 @@ export class JsonService {
 
   public async addNewDetailsUser(
     createUserDetailsDto: CreateUserJsonDto,
-  ): Promise<{ message: string } & CreateUserJsonDto> {
+  ): Promise<{ message: string } & IUserJsonResponse> {
     try {
       await this.loadUserCollection(true);
 
@@ -99,11 +100,11 @@ export class JsonService {
     }
   }
 
-  public async findUserById(id: number): Promise<CreateUserJsonDto> {
+  public async findUserById(id: number): Promise<IUserJsonResponse> {
     try {
       await this.loadUserCollection(false);
 
-      const user: CreateUserJsonDto = this.userCollection.find(
+      const user: IUserJsonResponse = this.userCollection.find(
         (user) => user.id === id,
       );
       if (!user) throw new NotFoundException(`User with id ${id} not found.`);

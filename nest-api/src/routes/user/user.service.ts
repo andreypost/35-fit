@@ -18,6 +18,7 @@ import { isPgUniqueViolation, handleError } from '../../utils/handle.error';
 import { deleteAuthToken, validateAuthToken } from '../../guards/auth.token';
 import { secrets } from '../../constants/secrets';
 import { UserPrivileges } from '../../utils/user.roles';
+import { IDatabaseUser } from './types/interfaces';
 
 config();
 
@@ -29,7 +30,7 @@ export class UserService {
     private readonly jwtService: JwtService,
   ) {}
 
-  public async findUserByEmail(email: string): Promise<User> {
+  public async findUserByEmail(email: string): Promise<IDatabaseUser> {
     return await this.userRepository.findOne({ where: { email } });
   }
 
@@ -59,7 +60,7 @@ export class UserService {
   public async createNewUser(
     createUserDto: CreateUserDto,
     res: Response,
-  ): Promise<User> {
+  ): Promise<IDatabaseUser> {
     try {
       const { email } = createUserDto;
 
@@ -93,9 +94,9 @@ export class UserService {
   public async loginUser(
     { email, password, keepLoggedIn }: LoginUserDto,
     res: Response,
-  ): Promise<User> {
+  ): Promise<IDatabaseUser> {
     try {
-      const user = await this.findUserByEmail(email);
+      const user = (await this.findUserByEmail(email)) as User;
       if (!user) {
         throw new NotFoundException(msg.USER_NOT_FOUND);
       }
@@ -117,7 +118,7 @@ export class UserService {
   public async validateUserByAuthToken(
     req: Request,
     res: Response,
-  ): Promise<User> {
+  ): Promise<IDatabaseUser> {
     try {
       const { authToken } = req?.cookies;
       if (!authToken) return;
@@ -135,7 +136,7 @@ export class UserService {
     }
   }
 
-  public async getAllUsers(): Promise<User[]> {
+  public async getAllUsers(): Promise<IDatabaseUser[]> {
     try {
       return await this.userRepository.find();
       //   {
@@ -176,7 +177,7 @@ export class UserService {
     }
   }
 
-  public async searchUsers(searchQuery: string): Promise<User[]> {
+  public async searchUsers(searchQuery: string): Promise<IDatabaseUser[]> {
     try {
       return await this.userRepository.find({
         where: { email: Like(`%${searchQuery}%`) },
@@ -193,7 +194,7 @@ export class UserService {
     id: string,
     grantedPrivileges: number,
     deniedPrivileges: number,
-  ): Promise<User> {
+  ): Promise<IDatabaseUser> {
     try {
       const currentUser = await this.findUserByEmail(email);
 

@@ -229,11 +229,11 @@ export const TestingModule = memo(() => {
     // callWithDelay(writeFile, 10000, 300)
   }, [])
 
-  const handleStreamFileData = async <
-    T extends React.FormEvent<HTMLFormElement>
-  >(
-    e: T
-  ): Promise<void> => {
+  interface IReactFormElem<T extends Element = HTMLFormElement> {
+    (e: React.FormEvent<T>): Promise<void>
+  }
+
+  const handleStreamFileData: IReactFormElem = async (e): Promise<void> => {
     e.preventDefault()
     dispatch(spinnerIsVisibile(true))
     // currentUser && dispatch(spinnerIsVisibile(true))

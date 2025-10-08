@@ -12,10 +12,6 @@ import {
 import { msg } from '../../../constants/messages';
 
 export class CreatePriceDto {
-  // @IsOptional()
-  // @IsUUID('4', { message: 'ID must be a valid UUID' })
-  // id?: string;
-
   @IsNotEmpty({ message: 'Price Name is required' })
   @IsString({ message: 'Price Name must be a string' })
   name!: string;

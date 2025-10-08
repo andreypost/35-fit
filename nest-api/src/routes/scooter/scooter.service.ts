@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import { PriceService } from '../price/price.service';
 import { Price } from '../../entities/price';
 import { Scooter } from '../../entities/scooter';
-import { CreateScooterDto } from './dto/create.scooter.dto';
+import { CreateScooterDto } from './dto/scooter.dto';
 import { handleError } from '../../utils/handle.error';
 import { msg } from '../../constants/messages';
 
@@ -69,14 +69,16 @@ export class ScooterService {
 
   public async createScooter(
     createScooterDto: CreateScooterDto,
-  ): Promise<Scooter> {
+  ): Promise<string> {
     try {
       const price = await this.checkExistingScooter(createScooterDto, false);
 
-      return await this.scooterRepository.save({
+      const newScooter = await this.scooterRepository.save({
         ...createScooterDto,
         price,
       });
+
+      return newScooter.id;
     } catch (error: unknown) {
       handleError(error);
     }

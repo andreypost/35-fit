@@ -1,12 +1,13 @@
-import { CreateUserJsonDto } from '../dto/create.user.json.dto';
-
-type CountryEarnings = Record<string, number[]>;
-type CountryAverageEarnings = Record<string, number>;
+import { CreateUserJsonDto } from '../json/dto/json.dto';
+import {
+  ICountryAverageEarnings,
+  ICountryEarnings,
+} from '../json/types/interfaces';
 
 export const countCountryEarnings = async (
   userCollection: CreateUserJsonDto[],
 ) => {
-  const countryEarnings: CountryEarnings = userCollection.reduce(
+  const countryEarnings: ICountryEarnings = userCollection.reduce(
     (acc, { country, earnings }) => {
       const formattedEarnings = parseInt(earnings.replace(/[$]/, ''));
       !acc[country]
@@ -14,7 +15,7 @@ export const countCountryEarnings = async (
         : acc[country].push(formattedEarnings);
       return acc;
     },
-    {} as CountryEarnings,
+    {} as ICountryEarnings,
   );
 
   return Object.entries(countryEarnings).reduce((acc, [country, earnings]) => {
@@ -27,5 +28,5 @@ export const countCountryEarnings = async (
       topEarnings.length
     ).toFixed(2);
     return acc;
-  }, {} as CountryAverageEarnings);
+  }, {} as ICountryAverageEarnings);
 };

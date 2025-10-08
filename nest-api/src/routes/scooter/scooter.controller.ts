@@ -2,8 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { ScooterService } from './scooter.service';
 import { Public } from '../../guards/public.routes';
-import { CreateScooterDto } from './dto/create.scooter.dto';
-import { Scooter } from '../../entities/scooter';
+import { CreateScooterDto } from './dto/scooter.dto';
 
 @Controller('scooter')
 export class ScooterController {
@@ -26,7 +25,7 @@ export class ScooterController {
   @ApiOperation({ summary: 'create' })
   async createScooter(
     @Body() createScooterDto: CreateScooterDto,
-  ): Promise<Scooter> {
+  ): Promise<string> {
     return await this.scooterService.createScooter(createScooterDto);
   }
 }

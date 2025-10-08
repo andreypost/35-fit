@@ -21,7 +21,7 @@ import { UserService } from '../../user/user.service';
 import { UserImage } from '../../../entities/user.image';
 import { handleError } from '../../../utils/handle.error';
 import { msg } from '../../../constants/messages';
-import { ImageUplodDTO } from '../dto/create.user.json.dto';
+import { IImageResponse } from './types/interfaces';
 
 @Injectable()
 export class ImageService {
@@ -73,7 +73,7 @@ export class ImageService {
   async getAllImages(
     email: string,
     count: boolean = false,
-  ): Promise<ImageUplodDTO[] | number> {
+  ): Promise<IImageResponse[] | number> {
     try {
       const currentUser = await this.userService.findUserByEmail(email);
       if (!currentUser) {

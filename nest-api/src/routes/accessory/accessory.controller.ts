@@ -2,8 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { AccessoryService } from './accessory.service';
 import { Public } from '../../guards/public.routes';
-import { CreateAccessoryDto } from './dto/create.accessory.dto';
-import { Accessory } from '../../entities/accessory';
+import { CreateAccessoryDto } from './dto/accessory.dto';
 
 @Controller('accessory')
 export class AccessoryController {
@@ -26,7 +25,7 @@ export class AccessoryController {
   @ApiOperation({ summary: 'create' })
   async createAccessory(
     @Body() createAccessoryDto: CreateAccessoryDto,
-  ): Promise<Accessory> {
+  ): Promise<string> {
     return await this.accessoryService.createAccessory(createAccessoryDto);
   }
 }

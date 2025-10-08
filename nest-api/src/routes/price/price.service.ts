@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Price } from '../../entities/price';
-import { CreatePriceDto } from './dto/create.price.dto';
+import { CreatePriceDto } from './dto/price.dto';
 import { handleError } from '../../utils/handle.error';
 import { msg } from '../../constants/messages';
 
@@ -42,10 +42,13 @@ export class PriceService {
 
   public async createProductPrice(
     createPriceDTO: CreatePriceDto,
-  ): Promise<Price> {
+  ): Promise<string> {
     try {
       await this.checkSetPriceByName(createPriceDTO.name);
-      return await this.priceRepository.save(createPriceDTO);
+
+      const newPrice = await this.priceRepository.save(createPriceDTO);
+
+      return newPrice.id;
     } catch (error: any) {
       handleError(error);
     }

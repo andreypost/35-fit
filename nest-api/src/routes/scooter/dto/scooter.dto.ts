@@ -7,12 +7,13 @@ import {
   IsString,
   IsEnum,
 } from 'class-validator';
-import { msg } from 'src/constants/messages';
+import { msg } from '../../../constants/messages';
 
 export class CreateScooterDto {
   @IsString({
     message: `${msg.SCOOTER_MODEL_IS_REQUIRED} and Model Name ${msg.MUST_BE_STRING}`,
   })
+  @IsNotEmpty({ message: 'Scooter Model is required' })
   model!: string;
 
   @IsUUID('4', { message: msg.ID_MUST_BE_UUID })

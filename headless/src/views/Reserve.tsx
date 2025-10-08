@@ -430,7 +430,7 @@ const Reserve = () => {
             <button
               className="flex_center_center reserve_submit margin_b_60_30 b900 white"
               type="submit"
-            // hidden={user ? true : false}
+              // hidden={user ? true : false}
             >
               {t('reserve.continue')}
             </button>

@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { Price } from "../../entities/Price";
-import { Accessory } from "../../entities/Accessory";
 import { getPriceById } from "../price/priceRoutes";
 import { msg } from "../../constants/messages";
 import { accessoryRepository } from "../../db/database";
@@ -84,7 +83,7 @@ accessory.post(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<Accessory> | void> => {
+  ): Promise<Response<string> | void> => {
     try {
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
@@ -101,7 +100,7 @@ accessory.post(
 
       const savedAccessory = await accessoryRepository.save(newAccessory);
 
-      return res.status(200).json(savedAccessory);
+      return res.status(200).json(savedAccessory.id);
     } catch (error: unknown) {
       nextError(next, error);
     }

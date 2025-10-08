@@ -2,8 +2,8 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { CurrentUserEmail } from '../../pipes/current.user.email';
 import { OrderService } from './order.service';
-import { CreateOrderDto } from './dto/create.order.dto';
-import { Order } from '../../entities/order';
+import { CreateOrderDto } from './dto/order.dto';
+import { IOrder } from './types/interfaces';
 
 @Controller('order')
 export class OrderController {
@@ -14,7 +14,7 @@ export class OrderController {
   async createUserOrder(
     @Body() createOrderDto: CreateOrderDto,
     @CurrentUserEmail() email: string,
-  ): Promise<Order | void> {
+  ): Promise<IOrder | void> {
     return await this.orderService.createUserOrder(createOrderDto, email);
   }
 
@@ -23,7 +23,7 @@ export class OrderController {
   async getUserOrders(
     @Param('type') type: string,
     @CurrentUserEmail() email: string,
-  ): Promise<Order[] | void> {
+  ): Promise<IOrder[] | void> {
     return await this.orderService.getUserOrders(email, type);
   }
 }

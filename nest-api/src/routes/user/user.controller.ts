@@ -22,9 +22,9 @@ import {
   RolesPrivilegesDto,
   SearchQueryDto,
 } from './dto/user.dto';
-import { User } from '../../entities/user';
 import { HttpResponse } from '../../pipes/http.response';
 import { CurrentUserEmail } from '../../pipes/current.user.email';
+import { IDatabaseUser } from './types/interfaces';
 // import { ExecutionTimeInterceptor } from '../../interceptors/execution.time';
 
 @Controller('user')
@@ -38,7 +38,7 @@ export class UserController {
   async createNewUser(
     @Body() createUserDto: CreateUserDto,
     @HttpResponse() res: Response,
-  ): Promise<User> {
+  ): Promise<IDatabaseUser> {
     return await this.userService.createNewUser(createUserDto, res);
   }
 
@@ -49,7 +49,7 @@ export class UserController {
   async loginUser(
     @Body() { email, password, keepLoggedIn }: LoginUserDto,
     @HttpResponse() res: Response,
-  ): Promise<User> {
+  ): Promise<IDatabaseUser> {
     return await this.userService.loginUser(
       { email, password, keepLoggedIn },
       res,
@@ -62,7 +62,7 @@ export class UserController {
   async validateUserByAuthToken(
     @Req() req: Request,
     @HttpResponse() res: Response,
-  ): Promise<User> {
+  ): Promise<IDatabaseUser> {
     return await this.userService.validateUserByAuthToken(req, res);
   }
 
@@ -70,7 +70,7 @@ export class UserController {
   @Public()
   @Get('users')
   @ApiOperation({ summary: 'users' })
-  async getAllUsers(): Promise<User[]> {
+  async getAllUsers(): Promise<IDatabaseUser[]> {
     return await this.userService.getAllUsers();
   }
 
@@ -88,7 +88,9 @@ export class UserController {
   @Public()
   @Get('search')
   @ApiOperation({ summary: 'search' })
-  async searchUsers(@Query() { searchQuery }: SearchQueryDto): Promise<User[]> {
+  async searchUsers(
+    @Query() { searchQuery }: SearchQueryDto,
+  ): Promise<IDatabaseUser[]> {
     return this.userService.searchUsers(searchQuery);
   }
 
@@ -98,7 +100,7 @@ export class UserController {
     @CurrentUserEmail() email: string,
     @Param('id', ParseUUIDPipe) id: string,
     @Body() { grantedPrivileges, deniedPrivileges }: RolesPrivilegesDto,
-  ): Promise<User> {
+  ): Promise<IDatabaseUser> {
     return this.userService.updateUserPrivileges(
       email,
       id,

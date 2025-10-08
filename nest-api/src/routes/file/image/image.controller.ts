@@ -14,7 +14,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { ImageService } from './image.service';
 import { ApiOperation } from '@nestjs/swagger';
 import { CurrentUserEmail } from '../../../pipes/current.user.email';
-import { ImageUplodDTO } from '../dto/create.user.json.dto';
+import { IImageResponse } from './types/interfaces';
 
 @Controller('file/image')
 export class ImageController {
@@ -24,7 +24,7 @@ export class ImageController {
   @ApiOperation({ summary: 'all' })
   async getAllImages(
     @CurrentUserEmail() email: string,
-  ): Promise<ImageUplodDTO[] | number> {
+  ): Promise<IImageResponse[] | number> {
     return this.imageService.getAllImages(email);
   }
 

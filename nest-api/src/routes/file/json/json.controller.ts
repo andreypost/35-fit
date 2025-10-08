@@ -11,8 +11,9 @@ import { ApiOperation } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 // import { AuthGuard } from '../utils/auth.guard';
 import { JsonService } from './json.service';
-import { CreateUserJsonDto } from '../dto/create.user.json.dto';
+import { CreateUserJsonDto } from './dto/json.dto';
 import { Public } from '../../../guards/public.routes';
+import { IUserJsonResponse } from './types/interfaces';
 
 // @UseGuards(AuthGuard) // add authToken check to all this routes
 @Public()
@@ -22,7 +23,7 @@ export class JsonController {
 
   @Get('read')
   @ApiOperation({ summary: 'file/json/read' })
-  async loadUserCollection(): Promise<CreateUserJsonDto[]> {
+  async loadUserCollection(): Promise<IUserJsonResponse[]> {
     return await this.jsonService.loadUserCollection(false);
   }
 
@@ -31,7 +32,7 @@ export class JsonController {
   @ApiOperation({ summary: 'file/json/write' })
   async addNewDetailsUser(
     @Body() createUserDetailsDto: CreateUserJsonDto,
-  ): Promise<CreateUserJsonDto | void> {
+  ): Promise<IUserJsonResponse | void> {
     return await this.jsonService.addNewDetailsUser(createUserDetailsDto);
   }
 
@@ -51,7 +52,7 @@ export class JsonController {
   @ApiOperation({ summary: 'file/json/users/:id' })
   async findUserById(
     @Param('id', ParseIntPipe) id: number,
-  ): Promise<CreateUserJsonDto> {
+  ): Promise<IUserJsonResponse> {
     return await this.jsonService.findUserById(id);
   }
 }

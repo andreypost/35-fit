@@ -8,7 +8,7 @@ import { format } from 'fast-csv';
 import { User } from '../../../entities/user';
 import { handleError } from '../../../utils/handle.error';
 import { msg } from '../../../constants/messages';
-import { CsvUser } from '../dto/create.user.json.dto';
+import { ICsvUser } from './types/interfaces';
 import { resolveFilePath } from '../helpers/resolve.file.path';
 
 @Injectable()
@@ -41,7 +41,7 @@ export class CsvService {
         throw new NotFoundException(msg.FILE_DOES_NOT_EXIST);
       }
 
-      const transform = (row: CsvUser): CsvUser => ({
+      const transform = (row: ICsvUser): ICsvUser => ({
         name: row.name.toUpperCase(),
         surname: row.surname.toUpperCase(),
         gender: row.gender.toUpperCase(),
