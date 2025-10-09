@@ -17,7 +17,6 @@ import { UserData, fetchFileData, setSlSortedList } from 'slices/fileData.slice'
 import { apiEndpointCall } from 'utils/endpointApiCall'
 import axios from 'axios'
 import { AppContext } from '../AppRouter'
-import { TestingOrder } from './TestingOrder'
 import { errorModalMessage } from 'utils/errorModalMessage'
 import { getSpinnerState, spinnerIsVisibile } from 'slices/action.slice'
 
@@ -87,7 +86,7 @@ const Div = styled.div`
   )
 } */
 
-export const TestingModule = memo(() => {
+export const TestingStreamFiles = memo(() => {
   const [index, setIndex] = useState(0)
   // const [selectedImageId, setSelectedImageId] = useState<number>(0)
   // const {
@@ -191,10 +190,9 @@ export const TestingModule = memo(() => {
           `${process.env.API_URL}/file/write`,
           {
             id: Math.floor(1_000 + Math.random() * (1_000_000 - 1_000 + 1)),
-            earnings: `$${
-              Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) *
+            earnings: `$${Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) *
               (index + 1)
-            }`,
+              }`,
             country: countries[index],
             name: 'Andrii Postoliuk',
           },
@@ -240,9 +238,8 @@ export const TestingModule = memo(() => {
 
     const addFileData = await apiEndpointCall('post', 'file/json/write', {
       id: Math.floor(1_000 + Math.random() * (1_000_000 - 1_000 + 1)),
-      earnings: `$${
-        Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) * (index + 1)
-      }`,
+      earnings: `$${Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) * (index + 1)
+        }`,
       country: countries[index],
       name: 'Andrii Postoliuk',
     })
@@ -335,7 +332,6 @@ export const TestingModule = memo(() => {
 
   return (
     <Div>
-      <TestingOrder />
       {/* {slFileListError && <p>{slFileListError?.message}</p>}
       {currentUser && slFileSortedList?.length > 0 && (
         <ol>

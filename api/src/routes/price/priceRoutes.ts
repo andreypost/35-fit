@@ -83,7 +83,7 @@ price.post(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<Price> | void> => {
+  ): Promise<Response<string> | void> => {
     try {
       const {
         name,
@@ -108,7 +108,7 @@ price.post(
 
       const savedPrice = await priceRepository.save(newPrice);
 
-      return res.status(200).json(savedPrice);
+      return res.status(200).json(savedPrice.id);
     } catch (error: unknown) {
       nextError(next, error);
     }

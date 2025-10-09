@@ -162,7 +162,7 @@ export const TestingOrder = memo(() => {
     apiEndpointCall('post', 'price/create', price, false, signal).then(
       ({ data }) => {
         if (signal.aborted) return
-        if (data.productType === 'scooter') {
+        if (price.productType === 'scooter') {
           setScooterPriceId(data)
         } else {
           setAccessoryPriceId(data)
@@ -288,8 +288,8 @@ export const TestingOrder = memo(() => {
                 backgroundColor: !currentUser
                   ? 'skyblue'
                   : scooterPoductId
-                  ? '#59b894'
-                  : '#ff6376',
+                    ? '#59b894'
+                    : '#ff6376',
               }}
               onClick={() => makeProductOrder('scooter', scooterPoductId, 1)}
             >
@@ -306,8 +306,8 @@ export const TestingOrder = memo(() => {
                 backgroundColor: !currentUser
                   ? 'skyblue'
                   : accessoryPoductId
-                  ? '#59b894'
-                  : '#ff6376',
+                    ? '#59b894'
+                    : '#ff6376',
               }}
               onClick={() =>
                 makeProductOrder('accessory', accessoryPoductId, 4)
@@ -332,7 +332,6 @@ export const TestingOrder = memo(() => {
             >
               Get Scooter Orders
             </button>
-            <p>{}</p>
           </div>
           <div className="flex_str_col">
             <button

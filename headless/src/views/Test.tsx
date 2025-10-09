@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import { apiEndpointCall } from 'utils/endpointApiCall'
-import { TestingModule } from 'components/TestingModule'
-import { TestingRoles } from 'components/TestingRoles'
 import { TestingUploadImages } from 'components/TestingUploadImages'
+import { TestingOrder } from 'components/TestingOrder'
+import { TestingStreamFiles } from 'components/TestingStreamFiles'
+import { TestingRoles } from 'components/TestingRoles'
 
 const Main = styled.main`
   padding-top: 240px;
@@ -41,8 +42,9 @@ const Test = () => {
 
   return (
     <Main data-aos="fade" className="section">
-      <TestingUploadImages />
-      <TestingModule />
+      {/* <TestingUploadImages /> */}
+      <TestingOrder />
+      <TestingStreamFiles />
       <h3 className="b900 margin_b_60_30 blue">Additional Forms</h3>
       <TestingRoles />
       <button className="grey_button margin_b_60_30" onClick={sendSlowUpload}>
