@@ -1,16 +1,16 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { validateScooterDto } from "./dto";
-import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { Price } from "../../entities/Price";
-import { getPriceById } from "../price";
+import { getPriceById } from "../price/price.routes";
 import { msg } from "../../constants/messages";
-import { scooterRepository } from "../../db/database";
+import { accessoryRepository } from "../../db/database";
+import { validateAccessoryDto } from "./accessory.dto";
+import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { nextError } from "../../utils/nextError";
 
-export const scooter = Router();
+export const accessory = Router();
 
-const checkExistingScooter = async (
-  model: string,
+const checkExistingAccessory = async (
+  name: string,
   priceId: string,
   returnedProductId: boolean = false,
   next: NextFunction
@@ -19,44 +19,41 @@ const checkExistingScooter = async (
     const price = await getPriceById(priceId, next);
     if (!price) return;
 
-    if (price.productType !== "scooter") {
+    if (price.productType !== "accessory") {
       next({
         message: `${price.productType} ${msg.PRODUCT_TYPE_IS_NOT_APPROPRIATE}`,
-        status: 400,
+        staus: 400,
         type: "ValidationError",
       });
       return;
     }
 
-    const existingScooter = await scooterRepository.findOne({
-      where: {
-        model,
-        price: { id: priceId },
-      },
+    const existingAccessory = await accessoryRepository.findOne({
+      where: { name, price: { id: priceId } },
       relations: ["price"],
     });
 
-    if (existingScooter) {
+    if (existingAccessory) {
       if (returnedProductId) {
-        return existingScooter?.id;
+        return existingAccessory?.id;
+      } else {
+        next({
+          message: `name ${existingAccessory?.price?.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
+          status: 400,
+          type: "ValidationError",
+        });
+        return;
       }
-      next({
-        message: `${model} ${existingScooter?.price?.name} ${msg.PRODUCT_PRICE_ALREADY_IN_USE}`,
-        status: 400,
-        type: "ValidationError",
-      });
-      return;
     }
-
     return returnedProductId ? undefined : price;
   } catch (error: unknown) {
     nextError(next, error);
   }
 };
 
-scooter.post(
+accessory.post(
   "/check",
-  validateScooterDto,
+  validateAccessoryDto,
   async (
     req: Request,
     res: Response,
@@ -66,9 +63,9 @@ scooter.post(
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
 
-      const { model, priceId } = req?.body;
+      const { name, priceId } = req?.body;
 
-      const id = await checkExistingScooter(model, priceId, true, next);
+      const id = await checkExistingAccessory(name, priceId, true, next);
 
       if (!id) return;
 
@@ -79,9 +76,9 @@ scooter.post(
   }
 );
 
-scooter.post(
+accessory.post(
   "/create",
-  validateScooterDto,
+  validateAccessoryDto,
   async (
     req: Request,
     res: Response,
@@ -91,21 +88,19 @@ scooter.post(
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
 
-      const { model, priceId, rentalPricePerDay, saleType } = req?.body;
+      const { name, priceId } = req?.body;
 
-      const price = await checkExistingScooter(model, priceId, false, next);
+      const price = await checkExistingAccessory(name, priceId, false, next);
       if (!price || typeof price === "string") return;
 
-      const newScooter = scooterRepository.create({
-        model,
-        rentalPricePerDay,
-        saleType,
+      const newAccessory = accessoryRepository.create({
+        name,
         price,
       });
 
-      const savedScooter = await scooterRepository.save(newScooter);
+      const savedAccessory = await accessoryRepository.save(newAccessory);
 
-      return res.status(200).json(savedScooter.id);
+      return res.status(200).json(savedAccessory.id);
     } catch (error: unknown) {
       nextError(next, error);
     }

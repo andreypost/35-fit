@@ -1,4 +1,4 @@
-import { IFileUserDetails } from "../types";
+import { IFileUserDetails } from "../file.types";
 
 type CountryEarnings = Record<string, number[]>;
 type CountryAverageEarnings = Record<string, number>;

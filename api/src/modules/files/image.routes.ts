@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { userImageRepository, userRepository } from "../../db/database";
 import { validateAuthToken } from "../../auth/jsonWebToken";
-import { IImageResponse } from "./types";
+import { IImageResponse } from "./file.types";
 import { msg } from "../../constants/messages";
 import { nextError } from "../../utils/nextError";
 

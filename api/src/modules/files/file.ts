@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { jsonRoute } from "./json";
-import { csvRoutes } from "./csv";
-import { dirRoutes } from "./dir";
-import { imageRoutes } from "./image";
+import { jsonRoute } from "./json.routes";
+import { csvRoutes } from "./csv.routes";
+import { dirRoutes } from "./dir.routes";
+import { imageRoutes } from "./image.routes";
 
 export const file = Router();
 

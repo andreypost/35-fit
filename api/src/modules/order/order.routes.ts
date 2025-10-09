@@ -9,11 +9,11 @@ import {
   userRepository,
 } from "../../db/database";
 import { msg } from "../../constants/messages";
-import { validateOrderDto } from "./dto";
+import { validateOrderDto } from "./order.dto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { Scooter } from "../../entities/Scooter";
 import { Accessory } from "../../entities/Accessory";
-import { IOrder } from "./types";
+import { IOrder } from "./order.types";
 import { nextError } from "../../utils/nextError";
 
 export const order = Router();

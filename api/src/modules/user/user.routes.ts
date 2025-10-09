@@ -11,13 +11,13 @@ import {
   validateSearchQueryDto,
   validatePrivilegesDto,
   validateUserDto,
-} from "./dto";
+} from "./user.dto";
 import { validateEmailPasswordDto } from "../../validators/commonValidators";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { msg } from "../../constants/messages";
 import { UserPrivileges } from "../../utils/userRoles";
 import { isPgUniqueViolation } from "../../middleware/errorHandler";
-import { IDatabaseUser } from "./types";
+import { IDatabaseUser } from "./user.types";
 import { nextError } from "../../utils/nextError";
 
 export const user = Router();

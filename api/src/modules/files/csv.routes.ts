@@ -5,7 +5,7 @@ import { format } from "fast-csv";
 import { resolveFilePath } from "./helpers/resolveFilePath";
 import { userRepository } from "../../db/database";
 import { nextError } from "../../utils/nextError";
-import { ICsvUser } from "./types";
+import { ICsvUser } from "./file.types";
 
 export const csvRoutes = Router();
 

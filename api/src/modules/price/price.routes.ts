@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { validatePriceDto, validatePriceNameQueryDto } from "./dto";
+import { validatePriceDto, validatePriceNameQueryDto } from "./price.dto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { priceRepository } from "../../db/database";
 import { Price } from "../../entities/Price";
