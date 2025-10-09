@@ -1,4 +1,4 @@
-import { IFileUserDetails } from "../../../types/interface";
+import { IFileUserDetails } from "../types";
 
 type CountryEarnings = Record<string, number[]>;
 type CountryAverageEarnings = Record<string, number>;
@@ -23,7 +23,7 @@ export const countCountryEarnings = async (
       .slice(0, 10);
     acc[country] = Math.round(
       topEarnings.reduce((c: number, n: number) => c + n, 0) /
-        topEarnings.length
+      topEarnings.length
     );
     return acc;
   }, {} as CountryAverageEarnings);

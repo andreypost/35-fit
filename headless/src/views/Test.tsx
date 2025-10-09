@@ -42,7 +42,7 @@ const Test = () => {
 
   return (
     <Main data-aos="fade" className="section">
-      {/* <TestingUploadImages /> */}
+      <TestingUploadImages />
       <TestingOrder />
       <TestingStreamFiles />
       <h3 className="b900 margin_b_60_30 blue">Additional Forms</h3>

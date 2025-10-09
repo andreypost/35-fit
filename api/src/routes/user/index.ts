@@ -11,13 +11,13 @@ import {
   validateSearchQueryDto,
   validatePrivilegesDto,
   validateUserDto,
-} from "./userDto";
+} from "./dto";
 import { validateEmailPasswordDto } from "../../validators/commonValidators";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { msg } from "../../constants/messages";
-import { User } from "../../entities/User";
 import { UserPrivileges } from "../../utils/userRoles";
 import { isPgUniqueViolation } from "../../middleware/errorHandler";
+import { IDatabaseUser } from "./types";
 import { nextError } from "../../utils/nextError";
 
 export const user = Router();
@@ -97,7 +97,7 @@ user.post(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<User> | void> => {
+  ): Promise<Response<IDatabaseUser> | void> => {
     try {
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
@@ -137,7 +137,7 @@ user.get(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<User> | void> => {
+  ): Promise<Response<IDatabaseUser> | void> => {
     try {
       const { authToken } = req?.cookies;
       if (!authToken) return;
@@ -169,7 +169,7 @@ user.get(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<User[]> | void> => {
+  ): Promise<Response<IDatabaseUser[]> | void> => {
     try {
       // const { authToken } = req?.cookies;
       // await validateAuthToken(authToken, res);
@@ -231,7 +231,7 @@ user.get(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<User[]> | void> => {
+  ): Promise<Response<IDatabaseUser[]> | void> => {
     try {
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
@@ -260,7 +260,7 @@ user.patch(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<User> | void> => {
+  ): Promise<Response<IDatabaseUser> | void> => {
     try {
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
@@ -313,7 +313,7 @@ user.get(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<User> | void> => {
+  ): Promise<Response<IDatabaseUser> | void> => {
     try {
       const { email, password } = req.query;
 

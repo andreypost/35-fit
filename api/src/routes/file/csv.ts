@@ -5,21 +5,11 @@ import { format } from "fast-csv";
 import { resolveFilePath } from "./helpers/resolveFilePath";
 import { userRepository } from "../../db/database";
 import { nextError } from "../../utils/nextError";
+import { ICsvUser } from "./types";
 
 export const csvRoutes = Router();
 
 const usersDataPath = resolveFilePath("csvData/users-data.csv");
-
-interface CsvUser {
-  name: string;
-  surname: string;
-  gender: string;
-  age: number;
-  country: string;
-  city: string;
-  email: string;
-  phone: string;
-}
 
 csvRoutes.get(
   "/read",
@@ -27,7 +17,7 @@ csvRoutes.get(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Request | void> => {
+  ): Promise<Response | void> => {
     try {
       const saveToDisk: boolean = true;
 
@@ -47,7 +37,7 @@ csvRoutes.get(
 
       if (!allUsers?.length) return;
 
-      const transform = (row: CsvUser): CsvUser => ({
+      const transform = (row: ICsvUser): ICsvUser => ({
         name: row.name.toUpperCase(),
         surname: row.surname.toUpperCase(),
         gender: row.gender.toUpperCase(),

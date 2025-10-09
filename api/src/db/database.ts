@@ -42,7 +42,7 @@ export const scooterRepository = AppDataSource.getRepository(Scooter);
 export const accessoryRepository = AppDataSource.getRepository(Accessory);
 export const orderItemRepository = AppDataSource.getRepository(OrderItem);
 export const orderRepository = AppDataSource.getRepository(Order);
-export const ouserImageRepository = AppDataSource.getRepository(UserImage);
+export const userImageRepository = AppDataSource.getRepository(UserImage);
 
 // import { Sequelize } from "sequelize";
 // import dotenv from "dotenv";

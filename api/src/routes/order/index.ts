@@ -9,11 +9,11 @@ import {
   userRepository,
 } from "../../db/database";
 import { msg } from "../../constants/messages";
-import { validateOrderDto } from "./orderDto";
+import { validateOrderDto } from "./dto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
-import { Order } from "../../entities/Order";
 import { Scooter } from "../../entities/Scooter";
 import { Accessory } from "../../entities/Accessory";
+import { IOrder } from "./types";
 import { nextError } from "../../utils/nextError";
 
 export const order = Router();
@@ -25,13 +25,12 @@ order.post(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<Order> | void> => {
+  ): Promise<Response<IOrder> | void> => {
     try {
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
 
-      const { authToken } = req?.cookies;
-      const { email } = await validateAuthToken(authToken, res);
+      const { email } = await validateAuthToken(req?.cookies?.authToken, res);
 
       const currentUser = await userRepository.findOne({ where: { email } });
       if (!currentUser) {
@@ -142,7 +141,7 @@ order.get(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<Order[]> | void> => {
+  ): Promise<Response<IOrder[]> | void> => {
     try {
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
