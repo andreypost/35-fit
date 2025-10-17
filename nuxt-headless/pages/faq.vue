@@ -17,10 +17,12 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import axios from 'axios'
 import HeaderBanner from '~/components/HeaderBanner.vue'
 import TestingRoles from '~/components/TestingRoles.vue'
-export default {
+
+export default Vue.extend({
   name: 'FaqPage',
   scrollToTop: true,
   async asyncData({ env, $axios }: any) {
@@ -34,7 +36,7 @@ export default {
     }
     return { renderedOn: process.client ? 'client' : 'server' }
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>

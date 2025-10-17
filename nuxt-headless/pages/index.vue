@@ -34,29 +34,28 @@ export default Vue.extend({
     }
   },
   async asyncData(context) {
+    // this - is undefined
     // console.log('asyncData contex: ', context)
     try {
       const getFileData = await context.$axios.$get(
-        `${context.env.apiUrl}/file/read`
+        `${context.env.apiUrl}/file/csv/read`
       )
-      console.log(
-        'asyncData: /file/read - read file data: ',
-        getFileData?.length
-      )
-    } catch (error: any) {
-      console.error(error)
+      console.log('async asyncData: /file/read: ', getFileData?.length)
+    } catch (error: unknown) {
+      console.error('async asyncData: ', error)
     }
     return { renderedOn: process.client ? 'client' : 'server' }
   },
   async fetch(context) {
-    // console.log('fetch contex: ', this)
+    // console.log('fetch this: ', this)
+    // console.log('fetch contex: ', context)
     try {
       const getFileData = await context.$axios.$get(
-        `${context.env.apiUrl}/file/read`
+        `${context.env.apiUrl}/file/csv/read`
       )
-      console.log('fetch: /file/read - read file data: ', getFileData)
-    } catch (error: any) {
-      console.error(error)
+      console.log('async fetch: /file/read: ', getFileData.length)
+    } catch (error: unknown) {
+      console.error('async fetch: ', error)
     }
   },
   beforeCreate() {

@@ -6,7 +6,7 @@
     "node": ">=16"
   },
   "scripts": {
-    "dev": "nuxt -p 8000",
+    "dev": "nuxt -p 8080",
     "build": "nuxt build",
     "generate": "nuxt generate",
     "start": "nuxt start",

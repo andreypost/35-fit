@@ -16,22 +16,24 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import { debounce, throttle } from '~/utils/debounce'
 
-export default {
+export default Vue.extend({
   name: 'TestingRoles',
   data() {
     return {
-      searchQuery: '',
-      debouncedSearch: (...args: any[]): void => {},
+      searchQuery: '' as string,
+      // debouncedSearch: (...args: any[]): void => {},
+      debouncedSearch: (() => {}) as () => void,
     }
   },
   created() {
-    // this.debouncedSearch = debounce(this.executeSearch, 300)
-    this.debouncedSearch = throttle(this.executeSearch, 300)
+    this.debouncedSearch = debounce(() => this.executeSearch(), 300)
+    // this.debouncedSearch = throttle(() => this.executeSearch(), 300)
   },
   methods: {
-    async executeSearch() {
+    async executeSearch(): Promise<void> {
       if (!this.searchQuery.trim()) return
       try {
         console.log('Executing search for:', this.searchQuery)
@@ -49,7 +51,7 @@ export default {
     },
   },
   watch: {},
-}
+})
 </script>
 
 <style lang="scss" scoped>
