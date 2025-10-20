@@ -1,7 +1,7 @@
 // import { useContext } from 'react'
 import axios from 'axios'
 // import { AppContext } from '../AppRouter'
-import { useAppDispatch } from 'utils/hooks'
+import { useAppDispatch } from 'roothooks'
 import { spinnerIsVisibile } from 'slices/action.slice'
 // import { resetDatabaseUser } from 'slices/databaseUser.slice'
 import { errorModalMessage } from 'utils/errorModalMessage'

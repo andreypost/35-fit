@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { useAppDispatch, useAppSelector } from 'utils/hooks'
+import { useAppDispatch, useAppSelector } from 'store/root.hooks'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from '@apollo/client'
 import { LoginModal } from './LoginModal'

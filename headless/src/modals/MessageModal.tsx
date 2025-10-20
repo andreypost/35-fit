@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { useAppDispatch, useAppSelector } from 'utils/hooks'
+import { useAppDispatch, useAppSelector } from 'roothooks'
 import { BaseDiv } from './MenuModal'
 import {
   selectMessageModalActive,

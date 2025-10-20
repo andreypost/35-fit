@@ -1,12 +1,7 @@
 import { useEffect, useState } from 'react'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import type { AppDispatch, RootState } from 'store'
-import { isBrowser } from './isBrowser'
+import { isBrowser } from 'utils/isBrowser'
 
-export const useAppDispatch = () => useDispatch<AppDispatch>()
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
-
-export const GetCurrentWindowScroll = (threshold: number) => {
+export const useCurrentWindowScroll = (threshold: number) => {
   const [winScroll, setWinScroll] = useState(0)
   const handleScroll = () =>
     setWinScroll(document.body.scrollTop || document.documentElement.scrollTop)

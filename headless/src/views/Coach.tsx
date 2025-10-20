@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { IRouteParams } from 'types/interface'
-import { useAppSelector } from 'utils/hooks'
+import { useAppSelector } from 'roothooks'
 import { selectCoaches } from 'slices/coach.slice'
 import { useTranslation } from 'react-i18next'
 // import { Link } from "react-router-dom";

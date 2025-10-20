@@ -33,10 +33,12 @@
       "img": ["img"],
       "svg": ["svg"],
       "mixins": ["styles/variables"],
+      "hooks": ["hooks"],
       "slices": ["slices"],
       "utils": ["utils"],
       "views": ["views"],
       "store": ["store/root.store"],
+      "roothooks": ["store/root.hooks"],
       "reducer": ["store/root.reducer"],
       "types": ["types"]
       //   "@/*": ["*"]

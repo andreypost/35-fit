@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { RESERVE_ROUTE } from 'constants/routes'
-import { useAppSelector, useAppDispatch } from 'utils/hooks'
+import { useAppSelector, useAppDispatch } from 'roothooks'
 import { BaseDiv } from './MenuModal'
 import {
   messageModal,

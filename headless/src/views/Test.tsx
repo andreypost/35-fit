@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import styled from 'styled-components'
-import { useApiEndpointCall } from '../hooks/useApiEndpointCall'
+import { useApiEndpointCall } from 'hooks/useApiEndpointCall'
 import { TestingUploadImages } from 'components/TestingUploadImages'
 import { TestingOrder } from 'components/TestingOrder'
 import { TestingStreamFiles } from 'components/TestingStreamFiles'

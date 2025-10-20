@@ -1,6 +1,6 @@
 // import { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { useAppSelector } from 'utils/hooks'
+import { useAppSelector } from 'roothooks'
 import { selectCoaches } from 'slices/coach.slice'
 // import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
@@ -8,7 +8,7 @@ import { HeaderBanner } from 'HeaderBanner'
 import { ImageDescription } from 'components/ImageDescription'
 import { FooterBanner } from 'FooterBanner'
 
-import add_01 from '../img/adds/add_5_1.jpg'
+import add_01 from 'img/adds/add_5_1.jpg'
 
 const Main = styled.main`
   .coaches {

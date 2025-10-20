@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { GetCurrentWindowScroll } from 'utils/hooks'
+import { useCurrentWindowScroll } from 'hooks/useCurrentWindowScroll'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { FacebookSVG, InstaSVG, LangArrowSVG, YoutubeSVG } from 'img/icons'
@@ -159,7 +159,7 @@ const Foot = styled.footer`
 
 export const Footer = () => {
   const [isVisible, setIsVisible] = useState(false)
-  const isAboveThreshold = GetCurrentWindowScroll(80)
+  const isAboveThreshold = useCurrentWindowScroll(80)
 
   useEffect(() => {
     if (isAboveThreshold) {

@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { useAppDispatch, useAppSelector } from 'utils/hooks'
+import { useAppDispatch, useAppSelector } from 'roothooks'
 import { selectBurgerValue, menuModal } from 'slices/modal.slice'
 import { setDatabaseUser } from 'slices/databaseUser.slice'
 import {

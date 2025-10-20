@@ -1,7 +1,7 @@
 import { memo, useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { AppContext } from '../AppRouter'
-import { useApiEndpointCall } from '../hooks/useApiEndpointCall'
+import { useApiEndpointCall } from 'hooks/useApiEndpointCall'
 import { IOrder, IPrice } from 'types/interface'
 
 const Div = styled.div`

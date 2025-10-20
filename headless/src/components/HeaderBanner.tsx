@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { useAppDispatch } from 'utils/hooks'
+import { useAppDispatch } from 'roothooks'
 import { unsetAllModal } from 'slices/modal.slice'
 import { IChildrenTitleDescrip } from 'types/interface'
 

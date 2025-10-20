@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { spinnerIsVisibile } from 'slices/action.slice'
 import { IUploadImages } from 'types/interface'
-import { useAppDispatch } from 'utils/hooks'
-import { useApiEndpointCall } from '../hooks/useApiEndpointCall'
+import { useAppDispatch } from 'roothooks'
+import { useApiEndpointCall } from 'hooks/useApiEndpointCall'
 import {
   closestCenter,
   DndContext,

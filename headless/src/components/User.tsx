@@ -1,7 +1,7 @@
 import { IUser, IStyle } from 'types/interface'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { useAppDispatch } from 'utils/hooks'
+import { useAppDispatch } from 'roothooks'
 import { loginModal, dashModal, unsetDashModal } from 'slices/modal.slice'
 import empty_user from '../img/empty_user.png'
 import { LangArrowSVG } from 'img/icons'

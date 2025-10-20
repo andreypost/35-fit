@@ -2,7 +2,7 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-// import { GetCurrentWindowScroll } from 'utils/hooks'
+import { useCurrentWindowScroll } from 'hooks/useCurrentWindowScroll'
 import { RESERVE_ROUTE, PRICE_ROUTE, TRAIN_ROUTE } from 'constants/routes'
 import { HeaderBanner } from 'HeaderBanner'
 import { GreenButton } from '../components/ui/GreenButton'
@@ -178,7 +178,7 @@ const MainBlock = styled.main`
 
 const Main = () => {
   const { t } = useTranslation()
-  // winScroll = GetCurrentWindowScroll(),
+  const winScroll = useCurrentWindowScroll(80)
   // [content, setContent] = useState({
   //   first: false,
   //   second: false,
