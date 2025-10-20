@@ -10,7 +10,7 @@ import axios from 'axios'
 import styled from 'styled-components'
 import { IAuth } from 'types/interface'
 import { useIsAdmin } from './../hooks/useIsAdmin'
-import { apiEndpointCall } from 'utils/endpointApiCall'
+import { useApiEndpointCall } from '../hooks/useApiEndpointCall'
 import { UserPrivileges } from 'utils/userRoles'
 import { store } from 'store'
 import { messageModal } from 'slices/modal.slice'
@@ -45,12 +45,12 @@ const Div = styled.div`
   }
 `
 // this is the same as with useCallback in body component effect like freeze the function from re-creating on each re-render
-const handleGetAllUsers = async (path: string): Promise<void> => {
+/* const handleGetAllUsers = async (path: string): Promise<void> => {
   const response = await apiEndpointCall('get', path)
   if (response?.data) {
     return response?.data
   }
-}
+} */
 
 export const TestingRoles = memo(() => {
   const [searchUsers, setSearchUsers] = useState<IAuth[] | null>(null)
@@ -58,6 +58,7 @@ export const TestingRoles = memo(() => {
   const isAdmin = useIsAdmin()
   const [allUsers, setAllUsers] = useState<IAuth[]>([])
   const [userForUpdate, setUserForUpdate] = useState<IAuth>({})
+  const apiEndpointCall = useApiEndpointCall()
   // console.log('Testing Roles is rerendering')
 
   // wrapping handleGetAllUsers in useCallback prevents from re-rendering child <TestingCalllback...
@@ -65,10 +66,7 @@ export const TestingRoles = memo(() => {
   const urls = ['user/users', 'user/users', 'user/users', 'user/users']
   const handleGetAllUsers = useCallback(
     async (path): Promise<IAuth[] | undefined> => {
-      const response = await apiEndpointCall('get', path)
-      if (response?.data) {
-        return response?.data
-      }
+      return await apiEndpointCall('get', path).then((res) => res.data)
     },
     []
   )

@@ -14,11 +14,11 @@ import { useQuery } from '@apollo/client'
 import { GET_IMAGES, GET_IMAGE_BY_ID } from 'queries'
 import { useAppDispatch, useAppSelector } from 'utils/hooks'
 import { UserData, fetchFileData, setSlSortedList } from 'slices/fileData.slice'
-import { apiEndpointCall } from 'utils/endpointApiCall'
 import axios from 'axios'
 import { AppContext } from '../AppRouter'
-import { errorModalMessage } from 'utils/errorModalMessage'
 import { getSpinnerState, spinnerIsVisibile } from 'slices/action.slice'
+import { useApiEndpointCall } from '../hooks/useApiEndpointCall'
+import { errorModalMessage } from 'utils/errorModalMessage'
 
 const Div = styled.div`
   #streamFileDataForm,
@@ -102,6 +102,7 @@ export const TestingStreamFiles = memo(() => {
   // const { slFileSortedList, slFileListLoading, slFileListError } =
   //   useAppSelector(setSlSortedList)
   const { currentUser } = useContext(AppContext)
+  const apiEndpointCall = useApiEndpointCall()
   const { spinnerState } = useAppSelector(getSpinnerState)
 
   // console.log('Testing Modules is rerendering')
@@ -190,9 +191,10 @@ export const TestingStreamFiles = memo(() => {
           `${process.env.API_URL}/file/write`,
           {
             id: Math.floor(1_000 + Math.random() * (1_000_000 - 1_000 + 1)),
-            earnings: `$${Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) *
+            earnings: `$${
+              Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) *
               (index + 1)
-              }`,
+            }`,
             country: countries[index],
             name: 'Andrii Postoliuk',
           },
@@ -233,40 +235,44 @@ export const TestingStreamFiles = memo(() => {
 
   const handleStreamFileData: IReactFormElem = async (e): Promise<void> => {
     e.preventDefault()
-    dispatch(spinnerIsVisibile(true))
-    // currentUser && dispatch(spinnerIsVisibile(true))
+    try {
+      dispatch(spinnerIsVisibile(true))
+      // currentUser && dispatch(spinnerIsVisibile(true))
 
-    const addFileData = await apiEndpointCall('post', 'file/json/write', {
-      id: Math.floor(1_000 + Math.random() * (1_000_000 - 1_000 + 1)),
-      earnings: `$${Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) * (index + 1)
+      const addFileData = await apiEndpointCall('post', 'file/json/write', {
+        // id: crypto.randomUUID(),
+        id: Math.floor(1_000 + Math.random() * (1_000_000 - 1_000 + 1)),
+        earnings: `$${
+          Math.floor(2_500 + Math.random() * (5000 - 2_500 + 1)) * (index + 1)
         }`,
-      country: countries[index],
-      name: 'Andrii Postoliuk',
-    })
+        country: countries[index],
+        name: 'Andrii Postoliuk',
+      })
 
-    console.log('file/json/write: ', addFileData)
+      console.log('file/json/write: ', addFileData)
 
-    console.log(
-      'file/json/read: ',
-      await apiEndpointCall('get', 'file/json/read')
-    )
+      console.log(
+        'file/json/read: ',
+        await apiEndpointCall('get', 'file/json/read')
+      )
 
-    console.log(
-      'file/json/count-by-country: ',
-      await apiEndpointCall('get', 'file/json/count-by-country')
-    )
+      console.log(
+        'file/json/count-by-country: ',
+        await apiEndpointCall('get', 'file/json/count-by-country')
+      )
 
-    console.log(
-      'file/json/average-earnings-by-country: ',
-      await apiEndpointCall('get', 'file/json/average-earnings-by-country')
-    )
+      console.log(
+        'file/json/average-earnings-by-country: ',
+        await apiEndpointCall('get', 'file/json/average-earnings-by-country')
+      )
 
-    console.log(
-      'file/json/users/:id: ',
-      await apiEndpointCall('get', `file/json/users/${addFileData?.data?.id}`)
-    )
-
-    dispatch(spinnerIsVisibile(false))
+      console.log(
+        'file/json/users/:id: ',
+        await apiEndpointCall('get', `file/json/users/${addFileData?.data?.id}`)
+      )
+    } finally {
+      dispatch(spinnerIsVisibile(false))
+    }
 
     setIndex(Math.floor(Math.random() * countries.length))
   }

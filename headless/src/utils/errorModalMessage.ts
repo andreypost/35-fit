@@ -1,7 +1,6 @@
 import { store } from 'store'
 import { unsetAllModal, messageModal } from 'slices/modal.slice'
-// import { useContext } from 'react'
-// import { AppContext } from '../AppRouter'
+import { resetDatabaseUser } from 'slices/databaseUser.slice'
 
 export const errorModalMessage = (error: any) => {
   const message =
@@ -11,13 +10,14 @@ export const errorModalMessage = (error: any) => {
   const msgString = Array.isArray(message)
     ? message.map((i: any) => i?.msg ?? i).join(', ') + '.'
     : message
+
   store.dispatch(unsetAllModal())
   store.dispatch(messageModal(msgString))
-  // if (error?.response?.data?.error === 'Unauthorized') {
-  //   const { setCurrentUser } = useContext(AppContext)
-  //   setCurrentUser(null)
-  //   console.log('errorModalMessage: ', error?.response?.data?.message)
-  // }
+
+  if (msgString?.includes('Invalid or expired token!')) {
+    store.dispatch(resetDatabaseUser())
+  }
+
   console.error('error: ', error?.response?.data)
   return error?.response?.data
 }

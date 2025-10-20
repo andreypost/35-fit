@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Req } from '@nestjs/common';
+import { Request } from 'express';
 import { ApiOperation } from '@nestjs/swagger';
 import { Public } from '../../../guards/public.routes';
 import { DirService } from './dir.service';
@@ -20,5 +21,12 @@ export class DirController {
   @ApiOperation({ summary: 'file/dir/destructure' })
   async destructureDir(): Promise<Dirent[]> {
     return this.dirService.destructureDir();
+  }
+
+  @Public()
+  @Post('upload-slowly')
+  @ApiOperation({ summary: 'file/dir/upload-slowly' })
+  async uploadSlowly(@Req() req: Request): Promise<string> {
+    return this.dirService.uploadSlowly(req);
   }
 }

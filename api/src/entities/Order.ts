@@ -43,7 +43,8 @@ export class Order extends BaseSchema {
 
   calculateFinalTotalPrice() {
     this.finalTotalPrice = this.items.reduce((total, { price, quantity }) => {
-      const { amount, discount, taxRate } = price;
+      let { amount, discount, taxRate } = price;
+      amount = amount * Math.random(); // simulate different prices
       const priceAfterDiscount = amount - (amount * discount) / 100;
       const priceAfterTaxRate =
         priceAfterDiscount + (priceAfterDiscount * taxRate) / 100;

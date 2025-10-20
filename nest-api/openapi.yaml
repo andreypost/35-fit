@@ -309,6 +309,15 @@ paths:
           description: ""
       summary: file/dir/destructure
       tags: *a7
+  /file/dir/upload-slowly:
+    post:
+      operationId: DirController_uploadSlowly
+      parameters: []
+      responses:
+        "201":
+          description: ""
+      summary: file/dir/upload-slowly
+      tags: *a7
   /file/image/all:
     get:
       operationId: ImageController_getAllImages

@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { spinnerIsVisibile } from 'slices/action.slice'
 import { IUploadImages } from 'types/interface'
-import { apiEndpointCall } from 'utils/endpointApiCall'
 import { useAppDispatch } from 'utils/hooks'
+import { useApiEndpointCall } from '../hooks/useApiEndpointCall'
 import {
   closestCenter,
   DndContext,
@@ -70,12 +70,15 @@ export const TestingUploadImages = () => {
   const dispatch = useAppDispatch()
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const apiEndpointCall = useApiEndpointCall()
 
   const getAllImages = async () => {
     dispatch(spinnerIsVisibile(true))
-    const res = await apiEndpointCall('get', 'file/image/all', {}, true)
-    if (res?.data) setImages(res.data)
-    setTimeout(() => dispatch(spinnerIsVisibile(false)), 1000)
+    await apiEndpointCall('get', 'file/image/all', {}, true)
+      .then((res) => {
+        if (res?.data) setImages(res.data)
+      })
+      .finally(() => setTimeout(() => dispatch(spinnerIsVisibile(false)), 1000))
   }
   useEffect(() => {
     getAllImages()
@@ -91,23 +94,25 @@ export const TestingUploadImages = () => {
     const formData = new FormData()
     files.forEach((file) => formData.append('images', file))
 
-    const res = await apiEndpointCall(
-      'post',
-      'file/image/upload',
-      formData
-    ).finally(() => {
-      setUploadInput('')
-      getAllImages()
-    })
-    console.log('handleUploadImages: res: ', res)
+    await apiEndpointCall('post', 'file/image/upload', formData)
+      .then((res) => {
+        getAllImages()
+        console.log('handleUploadImages res: ', res)
+      })
+      .finally(() => {
+        setUploadInput('')
+        dispatch(spinnerIsVisibile(false))
+      })
   }
 
   const handleDeleteImage = async (id: string) => {
     dispatch(spinnerIsVisibile(true))
-    const res = await apiEndpointCall('delete', `file/image/${id}`).finally(
-      () => getAllImages()
-    )
-    console.log('handleDeleteImage res: ', res)
+    await apiEndpointCall('delete', `file/image/${id}`)
+      .then((res) => {
+        getAllImages()
+        console.log('handleDeleteImage res: ', res)
+      })
+      .finally(() => dispatch(spinnerIsVisibile(false)))
   }
 
   const onReorder = async (idsInNewOrder: string[]) => {

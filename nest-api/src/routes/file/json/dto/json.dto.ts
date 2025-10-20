@@ -1,7 +1,7 @@
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateUserJsonDto {
-  @IsUUID()
+  @IsNumber()
   id!: number;
 
   @IsString()

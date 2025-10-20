@@ -125,7 +125,7 @@ dirRoutes.post(
       // REMOVE or comment out the immediate response here:
       // res.status(200).json({ message: "Upload successful!" }); // <-- REMOVE THIS!
     } catch (error: unknown) {
-      console.error("/upload-slowly: ", error)
+      console.error("/upload-slowly: ", error);
       nextError(next, error);
     }
   }

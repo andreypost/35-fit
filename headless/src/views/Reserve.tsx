@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { HeaderBanner } from 'HeaderBanner'
-import { apiEndpointCall } from 'utils/endpointApiCall'
 import { IAuth } from 'types/interface'
 import { PercentReserveSVG } from 'img/icons'
 import { useAppDispatch } from 'utils/hooks'
+import { useApiEndpointCall } from '../hooks/useApiEndpointCall'
 import { addNewDatabaseUser } from 'slices/databaseUser.slice'
 import { messageModal } from 'slices/modal.slice'
 import { isDevelopment } from 'utils/isDevelopment'
@@ -185,6 +185,7 @@ const Reserve = () => {
   const { t } = useTranslation()
   const [userData, setUserData] = useState<IAuth>({})
   const dispatch = useAppDispatch()
+  const apiEndpointCall = useApiEndpointCall()
 
   const genderOptions = [
     { value: '', label: 'Select Gender' },

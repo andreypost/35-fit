@@ -1,19 +1,18 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { param } from "express-validator";
-import { validateAuthToken } from "../../auth/jsonWebToken";
 import {
   accessoryRepository,
   orderItemRepository,
   orderRepository,
   scooterRepository,
-  userRepository,
 } from "../../db/database";
-import { msg } from "../../constants/messages";
+import { getCurrentUser } from "../../utils/getCurrentUser";
 import { validateOrderDto } from "./order.dto";
 import { errorValidationCheck } from "../../validators/errorValidationCheck";
 import { Scooter } from "../../entities/Scooter";
 import { Accessory } from "../../entities/Accessory";
 import { IOrder } from "./order.types";
+import { msg } from "../../constants/messages";
 import { nextError } from "../../utils/nextError";
 
 export const order = Router();
@@ -30,12 +29,13 @@ order.post(
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
 
-      const { email } = await validateAuthToken(req?.cookies?.authToken, res);
+      const currentUser = await getCurrentUser(
+        req?.cookies?.authToken,
+        res,
+        next
+      );
 
-      const currentUser = await userRepository.findOne({ where: { email } });
-      if (!currentUser) {
-        return next({ message: msg.USER_NOT_FOUND });
-      }
+      if (!currentUser) return;
 
       const { status, items } = req?.body;
 
@@ -146,15 +146,11 @@ order.get(
       const isValid = errorValidationCheck(req, next);
       if (!isValid) return;
 
-      const { authToken } = req?.cookies;
-      const { email } = await validateAuthToken(authToken, res);
-
-      const currentUser = await userRepository.findOne({
-        where: { email },
-      });
-      if (!currentUser) {
-        return next({ message: msg.USER_NOT_FOUND });
-      }
+      const currentUser = await getCurrentUser(
+        req?.cookies?.authToken,
+        res,
+        next
+      );
 
       const { type } = req.params;
 
@@ -179,7 +175,7 @@ order.get(
         .createQueryBuilder("order")
         .leftJoinAndSelect("order.items", "order_item")
         .leftJoinAndSelect("order.user", "user")
-        .where("user.id = :userId", { userId: currentUser.id })
+        .where("user.id = :userId", { userId: currentUser?.id })
         .andWhere("order_item.productType = :type", { type })
         .getMany();
 

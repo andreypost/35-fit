@@ -155,7 +155,7 @@ export class ImageService {
         },
       });
 
-      await this.s3Client.send(command);
+      // await this.s3Client.send(command);
 
       this.logger.log(`Successfully uploaded: ${fileName}`);
 

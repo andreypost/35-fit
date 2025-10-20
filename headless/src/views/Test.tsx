@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import styled from 'styled-components'
-import { apiEndpointCall } from 'utils/endpointApiCall'
+import { useApiEndpointCall } from '../hooks/useApiEndpointCall'
 import { TestingUploadImages } from 'components/TestingUploadImages'
 import { TestingOrder } from 'components/TestingOrder'
 import { TestingStreamFiles } from 'components/TestingStreamFiles'
@@ -11,6 +11,7 @@ const Main = styled.main`
 `
 
 const Test = () => {
+  const apiEndpointCall = useApiEndpointCall()
   const sendSlowUpload = async () => {
     console.log('Client: Starting slow upload...')
 

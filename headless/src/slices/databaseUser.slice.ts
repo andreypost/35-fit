@@ -111,6 +111,12 @@ const databaseUserSlice = createSlice({
       const { grantedPrivileges, deniedPrivileges } = action.payload
       state.isAdmin = checkIsAdmin(grantedPrivileges, deniedPrivileges)
     },
+    resetDatabaseUser(state) {
+      state.databaseUser = null
+      state.isAdmin = false
+      state.databaseUserLoading = false
+      state.databaseUserError = null
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -163,6 +169,7 @@ const databaseUserSlice = createSlice({
 })
 
 export const setDatabaseUser = (state: RootState) => state.databaseUser
-export const { addNewDatabaseUser } = databaseUserSlice.actions
+export const { addNewDatabaseUser, resetDatabaseUser } =
+  databaseUserSlice.actions
 
 export default databaseUserSlice.reducer

@@ -1,8 +1,8 @@
 import { memo, useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { IOrder, IPrice } from 'types/interface'
-import { apiEndpointCall } from 'utils/endpointApiCall'
 import { AppContext } from '../AppRouter'
+import { useApiEndpointCall } from '../hooks/useApiEndpointCall'
+import { IOrder, IPrice } from 'types/interface'
 
 const Div = styled.div`
   #orderBox {
@@ -53,6 +53,7 @@ export const TestingOrder = memo(() => {
     useState(false)
   const [scooterPoductId, setScooterPoductId] = useState('')
   const [accessoryPoductId, setAccessoryPoductId] = useState('')
+  const apiEndpointCall = useApiEndpointCall()
   const abortController = new AbortController()
   const { signal } = abortController
 
@@ -159,7 +160,7 @@ export const TestingOrder = memo(() => {
   }, [])
 
   const handleCreatePrice = async (price: IPrice): Promise<string | void> => {
-    apiEndpointCall('post', 'price/create', price, false, signal).then(
+    await apiEndpointCall('post', 'price/create', price, false, signal).then(
       ({ data }) => {
         if (signal.aborted) return
         if (price.productType === 'scooter') {
@@ -175,18 +176,22 @@ export const TestingOrder = memo(() => {
     type: string,
     product: any
   ): Promise<string | void> => {
-    apiEndpointCall('post', `${type}/create`, product, false, signal).then(
-      ({ data }) => {
-        if (signal.aborted) return
-        if (type === 'scooter') {
-          setScooterPoductId(data)
-          setScooterConflictProductId(true)
-        } else {
-          setAccessoryPoductId(data)
-          setAccessoryConflictProductId(true)
-        }
+    await apiEndpointCall(
+      'post',
+      `${type}/create`,
+      product,
+      false,
+      signal
+    ).then(({ data }) => {
+      if (signal.aborted) return
+      if (type === 'scooter') {
+        setScooterPoductId(data)
+        setScooterConflictProductId(true)
+      } else {
+        setAccessoryPoductId(data)
+        setAccessoryConflictProductId(true)
       }
-    )
+    })
   }
 
   const makeProductOrder = async (
@@ -194,7 +199,7 @@ export const TestingOrder = memo(() => {
     productId: string,
     quantity: number
   ): Promise<IOrder | void> => {
-    const productOrder = await apiEndpointCall('post', 'order/create', {
+    await apiEndpointCall('post', 'order/create', {
       status: 'pending',
       items: [
         {
@@ -203,18 +208,15 @@ export const TestingOrder = memo(() => {
           quantity,
         },
       ],
-    })
-    console.log(`Created Order for ${productType}: `, productOrder)
+    }).then((res) => console.log(`Created Order for ${productType}: `, res))
   }
 
   const getAllProductTypeOrders = async (
     productType: string
   ): Promise<IOrder[] | void> => {
-    const productTypeOrders = await apiEndpointCall(
-      'get',
-      `order/orders/${productType}`
+    await apiEndpointCall('get', `order/orders/${productType}`).then((res) =>
+      console.log(`Product Type Orders for ${productType}: `, res)
     )
-    console.log(`Product Type Orders for ${productType}: `, productTypeOrders)
   }
 
   return (
@@ -288,8 +290,8 @@ export const TestingOrder = memo(() => {
                 backgroundColor: !currentUser
                   ? 'skyblue'
                   : scooterPoductId
-                    ? '#59b894'
-                    : '#ff6376',
+                  ? '#59b894'
+                  : '#ff6376',
               }}
               onClick={() => makeProductOrder('scooter', scooterPoductId, 1)}
             >
@@ -306,8 +308,8 @@ export const TestingOrder = memo(() => {
                 backgroundColor: !currentUser
                   ? 'skyblue'
                   : accessoryPoductId
-                    ? '#59b894'
-                    : '#ff6376',
+                  ? '#59b894'
+                  : '#ff6376',
               }}
               onClick={() =>
                 makeProductOrder('accessory', accessoryPoductId, 4)
