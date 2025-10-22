@@ -1,34 +1,39 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
 
 export class CustomErrorHandler extends Error {
-  status: number;
-  type: string;
-
-  constructor(message: string, status: number, type: string) {
+  constructor(
+    public message: string,
+    public status: number,
+    public type = "UnknownError"
+  ) {
     super(message);
-    this.status = status;
-    this.type = type;
-
-    this.name = "CustomErrorHandler";
   }
 }
 
-export const errorHandler = (
+export const globalErrorHandler: ErrorRequestHandler = (
   err: any,
   req: Request,
   res: Response,
   next: NextFunction
 ): void => {
-  console.error("Global Error Handler: ", err);
+  if (res.headersSent) return next(err);
 
-  if (res.headersSent) {
-    return next(err);
-  }
+  const status = Number(err?.status || err?.statusCode) || 500;
+  const type = err?.type || (status === 404 ? "NotFoundError" : "UnknownError");
 
-  res.status(err.status || 500).json({
-    message: err.message || "An unknown error occurred",
-    success: err.success ?? false,
-    type: err.type || "UnknownError",
+  console.error("Global Error Handler:", {
+    message: err?.message,
+    status,
+    type,
+    path: req.path,
+    method: req.method,
+    stack: process.env.NODE_ENV === "production" ? undefined : err?.stack,
+  });
+
+  res.status(status).json({
+    message: status < 500 ? err.message : "Internal Server Error",
+    success: false,
+    type,
   });
 };
 

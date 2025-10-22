@@ -1,30 +1,23 @@
-import { NextFunction, Response } from "express";
-import { nextError } from "./nextError";
-import { validateAuthToken } from "../auth/jsonWebToken";
+import { Response } from "express";
+import { deleteAuthToken, validateAuthToken } from "../auth/jsonWebToken";
 import { userRepository } from "../db/database";
-import { msg } from "../constants/messages";
 import { User } from "../entities/User";
+import { CustomErrorHandler } from "../middleware/errorHandler";
+import { msg } from "../constants/messages";
 
 export const getCurrentUser = async (
   authToken: string,
-  res: Response,
-  next: NextFunction
-): Promise<User | void | any> => {
-  try {
-    const { email } = await validateAuthToken('authToken', res);
+  res: Response
+): Promise<User | never> => {
+  const { email } = await validateAuthToken(authToken, res);
+  const currentUser = await userRepository.findOne({
+    where: { email },
+  });
 
-    const currentUser = await userRepository.findOne({
-      where: { email },
-    });
-    if (!currentUser) {
-      throw next({ message: msg.USER_NOT_FOUND });
-    }
-
-    return currentUser;
-  } catch (error: unknown) {
-    console.log("getCurrentUser catch block", error)
-    // nextError(next, error);
-    next(error)
-    return
+  if (!currentUser) {
+    deleteAuthToken(res);
+    throw new CustomErrorHandler(msg.USER_NOT_FOUND, 404, "NotFoundError");
   }
+
+  return currentUser;
 };

@@ -38,20 +38,12 @@ export const useApiEndpointCall = () => {
         return Promise.reject(error)
       }
 
-      //   if ( \\ this logic is implemented in errorModalMessage component
-      //     error?.response?.data?.message.includes('Invalid or expired token!')
-      //   ) {
-      //     //   dispatch(resetDatabaseUser()) // or
-      //     setCurrentUser(null)
-      //   }
-
       if (!firstLoad) {
         throw errorModalMessage(error)
       } else {
         throw error?.response?.data ?? { message: 'An unknown error occurred' }
       }
     } finally {
-      // dispatch(spinnerIsVisibile(false))
       setTimeout(() => dispatch(spinnerIsVisibile(false)), 500)
     }
   }

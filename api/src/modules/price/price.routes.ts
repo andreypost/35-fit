@@ -1,36 +1,14 @@
 import { NextFunction, Request, Response, Router } from "express";
+import { asyncHandler } from "../../utils/asyncHandler";
 import { validatePriceDto, validatePriceNameQueryDto } from "./price.dto";
-import { errorValidationCheck } from "../../validators/errorValidationCheck";
+import { validateRequest } from "../../validators/errorValidationCheck";
 import { priceRepository } from "../../db/database";
 import { Price } from "../../entities/Price";
+import { CustomErrorHandler } from "../../middleware/errorHandler";
 import { msg } from "../../constants/messages";
 import { nextError } from "../../utils/nextError";
 
 export const price = Router();
-
-const checkSetPriceByName = async (
-  priceName: string,
-  returnPrice: boolean = false,
-  next: NextFunction
-): Promise<boolean | string> => {
-  const existingPrice = await priceRepository.findOne({
-    where: { name: priceName },
-  });
-
-  if (existingPrice) {
-    if (returnPrice) {
-      return existingPrice?.id;
-    } else if (!returnPrice) {
-      next({
-        message: `${existingPrice?.name} ${msg.PRICE_NAME_ALREADY_EXIST}`,
-        status: 400,
-        type: "ConflictDatabaseError",
-      });
-      return true;
-    }
-  }
-  return false;
-};
 
 export const getPriceById = async (
   priceId: string,
@@ -55,36 +33,26 @@ export const getPriceById = async (
 price.get(
   "/check-set",
   validatePriceNameQueryDto,
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response<string> | void> => {
-    try {
-      const isValid = errorValidationCheck(req, next);
-      if (!isValid) return;
-
+  validateRequest,
+  asyncHandler(
+    async (req: Request, res: Response): Promise<Response<string> | void> => {
       const { priceName } = req.query as { priceName: string };
 
-      const priceExists = await checkSetPriceByName(priceName, true, next);
-      if (!priceExists) return;
+      const priceExists = await priceRepository.findOne({
+        where: { name: priceName },
+      });
 
-      return res.status(200).json(priceExists);
-    } catch (error: unknown) {
-      nextError(next, error);
+      return res.status(200).json(priceExists ? priceExists.id : null);
     }
-  }
+  )
 );
 
 price.post(
   "/create",
   validatePriceDto,
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response<string> | void> => {
-    try {
+  validateRequest,
+  asyncHandler(
+    async (req: Request, res: Response): Promise<Response<string> | void> => {
       const {
         name,
         amount,
@@ -94,8 +62,14 @@ price.post(
         productType,
       } = req.body;
 
-      const priceExists = await checkSetPriceByName(name, false, next);
-      if (priceExists) return;
+      const priceExists = await priceRepository.findOne({ where: { name } });
+      if (priceExists) {
+        throw new CustomErrorHandler(
+          `${priceExists.name} ${msg.PRICE_NAME_ALREADY_EXIST}`,
+          409,
+          "ConflictDatabaseError"
+        );
+      }
 
       const newPrice = priceRepository.create({
         name,
@@ -109,8 +83,6 @@ price.post(
       const savedPrice = await priceRepository.save(newPrice);
 
       return res.status(200).json(savedPrice.id);
-    } catch (error: unknown) {
-      nextError(next, error);
     }
-  }
+  )
 );

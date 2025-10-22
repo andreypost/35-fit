@@ -10,7 +10,7 @@ import { price } from "./modules/price/price.routes";
 import { scooter } from "./modules/scooter/scooter.routes";
 import { accessory } from "./modules/accessory/accessory.routes";
 import { order } from "./modules/order/order.routes";
-import { errorHandler } from "./middleware/errorHandler";
+import { globalErrorHandler } from "./middleware/errorHandler";
 import { logRequestDetails } from "./middleware/logRequestDetails";
 import { GraphQLSchema } from "graphql";
 import { QuerySchema } from "./graphql/querySchema";
@@ -78,7 +78,7 @@ app.get("/", (req: Request, res: Response) =>
   res.send("Hello World with TypeScript Express from ./api server!")
 );
 
-app.use(errorHandler);
+app.use(globalErrorHandler);
 
 const server = app.listen(PORT, HOST, () =>
   console.log(

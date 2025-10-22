@@ -1,4 +1,4 @@
-import { Request, NextFunction } from "express";
+import { Request, NextFunction, RequestHandler } from "express";
 import { validationResult } from "express-validator";
 
 export const errorValidationCheck = (
@@ -16,4 +16,17 @@ export const errorValidationCheck = (
     return false;
   }
   return true;
+};
+
+export const validateRequest: RequestHandler = (req, _res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return next({
+      // details: errors.array(),
+      message: errors.array(),
+      status: 400,
+      type: "ValidationDataError",
+    });
+  }
+  return next();
 };

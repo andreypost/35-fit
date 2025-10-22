@@ -1,5 +1,6 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import { param } from "express-validator";
+import { asyncHandler } from "../../utils/asyncHandler";
 import {
   accessoryRepository,
   orderItemRepository,
@@ -8,12 +9,10 @@ import {
 } from "../../db/database";
 import { getCurrentUser } from "../../utils/getCurrentUser";
 import { validateOrderDto } from "./order.dto";
-import { errorValidationCheck } from "../../validators/errorValidationCheck";
+import { validateRequest } from "../../validators/errorValidationCheck";
 import { Scooter } from "../../entities/Scooter";
 import { Accessory } from "../../entities/Accessory";
 import { IOrder } from "./order.types";
-import { msg } from "../../constants/messages";
-import { nextError } from "../../utils/nextError";
 import { CustomErrorHandler } from "../../middleware/errorHandler";
 
 export const order = Router();
@@ -21,33 +20,10 @@ export const order = Router();
 order.post(
   "/create",
   validateOrderDto,
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response<IOrder> | void> => {
-    try {
-      const isValid = errorValidationCheck(req, next);
-      if (!isValid) return;
-
-      const currentUser = await getCurrentUser(
-        req?.cookies?.authToken,
-        res,
-        next
-      );
-
-      console.log("after user check ----- ", currentUser)
-
-      if (!currentUser) {
-        // throw new CustomErrorHandler(
-        //   msg.INVALID_CREDENTIALS,
-        //   401,
-        //   "ValidationTokenError"
-        // );
-        // return
-        // return next({ message: msg.INVALID_CREDENTIALS });
-      }
-
+  validateRequest,
+  asyncHandler(
+    async (req: Request, res: Response): Promise<Response<IOrder> | void> => {
+      const currentUser = await getCurrentUser(req?.cookies?.authToken, res);
 
       const { status, items } = req?.body;
 
@@ -82,13 +58,19 @@ order.post(
         }
 
         if (!product) {
-          return next({ message: msg.ORDER_NOT_FOUND });
+          throw new CustomErrorHandler(
+            `Product ${productType} - not found.`,
+            404,
+            "NotFoundError"
+          );
         }
 
         if (!product.price) {
-          return next({
-            message: `Product with ID ${productId} has no price assigned.`,
-          });
+          throw new CustomErrorHandler(
+            `Product with ID ${productId} has no price assigned.`,
+            400,
+            "BadRequestError"
+          );
         }
 
         return {
@@ -138,11 +120,8 @@ order.post(
       const savedOrder = await orderRepository.save(newOrder);
 
       return res.status(200).json(savedOrder);
-    } catch (error: unknown) {
-      console.log("order.routes catch block", error)
-      nextError(next, error);
     }
-  }
+  )
 );
 
 order.get(
@@ -150,20 +129,10 @@ order.get(
   param("type")
     .isIn(["scooter", "accessory"])
     .withMessage("Param type must be either scooter or accessory"),
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response<IOrder[]> | void> => {
-    try {
-      const isValid = errorValidationCheck(req, next);
-      if (!isValid) return;
-
-      const currentUser = await getCurrentUser(
-        req?.cookies?.authToken,
-        res,
-        next
-      );
+  validateRequest,
+  asyncHandler(
+    async (req: Request, res: Response): Promise<Response<IOrder[]> | void> => {
+      const currentUser = await getCurrentUser(req?.cookies?.authToken, res);
 
       const { type } = req.params;
 
@@ -193,8 +162,6 @@ order.get(
         .getMany();
 
       res.status(200).json(ordersByType);
-    } catch (error: unknown) {
-      nextError(next, error);
     }
-  }
+  )
 );

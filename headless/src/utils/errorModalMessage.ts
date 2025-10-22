@@ -14,7 +14,11 @@ export const errorModalMessage = (error: any) => {
   store.dispatch(unsetAllModal())
   setTimeout(() => store.dispatch(messageModal(msgString)), 500)
 
-  if (msgString?.includes('Invalid or expired token!')) {
+  if (
+    msgString?.includes('Invalid or expired token!') ||
+    msgString?.includes('User not found.') ||
+    msgString?.includes('You must login first!')
+  ) {
     store.dispatch(resetDatabaseUser())
   }
 

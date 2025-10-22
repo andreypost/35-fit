@@ -43,23 +43,21 @@ export const setAuthToken = async (
 export const validateAuthToken = async (
   authToken: string,
   res: Response
-): Promise<{ message: string; email: string }> => {
+): Promise<{ email: string }> => {
   if (!authToken) {
     throw new CustomErrorHandler(msg.YOU_MUST_TO_LOGIN, 401, "LoginError");
   }
 
   try {
-    const decoded = verify(authToken, env.JWT_KEY as string);
-    const { email } = decoded as { email: string };
-
-    return {
-      message: msg.USER_ALREADY_LOGGED_IN,
-      email,
+    const decoded = verify(authToken, env.JWT_KEY as string) as {
+      email: string;
     };
-  } catch (error: unknown) {
+
+    return { email: decoded.email };
+  } catch {
     deleteAuthToken(res);
     throw new CustomErrorHandler(
-      msg.INVALID_OR_EXPIRED_TOKEN + ' ' + msg.INVALID_CREDENTIALS,
+      msg.INVALID_OR_EXPIRED_TOKEN,
       401,
       "ValidationTokenError"
     );
