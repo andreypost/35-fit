@@ -9,9 +9,9 @@ export const getCurrentUser = async (
   authToken: string,
   res: Response,
   next: NextFunction
-): Promise<User | void> => {
+): Promise<User | void | any> => {
   try {
-    const { email } = await validateAuthToken(authToken, res);
+    const { email } = await validateAuthToken('authToken', res);
 
     const currentUser = await userRepository.findOne({
       where: { email },
@@ -22,6 +22,9 @@ export const getCurrentUser = async (
 
     return currentUser;
   } catch (error: unknown) {
-    nextError(next, error);
+    console.log("getCurrentUser catch block", error)
+    // nextError(next, error);
+    next(error)
+    return
   }
 };

@@ -59,7 +59,7 @@ export const validateAuthToken = async (
   } catch (error: unknown) {
     deleteAuthToken(res);
     throw new CustomErrorHandler(
-      msg.INVALID_OR_EXPIRED_TOKEN,
+      msg.INVALID_OR_EXPIRED_TOKEN + ' ' + msg.INVALID_CREDENTIALS,
       401,
       "ValidationTokenError"
     );

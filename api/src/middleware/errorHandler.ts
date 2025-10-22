@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { validationResult } from "express-validator";
 
 export class CustomErrorHandler extends Error {
   status: number;

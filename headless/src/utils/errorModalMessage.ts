@@ -12,7 +12,7 @@ export const errorModalMessage = (error: any) => {
     : message
 
   store.dispatch(unsetAllModal())
-  store.dispatch(messageModal(msgString))
+  setTimeout(() => store.dispatch(messageModal(msgString)), 500)
 
   if (msgString?.includes('Invalid or expired token!')) {
     store.dispatch(resetDatabaseUser())

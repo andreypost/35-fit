@@ -14,6 +14,7 @@ import { Accessory } from "../../entities/Accessory";
 import { IOrder } from "./order.types";
 import { msg } from "../../constants/messages";
 import { nextError } from "../../utils/nextError";
+import { CustomErrorHandler } from "../../middleware/errorHandler";
 
 export const order = Router();
 
@@ -35,7 +36,18 @@ order.post(
         next
       );
 
-      if (!currentUser) return;
+      console.log("after user check ----- ", currentUser)
+
+      if (!currentUser) {
+        // throw new CustomErrorHandler(
+        //   msg.INVALID_CREDENTIALS,
+        //   401,
+        //   "ValidationTokenError"
+        // );
+        // return
+        // return next({ message: msg.INVALID_CREDENTIALS });
+      }
+
 
       const { status, items } = req?.body;
 
@@ -127,6 +139,7 @@ order.post(
 
       return res.status(200).json(savedOrder);
     } catch (error: unknown) {
+      console.log("order.routes catch block", error)
       nextError(next, error);
     }
   }

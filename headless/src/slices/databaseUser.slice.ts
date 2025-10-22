@@ -74,6 +74,7 @@ export const validateAuthToken = createAsyncThunk<IUserPrivileges>(
       throw error
     }
   }
+  // the error:  http://localhost:3000/user/validate net::ERR_EMPTY_RESPONSE
 )
 
 export const logoutUserWithAuthToken = createAsyncThunk<
