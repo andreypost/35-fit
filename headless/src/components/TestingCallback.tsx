@@ -51,6 +51,7 @@ export const TestingCallback = memo(function TestingCalllback<T>({
       <div
         style={{
           display: 'flex',
+          marginBottom: '60px',
         }}
       >
         {colors.map((color, i) => (
@@ -63,7 +64,7 @@ export const TestingCallback = memo(function TestingCalllback<T>({
         ))}
       </div>
       <button
-        className="flex_center_center additional_submit b700 white"
+        className="flex_center_center additional_submit margin_b_60_30"
         onClick={sortUserByEmail}
       >
         Sort User By Email

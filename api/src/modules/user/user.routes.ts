@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { Like } from "typeorm";
 import { getCurrentUser } from "../../utils/getCurrentUser";
@@ -15,12 +15,11 @@ import {
   validateUserDto,
 } from "./user.dto";
 import { validateEmailPasswordDto } from "../../validators/commonValidators";
-import { errorValidationCheck, validateRequest } from "../../validators/errorValidationCheck";
+import { validateRequest } from "../../validators/errorValidationCheck";
 import { msg } from "../../constants/messages";
 import { UserPrivileges } from "../../utils/userRoles";
-import { CustomErrorHandler, isPgUniqueViolation } from "../../middleware/errorHandler";
+import { CustomErrorHandler } from "../../middleware/errorHandler";
 import { IDatabaseUser } from "./user.types";
-import { nextError } from "../../utils/nextError";
 
 export const user = Router();
 
@@ -32,9 +31,8 @@ user.post(
   asyncHandler(
     async (
       req: Request,
-      res: Response,
-    ): Promise<Response | void> => {
-
+      res: Response
+    ): Promise<Response<{ message: string }> | void> => {
       const {
         name,
         surname,
@@ -48,9 +46,17 @@ user.post(
         emergencyName = "",
         emergencyPhone = "",
       } = req.body as {
-        name: string; surname: string; gender: string; age: number;
-        country: string; city: string; email: string; password: string; phone: string;
-        emergencyName?: string; emergencyPhone?: string;
+        name: string;
+        surname: string;
+        gender: string;
+        age: number;
+        country: string;
+        city: string;
+        email: string;
+        password: string;
+        phone: string;
+        emergencyName?: string;
+        emergencyPhone?: string;
       };
 
       const userRoles = UserPrivileges.isAdminEmail(email)
@@ -78,48 +84,41 @@ user.post(
       await setAuthToken(email, savedUser.id, res);
 
       return res.status(201).json({ message: msg.USER_CREATED_SUCCESSFULLY });
-    })
+    }
+  )
 );
 
 user.post(
   "/login",
   validateEmailPasswordDto,
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response<IDatabaseUser> | void> => {
-    try {
-      const isValid = errorValidationCheck(req, next);
-      if (!isValid) return;
-
+  validateRequest,
+  asyncHandler(
+    async (
+      req: Request,
+      res: Response
+    ): Promise<Response<IDatabaseUser> | void> => {
       const { email, password, keepLoggedIn } = await req.body;
       const user = await userRepository.findOne({
         where: { email },
       });
+
       if (!user) {
-        return next({
-          message: msg.USER_NOT_FOUND,
-          status: 404,
-          type: "FindUserError",
-        });
+        throw new CustomErrorHandler(msg.USER_NOT_FOUND, 404, "FindUserError");
       } else {
         const isPasswordValid = await user.checkPassword(password);
         if (!isPasswordValid) {
-          return next({
-            message: msg.INVALID_CREDENTIALS,
-            status: 401,
-            type: "CredentialsError",
-          });
+          throw new CustomErrorHandler(
+            msg.INVALID_CREDENTIALS,
+            401,
+            "CredentialsError"
+          );
         }
 
         await setAuthToken(user.email, user.id, res, keepLoggedIn);
         return res.status(201).json({ message: msg.LOGIN_SUCCESSFUL, ...user });
       }
-    } catch (error: unknown) {
-      nextError(next, error);
     }
-  }
+  )
 );
 
 user.get(
@@ -127,88 +126,73 @@ user.get(
   asyncHandler(
     async (
       req: Request,
-      res: Response,
-    ): Promise<Response<IDatabaseUser> | never> => {
+      res: Response
+    ): Promise<Response<IDatabaseUser> | void> => {
       const currentUser = await getCurrentUser(req?.cookies?.authToken, res);
 
       return res.status(200).json(currentUser);
-    })
+    }
+  )
 );
 
 user.get(
   "/users",
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response<IDatabaseUser[]> | void> => {
-    try {
-      // const { authToken } = req?.cookies;
-      // await validateAuthToken(authToken, res);
-
+  asyncHandler(
+    async (
+      req: Request,
+      res: Response
+    ): Promise<Response<IDatabaseUser[]> | void> => {
       const users = await userRepository.find();
       return res.status(200).json(users);
-    } catch (error: unknown) {
-      nextError(next, error);
     }
-  }
+  )
 );
 
 user.post(
   "/logout",
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response | void> => {
-    try {
+  asyncHandler(
+    async (
+      req: Request,
+      res: Response
+    ): Promise<Response<{ message: string }> | void> => {
       const { deleteAccount } = await req?.body;
+
       let repoResponse = null;
+
       if (deleteAccount) {
-        const { authToken } = req?.cookies;
-        const { email } = await validateAuthToken(authToken, res);
+        const { email } = await validateAuthToken(req?.cookies?.authToken, res);
         repoResponse = await userRepository.delete({ email });
+
         if (!repoResponse?.affected) {
-          return next({
-            message: msg.USER_ALREADY_DELETED_OR_DOES_NOT_EXIST,
-            status: 404,
-            type: "DeletionError",
-          });
+          throw new CustomErrorHandler(
+            msg.USER_ALREADY_DELETED_OR_DOES_NOT_EXIST,
+            404,
+            "DeletionError"
+          );
         }
       }
+
       deleteAuthToken(res);
+
       return res.status(200).json({
         message: repoResponse?.affected
           ? msg.USER_DELETED_SUCCESSFULLY
           : msg.LOGGED_OUT_SUCCESSFUL,
       });
-    } catch (error: unknown) {
-      // if (isPgUniqueViolation(error, "23503")) {
-      //   return next({
-      //     message: msg.USER_CANNOT_BE_DELETED,
-      //     status: 400,
-      //     type: "DatabaseValidationError",
-      //   });
-      // }
-      nextError(next, error);
     }
-  }
+  )
 );
 
 user.get(
   "/search",
   validateSearchQueryDto,
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response<IDatabaseUser[]> | void> => {
-    try {
-      const isValid = errorValidationCheck(req, next);
-      if (!isValid) return;
-
-      const { authToken } = req?.cookies;
-      await validateAuthToken(authToken, res);
+  validateRequest,
+  asyncHandler(
+    async (
+      req: Request,
+      res: Response
+    ): Promise<Response<IDatabaseUser[]> | void> => {
+      await validateAuthToken(req?.cookies?.authToken, res);
 
       const { searchQuery } = req.query;
 
@@ -218,33 +202,27 @@ user.get(
         take: 10,
       });
       return res.status(200).json(users);
-    } catch (error: unknown) {
-      nextError(next, error);
     }
-  }
+  )
 );
 
 user.patch(
   "/:id/privileges",
   validatePrivilegesDto,
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response<IDatabaseUser> | void> => {
-    try {
-      const isValid = errorValidationCheck(req, next);
-      if (!isValid) return;
-
-      const { authToken } = req?.cookies;
-      const { email } = await validateAuthToken(authToken, res);
+  validateRequest,
+  asyncHandler(
+    async (
+      req: Request,
+      res: Response
+    ): Promise<Response<IDatabaseUser> | void> => {
+      const { email } = await validateAuthToken(req?.cookies?.authToken, res);
 
       const currentUser = await userRepository.findOne({
         where: { email },
       });
 
       if (!currentUser) {
-        return next({ message: msg.USER_NOT_FOUND });
+        throw new CustomErrorHandler(msg.USER_NOT_FOUND, 404, "NotFoundError");
       }
 
       const privileges = new UserPrivileges(
@@ -253,7 +231,11 @@ user.patch(
       );
 
       if (!privileges.hasGrantedPrivilege(UserPrivileges.Administrator)) {
-        return next({ message: msg.YOU_DO_NOT_HAVE_PERMISSION });
+        throw new CustomErrorHandler(
+          msg.YOU_DO_NOT_HAVE_PERMISSION,
+          403,
+          "ForbiddenError"
+        );
       }
 
       const { id } = req?.params;
@@ -261,7 +243,7 @@ user.patch(
       const user = await userRepository.findOne({ where: { id } });
 
       if (!user) {
-        return next({ message: msg.USER_NOT_FOUND });
+        throw new CustomErrorHandler(msg.USER_NOT_FOUND, 404, "NotFoundError");
       }
 
       const { grantedPrivileges, deniedPrivileges } = req?.body;
@@ -272,20 +254,17 @@ user.patch(
       const savedUser = await userRepository.save(user);
 
       return res.status(200).json(savedUser);
-    } catch (error: unknown) {
-      nextError(next, error);
     }
-  }
+  )
 );
 
 user.get(
   "/sql",
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response<IDatabaseUser> | void> => {
-    try {
+  asyncHandler(
+    async (
+      req: Request,
+      res: Response
+    ): Promise<Response<IDatabaseUser> | void> => {
       const { email, password } = req.query;
 
       console.log("query email: ", email);
@@ -293,8 +272,6 @@ user.get(
 
       const unsafeResult = await userRepository.query(unsafeQuery);
       return res.status(200).json(unsafeResult);
-    } catch (error: unknown) {
-      nextError(next, error);
     }
-  }
+  )
 );

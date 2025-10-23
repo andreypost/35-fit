@@ -225,7 +225,7 @@ export const TestingRoles = memo(() => {
 
   return (
     <Div>
-      <div className="additional_forms margin_b_120_80 relative">
+      <div className="additional_forms relative">
         <fieldset className="margin_b_60_30">
           <legend>Search Query:</legend>
           <input
@@ -255,7 +255,7 @@ export const TestingRoles = memo(() => {
           </ul>
         )}
         <button
-          className="flex_center_center additional_submit privileges_button b700 white"
+          className="flex_center_center additional_submit privileges_button b700 white margin_b_60_30"
           style={{
             opacity: isAdmin && userForUpdate?.email ? 1 : 0.2,
             backgroundColor:
@@ -268,7 +268,7 @@ export const TestingRoles = memo(() => {
           {userForUpdate?.email && <span>for: {userForUpdate.email}</span>}
         </button>
         <button
-          className="flex_center_center additional_submit b700"
+          className="flex_center_center additional_submit b700 margin_b_60_30"
           style={{
             backgroundColor: 'white',
             border: '1px solid #ff6376',

@@ -6,4 +6,9 @@ export const validateEmailPasswordDto = [
   body("password")
     .isLength({ min: 4 })
     .withMessage(msg.PASSWORD_MUTS_BE_AT_LEAST),
+  body("keepLoggedIn")
+    .isBoolean()
+    .withMessage("Keep Logged In value should be boolean")
+    .notEmpty()
+    .withMessage("Keep Logged In value should be passed"),
 ];

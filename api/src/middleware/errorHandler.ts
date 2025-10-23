@@ -19,22 +19,22 @@ export const globalErrorHandler: ErrorRequestHandler = (
 ): void => {
   if (res.headersSent) return next(err);
 
-  console.log("globalErrorHandler err: ", err.code, err)
+  // console.log("globalErrorHandler err: ", err.code, err)
 
-  if ((err as any)?.code === '23505') {
+  if ((err as any)?.code === "23505") {
     err = {
       message: msg.EMAIL_ALREADY_EXIST,
       status: 409,
-      type: 'DatabaseValidationError',
-      stack: err?.detail
-    }
-  } else if ((err as any)?.code === '23503') {
+      type: "DatabaseValidationError",
+      stack: err?.detail,
+    };
+  } else if ((err as any)?.code === "23503") {
     err = {
       message: msg.USER_CANNOT_BE_DELETED,
       status: 409,
-      type: 'DatabaseValidationError',
-      stack: err?.detail
-    }
+      type: "DatabaseValidationError",
+      stack: err?.detail,
+    };
   }
 
   const status = Number(err?.status || err?.statusCode) || 500;
@@ -53,16 +53,4 @@ export const globalErrorHandler: ErrorRequestHandler = (
     message: err.message || "Internal Server Error",
     type,
   });
-};
-
-export const isPgUniqueViolation = (
-  error: unknown,
-  statusCode: string
-): boolean => {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "code" in error &&
-    error.code === statusCode
-  )
 };

@@ -13,7 +13,7 @@ export const setAuthToken = async (
 ): Promise<Response | void> => {
   const expiresIn = keepLoggedIn ? secrets.LONG_EXPIRES_IN : secrets.EXPIRES_IN;
 
-  let authToken: string = ''
+  let authToken: string = "";
 
   try {
     authToken = sign({ email, id }, env.JWT_KEY as string, { expiresIn });
@@ -58,8 +58,8 @@ export const validateAuthToken = async (
   }
 };
 
-export const deleteAuthToken = (res: Response): Response<void> => {
-  return res.clearCookie("authToken", {
+export const deleteAuthToken = (res: Response): void => {
+  res.clearCookie("authToken", {
     httpOnly: true,
     secure: env.NODE_ENV === "production",
     sameSite: "strict",
