@@ -94,7 +94,7 @@ export const MutationSchema = new GraphQLObjectType({
           });
         }
 
-        await setAuthToken(user.email, user.id, res, next, keepLoggedIn);
+        await setAuthToken(user.email, user.id, res, keepLoggedIn);
 
         return user;
       },

@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
+import { asyncHandler } from "../../utils/asyncHandler";
 import { Like } from "typeorm";
+import { getCurrentUser } from "../../utils/getCurrentUser";
 import {
   deleteAuthToken,
   setAuthToken,
@@ -13,10 +15,10 @@ import {
   validateUserDto,
 } from "./user.dto";
 import { validateEmailPasswordDto } from "../../validators/commonValidators";
-import { errorValidationCheck } from "../../validators/errorValidationCheck";
+import { errorValidationCheck, validateRequest } from "../../validators/errorValidationCheck";
 import { msg } from "../../constants/messages";
 import { UserPrivileges } from "../../utils/userRoles";
-import { isPgUniqueViolation } from "../../middleware/errorHandler";
+import { CustomErrorHandler, isPgUniqueViolation } from "../../middleware/errorHandler";
 import { IDatabaseUser } from "./user.types";
 import { nextError } from "../../utils/nextError";
 
@@ -26,14 +28,12 @@ user.post(
   "/create-new-user",
   rateLimitHandler(2 * 60 * 1000, 5, msg.TOO_MANY_REQUESTS),
   validateUserDto,
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response | void> => {
-    try {
-      const isValid = errorValidationCheck(req, next);
-      if (!isValid) return;
+  validateRequest,
+  asyncHandler(
+    async (
+      req: Request,
+      res: Response,
+    ): Promise<Response | void> => {
 
       const {
         name,
@@ -47,7 +47,11 @@ user.post(
         phone,
         emergencyName = "",
         emergencyPhone = "",
-      } = await req.body;
+      } = req.body as {
+        name: string; surname: string; gender: string; age: number;
+        country: string; city: string; email: string; password: string; phone: string;
+        emergencyName?: string; emergencyPhone?: string;
+      };
 
       const userRoles = UserPrivileges.isAdminEmail(email)
         ? UserPrivileges.Administrator
@@ -71,23 +75,10 @@ user.post(
 
       const savedUser = await userRepository.save(newUser);
 
-      await setAuthToken(email, savedUser.id, res, next);
+      await setAuthToken(email, savedUser.id, res);
 
-      return res
-        .status(201)
-        .json({ message: msg.USER_CREATED_SUCCESSFULLY, success: true });
-    } catch (error: unknown) {
-      deleteAuthToken(res);
-      if (isPgUniqueViolation(error, "23505")) {
-        return next({
-          message: msg.EMAIL_ALREADY_EXIST,
-          status: 400,
-          type: "DatabaseValidationError",
-        });
-      }
-      nextError(next, error);
-    }
-  }
+      return res.status(201).json({ message: msg.USER_CREATED_SUCCESSFULLY });
+    })
 );
 
 user.post(
@@ -122,7 +113,7 @@ user.post(
           });
         }
 
-        await setAuthToken(user.email, user.id, res, next, keepLoggedIn);
+        await setAuthToken(user.email, user.id, res, keepLoggedIn);
         return res.status(201).json({ message: msg.LOGIN_SUCCESSFUL, ...user });
       }
     } catch (error: unknown) {
@@ -133,34 +124,15 @@ user.post(
 
 user.get(
   "/validate",
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response<IDatabaseUser> | void> => {
-    try {
-      const { authToken } = req?.cookies;
-      if (!authToken) return;
+  asyncHandler(
+    async (
+      req: Request,
+      res: Response,
+    ): Promise<Response<IDatabaseUser> | never> => {
+      const currentUser = await getCurrentUser(req?.cookies?.authToken, res);
 
-      const { email } = await validateAuthToken(authToken, res);
-
-      const user = await userRepository.findOne({
-        where: { email },
-      });
-
-      if (!user) {
-        deleteAuthToken(res);
-        return next({
-          message: msg.USER_NOT_FOUND,
-          status: 404,
-          type: "FindUserError",
-        });
-      }
-      return res.status(200).json(user);
-    } catch (error: unknown) {
-      nextError(next, error);
-    }
-  }
+      return res.status(200).json(currentUser);
+    })
 );
 
 user.get(
@@ -209,16 +181,15 @@ user.post(
         message: repoResponse?.affected
           ? msg.USER_DELETED_SUCCESSFULLY
           : msg.LOGGED_OUT_SUCCESSFUL,
-        success: true,
       });
     } catch (error: unknown) {
-      if (isPgUniqueViolation(error, "23503")) {
-        return next({
-          message: msg.USER_CANNOT_BE_DELETED,
-          status: 400,
-          type: "DatabaseValidationError",
-        });
-      }
+      // if (isPgUniqueViolation(error, "23503")) {
+      //   return next({
+      //     message: msg.USER_CANNOT_BE_DELETED,
+      //     status: 400,
+      //     type: "DatabaseValidationError",
+      //   });
+      // }
       nextError(next, error);
     }
   }

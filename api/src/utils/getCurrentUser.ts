@@ -10,6 +10,7 @@ export const getCurrentUser = async (
   res: Response
 ): Promise<User | never> => {
   const { email } = await validateAuthToken(authToken, res);
+
   const currentUser = await userRepository.findOne({
     where: { email },
   });
