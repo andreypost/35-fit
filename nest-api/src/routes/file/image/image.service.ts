@@ -97,7 +97,7 @@ export class ImageService {
   async uploadImages(
     email: string,
     files: Express.Multer.File[],
-  ): Promise<string[]> {
+  ): Promise<string> {
     try {
       const currentUser = await this.userService.findUserByEmail(email);
       if (!currentUser) {
@@ -113,7 +113,7 @@ export class ImageService {
         throw new NotAcceptableException(`5 ${msg.IMAGES_LIMIT}`);
       }
 
-      return await Promise.all(
+      await Promise.all(
         files.map(async (file) => {
           const imageUrl = await this.unploadToS3(file);
           const userImage = this.userImageRepository.create({
@@ -123,9 +123,9 @@ export class ImageService {
             mimeType: file.mimetype,
           });
           await this.userImageRepository.save(userImage);
-          return imageUrl;
         }),
       );
+      return `${files.length} ${msg.IMAGES_UPLOADED_SUCCESSFULLY}`;
     } catch (error: unknown) {
       handleError(error);
     }

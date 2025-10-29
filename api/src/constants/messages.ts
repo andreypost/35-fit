@@ -53,6 +53,7 @@ export const msg = {
   GRANTED_PRINILEGES: "Granted Privileges is required!",
   DENIED_PRINILEGES: "Denied Privileges is required!",
   IMAGES_LIMIT: " - images is the limit!",
+  IMAGES_UPLOADED_SUCCESSFULLY: " - images uploaded successfully!",
   IMAGE_DELETED_SUCCESSFULLY: "Image deleted successfully!",
   INVALID_IMAGE_URL: "Invalid image URL - not from our bucket!",
   IMAGES_SWIPED_SUCCESSFULLY: "Images swiped successfully!",

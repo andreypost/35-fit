@@ -57,7 +57,7 @@ export class ImageController {
   async uploadImages(
     @CurrentUserEmail() email: string,
     @UploadedFiles() files: Express.Multer.File[],
-  ) {
+  ): Promise<string> {
     return await this.imageService.uploadImages(email, files);
   }
 
