@@ -1,6 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { dataBaseOptions } from './database.source';
+import {
+  mySQLDataBaseOptions,
+  MySQLDataBaseSource,
+  postgreSQLDataBaseOptions,
+  PostgreSQLDataBaseSource,
+} from './database.source';
 import { User } from '../entities/user';
 import { Price } from '../entities/price';
 import { Scooter } from '../entities/scooter';
@@ -11,16 +16,13 @@ import { UserImage } from '../entities/user.image';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(dataBaseOptions as any),
-    TypeOrmModule.forFeature([
-      User,
-      Price,
-      Scooter,
-      Accessory,
-      OrderItem,
-      Order,
-      UserImage,
-    ]),
+    TypeOrmModule.forRoot(postgreSQLDataBaseOptions as any),
+    TypeOrmModule.forFeature(
+      [User, Price, Scooter, Accessory, OrderItem, Order, UserImage],
+      PostgreSQLDataBaseSource,
+    ),
+    TypeOrmModule.forRoot(mySQLDataBaseOptions as any),
+    TypeOrmModule.forFeature([User], MySQLDataBaseSource),
   ],
   exports: [TypeOrmModule],
 })

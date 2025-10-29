@@ -18,7 +18,7 @@ config(); // strongly required for migrations
 
 const configService = new ConfigService();
 
-export const dataBaseOptions = {
+export const postgreSQLDataBaseOptions = {
   type: 'postgres',
   host: configService.get<string>('PGHOST'),
   port: Number(configService.get<string>('PGPORT')),
@@ -36,4 +36,20 @@ export const dataBaseOptions = {
   // migrationsRun: true, // triggers migrations just after start the project, after creating new migrations and so on
 };
 
-export const DataBaseSource = new DataSource(dataBaseOptions as any);
+export const mySQLDataBaseOptions = {
+  type: 'mysql',
+  host: configService.get<string>('MYSQL_HOST'),
+  port: Number(configService.get<string>('MYSQL_PORT')),
+  username: configService.get<string>('MYSQL_USER'),
+  password: configService.get<string>('MYSQL_PASSWORD'),
+  database: configService.get<string>('MYSQL_DATABASE'),
+  synchronize: false,
+  entities: [User, Price, Scooter, Accessory, OrderItem, Order, UserImage],
+  migrations: ['dist/src/db/mysql/migrations/**/*.js'],
+};
+
+export const PostgreSQLDataBaseSource = new DataSource(
+  postgreSQLDataBaseOptions as any,
+);
+
+export const MySQLDataBaseSource = new DataSource(mySQLDataBaseOptions as any);
