@@ -64,7 +64,7 @@ npm run typeorm:drop
 $ npm run test
 
 # e2e tests
-$ npm run test:e2e
+npm run test:e2e -- test/app.e2e-spec.ts
 
 # test coverage
 $ npm run test:cov

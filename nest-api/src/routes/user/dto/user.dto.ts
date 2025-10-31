@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { PickType } from '@nestjs/mapped-types';
-import { msg } from 'src/constants/messages';
+import { msg } from '../../../constants/messages';
 
 export class CreateUserDto {
   @IsString()
