@@ -9,9 +9,9 @@ import {
 import { Type } from 'class-transformer';
 
 export class CreateOrderDto {
-  @IsEnum(['pending', 'shipped', 'delivered', 'cancelled'], {
+  @IsEnum(['pending', 'shipped', 'delivered', 'cancelled', 'done'], {
     message:
-      'Order Status is required and must be one of: pending, shipped, delivered, or cancelled',
+      'Order Status is required and must be one of: pending, shipped, delivered, cancelled or done',
   })
   status!: string;
 

@@ -18,7 +18,7 @@ export class Order extends BaseSchema {
   id!: string;
 
   @Column()
-  status!: string; // 'pending', 'shipped', 'delivered', 'cancelled'
+  status!: string; // 'pending', 'shipped', 'delivered', 'cancelled' or 'done'
 
   @ManyToOne(() => User, (user) => user.orders, {
     nullable: false,
@@ -44,7 +44,7 @@ export class Order extends BaseSchema {
   calculateFinalTotalPrice() {
     this.finalTotalPrice = this.items.reduce((total, { price, quantity }) => {
       let { amount, discount, taxRate } = price;
-      amount = amount * Math.random() // simulate different prices
+      amount = amount * Math.random(); // simulate different prices
       const priceAfterDiscount = amount - (amount * discount) / 100;
       const priceAfterTaxRate =
         priceAfterDiscount + (priceAfterDiscount * taxRate) / 100;

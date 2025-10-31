@@ -194,13 +194,24 @@ export const TestingOrder = memo(() => {
     })
   }
 
+  const setStatus = () => {
+    const statusVariants = [
+      'pending',
+      'shipped',
+      'delivered',
+      'cancelled',
+      'done',
+    ]
+    return statusVariants[Math.floor(Math.random() * 5)]
+  }
+
   const makeProductOrder = async (
     productType: string,
     productId: string,
     quantity: number
   ): Promise<IOrder | void> => {
     await apiEndpointCall('post', 'order/create', {
-      status: 'pending',
+      status: setStatus(),
       items: [
         {
           productType,
