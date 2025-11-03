@@ -2,9 +2,9 @@ import { body } from "express-validator";
 
 export const validateOrderDto = [
   body("status")
-    .isIn(["pending", "shipped", "delivered", "cancelled"])
+    .isIn(["pending", "shipped", "delivered", "cancelled", "done"])
     .withMessage(
-      "Order Status is required and must be one of: pending, shipped, delivered, or cancelled"
+      "Order Status is required and must be one of: pending, shipped, delivered, cancelled or done"
     ),
 
   body("items")
