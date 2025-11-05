@@ -1,6 +1,6 @@
 services:
   database:
-    image: postgres:16.8 # Uses PostgreSQL 16.8
+    image: postgres:16 # Uses PostgreSQL 16
     container_name: n-fit
     restart: always
     env_file:
@@ -22,7 +22,7 @@ services:
     build:
       context: ./nest-api
       dockerfile: Dockerfile
-    container_name: fit-nest-api
+    container_name: nest-api
     restart: always
     depends_on:
       database:
@@ -42,7 +42,7 @@ services:
     build:
       context: ./headless
       dockerfile: Dockerfile
-    container_name: fit-headless
+    container_name: headless
     restart: always
     depends_on:
       - backend
